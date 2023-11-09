@@ -27,9 +27,12 @@ class SettingsRole extends Controller
                 fn ($user) => $user->roles->where('name', $value->name)->toArray()
             );
 
+            $menu = RoleHasMenu::where('role_id', $value->id)->count();
+
             $data = [
                 'jumlah' => count($roleUsers),
                 'users' => $roleUsers->toArray(),
+                'jumlahmenu' => $menu,
                 'idrole' => $value->id
             ];
 

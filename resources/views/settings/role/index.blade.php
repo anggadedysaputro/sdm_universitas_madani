@@ -21,11 +21,11 @@
                 <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
-                    <h6 class="fw-normal">Total {{ $value['jumlah'] }} Pengguna</h6>
+                    <h6 class="fw-normal">Total {{ $value['jumlah'] }} Pengguna | Total {{ $value['jumlahmenu'] }} Menu</h6>
                     <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                         @foreach ($value['users'] as $users)
                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-sm pull-up" aria-label="{{ $users['name'] }}" data-bs-original-title="{{ $users['name'] }}">
-                                <img class="rounded-circle p-1" src="{{ asset('theme/sneat/assets/img/avatars/5.png') }}" alt="Avatar" onerror="this.onerror=null; this.src=Angga.defaultImgUser();">
+                                <img class="rounded-circle p-1" src="{{ defaultImgUser(); }}" alt="Avatar">
                             </li>
                         @endforeach
                     </ul>
