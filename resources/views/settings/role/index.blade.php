@@ -35,7 +35,7 @@
                         <h4 class="mb-1">{{$key}}</h4>
                         <a href="javascript:;" class="role-edit-modal" nitip="{{ $key }}" idrole="{{ $value['idrole'] }}"><small>Ubah peran</small></a>
                     </div>
-                    <a href="javascript:void(0);" class="text-muted hapus-peran" idrole="{{ $value['idrole'] }}"><i class="bx bx-trash"></i></a>
+                    <a href="javascript:void(0);" class="text-muted hapus-peran" idrole="{{ $value['idrole'] }}"><i class="ti ti-trash-x-filled text-danger"></i></a>
                     </div>
                 </div>
                 </div>
@@ -156,8 +156,9 @@
 						  </div>
 					</div>
 					<div class="col-12 text-center">
-					  <button type="button" class="btn btn-primary me-sm-3 me-1" id="submit"><i class="ti ti-device-floppy"></i> Simpan</button>
-					  <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x"></i> Batal</button>
+						{{-- <button type="button" class="btn btn-danger me-sm-3 me-1" id="delete-peran"><i class="ti ti-trash-x-filled"></i> Delete</button> --}}
+					  	<button type="button" class="btn btn-success me-sm-3 me-1" id="submit"><i class="ti ti-device-floppy"></i> Simpan</button>
+					  	<button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x"></i> Batal</button>
 					</div>
 				</form>
 			</div>
@@ -353,13 +354,14 @@
 						
 						$.map( clone, function( val, i ) {
 							val['state'] = {
-								checked : val.state
+								checked : val.state,
+								opened : true
 							}
 							return val;
 						});
 
 						Index.JSTREE_Main.settings.core.data = Object.values(clone);
-                        Index.JSTREE_Main.refresh(true, true);;
+                        Index.JSTREE_Main.refresh(true, true);
 						Index.MD_RoleModal.modal('show');
 					}).catch((message)=>{
 						Swal.fire({
@@ -539,6 +541,7 @@
 				Index.DATA_Menu.data.forEach(function(e,i){
                     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
                 });
+				Myapp.JSTREE_Main.open_all();
                 return this;
             }
 
