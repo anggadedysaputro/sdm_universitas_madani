@@ -12,10 +12,15 @@ class JstreeMenu extends Controller
     public function data()
     {
         try {
+            $role = 'is null';
+            if (request()->has('role')) {
+                $role =  empty(request('role')) ? $role : "=" . request('role');
+            };
             $query = Menu::select(
                 DB::raw("(case when parent = 0 then '#' else parent::text end) as parent"),
                 "nama as text",
-                "id"
+                "id",
+                DB::raw("exists(select * from role_has_menu where menu_id = menu.id and role_id " . $role . ") as state")
             )->get();
 
             if ($query->isEmpty()) {

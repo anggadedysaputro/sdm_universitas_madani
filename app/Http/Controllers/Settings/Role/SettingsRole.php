@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings\Role;
 
 use App\Http\Controllers\Controller;
+use App\Models\Public\RoleHasMenu;
 use App\Models\User;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
@@ -56,6 +57,15 @@ class SettingsRole extends Controller
             $role = Role::create(['name' => $roleName]);
 
             $role->syncPermissions($permissionAllowed);
+
+            if (request()->has('menu')) {
+                $map = array_map(function ($item) use ($role) {
+                    $array['role_id'] = $role->id;
+                    $array['menu_id'] = $item;
+                    return $array;
+                }, request('menu'));
+                RoleHasMenu::upsert($map, ['menu_id', 'role_id']);
+            }
 
             $this->activity("Input role [successfully]");
 
@@ -123,6 +133,17 @@ class SettingsRole extends Controller
             ]);
 
             Role::find($id)->syncPermissions($permissionAllowed);
+            RoleHasMenu::where('role_id', $id)->delete();
+
+            if (request()->has('menu')) {
+                $map = array_map(function ($item) use ($id) {
+                    $array['role_id'] = $id;
+                    $array['menu_id'] = $item;
+                    return $array;
+                }, request('menu'));
+
+                RoleHasMenu::upsert($map, ['menu_id', 'role_id']);
+            }
 
             $this->activity("Mengubah peran [successfully]");
 

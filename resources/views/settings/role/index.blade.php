@@ -81,51 +81,80 @@
 				</div>
 				<form id="addRoleForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework" onsubmit="return false" novalidate="novalidate">
 					<div class="col-12 mb-4 fv-plugins-icon-container">
-						<div class="form-input mb-4 ">
+						<div class="form-input">
 							<label class="form-label" for="modalRoleName">Nama peran</label>
 							<input type="text" id="modalRoleName" name="rolename" class="form-control" placeholder="Masukkan nama peran" tabindex="-1">
 							<input type="hidden" id="idRole" value="">
 							<div class="is-invalid">
 							</div>
 						</div>
-					  <h4>Izin peran</h4>
+					</div>
+					<div class="col-12 mb-4 fv-plugins-icon-container">
+						<div class="card">
+							<div class="card-header">
+							  <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
+								<li class="nav-item" role="presentation">
+								  <a href="#tabs-home-7" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+									<i class="ti ti-shield-cog"></i>
+									Peran</a>
+								</li>
+								<li class="nav-item" role="presentation">
+								  <a href="#tabs-profile-7" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><!-- Download SVG icon from http://tabler-icons.io/i/user -->
+									<i class="ti ti-template"></i>
+									Menu</a>
+								</li>
+							  </ul>
+							</div>
+							<div class="card-body">
+							  <div class="tab-content">
+								<div class="tab-pane active show" id="tabs-home-7" role="tabpanel">
+								  <h4>Izin peran</h4>
 					  
-					  <table class="table table-flush-spacing">
-						<tbody>
-						  <tr>
-							<td class="text-nowrap fw-medium">
-								Akses penuh <i class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Izinkan peran untuk akses sepenuhnya" data-bs-original-title="Izinkan peran untuk akses sepenuhnya"></i>
-							</td>
-							<td>
-							  <div class="form-check">
-								<input class="form-check-input" type="checkbox" id="selectAll">
-								<label class="form-check-label" for="selectAll">
-								  Pilih semua
-								</label>
-							  </div>
-							</td>
-						  </tr>
-						  @foreach ($permission as $value)
-						  <tr>
-							<td class="text-nowrap fw-medium">
-								<input type="hidden" name="permissionname[]" value="{{ $value->name }}"/>
-								{{ $value->name }}
-							</td>
-							<td>
-							  <div class="d-flex">
-								<div class="form-check me-3 me-lg-5">
-									<input class="form-check-input allow-permission" type="checkbox" id="{{ str_replace(" ","",$value->name)."_allow" }}"/>
-									<label class="form-check-label" for="{{ str_replace(" ","",$value->name)."_allow" }}">
-									  Izinkan
-									</label>
+									<table class="table table-flush-spacing">
+										<tbody>
+										<tr>
+											<td class="text-nowrap fw-medium">
+												Akses penuh <i class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Izinkan peran untuk akses sepenuhnya" data-bs-original-title="Izinkan peran untuk akses sepenuhnya"></i>
+											</td>
+											<td>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" id="selectAll">
+												<label class="form-check-label" for="selectAll">
+												Pilih semua
+												</label>
+											</div>
+											</td>
+										</tr>
+										@foreach ($permission as $value)
+										<tr>
+											<td class="text-nowrap fw-medium">
+												<input type="hidden" name="permissionname[]" value="{{ $value->name }}"/>
+												{{ $value->name }}
+											</td>
+											<td>
+											<div class="d-flex">
+												<div class="form-check me-3 me-lg-5">
+													<input class="form-check-input allow-permission" type="checkbox" id="{{ str_replace(" ","",$value->name)."_allow" }}"/>
+													<label class="form-check-label" for="{{ str_replace(" ","",$value->name)."_allow" }}">
+													Izinkan
+													</label>
+												</div>
+											</div>
+											</td>
+										</tr>
+										@endforeach
+										</tbody>
+									</table>
+								</div>
+								<div class="tab-pane" id="tabs-profile-7" role="tabpanel">
+									<h4>Menu</h4>
+									<div id="jstree_demo_div">
+									</div>
 								</div>
 							  </div>
-							</td>
-						  </tr>
-						  @endforeach
-						</tbody>
-					</table>
-				</div>
+							</div>
+						  </div>
+					</div>
 					<div class="col-12 text-center">
 					  <button type="button" class="btn btn-primary me-sm-3 me-1" id="submit"><i class="ti ti-device-floppy"></i> Simpan</button>
 					  <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x"></i> Batal</button>
@@ -149,6 +178,7 @@
 				$('#idRole').val("");
 				Index.MD_RoleModal.attr('nitip','add');
 				Index.MD_RoleModal.find('h3').text("Tambah peran baru");
+				Myapp.JSTREE_Main.uncheck_all();
 				Index.MD_RoleModal.modal('show');
 			}
 
@@ -176,7 +206,7 @@
 						return $(element).is(':checked');
 					}).get();
 
-					let data = $.extend(Index.FRM_addRoleForm.serializeObject(),{});
+					let data = $.extend(Index.FRM_addRoleForm.serializeObject(),{menu:Index.JSTREE_Main.get_checked()});
 					data['id'] = vIdRole;
 					data['create'] = permission;
 
@@ -317,60 +347,142 @@
 			ubahPeran(e){
 				let roleName = $(e.currentTarget).attr('nitip');
 				let idRole = $(e.currentTarget).attr('idrole');
-				$.ajax({
-					url : "{{ route('settings.role.mypermission') }}",
-					method : "POST",
-					headers: {
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					data : {
-						name : roleName
-					},
-					beforeSend : function(){
-						Swal.fire({
-							title: 'Mendapatkan izin peran ini !',
-							html: 'Silahkan tunggu...',
-							allowEscapeKey: false,
-							allowOutsideClick: false,
-							didOpen: () => {
-								Swal.showLoading()
+				Helper.getPermission(roleName,idRole).then((result)=>{
+					Helper.getMenuJstree(idRole).then((result)=>{						
+						let clone = Object.assign({}, result.data);
+						
+						$.map( clone, function( val, i ) {
+							val['state'] = {
+								checked : val.state
 							}
-						});	
-					},
-					success : function(result){
-						Swal.close();
-						$('.allow-permission').prop('checked',false);
-						Index.MD_RoleModal.find('h3').text("Ubah peran");
-						$('#modalRoleName').val(roleName);
-						$('#idRole').val(idRole);
-						Index.MD_RoleModal.attr('nitip','edit');
-						result.data[0].permissions.forEach((data,index)=>{
-							$('#'+data.name.replaceAll(" ","")+"_allow").prop('checked', true);
+							return val;
 						});
+
+						Index.JSTREE_Main.settings.core.data = Object.values(clone);
+                        Index.JSTREE_Main.refresh(true, true);;
 						Index.MD_RoleModal.modal('show');
-					},
-					error : function(error){
+					}).catch((message)=>{
 						Swal.fire({
 							title : 'Informasi',
-							html : error.responseJSON.message,
+							html : message,
 							icon : 'error',
 							allowEscapeKey: false,
 							allowOutsideClick: false,
 						});
-					}
+					});
+				}).catch((error)=>{
+					Swal.fire({
+						title : 'Informasi',
+						html : error.responseJSON.message,
+						icon : 'error',
+						allowEscapeKey: false,
+						allowOutsideClick: false,
+					});
 				})
 			}
+
+			static getPermission(roleName, idRole){
+				return new Promise((resolve, reject) => {
+					$.ajax({
+						url : "{{ route('settings.role.mypermission') }}",
+						method : "POST",
+						headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						data : {
+							name : roleName
+						},
+						beforeSend : function(){
+							Swal.fire({
+								title: 'Mendapatkan izin peran ini !',
+								html: 'Silahkan tunggu...',
+								allowEscapeKey: false,
+								allowOutsideClick: false,
+								didOpen: () => {
+									Swal.showLoading()
+								}
+							});	
+						},
+						success : function(result){
+							Swal.close();
+							$('.allow-permission').prop('checked',false);
+							Index.MD_RoleModal.find('h3').text("Ubah peran");
+							$('#modalRoleName').val(roleName);
+							$('#idRole').val(idRole);
+							Index.MD_RoleModal.attr('nitip','edit');
+							result.data[0].permissions.forEach((data,index)=>{
+								$('#'+data.name.replaceAll(" ","")+"_allow").prop('checked', true);
+							});
+							resolve(true);
+						},
+						error : function(error){
+							resolve(error);
+						}
+					});
+				});
+			}
+
+			static getMenuJstree(role=null){
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url : "{{ route('jstree.menu.data') }}",
+                        method : "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+						data :{
+							role
+						},
+                        beforeSend : function(){
+                            Swal.fire({
+                                title: 'Mendapatkan data!',
+                                html: 'Silahkan tunggu...',
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                }
+                            });
+                        },
+                        success : function(result){     
+                            Swal.close();
+                            resolve(result);
+                        },
+                        error : function(error){
+                            Swal.close();
+                            reject(error.responseJSON.message ?? error.responseJSON);
+                        }
+                    });
+                });
+                
+            }
         }
 
         export default class Index extends Helper{
             // deklarasi variabel
 			static MD_RoleModal;
 			static FRM_addRoleForm;
+			static JSTREE_Main;
+			static DATA_Menu;
 
             constructor() {
                 super();
                 Index.MD_RoleModal = $('#role-modal');
 				Index.FRM_addRoleForm = $('#addRoleForm');
+				Index.JSTREE_Main = $("#jstree_demo_div").jstree({
+                    "core" : {
+                    	"check_callback" : true
+                    },
+					"checkbox": {
+                        "three_state": false,
+                        "keep_selected_style": false,
+                        "whole_node": false,
+                        "tie_selection": false
+                    },
+                    "plugins" : [ "contextmenu","checkbox" ]
+                });
+
+                Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
             }
 
             async serialLoadData() {
@@ -385,7 +497,13 @@
 
                 return new Promise((resolve, reject) => {
                     // // to code ajax first
-                    resolve(true);
+                    // resolve(true);
+					Index.getMenuJstree().then((result)=>{
+                        Index.DATA_Menu = result;
+                        resolve(true);
+                    }).catch((error)=>{
+                        console.log(error);
+                    });
                     // Global.callAjax('{{ url('menu/show') }}', toastr, 'Loading data menu...').then((result)=>{
                     //     // console.log(Global.promiseResult(data.status));
                     //     resolve(result.status);
@@ -418,6 +536,9 @@
             }
 
             loadDefaultValue() {
+				Index.DATA_Menu.data.forEach(function(e,i){
+                    Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
+                });
                 return this;
             }
 
