@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Public\RoleHasMenu;
+use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Login extends Controller
 {
+    use TraitsLoggerActivity;
+
     public function index()
     {
         return view('login');
@@ -25,9 +28,8 @@ class Login extends Controller
 
             // dd(Auth::attempt($credentials));
             if (Auth::attempt($credentials)) {
-                $user = Auth::user()->with('roles')->get()->toArray()[0];
-                $roleId = $user['roles'][0]['id'];
-
+                $user = Auth::user()->toArray();
+                $roleId = Auth::user()->roles->pluck('id')->first();
                 $menuRole = RoleHasMenu::select(
                     "masters.menu.id",
                     "masters.menu.nama",
@@ -44,14 +46,19 @@ class Login extends Controller
                 session($user);
                 $request->session()->regenerate();
 
+                $this->activity("Login [successfully]", "");
+
                 return redirect()->intended('index');
             }
-
+            $this->activity("Login [failed]", $th->getMessage());
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.'
             ]);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            $this->activity("Login [failed]", $th->getMessage());
+            return back()->withErrors([
+                'message' => 'Login gagal'
+            ]);
         }
     }
 }

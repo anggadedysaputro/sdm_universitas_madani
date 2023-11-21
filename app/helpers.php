@@ -1,5 +1,6 @@
 <?php
 
+use eiriksm\GitInfo\GitInfo;
 use Illuminate\Support\Facades\Route;
 
 if (!function_exists('message')) {
@@ -186,25 +187,37 @@ if (!function_exists('defaultImgUser')) {
 if (!function_exists('buildMenu')) {
     function buildMenu($array, $mode = 'default')
     {
-        echo '<ul class="navbar-nav">';
-        foreach ($array as $item) {
+        if ($mode == 'default') {
+            echo '<div class="dropend">';
+            foreach ($array as $item) {
 
-            echo '<li class="nav-item">';
-            echo '
-                <a class="nav-link" href="' . (!empty($item['link']) ? route($item['link']) : '#') . '">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <i class="' . $item['nama_icon'] . '"></i>
-                    </span>
-                    <span class="nav-link-title">
-                        ' . $item['nama'] . '
-                    </span>
-                </a>
-            ';
-            if (!empty($item['children'])) {
-                buildMenu($item['children']);
+                if (!empty($item['children'])) {
+                    echo '
+                        <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                            <i class="' . $item['nama_icon'] . '"></i>&nbsp;' . $item['nama'] . '
+                        </a>
+                        <div class="dropdown-menu">
+                    ';
+                    buildMenu($item['children']);
+                    echo '</div>';
+                } else {
+                    echo '
+                        <a class="dropdown-item" href="' . route($item['link']) . '">
+                            <i class="' . $item['nama_icon'] . '"></i>&nbsp;' . $item['nama'] . '
+                        </a>
+                    ';
+                }
             }
-            echo '</li>';
+
+            echo '</div>';
         }
-        echo '</ul>';
+    }
+}
+
+if (!function_exists('appVersion')) {
+    function appVersion()
+    {
+        $info = new GitInfo();
+        dd($info->getApplicationVersionString());
     }
 }

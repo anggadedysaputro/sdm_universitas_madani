@@ -5,9 +5,14 @@ use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Jstree\Menu\JstreeMenu;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
+use App\Http\Controllers\Settings\Logo\SettingsLogo;
+use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
+use App\Http\Controllers\Settings\Masters\SettingsMasters;
+use App\Http\Controllers\Settings\Masters\SubUnit\SettingsMastersSubunit;
 use App\Http\Controllers\Settings\Menu\SettingsMenu;
 use App\Http\Controllers\Settings\Permission\SettingsPermission;
 use App\Http\Controllers\Settings\Role\SettingsRole;
+use App\Http\Controllers\Settings\Settings;
 use App\Http\Controllers\Settings\User\SettingsUser;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +32,7 @@ Route::prefix('login')->group(function () {
     Route::post('authenticate', [Login::class, 'authenticate'])->name('login.authenticate');
 });
 
-Route::get('logout', [Logout::class, 'logout']);
+Route::get('logout', [Logout::class, 'logout'])->name('logout');
 
 Route::middleware(['validate.login'])->group(function () {
 
@@ -70,6 +75,20 @@ Route::middleware(['validate.login'])->group(function () {
             Route::post('store', [SettingsUser::class, 'store'])->name('settings.user.store');
             Route::put('update', [SettingsUser::class, 'update'])->name('settings.user.update');
             Route::delete('delete', [SettingsUser::class, 'delete'])->name('settings.user.delete');
+        });
+        Route::prefix('logo')->group(function () {
+            Route::get('index', [SettingsLogo::class, 'index'])->name('settings.logo.index');
+        });
+        Route::prefix('masters')->group(function () {
+            Route::prefix('sub-unit')->group(function () {
+                Route::get('index', [SettingsMastersSubunit::class, 'index'])->name('settings.masters.sub-unit.index');
+            });
+            Route::prefix('jabatan')->group(function () {
+                Route::prefix('struktural')->group(function () {
+                    Route::get('index', [SettingsMastersJabatanStruktural::class, 'index'])->name('settings.masters.jabatan.struktural.index');
+                    Route::post('store', [SettingsMastersJabatanStruktural::class, 'store'])->name('settings.masters.jabatan.struktural.store');
+                });
+            });
         });
     });
     Route::get('/su', function () {

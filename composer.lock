@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2826fc904fb2e141c2438a6b62dc8e8",
+    "content-hash": "f5641936dc4a189c98d604d60aabb04b",
     "packages": [
         {
             "name": "beyondcode/laravel-websockets",
@@ -647,6 +647,44 @@
                 }
             ],
             "time": "2023-01-14T14:17:03+00:00"
+        },
+        {
+            "name": "eiriksm/gitinfo",
+            "version": "4.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eiriksm/php-app-git-version.git",
+                "reference": "96292e59ec165177a30149a703746ff6ab28985d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eiriksm/php-app-git-version/zipball/96292e59ec165177a30149a703746ff6ab28985d",
+                "reference": "96292e59ec165177a30149a703746ff6ab28985d",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/process": "^3 || ^4 || ^5 || ^6"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "~6 || ^7 || ^8 || ^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "eiriksm\\GitInfo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Get some git info about your application",
+            "support": {
+                "issues": "https://github.com/eiriksm/php-app-git-version/issues",
+                "source": "https://github.com/eiriksm/php-app-git-version/tree/4.1.1"
+            },
+            "time": "2023-07-22T20:43:13+00:00"
         },
         {
             "name": "evenement/evenement",

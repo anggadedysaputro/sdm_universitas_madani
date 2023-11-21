@@ -157,7 +157,7 @@
 					</div>
 					<div class="col-12 text-center">
 						{{-- <button type="button" class="btn btn-danger me-sm-3 me-1" id="delete-peran"><i class="ti ti-trash-x-filled"></i> Delete</button> --}}
-					  	<button type="button" class="btn btn-success me-sm-3 me-1" id="submit"><i class="ti ti-device-floppy"></i> Simpan</button>
+					  	<button type="button" class="btn btn-success" id="submit"><i class="ti ti-send"></i> Simpan</button>
 					  	<button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x"></i> Batal</button>
 					</div>
 				</form>

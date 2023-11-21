@@ -73,7 +73,7 @@
                         <input type="text" id="modalPermissionName" name="modalPermissionName" class="form-control is-invalid" placeholder="Nama izin" autofocus="" fdprocessedid="jzw2mj">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"><div data-field="modalPermissionName" data-validator="notEmpty">Masukkan nama izin</div></div></div>
                         <div class="col-12 text-center demo-vertical-spacing">
-                            <button type="button" class="btn btn-primary me-sm-3 me-1" id="create-permission"><i class="ti ti-device-floppy"></i> Simpan</button>
+                            <button type="button" class="btn btn-success" id="create-permission"><i class="ti ti-send"></i> Simpan</button>
                             <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close" fdprocessedid="mbavig"><i class="ti ti-circle-x"></i> Batal</button>
                         </div>
                         <input type="hidden">

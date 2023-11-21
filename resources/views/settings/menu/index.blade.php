@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="col-12 text-center demo-vertical-spacing">
-                                <button type="button" class="btn btn-primary me-sm-3 me-1" id="create-menu"><i class="ti ti-device-floppy"></i> Simpan</button>
+                                <button type="button" class="btn btn-success" id="create-menu"><i class="ti ti-send"></i> Simpan</button>
                                 <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close" fdprocessedid="mbavig"><i class="ti ti-circle-x"></i> Batal</button>
                             </div>
                             <input type="hidden" name="id" id="id">
@@ -248,7 +248,7 @@
                                 data : Index.FRM_Main.serializeObject(),
                                 beforeSend : function(){
                                     Swal.fire({
-                                        title: 'Menghapus permission!',
+                                        title: 'Menyimpan data!',
                                         html: 'Silahkan tunggu...',
                                         allowEscapeKey: false,
                                         allowOutsideClick: false,
@@ -258,7 +258,13 @@
                                     });
                                 },
                                 success : function(result){
-                                    Swal.fire('Berhasil',result.message,'success').then(()=>{
+                                    Swal.fire({
+                                        title : 'Berhasil',
+                                        text : result.message,
+                                        icon : 'success',
+                                        allowEscapeKey: false,
+                                        allowOutsideClick: false,
+                                    }).then(()=>{
                                         Index.MD_Main.modal('hide').on('hidden.bs.modal', function(){
                                             Helper.getMenuJstree().then((result)=>{
                                                 Index.JSTREE_Main.settings.core.data = result.data;
