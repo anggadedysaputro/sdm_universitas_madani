@@ -67,6 +67,12 @@ Breadcrumbs::for('settings.masters.jabatan.struktural.index', function (Breadcru
     $trail->push('Struktural', route('settings.masters.jabatan.struktural.index'));
 });
 
+// settings > masters > jabatan > fungsional
+Breadcrumbs::for('settings.masters.jabatan.fungsional.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.jabatan.index');
+    $trail->push('Fungsional', route('settings.masters.jabatan.fungsional.index'));
+});
+
 // settings > masters > sub-unit
 Breadcrumbs::for('settings.masters.sub-unit.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.masters.index');
