@@ -26,7 +26,7 @@ window.AnggaTables = AnggaTables;
 import Swal from 'sweetalert2'
 window.Swal = Swal;
 import DataTable from 'datatables.net-dt';
-window.Swal = DataTable;
+window.DataTable = DataTable;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

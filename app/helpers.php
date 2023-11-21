@@ -218,6 +218,6 @@ if (!function_exists('appVersion')) {
     function appVersion()
     {
         $info = new GitInfo();
-        dd($info->getApplicationVersionString());
+        return $info->getApplicationVersionString();
     }
 }

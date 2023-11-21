@@ -9,7 +9,7 @@
     Struktural
 @endsection
 @section('action-list')
-<a id="tambah-struktural" class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasEnd" role="button" aria-controls="offcanvasEnd">
+<a id="tambah-struktural" class="btn btn-primary" role="button">
 	<i class="ti ti-plus"></i> Tambah struktural
 </a>
 @endsection
@@ -32,7 +32,7 @@
     </form>
 @endsection
 @section('content')
-<div class="card">
+<div class="card p-3">
     <div class="card-table table-responsive">
         <table class="table table-vcenter" id="table-jabatan-struktural">
             <thead>
@@ -43,7 +43,7 @@
             </tr>
             </thead>
             <tbody>
-                @foreach ($jabatan as $value)
+                {{-- @foreach ($jabatan as $value)
                     <tr>
                         <td class="text-center">{{ $value->kodejabatanstruktural }}</td>
                         <td>{{ $value->urai }}</td>
@@ -52,19 +52,19 @@
                             <button class="btn btn-warning"><i class="ti ti-edit-circle"></i></button>
                         </td>
                     </tr>
-                @endforeach
+                @endforeach --}}
             </tbody>
         </table>
     </div>
   </div>
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-jabatan">
     <div class="offcanvas-header">
 		<h2 class="offcanvas-title" id="offcanvasEndLabel">Input struktural</h2>
 		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <form action="#" id="form-struktural">
-            <input type="hidden" id="id"/>
+            <input type="hidden" id="id" name="id"/>
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
@@ -91,6 +91,7 @@
 
             tambah(){
                 Index.BTN_Simpan.attr('mode','tambah');
+                Myapp.OFFCNVS_Jabatan.show();
             }
 
             simpan(){
@@ -98,7 +99,7 @@
                 let send = true;
                 let mode = Index.BTN_Simpan.attr('mode');
                 let text = (mode == 'edit' ? 'Anda ingin mengubah data?' : 'Anda ingin menyimpan data?');
-                let url = (mode == 'edit' ? '{{ route('settings.menu.edit') }}' : '{{ route('settings.masters.jabatan.struktural.store') }}');
+                let url = (mode == 'edit' ? '{{ route('settings.masters.jabatan.struktural.edit') }}' : '{{ route('settings.masters.jabatan.struktural.store') }}');
                 let method = (mode == 'edit' ? 'PATCH' : 'POST');
                 let id = $('#id').val();
                 
@@ -150,7 +151,8 @@
                                         allowEscapeKey: false,
                                         allowOutsideClick: false,
                                     }).then(()=>{
-                                        Index.BTN_CloseOffCanvas.trigger('click');
+                                        Myapp.OFFCNVS_Jabatan.hide();
+                                        Index.DT_Jabatan.draw();
                                     });
                                 },
                                 error : function(error){
@@ -161,6 +163,62 @@
                     });
                 }
             }
+
+            static hapus(e){
+                let data = $(e.currentTarget).data();
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Apakah anda yakin ingin menghapus data?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('settings.masters.jabatan.struktural.delete') }}",
+                            method : "DELETE",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data,
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menghapus data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title : 'Berhasil',
+                                    text : result.message,
+                                    icon : 'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                }).then(()=>{
+                                    Index.DT_Jabatan.draw();
+                                });
+                            },
+                            error : function(){
+                                Swal.fire('Gagal',error.responseJSON.message,'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            static edit(e){
+                let data = $(e.currentTarget).data();
+                Index.BTN_Simpan.attr('mode','edit');
+                Index.FRM_Struktural.find('input[name="urai"]').val(data.urai);
+                Index.FRM_Struktural.find('input[name="id"]').val(data.kodejabatanstruktural);
+                Index.OFFCNVS_Jabatan.show();
+            }
         }
 
         export default class Index extends Helper{
@@ -168,16 +226,41 @@
             static BTN_Simpan;
             static BTN_Tambah;
             static DT_Jabatan;
-            static BTN_CloseOffCanvas;
             static FRM_Struktural;
+            static OFFCNVS_Jabatan;
 
             constructor() {
                 super();
                 Index.BTN_Simpan=$('#simpan');
                 Index.FRM_Struktural=$('#form-struktural');
                 Index.BTN_Tambah=$('#tambah-struktural');
-                Index.BTN_CloseOffCanvas=$('#close-offcanvas');
-                Index.DT_Jabatan=$("#table-jabatan-struktural").DataTable();
+                Index.DT_Jabatan=$("#table-jabatan-struktural").DataTable({
+                    ajax : {
+                        url : "{{ route('settings.masters.jabatan.struktural.data') }}",
+                        method : "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    },
+                    processing : true,
+                    serverSide : true,
+                    columns : [
+                        {data : "kodejabatanstruktural"},
+                        {data : "urai"},
+                        {
+                            data : null,
+                            defaultContent : `
+                                <button class="btn btn-danger hapus"><i class="ti ti-trash-x"></i></button>
+                                <button class="btn btn-warning edit"><i class="ti ti-edit-circle"></i></button>
+                            `
+                        }
+                    ],
+                    createdRow : function(row,data){
+                        $(row).find('.hapus').on('click', Helper.hapus).data(data);
+                        $(row).find('.edit').on('click', Helper.edit).data(data);
+                    }
+                });
+                Index.OFFCNVS_Jabatan = new bootstrap.Offcanvas(document.getElementById('canvas-jabatan'));
             }
 
             async serialLoadData() {
