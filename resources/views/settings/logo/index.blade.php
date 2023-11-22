@@ -33,52 +33,49 @@
 
     <div class="col-sm-6 col-lg-4">
         <div class="card card-sm">
-          
-            <img id="image-logo" src="{{ asset('assets/ilustration/logo-default.png') }}" class="card-img-top" style="max-height: 100%; max-width:100%;">
-          <div class="card-body">
-            <div class="d-flex align-items-center">
-                <input type="file" placeholder="Pilih logo" id="upload-logo">
-              <a href="#" class="btn btn-sm text-secondary">
-                <!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-                <i class="ti ti-send text-success"></i> Simpan
-              </a>
-              <a href="#" class="ms-3 btn btn-sm text-secondary">
-                <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
-                <i class="ti ti-backspace text-danger"></i> Hapus
-              </a>
-            </div>
-          </div>
+            <form action="#" id="form-logo">
+                <img id="image-logo" src="{{ empty($logo)?asset('assets/ilustration/logo-default.png'):asset('storage')."/".$logo}}" class="card-img-top" style="max-height: 100%; max-width:100%;">
+                <input name="logo" type="hidden"/>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <input type="file" placeholder="Pilih logo" id="upload-logo">
+                        <a href="#" class="btn btn-success text-white" id="simpan">
+                            <i class="ti ti-send text-white"></i> Simpan
+                        </a>
+                        <a href="#" class="ms-3 btn btn-danger text-white">
+                            <i class="ti ti-backspace text-white"></i> Hapus
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Crop Image Before Upload</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="img-container">
-                  <div class="row">
-                      <div class="col-md-8">
-                          <img src="" id="sample_image" />
-                      </div>
-                      <div class="col-md-4">
-                          <div class="preview"></div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="crop" class="btn btn-primary">Crop</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-      </div>
-    </div>
-</div>	
+<div class="modal" tabindex="-1" id="modal">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Crop image</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="d-flex justify-content-center">
+						<div style="height: 300px; width:500px;">
+							<img id="sample_image">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-primary" id="crop">Crop</button>
+		</div>
+	  </div>
+	</div>
+</div>
 @endsection
 @section('jsweb')
     <script type="module">
@@ -88,16 +85,93 @@
                 
             }
 
-            shownModalEvent(){
-                Index.CROPPER_Logo = new Cropper(document.getElementById('sample_image'), {
-                    aspectRatio: 1,
-                    viewMode: 3,
-                    preview:'.preview'
+            simpan(){
+                var fd = new FormData();
+                fd.append('file', Index.TMP_FileCropped);
+
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Apakah anda yakin ingin menyimpan data?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('settings.logo.store') }}",
+                            method : "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data : fd,
+                            processData: false,
+                            contentType: false,
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menghapus data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title : 'Berhasil',
+                                    text : result.message,
+                                    icon : 'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                });
+                            },
+                            error : function(){
+                                Swal.fire('Gagal',error.responseJSON.message,'error');
+                            }
+                        });
+                    }
                 });
             }
 
-            hiddenModalEvent(){
-                Index.CROPPER_Logo.destroy();
+            crop(){
+                Index.MD_CropperLogo.modal('hide');
+                Index.CROPPER_Logo.getCroppedCanvas({
+                    minWidth:109,
+                    minHeight:32
+                }).toBlob((blob)=>{
+                    let file = new File([blob], "angga.jpg");
+                    let reader = new FileReader();
+					
+                    Index.TMP_FileCropped = file;
+                    reader.readAsDataURL(blob); 
+                    reader.onloadend = function() {
+                        let base64data = reader.result;
+                        $('#image-logo').attr('src',base64data);
+                    }
+                });
+            }
+
+            changeUpload(event){
+                let files = event.target.files;
+                let input = $(event.currentTarget);
+
+                let done = function(url){
+                    Index.MD_CropperLogo.modal('show');
+                    Index.CROPPER_Logo.replace(url);
+                };
+
+                if(files && files.length > 0)
+                {
+                    let reader = new FileReader();
+                    reader.onload = function(event)
+                    {
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(files[0]);
+                    input.val("");
+                }
             }
         }
 
@@ -106,15 +180,27 @@
             static INPUT_UploadLogo;
             static CROPPER_Logo;
             static MD_CropperLogo;
+            static BTN_Crop;
+            static BTN_Simpan;
+            static TMP_FileCropped;
 
             constructor() {
                 super();
                 Index.INPUT_UploadLogo = $('#upload-logo');
-            //     Index.CROPPER_Logo = new Cropper(document.getElementById('sample_image'),{
-            //         aspectRatio: 1,
-            //         viewMode: 1
-            //    });
+                Index.CROPPER_Logo = new Cropper(document.getElementById('sample_image'),{
+                    dragMode: 'move',
+					restore: false,
+					guides: false,
+					center: false,
+					highlight: false,
+					cropBoxMovable: false,
+					cropBoxResizable: false,
+					toggleDragModeOnDblclick: false,
+					aspecRatio : 4 / 3
+               });
                Index.MD_CropperLogo = $('#modal');
+               Index.BTN_Crop = $('#crop');
+               Index.BTN_Simpan = $('#simpan');
             }
 
             async serialLoadData() {
@@ -148,27 +234,9 @@
             }
 
             bindEvent() {
-                Index.INPUT_UploadLogo.change(function(event){
-                    let files = event.target.files;
-
-                    let done = function(url){
-                        $('#sample_image').attr('src',url);
-                        Index.MD_CropperLogo.modal('show');
-                    };
-
-                    if(files && files.length > 0)
-                    {
-                        let reader = new FileReader();
-                        reader.onload = function(event)
-                        {
-                            done(reader.result);
-                        };
-                        reader.readAsDataURL(files[0]);
-                    }
-                });
-
-                Index.MD_CropperLogo.on('shown.bs.modal', this.shownModalEvent);
-                Index.MD_CropperLogo.on('hidden.bs.modal', this.hiddenModalEvent);
+                Index.INPUT_UploadLogo.on('change', this.changeUpload);
+                Index.BTN_Crop.on('click', this.crop);
+                Index.BTN_Simpan.on('click', this.simpan);
                 return this;
             }
 

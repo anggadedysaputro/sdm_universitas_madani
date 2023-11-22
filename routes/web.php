@@ -79,6 +79,7 @@ Route::middleware(['validate.login'])->group(function () {
         });
         Route::prefix('logo')->group(function () {
             Route::get('index', [SettingsLogo::class, 'index'])->name('settings.logo.index');
+            Route::post('store', [SettingsLogo::class, 'store'])->name('settings.logo.store');
         });
         Route::prefix('masters')->group(function () {
             Route::prefix('sub-unit')->group(function () {
