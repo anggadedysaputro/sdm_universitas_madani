@@ -114,7 +114,7 @@
                     @endforeach
                   </select>
                 </div>
-                <button type="button" class="btn btn-primary me-sm-3 me-1 data-submit"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success data-submit"><i class="ti ti-send"></i> Simpan</button>
                 <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas"><i class="ti ti-circle-x"></i> Batal</button>
             <input type="hidden"></form>
         </div>
@@ -420,8 +420,8 @@
                                 <td>${data.telpon}</td>
                                 <td>${data.created_at_view}</td>
 								<td>
-									<button class="btn btn-sm btn-icon me-2 edit-record"><i class="ti ti-pencil"></i></button>
-									<button class="btn btn-sm btn-icon delete-record" fdprocessedid="63pthc"><i class="ti ti-trash"></i></button>
+									<button class="btn btn-warning btn-icon edit-record"><i class="ti ti-pencil"></i></button>
+									<button class="btn btn-danger btn-icon delete-record" fdprocessedid="63pthc"><i class="ti ti-trash"></i></button>
 								</td>
                             </tr>
                         `;

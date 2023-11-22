@@ -12,7 +12,7 @@
     {{-- <button>Add new</button> --}}
 @endsection
 @section('search')
-    <form action="./" method="get" autocomplete="off" novalidate>
+    {{-- <form action="./" method="get" autocomplete="off" novalidate>
         <div class="input-icon">
             <span class="input-icon-addon">
                 <!-- Download SVG icon from http://tabler-icons.io/i/search -->
@@ -26,7 +26,7 @@
             </span>
             <input type="text" value="" class="form-control" placeholder="Search…"aria-label="Search in website">
         </div>
-    </form>
+    </form> --}}
 @endsection
 @section('content')
 <div class="d-flex justify-content-center">

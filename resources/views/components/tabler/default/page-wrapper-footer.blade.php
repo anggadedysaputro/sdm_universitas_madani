@@ -3,12 +3,6 @@
         <div class="row text-center align-items-center flex-row-reverse">
             <div class="col-lg-auto ms-lg-auto">
                 <ul class="list-inline list-inline-dots mb-0">
-                    <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank"
-                            class="link-secondary" rel="noopener">Documentation</a></li>
-                    <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a>
-                    </li>
-                    <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank"
-                            class="link-secondary" rel="noopener">Source code</a></li>
                     <li class="list-inline-item">
                         <a href="https://github.com/sponsors/codecalm" target="_blank"
                             class="link-secondary" rel="noopener">
@@ -21,7 +15,7 @@
                                 <path
                                     d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
                             </svg>
-                            Sponsor
+                            IT ICBB
                         </a>
                     </li>
                 </ul>
