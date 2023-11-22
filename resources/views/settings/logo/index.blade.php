@@ -42,7 +42,7 @@
                         <a href="#" class="btn btn-success text-white" id="simpan">
                             <i class="ti ti-send text-white"></i> Simpan
                         </a>
-                        <a href="#" class="ms-3 btn btn-danger text-white">
+                        <a href="#" class="ms-3 btn btn-danger text-white" id="hapus">
                             <i class="ti ti-backspace text-white"></i> Hapus
                         </a>
                     </div>
@@ -85,6 +85,52 @@
                 
             }
 
+            hapus(){
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Apakah anda yakin ingin menghapus data?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('settings.logo.delete') }}",
+                            method : "DELETE",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menghapus data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title : 'Berhasil',
+                                    text : result.message,
+                                    icon : 'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                }).then(()=>{
+                                    window.location.reload();
+                                });
+                            },
+                            error : function(){
+                                Swal.fire('Gagal',error.responseJSON.message,'error');
+                            }
+                        });
+                    }
+                });
+            }
+
             simpan(){
                 var fd = new FormData();
                 fd.append('file', Index.TMP_FileCropped);
@@ -109,7 +155,7 @@
                             contentType: false,
                             beforeSend : function(){
                                 Swal.fire({
-                                    title: 'Menghapus data!',
+                                    title: 'Menyimpan data!',
                                     html: 'Silahkan tunggu...',
                                     allowEscapeKey: false,
                                     allowOutsideClick: false,
@@ -182,6 +228,7 @@
             static MD_CropperLogo;
             static BTN_Crop;
             static BTN_Simpan;
+            static BTN_Hapus;
             static TMP_FileCropped;
 
             constructor() {
@@ -201,6 +248,7 @@
                Index.MD_CropperLogo = $('#modal');
                Index.BTN_Crop = $('#crop');
                Index.BTN_Simpan = $('#simpan');
+               Index.BTN_Hapus = $('#hapus');
             }
 
             async serialLoadData() {
@@ -237,6 +285,7 @@
                 Index.INPUT_UploadLogo.on('change', this.changeUpload);
                 Index.BTN_Crop.on('click', this.crop);
                 Index.BTN_Simpan.on('click', this.simpan);
+                Index.BTN_Hapus.on('click', this.hapus);
                 return this;
             }
 

@@ -37,12 +37,12 @@ class SettingsLogo extends Controller
 
             $this->activity("Upload logo [successfully]", "");
 
-            $response = [
-                'message' => 'Upload logo berhasil'
-            ];
 
             DB::commit();
 
+            $response = [
+                'message' => 'Upload logo berhasil'
+            ];
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             if (!empty($path)) Storage::delete($path);
@@ -54,6 +54,39 @@ class SettingsLogo extends Controller
 
             $response = [
                 'message' => message("Upload logo gagal", $th->getMessage())
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function delete()
+    {
+        DB::beginTransaction();
+        try {
+            $getLogo = Config::where('key', 'logo')->get();
+
+            if (!empty($getLogo)) Storage::delete($getLogo[0]->value);
+            Config::where('key', 'logo')->delete();
+
+            $this->activity("Hapus logo [successfully]", "");
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Berhasil menghapus logo!'
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+
+            $this->activity("Hapus logo [failed]", $th->getMessage());
+
+
+            $response = [
+                'message' => message("Hapus logo gagal", $th->getMessage())
             ];
 
             return response()->json($response, 500);
