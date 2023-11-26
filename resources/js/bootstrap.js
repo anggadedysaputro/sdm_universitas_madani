@@ -3,6 +3,7 @@
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
+import $ from "jquery";
 import axios from 'axios';
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -11,7 +12,9 @@ window.Cropper = Cropper;
 
 import Angga from './angga';
 import AnggaTables from './anggatables';
-import $ from "jquery";
+import smartWizard from 'smartwizard';
+window.smartWizard = smartWizard();
+import "smartwizard/dist/css/smart_wizard_all.css";
 import select2 from 'select2';
 select2();
 import 'jstree';
@@ -27,6 +30,11 @@ import Swal from 'sweetalert2'
 window.Swal = Swal;
 import DataTable from 'datatables.net-dt';
 window.DataTable = DataTable;
+import "flatpickr/dist/flatpickr.min.css";
+import flatpickr from "flatpickr";
+window.flatpickr = flatpickr;
+import Inputmask from "inputmask";
+window.Inputmask = Inputmask;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

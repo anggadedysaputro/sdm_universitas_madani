@@ -3,7 +3,7 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <div class="page-pretitle">
+                <div class="page-pretitle mb-3">
                     @yield('breadcrumb')
                 </div>
                 <h2 class="page-title">

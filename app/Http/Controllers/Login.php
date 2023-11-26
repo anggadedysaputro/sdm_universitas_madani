@@ -43,6 +43,8 @@ class Login extends Controller
                     ->where('role_id', $roleId)->get()->toArray();
 
                 $user['menu'] = getChildRecursive($menuRole);
+                $user['tahun'] = date("Y");
+                $user['tahunaktif'] = date("Y");
                 session($user);
                 $request->session()->regenerate();
 

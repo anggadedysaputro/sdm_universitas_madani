@@ -3,6 +3,9 @@
 use App\Events\JoinConnection;
 use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Jstree\Menu\JstreeMenu;
+use App\Http\Controllers\Jstree\StrukturOrganisasi\JstreeStrukturOrganisasi;
+use App\Http\Controllers\Karyawan\Add\KaryawanAdd;
+use App\Http\Controllers\Karyawan\Karyawan;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
@@ -14,6 +17,7 @@ use App\Http\Controllers\Settings\Menu\SettingsMenu;
 use App\Http\Controllers\Settings\Permission\SettingsPermission;
 use App\Http\Controllers\Settings\Role\SettingsRole;
 use App\Http\Controllers\Settings\Settings;
+use App\Http\Controllers\Settings\StrukturOrganisasi\SettingsStrukturOrganisasi;
 use App\Http\Controllers\Settings\User\SettingsUser;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +46,9 @@ Route::middleware(['validate.login'])->group(function () {
     Route::prefix('jstree')->group(function () {
         Route::prefix('menu')->group(function () {
             Route::post('data', [JstreeMenu::class, 'data'])->name('jstree.menu.data');
+        });
+        Route::prefix('struktur-organisasi')->group(function () {
+            Route::post('data', [JstreeStrukturOrganisasi::class, 'data'])->name('jstree.struktur-organisasi.data');
         });
     });
 
@@ -102,6 +109,18 @@ Route::middleware(['validate.login'])->group(function () {
                     Route::post('data', [SettingsMastersJabatanFungsional::class, 'data'])->name('settings.masters.jabatan.fungsional.data');
                 });
             });
+        });
+        Route::prefix('struktur-organisasi')->group(function () {
+            Route::get('index', [SettingsStrukturOrganisasi::class, 'index'])->name('settings.struktur-organisasi.index');
+            Route::post('bidang', [SettingsStrukturOrganisasi::class, 'bidang'])->name('settings.struktur-organisasi.bidang');
+            Route::post('simpan', [SettingsStrukturOrganisasi::class, 'simpan'])->name('settings.struktur-organisasi.simpan');
+        });
+    });
+
+    Route::prefix('karyawan')->group(function () {
+        Route::get('index', [Karyawan::class, 'index'])->name('karyawan.index');
+        Route::prefix('add')->group(function () {
+            Route::get('index', [KaryawanAdd::class, 'index'])->name('karyawan.add.index');
         });
     });
     Route::get('/su', function () {

@@ -143,8 +143,8 @@ if (!function_exists('tahunAjaran')) {
     }
 }
 
-if (!function_exists('tahunAjaranAktif')) {
-    function tahunAjaranAktif()
+if (!function_exists('tahunAktif')) {
+    function tahunAktif()
     {
         return session('tahunaktif');
     }

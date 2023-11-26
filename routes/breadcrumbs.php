@@ -19,6 +19,18 @@ Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
     $trail->push('Settings');
 });
 
+// karyawan
+Breadcrumbs::for('karyawan.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard.index');
+    $trail->push('Karyawan', route('karyawan.index'));
+});
+
+// karyawan > add
+Breadcrumbs::for('karyawan.add.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('karyawan.index');
+    $trail->push('Tambah karyawan', route('karyawan.add.index'));
+});
+
 // settings > role
 Breadcrumbs::for('settings.role.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
@@ -53,6 +65,12 @@ Breadcrumbs::for('settings.logo.index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('settings.masters.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
     $trail->push('Masters');
+});
+
+// settings > struktur-organisasi
+Breadcrumbs::for('settings.struktur-organisasi.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Struktur organisasi', route('settings.struktur-organisasi.index'));
 });
 
 // settings > masters > jabatan
