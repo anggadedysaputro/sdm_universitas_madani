@@ -226,7 +226,55 @@
                         }
                     });
                 });
-                
+            }
+
+            static remove(e){
+                let id = e.id;
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Anda ingin menghapus data?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : '{{ route('settings.struktur-organisasi.delete') }}',
+                            method : "DELETE",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data : {
+                                id
+                            },
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menghapus data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire('Berhasil',result.message,'success').then(()=>{
+                                    Helper.getMenuJstree().then((result)=>{
+                                        Index.JSTREE_Main.settings.core.data = result.data;
+                                        Index.JSTREE_Main.refresh();
+                                    }).catch((error)=>{
+                                        console.log(error);
+                                    });
+                                });
+                            },
+                            error : function(error){
+                                Swal.fire('Gagal',error.responseJSON.message,'error');
+                            }
+                        });
+                    }
+                });
             }
         }
 
@@ -290,7 +338,12 @@
                                     "label": "Delete",  
                                     "icon": "fa-times",  
                                     "action": function (obj) {  
-                                        // Helper.removeNode(node);
+                                        if(node.id == 0){
+                                            Swal.fire('Informasi','Tidak boleh menghapus root tree','info');
+                                        }else{
+
+                                            Helper.remove(node);
+                                        }
                                     },  
                                     "_class": "asc"  
                                 },

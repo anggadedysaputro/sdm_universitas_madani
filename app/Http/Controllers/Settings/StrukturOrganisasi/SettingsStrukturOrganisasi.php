@@ -59,9 +59,11 @@ class SettingsStrukturOrganisasi extends Controller
             if ($post['mode'] == 'tambah anak') {
                 $res = $this->tambahAnak($post);
                 if (!empty($res)) throw new Exception($res, 1);
+                $this->activity("Tambah anak pada organisasi [successfully]");
             } else {
                 $res = $this->tambahSaudara($post);
                 if (!empty($res)) throw new Exception($res, 1);
+                $this->activity("Tambah saudara pada organisasi [successfully]");
             }
 
             DB::commit();
@@ -74,7 +76,7 @@ class SettingsStrukturOrganisasi extends Controller
         } catch (\Throwable $th) {
             DB::rollback();
 
-            $this->activity("Gagal menambah anak", $th->getMessage());
+            $this->activity(request('mode') . "[failed]", $th->getMessage());
 
             $response = [
                 'message' => message("Gagal menambah data", $th->getMessage())
@@ -164,6 +166,41 @@ class SettingsStrukturOrganisasi extends Controller
             Bidang::create($bidang);
         } catch (\Throwable $th) {
             return $th->getMessage();
+        }
+    }
+
+    public function delete()
+    {
+        DB::beginTransaction();
+        try {
+            $id = request('id');
+            $query = Bidang::where('tahun', tahunAktif());
+            $explode = explode(".", $id);
+            foreach ($explode as $key => $value) {
+                if ($value != 0) $query->where($this->bidangKolom[$key], $value);
+            }
+
+            $query->delete();
+
+            $this->activity("Hapus organisasi [successfully]");
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Berhasil menghapus data'
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $this->activity("Hapus organisasi [failed]", $th->getMessage());
+
+            $response = [
+                'message' => message("Gagal menghapus data", $th->getMessage())
+            ];
+
+            return response()->json($response, 500);
         }
     }
 }

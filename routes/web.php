@@ -114,6 +114,7 @@ Route::middleware(['validate.login'])->group(function () {
             Route::get('index', [SettingsStrukturOrganisasi::class, 'index'])->name('settings.struktur-organisasi.index');
             Route::post('bidang', [SettingsStrukturOrganisasi::class, 'bidang'])->name('settings.struktur-organisasi.bidang');
             Route::post('simpan', [SettingsStrukturOrganisasi::class, 'simpan'])->name('settings.struktur-organisasi.simpan');
+            Route::delete('simpan', [SettingsStrukturOrganisasi::class, 'delete'])->name('settings.struktur-organisasi.delete');
         });
     });
 
