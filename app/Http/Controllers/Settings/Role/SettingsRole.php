@@ -159,6 +159,7 @@ class SettingsRole extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th->getMessage());
 
             $this->activity("Mengubah peran [failed]", $th->getMessage());
 

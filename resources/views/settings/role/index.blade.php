@@ -207,7 +207,8 @@
 						return $(element).is(':checked');
 					}).get();
 
-					let data = $.extend(Index.FRM_addRoleForm.serializeObject(),{menu:Index.JSTREE_Main.get_checked()});
+					let unique = [...new Set(Myapp.JSTREE_Main.get_checked())];
+					let data = $.extend(Index.FRM_addRoleForm.serializeObject(),{menu:unique});
 					data['id'] = vIdRole;
 					data['create'] = permission;
 
