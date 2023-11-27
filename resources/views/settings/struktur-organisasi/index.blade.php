@@ -48,30 +48,6 @@
         <div class="offcanvas-body">
             <form action="#" id="formAddOrganisasi">
                 <div class="row">
-                    {{-- <div class="col-md-12 0">
-                        <div class="mb-3">
-                            <label class="form-label">Bidang</label>
-                            <select class="select-organisasi" name="bidang" id="bidang" style="width: 100%;"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 1">
-                        <div class="mb-3">
-                            <label class="form-label">Divisi</label>
-                            <select class="select-organisasi" name="kodedivisi" id="kodedivisi" style="width: 100%;"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 2">
-                        <div class="mb-3">
-                            <label class="form-label">Sub divisi</label>
-                            <select class="select-organisasi" name="kodesubdivisi" id="kodesubdivisi" style="width: 100%;"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 3">
-                        <div class="mb-3">
-                            <label class="form-label">Sub sub divisi</label>
-                            <select class="select-organisasi" name="kodesubsubdivisi" id="kodesubsubdivisi" style="width: 100%;"></select>
-                        </div>
-                    </div> --}}
                     <input type="hidden" name="id" id="id"/>
                     <div class="col-md-12">
                         <div class="mb-3">
@@ -106,7 +82,7 @@
                 
                 if(mode == 'edit'){
                     text = 'Anda ingin mengubah data?';
-                    url = '';
+                    url = '{{ route('settings.struktur-organisasi.edit') }}';
                     method = 'PATCH';
                 } else if(mode == 'tambah anak' || mode =='tambah saudara'){
                     text = 'Anda ingin menyimpan data?';
@@ -162,7 +138,7 @@
                                         allowEscapeKey: false,
                                         allowOutsideClick: false,
                                     }).then(()=>{
-                                        Myapp.OFFCNVS_Jabatan.hide();
+                                        Myapp.OFFCNVS_Organisasi.hide();
                                         Helper.getMenuJstree().then((result)=>{
                                             Index.JSTREE_Main.settings.core.data = result.data;
                                             Index.JSTREE_Main.refresh();
@@ -184,14 +160,14 @@
                 Index.BTN_Simpan.attr('mode','tambah saudara');
                 $('#id').val(e.id);
                 $('#formAddOrganisasi').find('input[name="urai"]').val("");
-                Index.OFFCNVS_Jabatan.show();
+                Index.OFFCNVS_Organisasi.show();
             }
 
             static anak(e){
                 Index.BTN_Simpan.attr('mode', 'tambah anak');
                 $('#id').val(e.id);
                 $('#formAddOrganisasi').find('input[name="urai"]').val("");
-                Index.OFFCNVS_Jabatan.show();
+                Index.OFFCNVS_Organisasi.show();
             }
 
             static getMenuJstree(){
@@ -215,9 +191,6 @@
                         },
                         success : function(result){     
                             Swal.close();
-                            // result.data.forEach(function(e,i){
-                            //     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
-                            // });
                             resolve(result);
                         },
                         error : function(error){
@@ -276,13 +249,47 @@
                     }
                 });
             }
+
+            static edit(e){
+                let id = e.id;
+                Index.BTN_Simpan.attr('mode','edit');
+                $.ajax({
+                    url : "{{ route('settings.struktur-organisasi.urai') }}",
+                    method : "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data : {id},
+                    beforeSend : function(){
+                        Swal.fire({
+                            title: 'Mendapatkan data!',
+                            html: 'Silahkan tunggu...',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
+                    },
+                    success : function(result){     
+                        Swal.close();
+                        Index.FRM_Organisasi.find("input[name='urai']").val(result.urai);
+                        Index.FRM_Organisasi.find('#id').val(id);
+                        Index.OFFCNVS_Organisasi.show();
+                    },
+                    error : function(error){
+                        Swal.close();
+                        reject(error.responseJSON.message ?? error.responseJSON);
+                    }
+                });
+            }
         }
 
         export default class Index extends Helper{
             // deklarasi variabel
             static JSTREE_Main;
             static DATA_Menu;
-            static OFFCNVS_Jabatan;
+            static OFFCNVS_Organisasi;
             static BTN_TambahData;
             static BTN_Simpan;
             static S2_Bidang;
@@ -351,7 +358,11 @@
                                     "label": "Edit",  
                                     "icon": "uil-times-circle",  
                                     "action": function (obj) {  
-                                        // Helper.editNode(node);
+                                        if(node.id == 0){
+                                            Swal.fire('Informasi','Tidak boleh mengubah root tree','info');
+                                        }else{
+                                            Helper.edit(node);
+                                        }
                                     },  
                                     "_class": "asc"  
                                 }
@@ -361,7 +372,7 @@
                 });
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
-                Index.OFFCNVS_Jabatan =new bootstrap.Offcanvas(document.getElementById('canvas-organisasi'));
+                Index.OFFCNVS_Organisasi =new bootstrap.Offcanvas(document.getElementById('canvas-organisasi'));
                 Index.AJAX_Object = {
                     generalselect2 : {
                         allowClear: true

@@ -169,6 +169,26 @@ class SettingsStrukturOrganisasi extends Controller
         }
     }
 
+    public function urai()
+    {
+        try {
+            $id = request('id');
+            $query = Bidang::select("urai")->where('tahun', tahunAktif());
+            $explode = explode(".", $id);
+            for ($i = 0; $i < count($explode); $i++) {
+                $query->where($this->bidangKolom[$i], $explode[$i]);
+            }
+
+            return response()->json($query->first(), 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'message' => message("Gagal mengambil data", $th->getMessage())
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
+
     public function delete()
     {
         DB::beginTransaction();
@@ -198,6 +218,43 @@ class SettingsStrukturOrganisasi extends Controller
 
             $response = [
                 'message' => message("Gagal menghapus data", $th->getMessage())
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function edit()
+    {
+        DB::beginTransaction();
+        try {
+            $id = request('id');
+            $query = Bidang::where('tahun', tahunAktif());
+            $explode = explode(".", $id);
+            foreach ($explode as $key => $value) {
+                $query->where($this->bidangKolom[$key], $value);
+            }
+
+            $query->update([
+                'urai' => request('urai')
+            ]);
+
+            $this->activity("Ubah data organisasi [successfully]");
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Berhasil mengubah data'
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $this->activity("Ubah organisasi [failed]", $th->getMessage());
+
+            $response = [
+                'message' => message("Gagal mengubah data", $th->getMessage())
             ];
 
             return response()->json($response, 500);
