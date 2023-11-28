@@ -108,47 +108,51 @@
 							<div class="card-body">
 							  <div class="tab-content">
 								<div class="tab-pane active show" id="tabs-home-7" role="tabpanel">
-								  <h4>Izin peran</h4>
+									<div style="height: 40vh;" class="overflow-auto">
+										<h4>Izin peran</h4>
 					  
-									<table class="table table-flush-spacing">
-										<tbody>
-										<tr>
-											<td class="text-nowrap fw-medium">
-												Akses penuh <i class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Izinkan peran untuk akses sepenuhnya" data-bs-original-title="Izinkan peran untuk akses sepenuhnya"></i>
-											</td>
-											<td>
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" id="selectAll">
-												<label class="form-check-label" for="selectAll">
-												Pilih semua
-												</label>
-											</div>
-											</td>
-										</tr>
-										@foreach ($permission as $value)
-										<tr>
-											<td class="text-nowrap fw-medium">
-												<input type="hidden" name="permissionname[]" value="{{ $value->name }}"/>
-												{{ $value->name }}
-											</td>
-											<td>
-											<div class="d-flex">
-												<div class="form-check me-3 me-lg-5">
-													<input class="form-check-input allow-permission" type="checkbox" id="{{ str_replace(" ","",$value->name)."_allow" }}"/>
-													<label class="form-check-label" for="{{ str_replace(" ","",$value->name)."_allow" }}">
-													Izinkan
+										<table class="table table-flush-spacing">
+											<tbody>
+											<tr>
+												<td class="text-nowrap fw-medium">
+													Akses penuh <i class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Izinkan peran untuk akses sepenuhnya" data-bs-original-title="Izinkan peran untuk akses sepenuhnya"></i>
+												</td>
+												<td>
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" id="selectAll">
+													<label class="form-check-label" for="selectAll">
+													Pilih semua
 													</label>
 												</div>
-											</div>
-											</td>
-										</tr>
-										@endforeach
-										</tbody>
-									</table>
+												</td>
+											</tr>
+											@foreach ($permission as $value)
+											<tr>
+												<td class="text-nowrap fw-medium">
+													<input type="hidden" name="permissionname[]" value="{{ $value->name }}"/>
+													{{ $value->name }}
+												</td>
+												<td>
+												<div class="d-flex">
+													<div class="form-check me-3 me-lg-5">
+														<input class="form-check-input allow-permission" type="checkbox" id="{{ str_replace(" ","",$value->name)."_allow" }}"/>
+														<label class="form-check-label" for="{{ str_replace(" ","",$value->name)."_allow" }}">
+														Izinkan
+														</label>
+													</div>
+												</div>
+												</td>
+											</tr>
+											@endforeach
+											</tbody>
+										</table>
+									</div>
 								</div>
 								<div class="tab-pane" id="tabs-profile-7" role="tabpanel">
-									<h4>Menu</h4>
-									<div id="jstree_demo_div">
+									<div style="height: 40vh;" class="overflow-auto">
+										<h4>Menu</h4>
+										<div id="jstree_demo_div">
+										</div>
 									</div>
 								</div>
 							  </div>
@@ -287,6 +291,15 @@
 					eInputRoleName.addClass('is-invalid');
 					eInputRoleName.next().text('Role name masih kosong!');
 				}
+			}
+
+			permissionAll(e){
+				let ischecked = $(e.currentTarget).is(":checked");
+				if(ischecked){
+					$('.allow-permission').prop('checked', true);
+				}else{
+					$('.allow-permission').prop('checked', false);
+				};
 			}
 
 			hapusPeran(e){
@@ -467,6 +480,7 @@
 			static FRM_addRoleForm;
 			static JSTREE_Main;
 			static DATA_Menu;
+			static CHBX_Permission;
 
             constructor() {
                 super();
@@ -486,6 +500,7 @@
                 });
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
+				Index.CHBX_Permission = $('#selectAll');
             }
 
             async serialLoadData() {
@@ -530,6 +545,7 @@
 				$("#modalRoleName").on('change', this.eventNamaPeran);
 				$('.role-edit-modal').on('click', this.ubahPeran);
 				$('.hapus-peran').on('click', this.hapusPeran);
+				Index.CHBX_Permission.on('click', this.permissionAll);
 
                 return this;
             }

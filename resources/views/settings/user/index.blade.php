@@ -223,7 +223,7 @@
 
 					Swal.fire({
 						title : 'Informasi',
-						text  : 'Apakah anda yakin ingin membuat pengguna ?',
+						text  : 'Apakah anda yakin ingin '+text+' pengguna ?',
 						icon  : 'info',
 						showCancelButton : true,
 						cancelButtonText: 'Tidak',
@@ -260,7 +260,7 @@
 									});
 								},
 								error : function(error){
-									Swal.fire('Berhasil',error.responseJSON.message,'error');
+									Swal.fire('Gagal',error.responseJSON.message,'error');
 								}
 							})
 						}else{
@@ -312,7 +312,7 @@
 								});
 							},
 							error : function(error){
-								Swal.fire('Informasi',error.responseJSON.message,'error');
+								Swal.fire('Gagal',error.responseJSON.message,'error');
 							}
 						})
 					}

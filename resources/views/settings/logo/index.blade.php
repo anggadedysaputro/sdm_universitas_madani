@@ -173,7 +173,7 @@
                                     allowOutsideClick: false,
                                 });
                             },
-                            error : function(){
+                            error : function(error){
                                 Swal.fire('Gagal',error.responseJSON.message,'error');
                             }
                         });

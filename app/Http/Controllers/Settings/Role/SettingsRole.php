@@ -17,7 +17,7 @@ class SettingsRole extends Controller
 
     public function index()
     {
-        $permission = Permission::all();
+        $permission = Permission::orderBy("name")->get();
         $role = Role::all();
 
         $roleData = [];

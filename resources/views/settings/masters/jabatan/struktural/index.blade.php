@@ -204,7 +204,7 @@
                                     Index.DT_Jabatan.draw();
                                 });
                             },
-                            error : function(){
+                            error : function(error){
                                 Swal.fire('Gagal',error.responseJSON.message,'error');
                             }
                         });
