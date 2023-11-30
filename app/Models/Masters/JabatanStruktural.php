@@ -28,6 +28,7 @@ class JabatanStruktural extends Model
      * @var array
      */
     protected $fillable = [
-        'urai'
+        'urai',
+        'id_bidang'
     ];
 }

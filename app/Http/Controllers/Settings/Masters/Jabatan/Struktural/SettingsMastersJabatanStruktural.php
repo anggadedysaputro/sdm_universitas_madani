@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings\Masters\Jabatan\Struktural;
 
 use App\Http\Controllers\Controller;
+use App\Models\Masters\Bidang;
 use App\Models\Masters\JabatanStruktural;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
@@ -11,7 +12,19 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SettingsMastersJabatanStruktural extends Controller
 {
+    protected $bidangKolom;
+
     use TraitsLoggerActivity;
+
+    public function __construct()
+    {
+        $this->bidangKolom = [
+            'kodebidang',
+            'kodedivisi',
+            'kodesubdivisi',
+            'kodesubsubdivisi'
+        ];
+    }
 
     public function index()
     {
@@ -20,7 +33,17 @@ class SettingsMastersJabatanStruktural extends Controller
 
     public function data()
     {
-        $jabatan = JabatanStruktural::query();
+
+        $jabatan = DB::table(
+            DB::raw("
+                (
+                    select kodejabatanstruktural, js.urai, concat(b.kodebidang, '.', b.kodedivisi, '.', b.kodesubdivisi, '.', b.kodesubsubdivisi) as id
+                    from masters.jabatanstruktural js
+                    join masters.bidang b
+                    on js.id_bidang = b.id
+                ) as w
+            ")
+        );
         return DataTables::of($jabatan)->toJson();
     }
 
@@ -31,6 +54,15 @@ class SettingsMastersJabatanStruktural extends Controller
             $post = request()->all();
 
             unset($post['id']);
+
+
+            $query = Bidang::query();
+            foreach (explode(".", $post['id_bidang']) as $key => $value) {
+                $query->where($this->bidangKolom[$key], $value);
+            }
+
+            $id_bidang = $query->first()->id;
+            $post['id_bidang'] = $id_bidang;
 
             JabatanStruktural::create($post);
 
@@ -95,6 +127,15 @@ class SettingsMastersJabatanStruktural extends Controller
             $post = request()->all();
             $id = $post['id'];
             unset($post['id']);
+
+            $query = Bidang::query();
+            foreach (explode(".", $post['id_bidang']) as $key => $value) {
+                $query->where($this->bidangKolom[$key], $value);
+            }
+
+            $id_bidang = $query->first()->id;
+            $post['id_bidang'] = $id_bidang;
+
             JabatanStruktural::find($id)->update($post);
 
             $this->activity("Edit data struktural [successfully]");

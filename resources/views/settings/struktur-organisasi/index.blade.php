@@ -194,8 +194,7 @@
                             resolve(result);
                         },
                         error : function(error){
-                            Swal.close();
-                            reject(error.responseJSON.message ?? error.responseJSON);
+                            Swal.fire('Gagal',error.responseJSON.message ?? error.responseJSON,'error');
                         }
                     });
                 });

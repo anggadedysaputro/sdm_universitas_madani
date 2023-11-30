@@ -105,7 +105,7 @@ Route::middleware(['validate.login'])->group(function () {
                     Route::get('index', [SettingsMastersJabatanFungsional::class, 'index'])->name('settings.masters.jabatan.fungsional.index')->middleware('permission:jabatan fungsional_lihat');
                     Route::post('store', [SettingsMastersJabatanFungsional::class, 'store'])->name('settings.masters.jabatan.fungsional.store')->middleware('permission:jabatan fungsional_tambah');
                     Route::delete('delete', [SettingsMastersJabatanFungsional::class, 'delete'])->name('settings.masters.jabatan.fungsional.delete')->middleware('permission:jabatan fungsional_hapus');
-                    Route::patch('edit', [SettingsMastersJabatanFungsional::class, 'edit'])->name('settings.masters.jabatan.fungsional.edit')->middleware('permission:jabatan fungsionall_edit');
+                    Route::patch('edit', [SettingsMastersJabatanFungsional::class, 'edit'])->name('settings.masters.jabatan.fungsional.edit')->middleware('permission:jabatan fungsional_edit');
                     Route::post('data', [SettingsMastersJabatanFungsional::class, 'data'])->name('settings.masters.jabatan.fungsional.data');
                 });
             });
