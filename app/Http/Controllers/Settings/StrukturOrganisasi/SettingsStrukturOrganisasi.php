@@ -96,7 +96,6 @@ class SettingsStrukturOrganisasi extends Controller
                     'kodesubdivisi' => 0,
                     'kodesubsubdivisi' => 0,
                     'urai' => $data['urai'],
-                    'tahun' => tahunAktif(),
                 ];
                 Bidang::create($bidang);
             } else {
@@ -106,12 +105,11 @@ class SettingsStrukturOrganisasi extends Controller
                     'kodesubdivisi' => 0,
                     'kodesubsubdivisi' => 0,
                     'urai' => $data['urai'],
-                    'tahun' => tahunAktif(),
                 ];
 
                 $explode = explode(".", $data['id']);
 
-                $whereBidang = Bidang::where('tahun', tahunAktif());
+                $whereBidang = Bidang::query();
 
                 $getKode = 0;
                 for ($i = 0; $i < count($explode); $i++) {
@@ -141,12 +139,11 @@ class SettingsStrukturOrganisasi extends Controller
                 'kodesubdivisi' => 0,
                 'kodesubsubdivisi' => 0,
                 'urai' => $data['urai'],
-                'tahun' => tahunAktif(),
             ];
 
             $explode = explode(".", $data['id']);
 
-            $whereBidang = Bidang::where('tahun', tahunAktif());
+            $whereBidang = Bidang::query();
 
             $getMax = 0;
             for ($i = 0; $i < count($explode); $i++) {
@@ -173,7 +170,7 @@ class SettingsStrukturOrganisasi extends Controller
     {
         try {
             $id = request('id');
-            $query = Bidang::select("urai")->where('tahun', tahunAktif());
+            $query = Bidang::select("urai");
             $explode = explode(".", $id);
             for ($i = 0; $i < count($explode); $i++) {
                 $query->where($this->bidangKolom[$i], $explode[$i]);
@@ -194,7 +191,7 @@ class SettingsStrukturOrganisasi extends Controller
         DB::beginTransaction();
         try {
             $id = request('id');
-            $query = Bidang::where('tahun', tahunAktif());
+            $query = Bidang::query();
             $explode = explode(".", $id);
             foreach ($explode as $key => $value) {
                 if ($value != 0) $query->where($this->bidangKolom[$key], $value);
@@ -229,7 +226,7 @@ class SettingsStrukturOrganisasi extends Controller
         DB::beginTransaction();
         try {
             $id = request('id');
-            $query = Bidang::where('tahun', tahunAktif());
+            $query = Bidang::query();
             $explode = explode(".", $id);
             foreach ($explode as $key => $value) {
                 $query->where($this->bidangKolom[$key], $value);

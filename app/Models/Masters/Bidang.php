@@ -33,7 +33,6 @@ class Bidang extends Model
         'kodedivisi',
         'kodesubdivisi',
         'kodesubsubdivisi',
-        'urai',
-        'tahun'
+        'urai'
     ];
 }
