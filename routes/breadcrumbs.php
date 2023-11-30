@@ -85,6 +85,18 @@ Breadcrumbs::for('settings.masters.status-pegawai.index', function (BreadcrumbTr
     $trail->push('Status pegawai');
 });
 
+// settings > masters > pendidikan
+Breadcrumbs::for('settings.masters.pendidikan.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Pendidikan');
+});
+
+// settings > masters > status-ijin
+Breadcrumbs::for('settings.masters.status-ijin.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Status ijin');
+});
+
 // settings > masters > jabatan > struktural
 Breadcrumbs::for('settings.masters.jabatan.struktural.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.masters.jabatan.index');

@@ -11,6 +11,8 @@ use App\Http\Controllers\Logout;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
 use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
+use App\Http\Controllers\Settings\Masters\Pendidikan\SettingsMastersPendidikan;
+use App\Http\Controllers\Settings\Masters\StatusIjin\SettingsMastersStatusIjin;
 use App\Http\Controllers\Settings\Masters\StatusPegawai\SettingsMastersStatusPegawai;
 use App\Http\Controllers\Settings\Masters\SubUnit\SettingsMastersSubunit;
 use App\Http\Controllers\Settings\Menu\SettingsMenu;
@@ -114,6 +116,20 @@ Route::middleware(['validate.login'])->group(function () {
                 Route::delete('delete', [SettingsMastersStatusPegawai::class, 'delete'])->name('settings.masters.status-pegawai.delete')->middleware('permission:status pegawai_hapus');
                 Route::patch('edit', [SettingsMastersStatusPegawai::class, 'edit'])->name('settings.masters.status-pegawai.edit')->middleware('permission:status pegawai_edit');
                 Route::post('data', [SettingsMastersStatusPegawai::class, 'data'])->name('settings.masters.status-pegawai.data');
+            });
+            Route::prefix('pendidikan')->group(function () {
+                Route::get('index', [SettingsMastersPendidikan::class, 'index'])->name('settings.masters.pendidikan.index')->middleware('permission:pendidikan_lihat');
+                Route::post('store', [SettingsMastersPendidikan::class, 'store'])->name('settings.masters.pendidikan.store')->middleware('permission:pendidikan_tambah');
+                Route::delete('delete', [SettingsMastersPendidikan::class, 'delete'])->name('settings.masters.pendidikan.delete')->middleware('permission:pendidikan_hapus');
+                Route::patch('edit', [SettingsMastersPendidikan::class, 'edit'])->name('settings.masters.pendidikan.edit')->middleware('permission:pendidikan_edit');
+                Route::post('data', [SettingsMastersPendidikan::class, 'data'])->name('settings.masters.pendidikan.data');
+            });
+            Route::prefix('status-ijin')->group(function () {
+                Route::get('index', [SettingsMastersStatusIjin::class, 'index'])->name('settings.masters.status-ijin.index')->middleware('permission:status ijin_lihat');
+                Route::post('store', [SettingsMastersStatusIjin::class, 'store'])->name('settings.masters.status-ijin.store')->middleware('permission:status ijin_tambah');
+                Route::delete('delete', [SettingsMastersStatusIjin::class, 'delete'])->name('settings.masters.status-ijin.delete')->middleware('permission:status ijin_hapus');
+                Route::patch('edit', [SettingsMastersStatusIjin::class, 'edit'])->name('settings.masters.status-ijin.edit')->middleware('permission:status ijin_edit');
+                Route::post('data', [SettingsMastersStatusIjin::class, 'data'])->name('settings.masters.status-ijin.data');
             });
         });
         Route::prefix('struktur-organisasi')->group(function () {

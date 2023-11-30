@@ -1,16 +1,16 @@
 @extends('app')
 @section('title')
-    Status pegawai
+    Status ijin
 @endsection
 @section('breadcrumb')
-    <x-bread-crumbs breadcrumbtitle="settings.masters.pendidikan.index"/>
+    <x-bread-crumbs breadcrumbtitle="settings.masters.status-ijin.index"/>
 @endsection
 @section('page-title')
-    Status pegawai
+Status ijin
 @endsection
 @section('action-list')
 <a id="tambah" class="btn btn-primary" role="button">
-	<i class="ti ti-plus"></i> Tambah status pegawai
+	<i class="ti ti-plus"></i> Tambah status ijin
 </a>
 @endsection
 @section('search')
@@ -37,7 +37,7 @@
         <table class="table table-vcenter" id="table-main">
             <thead>
             <tr>
-                <th class="col-md-1 text-center">Kode status pegawai</th>
+                <th class="col-md-1 text-center">Kode status ijin</th>
                 <th class="col-md-9 text-center">Keterangan</th>
                 <th class="col-md-2 text-center">Aksi</th>
             </tr>
@@ -49,7 +49,7 @@
   </div>
 <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
     <div class="offcanvas-header">
-		<h2 class="offcanvas-title" id="offcanvasEndLabel">Input status pegawai</h2>
+		<h2 class="offcanvas-title" id="offcanvasEndLabel">Input status ijin</h2>
 		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -57,19 +57,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Kode status pegawai</label>
-                        <input type="hidden" class="form-control" name="idstatuspegawai_lama">
-                        <input type="text" class="form-control" name="idstatuspegawai" placeholder="Input kode status pegawai" fdprocessedid="tigmx5" required>
-                        <div class="invalid-feedback">Kode status pegawai belum diisi</div>
+                        <label class="form-label">Kode status ijin</label>
+                        <input type="hidden" class="form-control" name="idstatusijin_lama">
+                        <input type="text" class="form-control" name="idstatusijin" placeholder="Input kode status ijin" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Kode status ijin belum diisi</div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Nama status pegawai</label>
-                        <input type="text" class="form-control" name="keterangan" placeholder="Input nama status pegawai" fdprocessedid="tigmx5" required>
-                        <div class="invalid-feedback">Nama status pegawai belum diisi</div>
+                        <label class="form-label">Nama status ijin</label>
+                        <input type="text" class="form-control" name="keterangan" placeholder="Input nama status ijin" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Nama status ijin belum diisi</div>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
 
             tambah(){
                 Index.FRM_Main.find('input[name="keterangan"]').val("");
-                Index.FRM_Main.find('input[name="idstatuspegawai"]').val("");
+                Index.FRM_Main.find('input[name="idstatusijin"]').val("");
                 Index.BTN_Simpan.attr('mode','tambah');
                 Index.OFFCNVS_Main.show();
             }
@@ -101,7 +101,7 @@
                 let send = true;
                 let mode = Index.BTN_Simpan.attr('mode');
                 let text = (mode == 'edit' ? 'Anda ingin mengubah data?' : 'Anda ingin menyimpan data?');
-                let url = (mode == 'edit' ? '{{ route('settings.masters.pendidikan.edit') }}' : '{{ route('settings.masters.pendidikan.store') }}');
+                let url = (mode == 'edit' ? '{{ route('settings.masters.status-ijin.edit') }}' : '{{ route('settings.masters.status-ijin.store') }}');
                 let method = (mode == 'edit' ? 'PATCH' : 'POST');
                 let id = $('#id').val();
                 
@@ -178,7 +178,7 @@
                 }).then((result)=>{
                     if(result.isConfirmed){
                         $.ajax({
-                            url : "{{ route('settings.masters.pendidikan.delete') }}",
+                            url : "{{ route('settings.masters.status-ijin.delete') }}",
                             method : "DELETE",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -218,8 +218,8 @@
                 let data = $(e.currentTarget).data();
                 Index.BTN_Simpan.attr('mode','edit');
                 Index.FRM_Main.find('input[name="keterangan"]').val(data.keterangan);
-                Index.FRM_Main.find('input[name="idstatuspegawai"]').val(data.idstatuspegawai);
-                Index.FRM_Main.find('input[name="idstatuspegawai_lama"]').val(data.idstatuspegawai);
+                Index.FRM_Main.find('input[name="idstatusijin"]').val(data.idstatusijin);
+                Index.FRM_Main.find('input[name="idstatusijin_lama"]').val(data.idstatusijin);
                 Index.OFFCNVS_Main.show();
             }
         }
@@ -240,7 +240,7 @@
                 Index.BTN_Tambah=$('#tambah');
                 Index.DT_Main=$("#table-main").DataTable({
                     ajax : {
-                        url : "{{ route('settings.masters.pendidikan.data') }}",
+                        url : "{{ route('settings.masters.status-ijin.data') }}",
                         method : "POST",
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -249,7 +249,7 @@
                     processing : true,
                     serverSide : true,
                     columns : [
-                        {data : "idstatuspegawai"},
+                        {data : "idstatusijin"},
                         {data : "keterangan"},
                         {
                             data : null,

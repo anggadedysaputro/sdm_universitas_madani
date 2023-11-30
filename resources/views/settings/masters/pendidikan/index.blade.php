@@ -1,16 +1,16 @@
 @extends('app')
 @section('title')
-    Status pegawai
+    Pendidikan
 @endsection
 @section('breadcrumb')
     <x-bread-crumbs breadcrumbtitle="settings.masters.pendidikan.index"/>
 @endsection
 @section('page-title')
-    Status pegawai
+Pendidikan
 @endsection
 @section('action-list')
 <a id="tambah" class="btn btn-primary" role="button">
-	<i class="ti ti-plus"></i> Tambah status pegawai
+	<i class="ti ti-plus"></i> Tambah pendidikan
 </a>
 @endsection
 @section('search')
@@ -37,7 +37,7 @@
         <table class="table table-vcenter" id="table-main">
             <thead>
             <tr>
-                <th class="col-md-1 text-center">Kode status pegawai</th>
+                <th class="col-md-1 text-center">Kode pendidikan</th>
                 <th class="col-md-9 text-center">Keterangan</th>
                 <th class="col-md-2 text-center">Aksi</th>
             </tr>
@@ -49,7 +49,7 @@
   </div>
 <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
     <div class="offcanvas-header">
-		<h2 class="offcanvas-title" id="offcanvasEndLabel">Input status pegawai</h2>
+		<h2 class="offcanvas-title" id="offcanvasEndLabel">Input pendidikan</h2>
 		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -57,19 +57,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Kode status pegawai</label>
-                        <input type="hidden" class="form-control" name="idstatuspegawai_lama">
-                        <input type="text" class="form-control" name="idstatuspegawai" placeholder="Input kode status pegawai" fdprocessedid="tigmx5" required>
-                        <div class="invalid-feedback">Kode status pegawai belum diisi</div>
+                        <label class="form-label">Kode pendidikan</label>
+                        <input type="hidden" class="form-control" name="kodependidikan_lama">
+                        <input type="text" class="form-control" name="kodependidikan" placeholder="Input kode pendidikan" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Kode pendidikan belum diisi</div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Nama status pegawai</label>
-                        <input type="text" class="form-control" name="keterangan" placeholder="Input nama status pegawai" fdprocessedid="tigmx5" required>
-                        <div class="invalid-feedback">Nama status pegawai belum diisi</div>
+                        <label class="form-label">Nama pendidikan</label>
+                        <input type="text" class="form-control" name="keterangan" placeholder="Input nama pendidikan" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Nama pendidikan belum diisi</div>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
 
             tambah(){
                 Index.FRM_Main.find('input[name="keterangan"]').val("");
-                Index.FRM_Main.find('input[name="idstatuspegawai"]').val("");
+                Index.FRM_Main.find('input[name="kodependidikan"]').val("");
                 Index.BTN_Simpan.attr('mode','tambah');
                 Index.OFFCNVS_Main.show();
             }
@@ -218,8 +218,8 @@
                 let data = $(e.currentTarget).data();
                 Index.BTN_Simpan.attr('mode','edit');
                 Index.FRM_Main.find('input[name="keterangan"]').val(data.keterangan);
-                Index.FRM_Main.find('input[name="idstatuspegawai"]').val(data.idstatuspegawai);
-                Index.FRM_Main.find('input[name="idstatuspegawai_lama"]').val(data.idstatuspegawai);
+                Index.FRM_Main.find('input[name="kodependidikan"]').val(data.kodependidikan);
+                Index.FRM_Main.find('input[name="kodependidikan_lama"]').val(data.kodependidikan);
                 Index.OFFCNVS_Main.show();
             }
         }
@@ -249,7 +249,7 @@
                     processing : true,
                     serverSide : true,
                     columns : [
-                        {data : "idstatuspegawai"},
+                        {data : "kodependidikan"},
                         {data : "keterangan"},
                         {
                             data : null,

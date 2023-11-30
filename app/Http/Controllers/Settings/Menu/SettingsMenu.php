@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Masters\Icon;
 use App\Models\Masters\Menu;
 use App\Traits\Logger\TraitsLoggerActivity;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -77,24 +80,28 @@ class SettingsMenu extends Controller
         return response()->json($response, 200);
     }
 
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
     public function link()
     {
         $morePages = true;
         $resultCount = 10;
         $page = request('page');
-        $offset = ($page - 1) * $resultCount;
         $allRoutes = [];
         foreach (Route::getRoutes() as $key => $value) {
             if ($value->methods()[0] === "GET" && !empty($value->getName())) {
                 if (in_array("index", explode(".", $value->getName()))) array_push($allRoutes, ["id" => $value->getName(), "text" => $value->getName(), "link" => $value->getName()]);
             }
         }
-        $allRoutes = collect(array_map(function ($item) use ($allRoutes) {
-            $item['total'] = count($allRoutes);
-            return $item;
-        }, $allRoutes));
 
-        $query = $allRoutes->take($resultCount)->skip($offset);
+        $query = $this->paginate($allRoutes, $resultCount, $page);
 
         if (request('search')) {
             $cari = request('search');
@@ -106,18 +113,10 @@ class SettingsMenu extends Controller
                 array_push($result, $value);
             }
         } else {
-            $result = $query->toArray();
+            $result = array_values($query->toArray()['data']);
         }
 
-        // dd($result);
-
-
-        $resshift = $result;
-        $total = 0;
-        if (count($result) > 0) $total = array_shift($resshift)['total'];
-
-
-        $morePages = !($resultCount >= $total);
+        $morePages = !($query->currentPage() == $query->lastPage());
 
         $response = array(
             "results" => $result,
