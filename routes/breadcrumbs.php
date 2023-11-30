@@ -79,6 +79,12 @@ Breadcrumbs::for('settings.masters.jabatan.index', function (BreadcrumbTrail $tr
     $trail->push('Jabatan');
 });
 
+// settings > masters > status-pegawai
+Breadcrumbs::for('settings.masters.status-pegawai.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Status pegawai');
+});
+
 // settings > masters > jabatan > struktural
 Breadcrumbs::for('settings.masters.jabatan.struktural.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.masters.jabatan.index');

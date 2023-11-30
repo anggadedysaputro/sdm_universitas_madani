@@ -11,12 +11,11 @@ use App\Http\Controllers\Logout;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
 use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
-use App\Http\Controllers\Settings\Masters\SettingsMasters;
+use App\Http\Controllers\Settings\Masters\StatusPegawai\SettingsMastersStatusPegawai;
 use App\Http\Controllers\Settings\Masters\SubUnit\SettingsMastersSubunit;
 use App\Http\Controllers\Settings\Menu\SettingsMenu;
 use App\Http\Controllers\Settings\Permission\SettingsPermission;
 use App\Http\Controllers\Settings\Role\SettingsRole;
-use App\Http\Controllers\Settings\Settings;
 use App\Http\Controllers\Settings\StrukturOrganisasi\SettingsStrukturOrganisasi;
 use App\Http\Controllers\Settings\User\SettingsUser;
 use Illuminate\Support\Facades\Route;
@@ -108,6 +107,13 @@ Route::middleware(['validate.login'])->group(function () {
                     Route::patch('edit', [SettingsMastersJabatanFungsional::class, 'edit'])->name('settings.masters.jabatan.fungsional.edit')->middleware('permission:jabatan fungsional_edit');
                     Route::post('data', [SettingsMastersJabatanFungsional::class, 'data'])->name('settings.masters.jabatan.fungsional.data');
                 });
+            });
+            Route::prefix('status-pegawai')->group(function () {
+                Route::get('index', [SettingsMastersStatusPegawai::class, 'index'])->name('settings.masters.status-pegawai.index')->middleware('permission:status pegawai_lihat');
+                Route::post('store', [SettingsMastersStatusPegawai::class, 'store'])->name('settings.masters.status-pegawai.store')->middleware('permission:status pegawai_tambah');
+                Route::delete('delete', [SettingsMastersStatusPegawai::class, 'delete'])->name('settings.masters.status-pegawai.delete')->middleware('permission:status pegawai_hapus');
+                Route::patch('edit', [SettingsMastersStatusPegawai::class, 'edit'])->name('settings.masters.status-pegawai.edit')->middleware('permission:status pegawai_edit');
+                Route::post('data', [SettingsMastersStatusPegawai::class, 'data'])->name('settings.masters.status-pegawai.data');
             });
         });
         Route::prefix('struktur-organisasi')->group(function () {
