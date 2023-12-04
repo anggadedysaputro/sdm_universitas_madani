@@ -8,17 +8,22 @@ use App\Http\Controllers\Karyawan\Add\KaryawanAdd;
 use App\Http\Controllers\Karyawan\Karyawan;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
+use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
+use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
 use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
+use App\Http\Controllers\Settings\Masters\KartuIdentitas\SettingsMastersKartuIdentitas;
+use App\Http\Controllers\Settings\Masters\Libur\SettingsMastersLibur;
+use App\Http\Controllers\Settings\Masters\Negara\SettingsMastersNegara;
 use App\Http\Controllers\Settings\Masters\Pendidikan\SettingsMastersPendidikan;
 use App\Http\Controllers\Settings\Masters\StatusIjin\SettingsMastersStatusIjin;
 use App\Http\Controllers\Settings\Masters\StatusPegawai\SettingsMastersStatusPegawai;
+use App\Http\Controllers\Settings\Masters\StrukturOrganisasi\SettingsMastersStrukturOrganisasi;
 use App\Http\Controllers\Settings\Masters\SubUnit\SettingsMastersSubunit;
 use App\Http\Controllers\Settings\Menu\SettingsMenu;
 use App\Http\Controllers\Settings\Permission\SettingsPermission;
 use App\Http\Controllers\Settings\Role\SettingsRole;
-use App\Http\Controllers\Settings\StrukturOrganisasi\SettingsStrukturOrganisasi;
 use App\Http\Controllers\Settings\User\SettingsUser;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +55,17 @@ Route::middleware(['validate.login'])->group(function () {
         });
         Route::prefix('struktur-organisasi')->group(function () {
             Route::post('data', [JstreeStrukturOrganisasi::class, 'data'])->name('jstree.struktur-organisasi.data');
+        });
+    });
+
+    Route::prefix('select2')->group(function () {
+        Route::prefix('jabatan')->group(function () {
+            Route::prefix('fungsional')->group(function () {
+                Route::post('data', [Select2JabatanFungsional::class, 'data'])->name('select2.jabatan.fungsional.data');
+            });
+            Route::prefix('struktural')->group(function () {
+                Route::post('data', [Select2JabatanStruktural::class, 'data'])->name('select2.jabatan.struktural.data');
+            });
         });
     });
 
@@ -131,21 +147,44 @@ Route::middleware(['validate.login'])->group(function () {
                 Route::patch('edit', [SettingsMastersStatusIjin::class, 'edit'])->name('settings.masters.status-ijin.edit')->middleware('permission:status ijin_edit');
                 Route::post('data', [SettingsMastersStatusIjin::class, 'data'])->name('settings.masters.status-ijin.data');
             });
-        });
-        Route::prefix('struktur-organisasi')->group(function () {
-            Route::get('index', [SettingsStrukturOrganisasi::class, 'index'])->name('settings.struktur-organisasi.index')->middleware('permission:struktur organisasi_lihat');
-            Route::post('bidang', [SettingsStrukturOrganisasi::class, 'bidang'])->name('settings.struktur-organisasi.bidang');
-            Route::post('simpan', [SettingsStrukturOrganisasi::class, 'simpan'])->name('settings.struktur-organisasi.simpan')->middleware('permission:struktur organisasi_tambah');
-            Route::post('urai', [SettingsStrukturOrganisasi::class, 'urai'])->name('settings.struktur-organisasi.urai');
-            Route::delete('simpan', [SettingsStrukturOrganisasi::class, 'delete'])->name('settings.struktur-organisasi.delete')->middleware('permission:struktur organisasi_hapus');
-            Route::patch('edit', [SettingsStrukturOrganisasi::class, 'edit'])->name('settings.struktur-organisasi.edit')->middleware('permission:struktur organisasi_edit');;
+            Route::prefix('libur')->group(function () {
+                Route::get('index', [SettingsMastersLibur::class, 'index'])->name('settings.masters.libur.index')->middleware('permission:libur_lihat');
+                Route::post('store', [SettingsMastersLibur::class, 'store'])->name('settings.masters.libur.store')->middleware('permission:libur_tambah');
+                Route::delete('delete', [SettingsMastersLibur::class, 'delete'])->name('settings.masters.libur.delete')->middleware('permission:libur_hapus');
+                Route::patch('edit', [SettingsMastersLibur::class, 'edit'])->name('settings.masters.libur.edit')->middleware('permission:libur_edit');
+                Route::post('data', [SettingsMastersLibur::class, 'data'])->name('settings.masters.libur.data');
+            });
+            Route::prefix('negara')->group(function () {
+                Route::get('index', [SettingsMastersNegara::class, 'index'])->name('settings.masters.negara.index')->middleware('permission:negara_lihat');
+                Route::post('store', [SettingsMastersNegara::class, 'store'])->name('settings.masters.negara.store')->middleware('permission:negara_tambah');
+                Route::delete('delete', [SettingsMastersNegara::class, 'delete'])->name('settings.masters.negara.delete')->middleware('permission:negara_hapus');
+                Route::patch('edit', [SettingsMastersNegara::class, 'edit'])->name('settings.masters.negara.edit')->middleware('permission:negara_edit');
+                Route::post('data', [SettingsMastersNegara::class, 'data'])->name('settings.masters.negara.data');
+            });
+            Route::prefix('struktur-organisasi')->group(function () {
+                Route::get('index', [SettingsMastersStrukturOrganisasi::class, 'index'])->name('settings.masters.struktur-organisasi.index')->middleware('permission:struktur organisasi_lihat');
+                Route::post('bidang', [SettingsMastersStrukturOrganisasi::class, 'bidang'])->name('settings.masters.struktur-organisasi.bidang');
+                Route::post('simpan', [SettingsMastersStrukturOrganisasi::class, 'simpan'])->name('settings.masters.struktur-organisasi.simpan')->middleware('permission:struktur organisasi_tambah');
+                Route::post('urai', [SettingsMastersStrukturOrganisasi::class, 'urai'])->name('settings.masters.struktur-organisasi.urai');
+                Route::delete('simpan', [SettingsMastersStrukturOrganisasi::class, 'delete'])->name('settings.masters.struktur-organisasi.delete')->middleware('permission:struktur organisasi_hapus');
+                Route::patch('edit', [SettingsMastersStrukturOrganisasi::class, 'edit'])->name('settings.masters.struktur-organisasi.edit')->middleware('permission:struktur organisasi_edit');;
+            });
+            Route::prefix('kartu-identitas')->group(function () {
+                Route::get('index', [SettingsMastersKartuIdentitas::class, 'index'])->name('settings.masters.kartu-identitas.index')->middleware('permission:kartu identitas_lihat');
+                Route::post('store', [SettingsMastersKartuIdentitas::class, 'store'])->name('settings.masters.kartu-identitas.store')->middleware('permission:kartu identitas_tambah');
+                Route::delete('delete', [SettingsMastersKartuIdentitas::class, 'delete'])->name('settings.masters.kartu-identitas.delete')->middleware('permission:kartu identitas_hapus');
+                Route::patch('edit', [SettingsMastersKartuIdentitas::class, 'edit'])->name('settings.masters.kartu-identitas.edit')->middleware('permission:kartu identitas_edit');
+                Route::post('data', [SettingsMastersKartuIdentitas::class, 'data'])->name('settings.masters.kartu-identitas.data');
+            });
         });
     });
 
     Route::prefix('karyawan')->group(function () {
         Route::get('index', [Karyawan::class, 'index'])->name('karyawan.index');
+        Route::post('data', [Karyawan::class, 'data'])->name('karyawan.data');
         Route::prefix('add')->group(function () {
             Route::get('index', [KaryawanAdd::class, 'index'])->name('karyawan.add.index');
+            Route::post('store', [KaryawanAdd::class, 'store'])->name('karyawan.add.store');
         });
     });
     Route::get('/su', function () {

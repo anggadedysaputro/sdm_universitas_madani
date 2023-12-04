@@ -337,6 +337,7 @@
 
             constructor() {
                 super();
+                Index.MD_Main = $('#menu-modal');
                 Index.BTN_Simpan = $('#create-menu');
                 Index.FRM_Main = $('#addMenuForm');
                 Index.AJAX_Object = {
@@ -352,9 +353,9 @@
                             return "<span class='ms-4'>"+data.text+"</span>";
                         }
                     },
-					menuicon : Angga.generalAjaxSelect2('{{ route('settings.menu.icon') }}','Pilih icon'),
-                    menuparent : Angga.generalAjaxSelect2('{{ route('settings.menu.parent') }}','Pilih induk'),
-                    menulink : Angga.generalAjaxSelect2('{{ route('settings.menu.link') }}','Pilih link'),
+					menuicon : Angga.generalAjaxSelect2('{{ route('settings.menu.icon') }}','Pilih icon', Index.MD_Main),
+                    menuparent : Angga.generalAjaxSelect2('{{ route('settings.menu.parent') }}','Pilih induk', Index.MD_Main),
+                    menulink : Angga.generalAjaxSelect2('{{ route('settings.menu.link') }}','Pilih link', Index.MD_Main),
 				}
 
                 Index.S2_MenuIcon = $('#icon-menu').select2(Index.AJAX_Object.menuicon);
@@ -392,8 +393,6 @@
                 });
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
-
-                Index.MD_Main = $('#menu-modal');
             }
 
             async serialLoadData() {

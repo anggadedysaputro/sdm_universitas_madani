@@ -193,9 +193,9 @@ export default class Angga {
         });
     }
 
-    static generalAjaxSelect2(url, placeholder) {
-        return {
-            dropdownParent: $('.modal-content'),
+    static generalAjaxSelect2(url, placeholder, modal = false) {
+
+        let select2Object = {
             theme: 'bootstrap-5',
             placeholder,
             allowClear: true,
@@ -241,5 +241,7 @@ export default class Angga {
                 return "<span class='ms-4'>" + data.text + "</span>";
             }
         }
+
+        return (modal ? $.extend(select2Object, { dropdownParent: modal.find('.modal-content') }) : select2Object);
     }
 }

@@ -12,7 +12,7 @@
     <a href="{{ route('karyawan.add.index') }}" class="btn btn-primary"><i class="ti ti-plus"></i> Tambah karyawan</a>
 @endsection
 @section('search')
-    <form action="./" method="get" autocomplete="off" novalidate>
+    {{-- <form action="./" method="get" autocomplete="off" novalidate>
         <div class="input-icon">
             <span class="input-icon-addon">
                 <!-- Download SVG icon from http://tabler-icons.io/i/search -->
@@ -27,10 +27,36 @@
             <input type="text" value="" class="form-control" placeholder="Search…"
                 aria-label="Search in website">
         </div>
-    </form>
+    </form> --}}
 @endsection
 @section('content')
-    Content
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="display responsive nowrap" id="table-main" class="row-border" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>NIPY</th>
+                                <th>Nama</th>
+                                <th>Tanggal lahir</th>
+                                <th>Alamat</th>
+                                <th>Jenis kelamin</th>
+                                <th>Golongan darah</th>
+                                <th>Agama</th>
+                                <th>Status perkawinan</th>
+                                <th>Kewarganegaraan</th>
+                                <th>Tipe kartu identitas</th>
+                                <th>Nomor kartu identitas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('jsweb')
     <script type="module">
@@ -43,9 +69,87 @@
 
         export default class Index extends Helper{
             // deklarasi variabel
+            static DT_Main;
 
             constructor() {
                 super();
+                Index.DT_Main = $('#table-main').DataTable( {
+                    dom: 'Bfrtip',
+                    ajax : {
+                        url : "{{ route('karyawan.data') }}",
+                        type : "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    },
+                    columns : [
+                        {
+                            data : "nopeg"
+                        },
+                        {
+                            data : "nama"
+                        },
+                        {
+                            data : "tanggal_lahir"
+                        },
+                        {
+                            data : "alamat"
+                        },
+                        {
+                            data : "jenis_kelamin"
+                        },
+                        {
+                            data : "gol_darah"
+                        },
+                        {
+                            data : "agama"
+                        },
+                        {
+                            data : "status_nikah"
+                        },
+                        {
+                            data : "kewarganegaraan"
+                        },
+                        {
+                            data : "nama_kartuidentitas"
+                        },
+                        {
+                            data : "noidentitas"
+                        },
+                        
+                        
+                    ],
+                    responsive: {
+                        details: true
+                    },
+                    fixedColumns: {
+                        left: 0,
+                        right: 1
+                    },
+                    columnDefs: [
+                        { targets: [0,1,2,3,4,5,6,7,8], visible: true},
+                        { targets: '_all', visible: false }
+                    ],
+                    buttons: [
+                        {
+                            extend: 'colvisGroup',
+                            text: 'Informasi pribadi',
+                            show: [0, 1, 2,3,4,5,6,7,8],
+                            hide: [9,10]
+                        },
+                        {
+                            extend: 'colvisGroup',
+                            text: 'Kontak',
+                            show: [0,9, 10],
+                            hide: [ 1, 2,3,4,5,6,7,8]
+                        },
+                        {
+                            extend: 'colvisGroup',
+                            text: 'Show all',
+                            show: ':hidden'
+                        }
+                    ]
+                } );
             }
 
             async serialLoadData() {

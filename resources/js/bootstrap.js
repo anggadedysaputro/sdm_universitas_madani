@@ -28,13 +28,51 @@ window.AnggaTables = AnggaTables;
 
 import Swal from 'sweetalert2'
 window.Swal = Swal;
-import DataTable from 'datatables.net-dt';
+import DataTable from 'datatables.net-bs5';
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 window.DataTable = DataTable;
 import "flatpickr/dist/flatpickr.min.css";
 import flatpickr from "flatpickr";
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
+import 'datatables.net-rowgroup-bs5';
+import 'datatables.net-responsive-bs5';
+import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
+import 'datatables.net-buttons/js/buttons.colVis.mjs';
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect"
+import "flatpickr/dist/plugins/monthSelect/style.css";
 window.flatpickr = flatpickr;
+window.monthSelectPlugin = monthSelectPlugin;
 import Inputmask from "inputmask";
 window.Inputmask = Inputmask;
+var selectorinteger = document.getElementsByClassName("integer-mask");
+var iminteger = new Inputmask({
+    regex: "^[0-9]*$"
+});
+iminteger.mask(selectorinteger);
+
+var selectordecimal = document.getElementsByClassName("decimal-mask");
+var imdecimal = new Inputmask("decimal", {
+    min: 0,
+    max: 100
+});
+imdecimal.mask(selectordecimal);
+
+Inputmask({
+    mask: "*{1,50}[.*{1,50}][.*{1,50}][.*{1,50}]@*{1,20}[.*{2,6}][.*{1,2}]",
+    greedy: false,
+    onBeforePaste: function (pastedValue, opts) {
+        pastedValue = pastedValue.toLowerCase();
+        return pastedValue.replace("mailto:", "");
+    },
+    definitions: {
+        "*": {
+            validator: '[0-9A-Za-z!#$%&"*+/=?^_`{|}~\-]',
+            cardinality: 1,
+            casing: "lower"
+        }
+    }
+}).mask(".email-mask");
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

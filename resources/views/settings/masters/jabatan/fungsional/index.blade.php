@@ -241,7 +241,7 @@
                                     Index.DT_Jabatan.draw();
                                 });
                             },
-                            error : function(){
+                            error : function(error){
                                 Swal.fire('Gagal',error.responseJSON.message,'error');
                             }
                         });
@@ -301,7 +301,6 @@
                         $(row).find('.edit').on('click', Helper.edit).data(data);
                     }
                 });
-                Index.OFFCNVS_Jabatan = new bootstrap.Offcanvas(document.getElementById('canvas-jabatan'));
                 Index.OFFCNVS_Jabatan = new bootstrap.Offcanvas(document.getElementById('canvas-jabatan'));
                 Index.JSTREE_Main = $("#jstree").jstree({
                     "core" : {

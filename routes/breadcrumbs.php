@@ -67,10 +67,10 @@ Breadcrumbs::for('settings.masters.index', function (BreadcrumbTrail $trail) {
     $trail->push('Masters');
 });
 
-// settings > struktur-organisasi
-Breadcrumbs::for('settings.struktur-organisasi.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('settings.index');
-    $trail->push('Struktur organisasi', route('settings.struktur-organisasi.index'));
+// settings > masters > struktur-organisasi
+Breadcrumbs::for('settings.masters.struktur-organisasi.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Struktur organisasi', route('settings.masters.struktur-organisasi.index'));
 });
 
 // settings > masters > jabatan
@@ -83,6 +83,24 @@ Breadcrumbs::for('settings.masters.jabatan.index', function (BreadcrumbTrail $tr
 Breadcrumbs::for('settings.masters.status-pegawai.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.masters.index');
     $trail->push('Status pegawai');
+});
+
+// settings > masters > libur
+Breadcrumbs::for('settings.masters.libur.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Libur');
+});
+
+// settings > masters > kartu-identitas
+Breadcrumbs::for('settings.masters.kartu-identitas.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Kartu identitas');
+});
+
+// settings > masters > negara
+Breadcrumbs::for('settings.masters.negara.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Negara');
 });
 
 // settings > masters > pendidikan

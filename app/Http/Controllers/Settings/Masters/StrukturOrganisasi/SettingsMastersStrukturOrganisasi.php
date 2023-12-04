@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Settings\StrukturOrganisasi;
+namespace App\Http\Controllers\Settings\Masters\StrukturOrganisasi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Masters\Bidang;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\throwException;
 
-class SettingsStrukturOrganisasi extends Controller
+class SettingsMastersStrukturOrganisasi extends Controller
 {
     protected $bidangKolom;
 
@@ -29,7 +29,7 @@ class SettingsStrukturOrganisasi extends Controller
 
     public function index()
     {
-        return view('settings.struktur-organisasi.index');
+        return view('settings.masters.struktur-organisasi.index');
     }
 
     public function bidang()

@@ -3,7 +3,7 @@
     Struktur organisasi
 @endsection
 @section('breadcrumb')
-    <x-bread-crumbs breadcrumbtitle="settings.struktur-organisasi.index"/>
+    <x-bread-crumbs breadcrumbtitle="settings.masters.struktur-organisasi.index"/>
 @endsection
 @section('page-title')
     Struktur organisasi
@@ -82,11 +82,11 @@
                 
                 if(mode == 'edit'){
                     text = 'Anda ingin mengubah data?';
-                    url = '{{ route('settings.struktur-organisasi.edit') }}';
+                    url = '{{ route('settings.masters.struktur-organisasi.edit') }}';
                     method = 'PATCH';
                 } else if(mode == 'tambah anak' || mode =='tambah saudara'){
                     text = 'Anda ingin menyimpan data?';
-                    url = '{{ route('settings.struktur-organisasi.simpan') }}';
+                    url = '{{ route('settings.masters.struktur-organisasi.simpan') }}';
                     method = 'POST';
                 }
                 
@@ -212,7 +212,7 @@
                 }).then((result)=>{
                     if(result.isConfirmed){
                         $.ajax({
-                            url : '{{ route('settings.struktur-organisasi.delete') }}',
+                            url : '{{ route('settings.masters.struktur-organisasi.delete') }}',
                             method : "DELETE",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -253,7 +253,7 @@
                 let id = e.id;
                 Index.BTN_Simpan.attr('mode','edit');
                 $.ajax({
-                    url : "{{ route('settings.struktur-organisasi.urai') }}",
+                    url : "{{ route('settings.masters.struktur-organisasi.urai') }}",
                     method : "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -379,7 +379,7 @@
                     bidang : {
                         placeholder : 'Pilih bidang',
                         ajax : {
-                            url : "{{ route('settings.struktur-organisasi.bidang') }}",
+                            url : "{{ route('settings.masters.struktur-organisasi.bidang') }}",
                             method : "POST",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
