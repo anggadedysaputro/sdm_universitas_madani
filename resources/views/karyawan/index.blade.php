@@ -34,20 +34,26 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="display responsive nowrap" id="table-main" class="row-border" style="width: 100%;">
+                    <table class="display responsive" id="table-main" class="row-border" style="width: 100%;">
                         <thead>
                             <tr>
-                                <th>NIPY</th>
-                                <th>Nama</th>
-                                <th>Tanggal lahir</th>
-                                <th>Alamat</th>
-                                <th>Jenis kelamin</th>
-                                <th>Golongan darah</th>
-                                <th>Agama</th>
-                                <th>Status perkawinan</th>
-                                <th>Kewarganegaraan</th>
-                                <th>Tipe kartu identitas</th>
-                                <th>Nomor kartu identitas</th>
+                                <th class="all">NIPY</th>
+                                <th class="informasi-pribadi">Nama</th>
+                                <th class="informasi-pribadi">Tanggal lahir</th>
+                                <th class="informasi-pribadi">Jenis kelamin</th>
+                                <th class="informasi-pribadi">Golongan darah</th>
+                                <th class="informasi-pribadi">Agama</th>
+                                <th class="informasi-pribadi">Status perkawinan</th>
+                                <th class="informasi-pribadi">Kewarganegaraan</th>
+                                <th class="kontak">Tipe kartu identitas</th>
+                                <th class="kontak">Nomor kartu identitas</th>
+                                <th class="kontak">Alamat</th>
+                                <th class="kontak">No. telepon darurat</th>
+                                <th class="kontak">Email</th>
+                                <th class="kepegawaian">Status pegawai</th>
+                                <th class="kepegawaian">Tanggal bergabung</th>
+                                <th class="kepegawaian">Jabatan fungsional</th>
+                                <th class="kepegawaian">Jabatan struktural</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,6 +81,8 @@
                 super();
                 Index.DT_Main = $('#table-main').DataTable( {
                     dom: 'Bfrtip',
+                    serverSide : true,
+                    processing : true,
                     ajax : {
                         url : "{{ route('karyawan.data') }}",
                         type : "POST",
@@ -105,18 +113,36 @@
                             data : "agama"
                         },
                         {
-                            data : "status_nikah"
-                        },
-                        {
                             data : "kewarganegaraan"
                         },
+                        {
+                            data : "status_nikah"
+                        },
+                        
                         {
                             data : "nama_kartuidentitas"
                         },
                         {
                             data : "noidentitas"
                         },
-                        
+                        {
+                            data : "notelpdarurat"
+                        },
+                        {
+                            data : "email"
+                        },
+                        {
+                            data : "status_pegawai"
+                        },
+                        {
+                            data : "tanggal_bergabung"
+                        },
+                        {
+                            data : "jabatan_fungsional"
+                        },
+                        {
+                            data : "jabatan_struktural"
+                        },
                         
                     ],
                     responsive: {
@@ -128,25 +154,51 @@
                     },
                     columnDefs: [
                         { targets: [0,1,2,3,4,5,6,7,8], visible: true},
-                        { targets: '_all', visible: false }
+                        { targets: '_all', visible: false },
+                        {
+                            searchPanes: {
+                                show: true
+                            },
+                            targets: [0,1]
+                        },
+                        {
+                            searchPanes: {
+                                show: false
+                            },
+                            targets: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                        }
                     ],
                     buttons: [
                         {
                             extend: 'colvisGroup',
                             text: 'Informasi pribadi',
-                            show: [0, 1, 2,3,4,5,6,7,8],
-                            hide: [9,10]
+                            show: [0, 1, 2,4,5,6,7,8],
+                            hide: [9,10,3,11,12,13,14,15,16]
                         },
                         {
                             extend: 'colvisGroup',
                             text: 'Kontak',
-                            show: [0,9, 10],
-                            hide: [ 1, 2,3,4,5,6,7,8]
+                            show: [0,9, 10,3,11,12],
+                            hide: [ 1, 2,4,5,6,7,8,13,14,15,16]
+                        },
+                        {
+                            extend: 'colvisGroup',
+                            text: 'Kepegawaian',
+                            show: [0,13,14,15,16],
+                            hide: [1,2,3,4,5,6,7,8,9,10,11,12]
                         },
                         {
                             extend: 'colvisGroup',
                             text: 'Show all',
                             show: ':hidden'
+                        },
+                        {
+                            extend: 'searchPanes',
+                            config: {
+                                
+                                cascadePanes: true,
+                                viewTotal: true
+                            }
                         }
                     ]
                 } );

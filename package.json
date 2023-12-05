@@ -20,6 +20,8 @@
         "datatables.net-fixedcolumns-bs5": "^4.3.0",
         "datatables.net-responsive-bs5": "^2.5.0",
         "datatables.net-rowgroup-bs5": "^1.4.1",
+        "datatables.net-searchpanes-bs5": "^2.2.0",
+        "datatables.net-select-bs5": "^1.7.0",
         "flatpickr": "^4.6.13",
         "inputmask": "^5.0.8",
         "jquery": "^3.7.1",

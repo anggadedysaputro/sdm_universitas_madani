@@ -10,6 +10,7 @@ use App\Models\Masters\Pendidikan;
 use App\Models\Masters\StatusNikah;
 use App\Models\Masters\StatusPegawai;
 use App\Traits\Logger\TraitsLoggerActivity;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,8 +33,11 @@ class KaryawanAdd extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
-            if (!array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = 0;
-            if (!array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = 0;
+
+            if (Pegawai::where('email', $post['email'])->exists()) throw new Exception("Email sudah digunakan !", 1);
+
+            if (array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = $post['kodejabfung'] ?? 0;
+            if (array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = $post['kodestruktural'] ?? 0;
 
             Pegawai::create($post);
 
