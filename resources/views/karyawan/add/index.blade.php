@@ -159,12 +159,9 @@
                                                 <div class="mb-3">
                                                     <label class="form-label required">Agama</label>
                                                     <select type="text" class="form-select tomselected form-step-1" name="agama" required>
-                                                        <option value="1">Islam</option>
-                                                        <option value="2">Kristen</option>
-                                                        <option value="3">Katolik</option>
-                                                        <option value="4">Hindu</option>
-                                                        <option value="5">Budha</option>
-                                                        <option value="6">Konghuchu</option>
+                                                        @foreach ($agama as $value)
+                                                            <option value="{{ $value->id }}">{{ $value->urai }}</option>
+                                                        @endforeach
                                                     </select>                                            
                                                     <div class="invalid-feedback"></div>
                                                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Karyawan\Add;
 
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Pegawai;
+use App\Models\Masters\Agama;
 use App\Models\Masters\KartuIdentitas;
 use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
@@ -25,7 +26,8 @@ class KaryawanAdd extends Controller
         $pendidikan = Pendidikan::all();
         $negara = Negara::all();
         $kartuidentitas = KartuIdentitas::all();
-        return view('karyawan.add.index', compact('statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas'));
+        $agama = Agama::all();
+        return view('karyawan.add.index', compact('statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
     }
 
     public function store()
@@ -35,7 +37,7 @@ class KaryawanAdd extends Controller
             $post = request()->all();
 
             if (Pegawai::where('email', $post['email'])->exists()) throw new Exception("Email sudah digunakan !", 1);
-
+            if (array_key_exists("agama", $post)) $post['idagama'] = $post['agama'] ?? 0;
             if (array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = $post['kodejabfung'] ?? 0;
             if (array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = $post['kodestruktural'] ?? 0;
 

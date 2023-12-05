@@ -33,7 +33,7 @@ class Pegawai extends Model
         'nama',
         'tempatlahir',
         'tgl_lahir',
-        'agama',
+        'idagama',
         'alamat',
         'telp',
         'noidentitas',

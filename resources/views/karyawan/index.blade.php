@@ -37,23 +37,23 @@
                     <table class="display responsive" id="table-main" class="row-border" style="width: 100%;">
                         <thead>
                             <tr>
-                                <th class="all">NIPY</th>
-                                <th class="informasi-pribadi">Nama</th>
-                                <th class="informasi-pribadi">Tanggal lahir</th>
-                                <th class="informasi-pribadi">Jenis kelamin</th>
-                                <th class="informasi-pribadi">Golongan darah</th>
-                                <th class="informasi-pribadi">Agama</th>
-                                <th class="informasi-pribadi">Status perkawinan</th>
-                                <th class="informasi-pribadi">Kewarganegaraan</th>
-                                <th class="kontak">Tipe kartu identitas</th>
-                                <th class="kontak">Nomor kartu identitas</th>
-                                <th class="kontak">Alamat</th>
-                                <th class="kontak">No. telepon darurat</th>
-                                <th class="kontak">Email</th>
-                                <th class="kepegawaian">Status pegawai</th>
-                                <th class="kepegawaian">Tanggal bergabung</th>
-                                <th class="kepegawaian">Jabatan fungsional</th>
-                                <th class="kepegawaian">Jabatan struktural</th>
+                                <th class="all nipy">NIPY</th>
+                                <th class="informasi-pribadi nama">Nama</th>
+                                <th class="informasi-pribadi tanggal_lahir">Tanggal lahir</th>
+                                <th class="informasi-pribadi jenis_kelamin">Jenis kelamin</th>
+                                <th class="informasi-pribadi golongan_daran">Golongan darah</th>
+                                <th class="informasi-pribadi agama">Agama</th>
+                                <th class="informasi-pribadi status_perkawinan">Status perkawinan</th>
+                                <th class="informasi-pribadi kewarganegaraan">Kewarganegaraan</th>
+                                <th class="kontak tipe_kartu_identitas">Tipe kartu identitas</th>
+                                <th class="kontak nomor_kartu_identitas">Nomor kartu identitas</th>
+                                <th class="kontak alamat">Alamat</th>
+                                <th class="kontak no_telepon_darurat">No. telepon darurat</th>
+                                <th class="kontak email">Email</th>
+                                <th class="kepegawaian status_pegawai">Status pegawai</th>
+                                <th class="kepegawaian tanggal_bergabung">Tanggal bergabung</th>
+                                <th class="kepegawaian jabatan_fungsional">Jabatan fungsional</th>
+                                <th class="kepegawaian jabatan_struktural">Jabatan struktural</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,7 +80,19 @@
             constructor() {
                 super();
                 Index.DT_Main = $('#table-main').DataTable( {
-                    dom: 'Bfrtip',
+                    dom: 'Blfrtip',
+                    language: {
+                        searchPanes: {
+                            collapse: {
+                                0: 'Filter by column',
+                                _: 'Filter by column (%d)',
+                            }
+                        }
+                    },
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'All']
+                    ],
                     serverSide : true,
                     processing : true,
                     ajax : {
@@ -101,11 +113,9 @@
                             data : "tanggal_lahir"
                         },
                         {
-                            data : "alamat"
-                        },
-                        {
                             data : "jenis_kelamin"
                         },
+                       
                         {
                             data : "gol_darah"
                         },
@@ -113,18 +123,22 @@
                             data : "agama"
                         },
                         {
+                            data : "status_nikah"
+                        },
+                        {
                             data : "kewarganegaraan"
                         },
                         {
-                            data : "status_nikah"
+                            data : "nama_kartuidentitas"
                         },
                         
                         {
-                            data : "nama_kartuidentitas"
-                        },
-                        {
                             data : "noidentitas"
                         },
+                        {
+                            data : "alamat"
+                        },
+                        
                         {
                             data : "notelpdarurat"
                         },
@@ -153,39 +167,38 @@
                         right: 1
                     },
                     columnDefs: [
-                        { targets: [0,1,2,3,4,5,6,7,8], visible: true},
+                        { 
+                            targets: [
+                                'informasi-pribadi'
+                            ], 
+                            visible: true
+                        },
                         { targets: '_all', visible: false },
                         {
                             searchPanes: {
                                 show: true
                             },
-                            targets: [0,1]
-                        },
-                        {
-                            searchPanes: {
-                                show: false
-                            },
-                            targets: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                            targets: ['status_pegawai','nama','nomor_kartu_identitas','agama','jabatan_fungsional','jabatan_struktural']
                         }
                     ],
                     buttons: [
                         {
                             extend: 'colvisGroup',
                             text: 'Informasi pribadi',
-                            show: [0, 1, 2,4,5,6,7,8],
-                            hide: [9,10,3,11,12,13,14,15,16]
+                            show: ['.informasi-pribadi'],
+                            hide: ['.kontak','.kepegawaian']
                         },
                         {
                             extend: 'colvisGroup',
                             text: 'Kontak',
-                            show: [0,9, 10,3,11,12],
-                            hide: [ 1, 2,4,5,6,7,8,13,14,15,16]
+                            show: ['.kontak'],
+                            hide: ['.informasi-pribadi','.kepegawaian']
                         },
                         {
                             extend: 'colvisGroup',
                             text: 'Kepegawaian',
-                            show: [0,13,14,15,16],
-                            hide: [1,2,3,4,5,6,7,8,9,10,11,12]
+                            show: ['.kepegawaian'],
+                            hide: ['.informasi-pribadi','.kontak']
                         },
                         {
                             extend: 'colvisGroup',
@@ -194,8 +207,9 @@
                         },
                         {
                             extend: 'searchPanes',
+                            
                             config: {
-                                
+                                layout: 'columns-3',    
                                 cascadePanes: true,
                                 viewTotal: true
                             }
@@ -231,6 +245,7 @@
             }
 
             loadMain() {
+                $('.dataTables_length').addClass('me-3');
                 return this;
             }
 
