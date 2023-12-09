@@ -37,6 +37,8 @@
                     <table class="display responsive" id="table-main" class="row-border" style="width: 100%;">
                         <thead>
                             <tr>
+                                <th class="all checboxs"></th>
+                                <th class="all dt-responsive-control"></th>
                                 <th class="all nipy">NIPY</th>
                                 <th class="informasi-pribadi nama">Nama</th>
                                 <th class="informasi-pribadi tanggal_lahir">Tanggal lahir</th>
@@ -45,6 +47,7 @@
                                 <th class="informasi-pribadi agama">Agama</th>
                                 <th class="informasi-pribadi status_perkawinan">Status perkawinan</th>
                                 <th class="informasi-pribadi kewarganegaraan">Kewarganegaraan</th>
+                                <th class="informasi-pribadi negara">Negara</th>
                                 <th class="kontak tipe_kartu_identitas">Tipe kartu identitas</th>
                                 <th class="kontak nomor_kartu_identitas">Nomor kartu identitas</th>
                                 <th class="kontak alamat">Alamat</th>
@@ -69,7 +72,13 @@
 
         class Helper {
             constructor(){
-                
+            }
+            triggeredButtonDTMain( e, buttonApi, dataTable, node, config ){
+                dataTable.columns.adjust();
+            }
+            triggeredSelectDTMain(e, dt, type, indexes){
+                let rowData = Index.DT_Main.rows(indexes).data().toArray()[0];
+                window.location.href = "{{ url('karyawan/edit/index') }}"+"/"+rowData.nopeg;
             }
         }
 
@@ -102,7 +111,20 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                     },
+                    order: [[3, 'desc']],
+                    select: {
+                        style: 'os',
+                        selector: 'td:first-child'
+                    },
                     columns : [
+                        {
+                            data : null,
+                            defaultContent : ""
+                        },
+                        {
+                            data : null,
+                            defaultContent : ""
+                        },
                         {
                             data : "nopeg"
                         },
@@ -127,6 +149,9 @@
                         },
                         {
                             data : "kewarganegaraan"
+                        },
+                        {
+                            data : "negara"
                         },
                         {
                             data : "nama_kartuidentitas"
@@ -157,19 +182,28 @@
                         {
                             data : "jabatan_struktural"
                         },
-                        
                     ],
                     responsive: {
-                        details: true
-                    },
-                    fixedColumns: {
-                        left: 0,
-                        right: 1
+                        details: {
+                            type : 'column',
+                            target:1
+                        }
                     },
                     columnDefs: [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: 0
+                        },
+                        {
+                            className: 'dtr-control',
+                            orderable: false,
+                            targets: 1
+                        },
                         { 
                             targets: [
-                                'informasi-pribadi'
+                                'informasi-pribadi',
+                                'all'
                             ], 
                             visible: true
                         },
@@ -181,6 +215,7 @@
                             targets: ['status_pegawai','nama','nomor_kartu_identitas','agama','jabatan_fungsional','jabatan_struktural']
                         }
                     ],
+                    // order: [[2, 'desc']],
                     buttons: [
                         {
                             extend: 'colvisGroup',
@@ -250,6 +285,8 @@
             }
 
             bindEvent() {
+                Index.DT_Main.on('buttons-action', this.triggeredButtonDTMain);
+                Index.DT_Main.on('select', this.triggeredSelectDTMain);
                 return this;
             }
 

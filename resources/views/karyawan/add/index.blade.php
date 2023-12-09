@@ -116,7 +116,7 @@
                                                 <div class="row">
                                                     <div class="col-6 col-sm-4">
                                                         <label class="form-imagecheck mb-2">
-                                                        <input name="form-imagecheck-radio" type="radio" value="1" class="form-imagecheck-input form-step-1" name="jns_kel" required>
+                                                        <input type="radio" value="L" class="form-imagecheck-input form-step-1" name="jns_kel" required checked>
                                                         <span class="form-imagecheck-figure">
                                                             <img src="{{ asset('assets/ilustration/male.jpg') }}" width="100" height="100"/>
                                                         </span>
@@ -124,7 +124,7 @@
                                                     </div>
                                                     <div class="col-6 col-sm-4">
                                                         <label class="form-imagecheck mb-2">
-                                                        <input name="form-imagecheck-radio" type="radio" value="2" class="form-imagecheck-input form-step-1" checked="" name="jns_kel" required>
+                                                        <input type="radio" value="P" class="form-imagecheck-input form-step-1" name="jns_kel" required>
                                                         <span class="form-imagecheck-figure">
                                                             <img src="{{ asset('assets/ilustration/female.jpg') }}" width="100" height="100"/>
                                                         </span>
@@ -352,7 +352,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="mb-3">
-                                                    <input type="text" class="form-control" placeholder="Nomor rekening bank" name="rek_bank">
+                                                    <input type="text" class="form-control" placeholder="Nomor rekening bank" name="rekbank">
                                                 </div>
                                             </div>
                                         </div>

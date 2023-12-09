@@ -11,7 +11,7 @@ trait TraitsLoggerActivity
         // dd(session()->all());
         $clientIP = request()->ip();
         $currentUrl = url()->full();
-        $userId = session('id');
+        $userId = session('id') ?? 0;
         $userAgent = request()->useragent();
         $method = request()->method();
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Jstree\Menu\JstreeMenu;
 use App\Http\Controllers\Jstree\StrukturOrganisasi\JstreeStrukturOrganisasi;
 use App\Http\Controllers\Karyawan\Add\KaryawanAdd;
+use App\Http\Controllers\Karyawan\Edit\KaryawanEdit;
 use App\Http\Controllers\Karyawan\Karyawan;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
@@ -185,6 +186,10 @@ Route::middleware(['validate.login'])->group(function () {
         Route::prefix('add')->group(function () {
             Route::get('index', [KaryawanAdd::class, 'index'])->name('karyawan.add.index');
             Route::post('store', [KaryawanAdd::class, 'store'])->name('karyawan.add.store');
+        });
+        Route::prefix('edit')->group(function () {
+            Route::get('index/{id}', [KaryawanEdit::class, 'index'])->name('karyawan.edit.index');
+            Route::patch('store', [KaryawanEdit::class, 'store'])->name('karyawan.edit.store');
         });
     });
     Route::get('/su', function () {

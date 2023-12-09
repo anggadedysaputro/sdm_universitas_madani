@@ -40,6 +40,7 @@ class KaryawanAdd extends Controller
             if (array_key_exists("agama", $post)) $post['idagama'] = $post['agama'] ?? 0;
             if (array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = $post['kodejabfung'] ?? 0;
             if (array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = $post['kodestruktural'] ?? 0;
+            $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
 
             Pegawai::create($post);
 

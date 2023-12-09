@@ -30,6 +30,12 @@ Breadcrumbs::for('karyawan.add.index', function (BreadcrumbTrail $trail) {
     $trail->parent('karyawan.index');
     $trail->push('Tambah karyawan', route('karyawan.add.index'));
 });
+// karyawan > edit
+Breadcrumbs::for('karyawan.edit.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('karyawan.index');
+    $trail->push('Edit karyawan');
+});
+
 
 // settings > role
 Breadcrumbs::for('settings.role.index', function (BreadcrumbTrail $trail) {
