@@ -23,37 +23,44 @@ class SettingsUser extends Controller
         return view('settings.user.index', compact('role'));
     }
 
-    public function all()
+    public function data()
     {
-        $model = $this->queryModel();
-        $tablesOfYajra = DataTables::of($model);
-        $request = request()->all();
 
-        $rules = [
-            'mappingcolumn' => [],
-            'renormalvalue' => [],
-            'datecolumn' => [],
-            'numbercolumn' => []
-        ];
+        $query = DB::table(
+            DB::raw("
+                (
+                    select users.id,
+                        users.name,
+                        users.email,
+                        roles.name as role,
+                        users.telpon,
+                        convertnumericdatetoalphabetical(users.created_at::date) as tanggal_dibuat
+                    from users
+                        inner join model_has_roles on users.id = model_has_roles.model_id and model_has_roles.model_type = 'App\Models\User'
+                        inner join roles on model_has_roles.role_id = roles.id                
+                ) as x
+            ")
+        );
 
-        return $this->searchYajra($tablesOfYajra, $request, $rules)->toJson();
-    }
+        $nama = User::select(DB::raw('name AS value, name as label, count(*) AS count, count(*) as total'))
+            ->distinct('name')
+            ->groupBy('name')
+            ->get();
 
-    public function queryModel()
-    {
-        $model = User::from("users as u")
-            ->select(
-                // "u.nama",
-                DB::raw("u.password as pass"),
-                "u.id",
-                "u.telpon",
-                "u.email",
-                "u.name",
-                DB::raw("convertnumericdatetoalphabetical(u.created_at::date) as created_at_view")
-            )->with('roles');
+        $email = User::select(DB::raw('email AS value, email as label, count(*) AS count, count(*) as total'))
+            ->distinct('email')
+            ->groupBy('email')
+            ->get();
 
-        // dd(getSql($model));
-        return $model;
+        $role = DB::select("
+            select roles.name as value, roles.name as label, count(*) AS count, count(*) as total
+            from users
+                inner join model_has_roles on users.id = model_has_roles.model_id and model_has_roles.model_type = 'App\Models\User'
+                inner join roles on model_has_roles.role_id = roles.id                
+            group by roles.name
+        ");
+
+        return DataTables::of($query)->searchPane('name', $nama)->searchPane('email', $email)->searchPane('role', $role)->toJson();
     }
 
     public function store()
@@ -87,7 +94,7 @@ class SettingsUser extends Controller
             $this->activity("Membuat pengguna [failed]", $th->getMessage());
 
             $response = [
-                'message' => 'Pengguna gagal dibuat'
+                'message' => message('Pengguna gagal dibuat', $th->getMessage())
             ];
 
             return response()->json($response, 500);

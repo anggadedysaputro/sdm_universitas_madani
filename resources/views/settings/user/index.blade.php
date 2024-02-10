@@ -30,28 +30,22 @@
 @endsection
 @section('content')
 <div class="col-md-12">
-    <div class="card">
-        <div class="d-flex justify-content-between p-3">
-            <div id="main-show-row"></div>
-        </div>
-        <div class="table-responsive text-nowrap">
-        <table class="table table-vcenter card-table" id="main-table">
-            <caption class="ms-4">
-                <div id="main-pagging-view"></div>
-            </caption>
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Peran</th>
-                        <th>Telpon</th>
-                        <th>Tanggal dibuat</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
+    <div class="card p-3">
+        <table class="display responsive" id="table-main" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th class="hide respon"></th>
+                    <th class="hide aksi" data-priority="-1">Aksi</th>
+                    <th class="name" data-priority="1">Nama</th>
+                    <th class="email">Email</th>
+                    <th class="peran">Peran</th>
+                    <th>Telpon</th>
+                    <th class="hide">Tanggal dibuat</th>
+                </tr>
+            </thead>
             <tbody>
             </tbody>
         </table>
-        </div>
     </div>
 </div>
 <div class="col-lg-4 col-md-6">
@@ -170,6 +164,10 @@
 				Index.CNVS_Add.show();
 			}
 
+            responsiveResize(){
+                Myapp.DT_Main.columns.adjust();
+            }
+
 			simpan(e){
 				let data = Index.FRM_Pengguna.serializeObject();
 				let proses = true;
@@ -256,11 +254,19 @@
 										allowEscapeKey: false,
 										allowOutsideClick: false,
 									}).then(()=>{
-										Index.SMT_MainTable.draw();
+										Index.DT_Main.ajax.reload();
 									});
 								},
 								error : function(error){
-									Swal.fire('Gagal',error.responseJSON.message,'error');
+									Swal.fire({
+                                        title : 'Gagal',
+                                        text : error.responseJSON.message,
+                                        icon : 'error',
+                                        allowEscapeKey: false,
+										allowOutsideClick: false,
+                                    }).then(()=>{
+                                        Index.CNVS_Add.show();
+                                    });
 								}
 							})
 						}else{
@@ -271,7 +277,7 @@
 			}
 
 			static removeUser(e){
-				let data = $(e.currentTarget).parents('tr').data();
+				let data = $(e.currentTarget).data();
 				
 				Swal.fire({
 					title : 'Informasi',
@@ -308,7 +314,7 @@
 									allowEscapeKey: false,
 									allowOutsideClick: false
 								}).then(()=>{
-									Index.SMT_MainTable.draw();
+									Index.DT_Main.ajax.reload();
 								});
 							},
 							error : function(error){
@@ -320,8 +326,8 @@
 			}
 
 			static editUser(e){
-				let data = $(e.currentTarget).parents('tr').data();
-				let idrole = data.roles.length > 0 ? data.roles[0].name : '';
+				let data = $(e.currentTarget).data();
+				let idrole = data.role;
 				let map = { password : "pass", repassword : "pass"};
 				$('#offcanvasBoth').attr('nitip',"edit");
 				Index.FRM_Pengguna.find('#wrapper-password').hide();
@@ -346,18 +352,12 @@
 
         class Index extends Helper{
             // deklarasi variabel
-            static SMT_MainTable;
             static CT_Formulir;
-            static CT_Main;
-            static CT_MainPaggingView;
-            static CT_MainShowRow;
-            static CT_MainIsi;
-            static CT_MainSearch;
 			static CNVS_Add;
 			static S2_UserRole;
 			static S2RAJAX_Object;
 			static FRM_Pengguna;
-            COL_Main;
+            static DT_Main;
 
             constructor() {
                 super();
@@ -377,58 +377,91 @@
                         placeholder : 'Pilih role'
 					}
 				}
-                // console.log(select2);
-                this.COL_Main = [
-                    {data : "name"},
-                    {data : "email"},
-                ];
                 
 				Index.S2_UserRole = $('#user-role').select2(Index.S2RAJAX_Object.role);
 
-                Index.SMT_MainTable = new AnggaTables({
-                    container : Index.CT_Main,
-                    containerPaging : Index.CT_MainPaggingView,
-                    containerTampilBaris : Index.CT_MainShowRow,
-                    containerIsi : Index.CT_MainIsi,
-                    containerSearch : Index.CT_MainSearch,
-                    customSearchView : `
-                        <input type="search" class="form-control ps-5" placeholder="Search user" id="global-search-custumizable">
-                    `,
-                    contentLoading : `
-                        <tr>
-                            <td colspan="9" class="text-center">Loading data...</td>
-                        </tr>
-                    `,
-                    nodata : `
-                        <tr>
-                            <td colspan="9" class="text-center">Data tidak ditemukan</td>
-                        </tr>
-                    `,
-                    request : {
-                        url : '{{ route('settings.user.all') }}',
-                        data : function(data){
-                            return data;
+                Index.DT_Main=$("#table-main").DataTable({
+                    dom: 'Blfrtip',
+                    ajax : {
+                        url : "{{ route('settings.user.data') }}",
+                        method : "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                     },
-                    columns : this.COL_Main,
-                    content : function(data){
-                        let role = data.roles.length > 0 ? data.roles[0].name : '';
-                        return `
-                            <tr id="row_${data.ids}">
-								<td>${data.name}</td>
-                                <td>${role}</td>
-                                <td>${data.telpon}</td>
-                                <td>${data.created_at_view}</td>
-								<td>
-									<button class="btn btn-warning btn-icon edit-record"><i class="ti ti-pencil"></i></button>
-									<button class="btn btn-danger btn-icon delete-record" fdprocessedid="63pthc"><i class="ti ti-trash"></i></button>
-								</td>
-                            </tr>
-                        `;
+                    language: {
+                        searchPanes: {
+                            collapse: {
+                                0: 'Filter by column',
+                                _: 'Filter by column (%d)',
+                            }
+                        }
                     },
-                    createdRow : function(row, data){
-                        $(row).find('.delete-record').on('click', Helper.removeUser).data(data);
-						$(row).find('.edit-record').on('click', Helper.editUser).data(data);
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'All']
+                    ],
+                    processing : true,
+                    serverSide : true,
+                    responsive: {
+                        details : Angga.childRowsDataTable()
+                    },
+                    columns : [
+                        {data : null, defaultContent : ''},
+                        {
+                            sClass : "text-center",
+                            data : null,
+                            defaultContent : `
+                                <button class="btn btn-danger hapus btn-sm"><i class="ti ti-trash-x"></i></button>
+                                <button class="btn btn-warning edit btn-sm"><i class="ti ti-edit-circle"></i></button>
+                            `
+                        },
+                        {data : "name"},
+                        {data : "email"},
+                        {
+                            data : "role",
+                            
+                        },
+                        {data : "telpon"},
+                        {data : "tanggal_dibuat"},
+                    ],
+                    columnDefs : [
+                        {
+                            searchPanes: {
+                                show: false
+                            },
+                            targets: ['hide']
+                        },
+                        {
+                            searchPanes: {
+                                show: true
+                            },
+                            targets: ['name','email','peran']
+                        },
+                        {
+                            className: 'dtr-control',
+                            orderable: false,
+                            targets:0
+                        },
+                        {
+                            orderable: false,
+                            targets:1
+                        }
+                    ],
+                    order: [],
+                    buttons: [
+                        {
+                            extend: 'searchPanes',
+                            config: {
+                                layout: 'columns-1',    
+                                cascadePanes: true,
+                                viewTotal: true
+                            }
+                        }
+                    ],
+                    createdRow : function(row,data){
+                        $(row).find('.hapus').on('click', Helper.removeUser).data(data);
+                        $(row).find('.edit').on('click', Helper.editUser).data(data);
                     }
                 });
             }
@@ -460,12 +493,14 @@
             }
 
             loadMain() {
+                $('.dataTables_length').addClass('me-3');
                 return this;
             }
 
             bindEvent() {
                 $('.add-new-users').on('click', this.add);
 				$('.data-submit').on('click', this.simpan);
+                Index.DT_Main.on('responsive-resize', this.responsiveResize);
                 return this;
             }
 
@@ -499,7 +534,8 @@
         }
 
         $(document).ready(function() {
-            new Index().startApp();
+            window.Myapp = Index;
+            new Myapp().startApp();
         });
 
     </script>

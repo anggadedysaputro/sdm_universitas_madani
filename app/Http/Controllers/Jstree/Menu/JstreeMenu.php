@@ -16,12 +16,23 @@ class JstreeMenu extends Controller
             if (request()->has('role')) {
                 $role =  empty(request('role')) ? $role : "=" . request('role');
             };
-            $query = Menu::select(
-                DB::raw("(case when parent = 0 then '#' else parent::text end) as parent"),
-                "nama as text",
-                "id",
-                DB::raw("exists(select * from role_has_menu where menu_id = menu.id and role_id " . $role . ") as state")
-            )->get();
+            $query1 = DB::table(DB::raw("
+                (
+                    select '#' as parent, 'Root menu' as text, 0 as id, false as state, 'ti ti-category' as icon, true as checkbox_disabled
+                ) as w 
+            "));
+            $query = Menu::from('masters.menu as m')->select(
+                DB::raw("(case when parent = 0 then '0' else parent::text end) as parent"),
+                "m.nama as text",
+                "m.id",
+                DB::raw("exists(select * from role_has_menu where menu_id = m.id and role_id " . $role . ") as state"),
+                "i.nama as icon",
+                DB::raw("true as checkbox_disabled")
+            )
+                ->join('masters.icon as i', 'i.id', '=', 'm.icon_id')
+                ->orderBy("m.id")
+                ->union($query1)
+                ->get();
 
             if ($query->isEmpty()) {
                 $query = [

@@ -365,9 +365,9 @@
 
                 Index.JSTREE_Main = $("#jstree_demo_div").jstree({
                     "core" : {
-                    "check_callback" : true
+                    	"check_callback" : true
                     },
-                    "plugins" : [ "dnd","contextmenu" ],
+                    "plugins" : [ "contextmenu"],
                     "contextmenu": {  
                         items: function (node) {  
                             return {  
@@ -434,9 +434,6 @@
             bindEvent() {
                 $('#addNew').on('click',this.addNew);
                 Index.BTN_Simpan.on('click', this.save);
-                Index.JSTREE_Main.element.on('move_node.jstree', (node,parent)=>{
-                    console.log(parent);
-                });
                 return this;
             }
 
@@ -445,9 +442,8 @@
             }
 
             loadDefaultValue() {
-                Index.DATA_Menu.data.forEach(function(e,i){
-                    Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
-                });
+                Index.JSTREE_Main.settings.core.data = Index.DATA_Menu.data;
+                Index.JSTREE_Main.refresh();
                 return this;
             }
 

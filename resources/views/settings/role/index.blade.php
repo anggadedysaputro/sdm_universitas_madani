@@ -1,6 +1,6 @@
 @extends('app')
 @section('title')
-    Title
+    Peran
 @endsection
 @section('breadcrumb')
 <x-bread-crumbs breadcrumbtitle="settings.role.index"/>
@@ -63,7 +63,7 @@
     </div>
     <!-- Large Modal -->
 	<div class="modal modal-blur fade" id="role-modal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+		<div class="modal-dialog modal-xl modal-dialog-centered " role="document">
 		  <div class="modal-content">
 			<div class="modal-header">
 			  <h5 class="modal-title" id="exampleModalLabel3">Peran</h5>
@@ -89,73 +89,35 @@
 							</div>
 						</div>
 					</div>
+					<div>
+						<div class="d-flex justify-content-between">
+							<span>Klik pada pohon menu, untuk menampilkan akses</span>
+							<span>
+								Full akses&nbsp;
+								<input type="checkbox" name="checkallakses" class="form-check-input"/>
+							</span>
+						</div>
+					</div>
 					<div class="col-12 mb-4 fv-plugins-icon-container">
 						<div class="card">
-							<div class="card-header">
-							  <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
-								<li class="nav-item" role="presentation">
-								  <a href="#tabs-home-7" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
-									<i class="ti ti-shield-cog"></i>
-									Peran</a>
-								</li>
-								<li class="nav-item" role="presentation">
-								  <a href="#tabs-profile-7" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><!-- Download SVG icon from http://tabler-icons.io/i/user -->
-									<i class="ti ti-template"></i>
-									Menu</a>
-								</li>
-							  </ul>
-							</div>
 							<div class="card-body">
-							  <div class="tab-content">
-								<div class="tab-pane active show" id="tabs-home-7" role="tabpanel">
-									<div style="height: 40vh;" class="overflow-auto">
-										<h4>Izin peran</h4>
-					  
-										<table class="table table-flush-spacing">
-											<tbody>
-											<tr>
-												<td class="text-nowrap fw-medium">
-													Akses penuh <i class="bx bx-info-circle bx-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Izinkan peran untuk akses sepenuhnya" data-bs-original-title="Izinkan peran untuk akses sepenuhnya"></i>
-												</td>
-												<td>
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" id="selectAll">
-													<label class="form-check-label" for="selectAll">
-													Pilih semua
-													</label>
-												</div>
-												</td>
-											</tr>
-											@foreach ($permission as $value)
-											<tr>
-												<td class="text-nowrap fw-medium">
-													<input type="hidden" name="permissionname[]" value="{{ $value->name }}"/>
-													{{ $value->name }}
-												</td>
-												<td>
-												<div class="d-flex">
-													<div class="form-check me-3 me-lg-5">
-														<input class="form-check-input allow-permission" type="checkbox" id="{{ str_replace(" ","",$value->name)."_allow" }}"/>
-														<label class="form-check-label" for="{{ str_replace(" ","",$value->name)."_allow" }}">
-														Izinkan
-														</label>
-													</div>
-												</div>
-												</td>
-											</tr>
-											@endforeach
-											</tbody>
-										</table>
+								<div class="row">
+									<div class="col-md-6">
+										<div style="height: 40vh;" class="overflow-auto">
+											<div>Daftar menu</div>
+											<div id="jstree_demo_div">
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="tab-pane" id="tabs-profile-7" role="tabpanel">
-									<div style="height: 40vh;" class="overflow-auto">
-										<h4>Menu</h4>
-										<div id="jstree_demo_div">
+									<div class="col-md-6">
+										<div class="d-flex justify-content-between">
+											<span>Daftar akses</span>
+										</div>
+										<div class="list-group list-group-flush p-3" id="daftar-akses">
+                        
 										</div>
 									</div>
 								</div>
-							  </div>
 							</div>
 						  </div>
 					</div>
@@ -183,7 +145,7 @@
 				$('#idRole').val("");
 				Index.MD_RoleModal.attr('nitip','add');
 				Index.MD_RoleModal.find('h3').text("Tambah peran baru");
-				Myapp.JSTREE_Main.uncheck_all();
+				Index.JSTREE_Main.uncheck_all();
 				Index.MD_RoleModal.modal('show');
 			}
 
@@ -207,12 +169,10 @@
 					let uri = Index.MD_RoleModal.attr('nitip') == 'edit' ? "{{ route('settings.role.update') }}" : "{{ route('settings.role.create') }}";
 					let aksi = Index.MD_RoleModal.attr('nitip') == 'edit' ? "Mengubah" : "Membuat";
 
-					let permission = tbody.find('.allow-permission').map(function(index, element){
-						return $(element).is(':checked');
-					}).get();
+					let permission = Object.values(Index.TMP_Permission).filter(permission => permission.checked).map(permission => permission.id);
 
-					let unique = [...new Set(Myapp.JSTREE_Main.get_checked())];
-					let data = $.extend(Index.FRM_addRoleForm.serializeObject(),{menu:unique});
+					let unique = [...new Set(Index.JSTREE_Main.get_checked())];
+					let data = $.extend({rolename:vRoleName},{menu:unique});
 					data['id'] = vIdRole;
 					data['create'] = permission;
 
@@ -293,13 +253,39 @@
 				}
 			}
 
-			permissionAll(e){
-				let ischecked = $(e.currentTarget).is(":checked");
+			fullAkses(e){
+				let ischecked = $(e.currentTarget).is(':checked');
+
 				if(ischecked){
-					$('.allow-permission').prop('checked', true);
+					$.ajax({
+						url : "{{ route('settings.role.full-akses') }}",
+						method : "POST",
+						headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						beforeSend : function(){
+							Swal.fire({
+								title: 'Mendapatkan akses pada peran ini !',
+								html: 'Silahkan tunggu...',
+								allowEscapeKey: false,
+								allowOutsideClick: false,
+								didOpen: () => {
+									Swal.showLoading()
+								}
+							});	
+						},
+						success : function(result){
+							Swal.close();
+							$('.permission-check').prop("checked",true);
+							Index.TMP_Permission = result.data;
+						},
+						error : function(error){
+							Swal.fire('Error', error.responseJSON.message,'error');
+						}
+					});
 				}else{
-					$('.allow-permission').prop('checked', false);
-				};
+					Index.TMP_Permission = {};
+				}
 			}
 
 			hapusPeran(e){
@@ -362,78 +348,38 @@
 			ubahPeran(e){
 				let roleName = $(e.currentTarget).attr('nitip');
 				let idRole = $(e.currentTarget).attr('idrole');
-				Helper.getPermission(roleName,idRole).then((result)=>{
-					Helper.getMenuJstree(idRole).then((result)=>{						
-						let clone = Object.assign({}, result.data);
-						
-						$.map( clone, function( val, i ) {
-							val['state'] = {
-								checked : val.state,
-								opened : true
-							}
-							return val;
-						});
-
-						Index.JSTREE_Main.settings.core.data = Object.values(clone);
-                        Index.JSTREE_Main.refresh(true, true);
-						Index.MD_RoleModal.modal('show');
-					}).catch((message)=>{
-						Swal.fire({
-							title : 'Informasi',
-							html : message,
-							icon : 'error',
-							allowEscapeKey: false,
-							allowOutsideClick: false,
-						});
+				Helper.getMenuJstree(idRole).then((result)=>{						
+					let clone = Object.assign({}, result.data);
+					
+					$.map( clone, function( val, i ) {
+						val['state'] = {
+							checked : val.state,
+							opened : true
+						}
+						return val;
 					});
-				}).catch((error)=>{
+
+					Index.JSTREE_Main.uncheck_all();
+					Index.JSTREE_Main.settings.core.data = Object.values(clone);
+					Index.JSTREE_Main.refresh(true, true);
+					$('input[name="checkallakses"]').prop("checked",false);
+					Index.MD_RoleModal.modal('show');
+					Index.TMP_Permission = Index.DATA_Permissions[roleName];
+					
+					Helper.templatePermissions(Object.values(Myapp.TMP_Permission));
+					
+					Index.MD_RoleModal.find('#modalRoleName').val(roleName);
+					Index.MD_RoleModal.attr('nitip','edit');
+					Index.MD_RoleModal.find('h3').text("Ubah peran");
+					$('#idRole').val(idRole);
+					Index.MD_RoleModal.attr('nitip','edit');
+				}).catch((message)=>{
 					Swal.fire({
 						title : 'Informasi',
-						html : error.responseJSON.message,
+						html : message,
 						icon : 'error',
 						allowEscapeKey: false,
 						allowOutsideClick: false,
-					});
-				})
-			}
-
-			static getPermission(roleName, idRole){
-				return new Promise((resolve, reject) => {
-					$.ajax({
-						url : "{{ route('settings.role.mypermission') }}",
-						method : "POST",
-						headers: {
-							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						},
-						data : {
-							name : roleName
-						},
-						beforeSend : function(){
-							Swal.fire({
-								title: 'Mendapatkan izin peran ini !',
-								html: 'Silahkan tunggu...',
-								allowEscapeKey: false,
-								allowOutsideClick: false,
-								didOpen: () => {
-									Swal.showLoading()
-								}
-							});	
-						},
-						success : function(result){
-							Swal.close();
-							$('.allow-permission').prop('checked',false);
-							Index.MD_RoleModal.find('h3').text("Ubah peran");
-							$('#modalRoleName').val(roleName);
-							$('#idRole').val(idRole);
-							Index.MD_RoleModal.attr('nitip','edit');
-							result.data[0].permissions.forEach((data,index)=>{
-								$('#'+data.name.replaceAll(" ","")+"_allow").prop('checked', true);
-							});
-							resolve(true);
-						},
-						error : function(error){
-							resolve(error);
-						}
 					});
 				});
 			}
@@ -469,9 +415,136 @@
                             reject(error.responseJSON.message ?? error.responseJSON);
                         }
                     });
-                });
-                
+                });   
             }
+
+			static getPermissions(role=null){
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url : "{{ route('settings.role.mypermission') }}",
+                        method : "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+						data :{
+							role
+						},
+                        beforeSend : function(){
+                            Swal.fire({
+                                title: 'Mendapatkan data!',
+                                html: 'Silahkan tunggu...',
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                }
+                            });
+                        },
+                        success : function(result){     
+                            Swal.close();
+                            resolve(result);
+                        },
+                        error : function(error){
+                            Swal.close();
+                            reject(error.responseJSON.message ?? error.responseJSON);
+                        }
+                    });
+                });   
+            }
+
+			static addPermission(e){
+				let data = $(e.currentTarget).data();
+				let id = data.id;
+				let name = data.name;
+				
+				if($(e.currentTarget).is(":checked")){
+					Index.TMP_Permission[id] = {name:name,checked:true,id:id};
+				}else{
+					delete Index.TMP_Permission[id];
+				}
+			}
+
+			static templatePermissions(data){
+                let content = [];
+                $.each(data, function(i,e){
+					let ischeck = Index.TMP_Permission[e.id] || {name:e.name,checked:false,id:e.id};
+                    let plainText = `
+						<div class="list-group-item p-1">
+							<div class="row align-items-center">
+								<div class="col-auto">		
+									<input type="checkbox" class="form-check-input permission-check" name="name" value="${e.id}" ${ischeck.checked ? 'checked' : ''}>
+								</div>
+								<div class="col text-truncate">
+									${e.name}
+								</div>
+							</div>
+						</div>
+                    `;
+					let element = $(plainText);
+					element.find('.permission-check').on('click',Helper.addPermission).data(e);
+					content.push(element);
+                });
+
+                if(data.length==0){
+                    let plainText = `
+                        <div class="list-group-item p-1">
+                            <div class="row align-items-center">
+                                <div class="col text-center">
+                                    Data tidak ditemukan
+                                </div>
+                            </div>
+                        </div>
+                    `;
+					let element = $(plainText);
+					content.push(element);
+                }
+				
+                $('#daftar-akses').html(content);
+            }
+
+
+			activateNode(node,event){
+				let id = Index.JSTREE_Main.get_selected()[0];
+                
+                $.ajax({
+                    url : "{{ route('settings.permission.single') }}",
+                    method : "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data : {
+                        id
+                    },
+                    beforeSend:function(){
+                        Swal.fire({
+                            title: 'Mendapatkan data!',
+                            html: 'Silahkan tunggu...',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
+                    },
+                    success:function(result){
+                        Swal.close();
+                        
+                        Helper.templatePermissions(result.data);
+
+                        if(result.data.length==0){
+                           Helper.templatePermissions([]);
+                        }
+                    },
+                    error:function(error){
+                        Swal.fire({
+                            title: 'Error',
+                            html: error.responseJSON.message,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false
+                        });
+                    }
+                })
+			}
         }
 
         export default class Index extends Helper{
@@ -480,7 +553,8 @@
 			static FRM_addRoleForm;
 			static JSTREE_Main;
 			static DATA_Menu;
-			static CHBX_Permission;
+			static TMP_Permission;
+			static DATA_Permissions;
 
             constructor() {
                 super();
@@ -492,15 +566,16 @@
                     },
 					"checkbox": {
                         "three_state": false,
-                        "keep_selected_style": false,
+                        "keep_selected_style": true,
                         "whole_node": false,
                         "tie_selection": false
                     },
-                    "plugins" : [ "contextmenu","checkbox" ]
+                    "plugins" : [ "contextmenu","checkbox","wholerow","state" ]
                 });
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
 				Index.CHBX_Permission = $('#selectAll');
+				Index.TMP_Permission = {};
             }
 
             async serialLoadData() {
@@ -518,7 +593,10 @@
                     // resolve(true);
 					Index.getMenuJstree().then((result)=>{
                         Index.DATA_Menu = result;
-                        resolve(true);
+                        Index.getPermissions().then((result)=>{
+							Index.DATA_Permissions = result.data;
+							resolve(true);
+						});
                     }).catch((error)=>{
                         console.log(error);
                     });
@@ -536,6 +614,7 @@
             }
 
             loadMain() {
+				Helper.templatePermissions([]);
                 return this;
             }
 
@@ -545,8 +624,8 @@
 				$("#modalRoleName").on('change', this.eventNamaPeran);
 				$('.role-edit-modal').on('click', this.ubahPeran);
 				$('.hapus-peran').on('click', this.hapusPeran);
-				Index.CHBX_Permission.on('click', this.permissionAll);
-
+				$('input[name="checkallakses"]').on('click', this.fullAkses).css('cursor','pointer');
+				$(Index.JSTREE_Main.element[0]).on('activate_node.jstree', this.activateNode)
                 return this;
             }
 
@@ -558,7 +637,7 @@
 				Index.DATA_Menu.data.forEach(function(e,i){
                     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
                 });
-				Myapp.JSTREE_Main.open_all();
+				Index.JSTREE_Main.open_all();
                 return this;
             }
 

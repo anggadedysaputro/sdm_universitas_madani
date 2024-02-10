@@ -1,6 +1,6 @@
 @extends('app')
 @section('title')
-    Title
+    Permission
 @endsection
 @section('breadcrumb')
     <x-bread-crumbs breadcrumbtitle="settings.permission.index"/>
@@ -9,7 +9,6 @@
     Permission
 @endsection
 @section('action-list')
-    <button class="dt-button add-new-permissions btn btn-primary mb-3 mb-md-0 ms-3"><span> <i class="ti ti-plus"></i> Tambah izin</span></button>
 @endsection
 @section('search')
     <form action="./" method="get" autocomplete="off" novalidate>
@@ -31,27 +30,32 @@
 @endsection
 @section('content')
 
-<div class="col-md-12">
-    <div class="card">
-        <div class="d-flex justify-content-between p-3">
-            <div id="main-show-row"></div>
+<div class="row">
+    <div class="col-md-6">
+        <span>
+            Klik kanan pada pohon menu, untuk menampilkan konteks menu [tambah permission]
+        </span>
+        <div class="d-flex">
+            <a href="#" class="card card-link card-link-pop flex-fill">
+                <div class="card-body">
+                    <div id="jstree_demo_div">
+                    </div>
+                </div>
+            </a>
         </div>
-        <div class="table-responsive text-nowrap">
-          <table class="table table-vcenter card-table" id="main-table">
-            <caption class="ms-4">
-                <div id="main-pagging-view"></div>
-            </caption>
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Ditugaskan untuk</th>
-                        <th>Tanggal dibuat</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-            <tbody>
-            </tbody>
-          </table>
+    </div>
+    <div class="col-md-6">
+        <span>
+            Daftar permission
+        </span>
+        <div class="d-flex">
+            <a href="#" class="card card-link card-link-pop flex-fill">
+                <div class="card-body">
+                    <div class="list-group list-group-flush" id="daftar-akses">
+                        
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </div>
@@ -89,96 +93,241 @@
 
         class Helper {
             constructor(){
-                
+            }
+
+            static templatePermissions(data){
+                let content = [];
+                $.each(data, function(i,e){
+                    let plainText = `
+                        <form action="#">
+                            <div class="list-group-item p-1">
+                                <div class="row align-items-center">
+                                    <div class="col text-truncate">
+                                        <input type="text" value="${e.name}" class="form-control" name="name">
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-danger hapus" nitip="${e.id}">
+                                            <i class="ti ti-trash"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-success edit" nitip="${e.id}">
+                                            <i class="ti ti-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    `;
+
+                    let element = $(plainText);
+					element.find('.hapus').on('click',Helper.hapusPermission).data(e);
+                    element.find('.edit').on('click',Helper.editPermission).data(e);
+					content.push(element);
+                });
+
+                if(data.length==0){
+                    let plainText = `
+                        <div class="list-group-item p-1">
+                            <div class="row align-items-center">
+                                <div class="col text-center">
+                                    Data tidak ditemukan
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    let element = $(plainText);
+					content.push(element);
+                }
+
+                $('#daftar-akses').html(content);
+            }
+
+            static hapusPermission(e){
+                let id = $(e.currentTarget).attr('nitip');
+                let idmenu = Myapp.JSTREE_Main.get_selected()[0];
+                Swal.fire({
+                    title : 'Informasi',
+                    text  : `Apakah anda yakin ingin menghapus izin ?`,
+                    icon  : 'info',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('settings.permission.delete') }}",
+                            method : "DELETE",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data : {id,idmenu},
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menghapus data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title: 'Berhasil',
+                                    html: result.message,
+                                    icon:'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false
+                                }).then(()=>{
+                                    Helper.templatePermissions(result.data);
+                                });
+                            },
+                            error : function(error){
+                                Swal.fire({
+                                    title: 'Error',
+                                    html: result.responseJSON.message,
+                                    icon:'error',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false
+                                });
+                            }
+                        })
+                    }
+                });
             }
 
             static editPermission(e){
-				let data = $(e.currentTarget).data();
-				Index.MD_AddPermissions.modal('show');
-				$('#modalPermissionName').val(data.name).trigger('change');
-				$('#id-permission').val(data.id);
-				Index.MD_AddPermissions.find('h3').text('Ubah nama izin');
-				$('#create-permission').attr("nitip","edit");
-			}
-
-			static removePermission(e){
-				let data = $(e.currentTarget).data();
-
-				Swal.fire({
-					title : 'Informasi',
-					text  : 'Apakah anda yakin ingin menghapus permission ?',
-					icon  : 'info',
-					showCancelButton : true,
-					cancelButtonText: 'Tidak',
-					confirmButtonText : 'Ya'
-				}).then((result)=>{
-					if(result.isConfirmed){
-						$.ajax({
-							url : "{{ route('settings.permission.delete') }}",
-							method : "DELETE",
-							headers: {
+                let id = $(e.currentTarget).attr('nitip');
+                let idmenu = Myapp.JSTREE_Main.get_selected()[0];
+                let nama = $(e.currentTarget).parents('form').serializeObject().name;
+                Swal.fire({
+                    title : 'Informasi',
+                    text  : `Apakah anda yakin ingin mengubah izin ?`,
+                    icon  : 'info',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('settings.permission.update') }}",
+                            method : "PUT",
+                            headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-							data : {
-								id : data.id
-							},
-							beforeSend : function(){
-								Swal.fire({
-									title: 'Menghapus permission!',
-									html: 'Silahkan tunggu...',
-									allowEscapeKey: false,
-									allowOutsideClick: false,
-									didOpen: () => {
-										Swal.showLoading()
-									}
-								});
-							},
-							success : function(result){
-								Swal.close();
-								Swal.fire({
-									title : 'Berhasil',
-									html : result.message,
-									icon : 'success',
-									allowEscapeKey: false,
-									allowOutsideClick: false,
-								}).then(()=>{
-									Index.SMT_MainTable.draw();
-								});
-
-							},
-							error : function(error){
-								Swal.close();
-								Swal.fire({
-									title : 'Informasi',
-									html : error.responseJSON.message,
-									icon : 'error',
-									allowEscapeKey: false,
-									allowOutsideClick: false,
-								});
-							}
-						})
-					}
-				});
-			}
-
-            permission(){
-				Index.MD_AddPermissions.find('h3').text('Tambah izin baru');
-                Index.MD_AddPermissions.modal('show');
-				$('#modalPermissionName').val("").trigger('change');
-				$('#create-permission').attr('nitip','add');
+                            data : {id,idmenu,nama},
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menghapus data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title: 'Berhasil',
+                                    html: result.message,
+                                    icon:'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false
+                                }).then(()=>{
+                                    Helper.templatePermissions(result.data);
+                                });
+                            },
+                            error : function(error){
+                                Swal.fire({
+                                    title: 'Error',
+                                    html: error.responseJSON.message,
+                                    icon:'error',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false
+                                });
+                            }
+                        })
+                    }
+                });
             }
 
-            changePermissionName(e){
-                let eInputPermissionNmae = $(e.currentTarget);
-				let vInputPermissionName = eInputPermissionNmae.val() || '';
+            activateNode(e, data){
+                let id = Myapp.JSTREE_Main.get_selected()[0];
+                
+                $.ajax({
+                    url : "{{ route('settings.permission.single') }}",
+                    method : "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data : {
+                        id
+                    },
+                    beforeSend:function(){
+                        Swal.fire({
+                            title: 'Mendapatkan data!',
+                            html: 'Silahkan tunggu...',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
+                    },
+                    success:function(result){
+                        Swal.close();
+                        
+                        Helper.templatePermissions(result.data);
 
-				if(vInputPermissionName != ''){
-					eInputPermissionNmae.removeClass('is-invalid');
-					eInputPermissionNmae.next().text('');
-				}else{
-					eInputPermissionNmae.addClass('is-invalid');
-					eInputPermissionNmae.next().text('Masukkan nama izin');
-				}
+                        if(result.data.length==0){
+                           Helper.templatePermissions([]);
+                        }
+                    },
+                    error:function(error){
+                        Swal.fire({
+                            title: 'Error',
+                            html: error.responseJSON.message,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false
+                        });
+                    }
+                })
+            }
+
+            static getMenuJstree(){
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url : "{{ route('jstree.menu.data') }}",
+                        method : "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend : function(){
+                            Swal.fire({
+                                title: 'Mendapatkan data!',
+                                html: 'Silahkan tunggu...',
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                }
+                            });
+                        },
+                        success : function(result){     
+                            Swal.close();
+                            // result.data.forEach(function(e,i){
+                            //     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
+                            // });
+                            resolve(result);
+                        },
+                        error : function(error){
+                            Swal.close();
+                            reject(error.responseJSON.message ?? error.responseJSON);
+                        }
+                    });
+                });   
             }
 
             simpan(e){
@@ -211,6 +360,7 @@
 								confirmButtonText : 'Ya'
 							}).then((result)=>{
 								if(result.isConfirmed){
+                                    let idmenu = Myapp.JSTREE_Main.get_selected()[0];
 									$.ajax({
 										url : uri,
 										method : method,
@@ -219,7 +369,8 @@
 										},
 										data : {
 											nama : vPermissionName,
-											id : vPermissionId
+											id : vPermissionId,
+                                            idmenu
 										},
 										beforeSend : function(){
 											Swal.fire({
@@ -241,7 +392,7 @@
 												allowEscapeKey: false,
 												allowOutsideClick: false,
 											}).then(()=>{
-												Index.SMT_MainTable.draw();
+                                                $('#daftar-akses').html(Helper.templatePermissions(result.data));
 											});
 										},
 										error : function(error){
@@ -269,76 +420,39 @@
 
         export default class Index extends Helper{
             // deklarasi variabel
-			static MD_AddPermissions;
-            static SMT_MainTable;
-            static CT_Formulir;
-            static CT_Main;
-            static CT_MainPaggingView;
-            static CT_MainShowRow;
-            static CT_MainIsi;
-            static CT_MainSearch;
+            static JSTREE_Main;
+            static MD_AddPermissions;
+            static MD_Main;
+            static BTN_Simpan;
 
             constructor() {
                 super();
-
+                Index.MD_Main = $('#permissions-modal');
+                Index.BTN_Simpan = $('#create-permission');
                 Index.MD_AddPermissions = $('#permissions-modal');
-                Index.CT_Formulir = $('#container-formulir');
-                Index.CT_Main = $('#container-main');
-                Index.CT_MainPaggingView = $('#main-pagging-view');
-                Index.CT_MainShowRow = $('#main-show-row');
-                Index.CT_MainIsi = $('#main-table').find('tbody');
-                Index.CT_MainSearch = $('#main-search');
-
-                Index.SMT_MainTable = new AnggaTables({
-                    container : Index.CT_Main,
-                    containerPaging : Index.CT_MainPaggingView,
-                    containerTampilBaris : Index.CT_MainShowRow,
-                    containerIsi : Index.CT_MainIsi,
-                    containerSearch : Index.CT_MainSearch,
-                    customSearchView : `
-                        <input type="search" class="form-control ps-5" placeholder="Cari izin" id="global-search-custumizable">
-                    `,
-                    contentLoading : `
-                        <tr>
-                            <td colspan="9" class="text-center">Loading data...</td>
-                        </tr>
-                    `,
-                    nodata : `
-                        <tr>
-                            <td colspan="9" class="text-center">Data tidak ditemukan</td>
-                        </tr>
-                    `,
-                    request : {
-                        url : '{{ route('settings.permission.all') }}',
-                        data : function(data){
-                            return data;
-                        },
+                
+                Index.JSTREE_Main = $("#jstree_demo_div").jstree({
+                    "core" : {
+                    	"check_callback" : true
                     },
-                    columns : this.COL_Main,
-                    content : function(data){
-						let content = ``;
-						let role = JSON.parse(data.assign.replace(/&quot;/g,'"')).nama ?? [];
-						role.forEach(element => {
-							content += `<span class="badge rounded-pill bg-label-primary">${element}</span>`;
-						});
-
-                        return `
-                            <tr id="row_${data.ids}">
-                                <td>${data.name}</td>
-                                <td>${content}</td>
-                                <td>${data.created_at_view}</td>
-								<td>
-									<button class="btn btn-sm btn-icon me-2 edit-record"><i class="ti ti-pencil"></i></button>
-									<button class="btn btn-sm btn-icon delete-record" fdprocessedid="63pthc"><i class="ti ti-trash"></i></button>
-								</td>
-                            </tr>
-                        `;
-                    },
-                    createdRow : function(row, data){
-                        $(row).find('.delete-record').on('click', Helper.removePermission).data(data);
-						$(row).find('.edit-record').on('click', Helper.editPermission).data(data);
-                    }
+                    "plugins" : [ "contextmenu"],
+                    "contextmenu": {  
+                        items: function (node) {  
+                            return {  
+                                "tambah": {  
+                                    "label": "Tambah",  
+                                    "icon": "ti ti-plus",  
+                                    "action": function (obj) {  
+                                        Index.MD_Main.modal('show');
+                                    },  
+                                    "_class": "asc"  
+                                }
+                            }  
+                        },  
+                    },  
                 });
+
+                Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
             }
 
             async serialLoadData() {
@@ -353,7 +467,13 @@
 
                 return new Promise((resolve, reject) => {
                     // // to code ajax first
-                    resolve(true);
+                    // resolve(true);
+                    Index.getMenuJstree().then((result)=>{
+                        Index.DATA_Menu = result;
+                        resolve(true);
+                    }).catch((error)=>{
+                        console.log(error);
+                    });
                     // Global.callAjax('{{ url('menu/show') }}', toastr, 'Loading data menu...').then((result)=>{
                     //     // console.log(Global.promiseResult(data.status));
                     //     resolve(result.status);
@@ -368,13 +488,13 @@
             }
 
             loadMain() {
+                Helper.templatePermissions([]);
                 return this;
             }
 
             bindEvent() {
-                $('#create-permission').on('click', this.simpan);
-                $('.add-new-permissions').on('click', this.permission);
-                $("#modalPermissionName").on('change', this.changePermissionName);
+                Index.BTN_Simpan.on('click',this.simpan);
+                Myapp.JSTREE_Main.element.on('activate_node.jstree', this.activateNode);
                 return this;
             }
 
@@ -383,6 +503,8 @@
             }
 
             loadDefaultValue() {
+                Index.JSTREE_Main.settings.core.data = Index.DATA_Menu.data;
+                Index.JSTREE_Main.refresh();
                 return this;
             }
 

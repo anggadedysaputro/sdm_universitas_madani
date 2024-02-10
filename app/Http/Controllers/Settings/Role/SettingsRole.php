@@ -50,12 +50,7 @@ class SettingsRole extends Controller
         DB::beginTransaction();
         try {
             $roleName = request('rolename');
-
-            $permissionAllowed = [];
-
-            foreach (request('create') as $key => $value) {
-                if (filter_var($value, FILTER_VALIDATE_BOOLEAN)) array_push($permissionAllowed, request('permissionname')[$key]);
-            }
+            $permissionAllowed = request('create');
 
             $role = Role::create(['name' => $roleName]);
 
@@ -81,7 +76,7 @@ class SettingsRole extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollback();
-
+            dd($th->getMessage());
             $this->activity("Input role [failed]", $th->getMessage());
 
             $response = [
@@ -95,13 +90,29 @@ class SettingsRole extends Controller
     public function mypermission()
     {
         try {
-            $roleName = request('name');
 
-            $role = Role::where('name', $roleName)->with('permissions');
+            $role = Role::all();
+
+            $data = [];
+
+            foreach ($role->toArray() as $rolename) {
+                $data[$rolename['name']] = [];
+
+                foreach (Permission::all()->toArray() as $permission) {
+                    $role = new Role();
+                    $tmp = [
+                        'name' => $permission['name'],
+                        'checked' => $role->hasPermissionTo($permission['name']),
+                        'id' => $permission['id']
+                    ];
+
+                    $data[$rolename['name']][$permission['id']] = $tmp;
+                }
+            }
 
             $response = [
                 'message' => 'Mendapatkan izin peran berhasil',
-                'data' => $role->get()
+                'data' => $data
             ];
 
             return response()->json($response, 200);
@@ -111,7 +122,7 @@ class SettingsRole extends Controller
             $this->activity("Mendapatkan izin peran [failed]", $th->getMessage());
 
             $response = [
-                'message' => 'Mendapatkan izin gagal'
+                'message' => message('Mendapatkan izin gagal', $th->getMessage())
             ];
 
             return response()->json($response, 500);
@@ -125,17 +136,16 @@ class SettingsRole extends Controller
             $roleName = request('rolename');
             $id = request('id');
 
-            $permissionAllowed = [];
+            $permissionAllowed = request('create') ?? [];
 
-            foreach (request('create') as $key => $value) {
-                if (filter_var($value, FILTER_VALIDATE_BOOLEAN)) array_push($permissionAllowed, request('permissionname')[$key]);
-            }
-
-            Role::find($id)->update([
-                'name' => $roleName
-            ]);
+            $permission = DB::table('role_has_permissions')->where('role_id', $id)->get()->pluck('permission_id')->toArray();
+            // $permissionAllowed = array_merge($permission, $permissionAllowed);
+            // Role::find($id)->update([
+            //     'name' => $roleName
+            // ]);
 
             Role::find($id)->syncPermissions($permissionAllowed);
+
             RoleHasMenu::where('role_id', $id)->delete();
 
             if (request()->has('menu')) {
@@ -159,7 +169,6 @@ class SettingsRole extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th->getMessage());
 
             $this->activity("Mengubah peran [failed]", $th->getMessage());
 
@@ -195,6 +204,36 @@ class SettingsRole extends Controller
 
             $response = [
                 'message' => 'Menghapus peran gagal'
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function fullAkses()
+    {
+        try {
+            $query = DB::table('permissions as rhp')
+                ->select(
+                    "rhp.id",
+                    "rhp.name",
+                    DB::raw("true as checked")
+                )->get()->toArray();
+
+            $array = [];
+            foreach ($query as $key => $value) {
+                $array[$value->id] = (array)$value;
+            }
+
+            $response = [
+                'data' => $array
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+
+            $response = [
+                'message' => message('Mendapatkan data akses pada peran gagal', $th->getMessage())
             ];
 
             return response()->json($response, 500);

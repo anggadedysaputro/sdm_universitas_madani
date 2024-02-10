@@ -45,6 +45,7 @@ class Login extends Controller
                 $user['menu'] = getChildRecursive($menuRole);
                 $user['tahun'] = date("Y");
                 $user['tahunaktif'] = date("Y");
+                $user['rolename'] = Auth::user()->getRoleNames()[0];
                 session($user);
                 $request->session()->regenerate();
 

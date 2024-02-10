@@ -244,4 +244,35 @@ export default class Angga {
 
         return (modal ? $.extend(select2Object, { dropdownParent: modal.find('.modal-content') }) : select2Object);
     }
+
+    static childRowsDataTable() {
+        return {
+            type: 'column',
+            renderer: function (api, rowIdx, columns) {
+                let data = columns.map((col, i) => {
+                    let row = api.row(rowIdx).node();
+                    return col.hidden
+                        ? '<tr data-dt-row="' +
+                        col.rowIndex +
+                        '" data-dt-column="' +
+                        col.columnIndex +
+                        '">' +
+                        '<td>' +
+                        col.title +
+                        ':' +
+                        '</td> ' +
+                        '<td class="' + $(row).find('td:nth(' + col.columnIndex + ')').attr('class') + '">' +
+                        col.data +
+                        '</td>' +
+                        '</tr>'
+                        : '';
+                }).join('');
+
+                let table = document.createElement('table');
+                table.innerHTML = data;
+
+                return data ? table : false;
+            }
+        }
+    }
 }

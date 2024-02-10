@@ -27,7 +27,7 @@
                         </li>
                         @else
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="{{ route($value['link']) }}">
+                                <a class="nav-link" href="{{ empty($value['link']) ? '#' : route($value['link']) }}">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                         <i class="{{ $value['nama_icon'] }}"></i>
                                     </span>

@@ -182,7 +182,7 @@
                     </span>
                     <div class="d-none d-xl-block ps-2">
                         <div>{{ session('name') }}</div>
-                        <div class="mt-1 small text-secondary">UI Designer</div>
+                        <div class="mt-1 small text-secondary">{{ session('rolename') }}</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
