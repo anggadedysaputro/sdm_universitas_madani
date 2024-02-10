@@ -34,16 +34,12 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-2">
-                <div class="small-12 medium-2 large-2 columns">
-                    <div class="circle">
-                      <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
-               
-                    </div>
-                    <div class="p-image">
-                      <i class="ti ti-camera-filled upload-button"></i>
-                       <input class="file-upload" type="file" accept="image/*"/>
-                    </div>
-                 </div>
+                <div class="d-flex justify-content-center" id="container-crop">
+					<div class="p-3">
+						<img class="cropped" style="width:150px; height:150px;">
+					</div>
+				</div>
+                <input type="file" class="form-control" id="basic-default-foto" placeholder="Foto" accept="image/*">
             </div>
             <div class="col-md-8">
                 <div class="d-flex flex-column">
@@ -115,19 +111,15 @@
                                                 <label class="form-label required">Jenis kelamin</label>
                                                 <div class="row">
                                                     <div class="col-6 col-sm-4">
-                                                        <label class="form-imagecheck mb-2">
-                                                        <input type="radio" value="L" class="form-imagecheck-input form-step-1" name="jns_kel" required checked>
-                                                        <span class="form-imagecheck-figure">
-                                                            <img src="{{ asset('assets/ilustration/male.jpg') }}" width="100" height="100"/>
-                                                        </span>
+                                                        <label class="form-check form-check-inline">
+                                                            <input type="radio" value="L" class="form-check-input form-step-1" name="jns_kel" required checked>
+                                                            <span class="form-check-label">Laki laki</span>
                                                         </label>
                                                     </div>
                                                     <div class="col-6 col-sm-4">
-                                                        <label class="form-imagecheck mb-2">
-                                                        <input type="radio" value="P" class="form-imagecheck-input form-step-1" name="jns_kel" required>
-                                                        <span class="form-imagecheck-figure">
-                                                            <img src="{{ asset('assets/ilustration/female.jpg') }}" width="100" height="100"/>
-                                                        </span>
+                                                        <label class="form-check form-check-inline">
+                                                            <input type="radio" value="P" class="form-check-input form-step-1" name="jns_kel" required>
+                                                            <span class="form-check-label">Perempuan</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -426,6 +418,22 @@
                 
             }
 
+            change(e){
+				$('#container-crop').show();
+				if (e.target.files.length) {
+					// start file reader
+					const reader = new FileReader();
+					reader.onload = e => {
+						if (e.target.result) {
+							// create new image
+							Index.CRP_Main.replace(e.target.result);
+
+						}
+					};
+					reader.readAsDataURL(e.target.files[0]);
+				}
+			}
+
             static assignLocalStorage() {
                 localStorage.removeItem(Index.LCS_Formulir);
                 localStorage.setItem(Index.LCS_Formulir, JSON.stringify(Index.FRM_Main.serializeObject()));
@@ -479,6 +487,13 @@
                 let data = Index.FRM_Main.serializeObject();
                 let alamat = Index.FRM_Main.find('textarea[name="alamat"]').val();
                 data = $.extend(data, {alamat});
+                let formData = new FormData();
+                $.each(data, (i,e)=>{
+                    formData.append(i,e);
+                });
+                Index.CRP_Main.getCroppedCanvas().toBlob((blob) => {
+                    formData.append("gambar",blob);
+                });
                 Swal.fire({
                     title : 'Konfirmasi',
                     text : 'Apakah anda yakin ingin menyimpan data?',
@@ -491,10 +506,12 @@
                         $.ajax({
                             url : "{{ route('karyawan.add.store') }}",
                             method : "POST",
+                            data : formData,
+                            processData:false,
+                            contentType:false,
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            data,
                             beforeSend : function(){
                                 Swal.fire({
                                     title: 'Menyimpan data!',
@@ -590,6 +607,8 @@
             static JSTREE_Main;
             static DATA_Menu;
             static OFFCNVS_Main;
+            static CRP_Main;
+            static INPUT_image;           
 
             constructor() {
                 super();  
@@ -598,6 +617,20 @@
                     "check_callback" : true
                     }
                 });
+                Index.INPUT_image = $('input[type="file"]');
+                Index.CRP_Main = new Cropper($('.cropped')[0],{
+					dragMode: 'move',
+					aspectRatio: 1 / 1,
+					restore: false,
+					guides: false,
+					center: false,
+					highlight: false,
+					cropBoxMovable: true,
+					cropBoxResizable: false,
+					toggleDragModeOnDblclick: false,
+					minCropBoxWidth: 150,
+					minCropBoxHeight: 150,
+				});
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
                 Index.OFFCNVS_Main = new bootstrap.Offcanvas(document.getElementById('canvas-main'));
@@ -717,6 +750,7 @@
                 Index.BTN_SearchOrg.on('click', this.showCanvas);
                 Index.JSTREE_Main.element.on('select_node.jstree', this.selectedOrg);
                 Index.BTN_Simpan.on('click', this.simpan);
+                Index.INPUT_image.on('change', this.change);
                 return this;
             }
 

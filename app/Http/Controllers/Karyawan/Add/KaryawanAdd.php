@@ -14,6 +14,7 @@ use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class KaryawanAdd extends Controller
 {
@@ -38,11 +39,17 @@ class KaryawanAdd extends Controller
 
             if (Pegawai::where('email', $post['email'])->exists()) throw new Exception("Email sudah digunakan !", 1);
             if (array_key_exists("agama", $post)) $post['idagama'] = $post['agama'] ?? 0;
-            if (array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = $post['kodejabfung'] ?? 0;
-            if (array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = $post['kodestruktural'] ?? 0;
+            if (!array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = empty($post['kodejabfung']) ? 0 : $post['kodejabfung'];
+            if (!array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = empty($post['kodestruktural']) ? 0 : $post['kodestruktural'];
             $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
 
+            $path = Storage::putFile('public/pegawai', $post['gambar']);
+            unset($post['gambar']);
+            $post['fullpath'] = $path;
+            $post['gambar'] = basename($path);
+
             Pegawai::create($post);
+
 
             $this->activity("Input data karyawan [successfully]");
 

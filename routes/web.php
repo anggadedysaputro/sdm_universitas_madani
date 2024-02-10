@@ -193,6 +193,7 @@ Route::middleware(['validate.login'])->group(function () {
         Route::prefix('edit')->group(function () {
             Route::get('index/{id}', [KaryawanEdit::class, 'index'])->name('karyawan.edit.index');
             Route::patch('store', [KaryawanEdit::class, 'store'])->name('karyawan.edit.store');
+            Route::post('upload', [KaryawanEdit::class, 'upload'])->name('karyawan.edit.upload');
         });
     });
     Route::get('/su', function () {

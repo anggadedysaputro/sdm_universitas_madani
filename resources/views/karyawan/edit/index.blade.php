@@ -33,18 +33,31 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-2 me-3 mb-3">
-                    <div class="small-12 medium-2 large-2 columns">
-                        <div class="circle">
-                          <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
-                   
+                <div class="col-md-2" >
+                    <div class="row">
+                        <div class="col-md-12" id="wrapper-image-karyawan">
+                            <div class="d-flex justify-content-center">
+                                <div class="p-3">
+                                    <img style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : asset('storage/pegawai/'.$pegawai->gambar) }}">
+                                </div>
+                            </div>
+                        </div>   
+                        <div class="col-md-12" style="display:none;">
+                            <div class="d-flex justify-content-center" id="container-crop">
+                                <div class="p-3">
+                                    <img class="cropped" style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : asset('storage/pegawai/'.$pegawai->gambar) }}">
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-image">
-                          {{-- <i class="ti ti-camera-filled upload-button"></i> --}}
-                           <input class="file-upload" type="file" accept="image/*"/>
+                        <div class="col-md-12">
+                            <div class="d-flex flex-column">
+                                <input type="file" class="form-control" id="basic-default-foto" placeholder="Foto" accept="image/*">
+                                <button class="btn btn-success flex-fill" id="simpan-image-karyawan">Simpan</button>
+                            </div>
                         </div>
-                     </div>
+                    </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="d-flex flex-column">
                         <div class="d-flex justify-content-between">
@@ -728,6 +741,78 @@
         class Helper {
             constructor(){
             }
+            
+            change(e){
+				$('#container-crop').parent().show();
+                $('#wrapper-image-karyawan').hide();
+				if (e.target.files.length) {
+					// start file reader
+					const reader = new FileReader();
+					reader.onload = e => {
+						if (e.target.result) {
+							// create new image
+							Index.CRP_Main.replace(e.target.result);
+
+						}
+					};
+					reader.readAsDataURL(e.target.files[0]);
+				}
+			}
+
+            simpanUploadKaryawan(){
+                let formData = new FormData();
+                Index.CRP_Main.getCroppedCanvas().toBlob((blob) => {
+                    formData.append("gambar",blob);
+                    formData.append("idpegawai","{{ $pegawai->nopeg }}")
+                });
+
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Apakah anda yakin ingin menyimpan data?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('karyawan.edit.upload') }}",
+                            method : "POST",
+                            data : formData,
+                            processData:false,
+                            contentType:false,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menyimpan data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title : 'Berhasil',
+                                    text : result.message,
+                                    icon : 'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                }).then(()=>{
+                                    window.location.href = "{{ url('karyawan/edit/index') }}"+"/"+"{{ $pegawai->nopeg }}";
+                                });
+                            },
+                            error : function(error){
+                                Swal.fire('Gagal',error.responseJSON.message,'error');
+                            }
+                        });
+                    }
+                });
+            }
 
             static getMenuJstree(){
                 return new Promise((resolve, reject) => {
@@ -944,6 +1029,7 @@
             static BTN_SearchOrg;
             static JSTREE_Main;
             static DATA_Menu;
+            static BTN_SimpanUploadKaryawan;
             
             constructor() {
                 super();
@@ -965,6 +1051,22 @@
                 Index.FRM_Kepegawaian = $('#form-edit-kepegawaian');
                 Index.FRM_PendidikanTerakhir = $('#form-edit-pendidikanterakhir');
                 Index.FRM_PendidikanTerakhir = $('#form-edit-kepegawaian');
+                Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
+
+                Index.INPUT_image = $('input[type="file"]');
+                Index.CRP_Main = new Cropper($('.cropped')[0],{
+					dragMode: 'move',
+					aspectRatio: 1 / 1,
+					restore: false,
+					guides: false,
+					center: false,
+					highlight: false,
+					cropBoxMovable: true,
+					cropBoxResizable: false,
+					toggleDragModeOnDblclick: false,
+					minCropBoxWidth: 150,
+					minCropBoxHeight: 150,
+				});
 
                 Index.JSTREE_Main = $("#organisasi").jstree({
                     "core" : {
@@ -1109,6 +1211,8 @@
                 Index.JSTREE_Main.element.on('select_node.jstree', this.selectedOrg);
                 Index.BTN_SearchOrg.on('click', this.showCanvas);
                 Index.BTN_SimpanKepegawaian.on('click', this.simpanKepegawaian);
+                Index.INPUT_image.on('change', this.change);
+                Index.BTN_SimpanUploadKaryawan.on('click', this.simpanUploadKaryawan);
                 return this;
             }
 

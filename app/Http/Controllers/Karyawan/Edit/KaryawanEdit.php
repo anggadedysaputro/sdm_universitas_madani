@@ -13,6 +13,7 @@ use App\Models\Masters\StatusPegawai;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class KaryawanEdit extends Controller
 {
@@ -59,6 +60,8 @@ class KaryawanEdit extends Controller
                 "p.tahun_lulus",
                 "p.kodependidikan",
                 "pen.keterangan as pendidikan",
+                "p.fullpath",
+                "p.gambar"
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -89,8 +92,6 @@ class KaryawanEdit extends Controller
 
             $post = request()->all();
 
-
-
             $id = $post['nopeg_lama'];
             unset($post['nopeg_lama']);
             if (array_key_exists("tgl_lahir", $post)) $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
@@ -116,6 +117,43 @@ class KaryawanEdit extends Controller
 
             $response = [
                 'message' => message("Edit data karyawan gagal", $th->getMessage())
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function upload()
+    {
+        DB::beginTransaction();
+        try {
+            $post = request()->all();
+            $pegawai = Pegawai::find($post['idpegawai']);
+            Storage::delete($pegawai->fullpath);
+
+            $path = Storage::putFile('public/pegawai', $post['gambar']);
+
+            $id = $post['idpegawai'];
+            unset($post['idpegawai']);
+            unset($post['gambar']);
+            $post['fullpath'] = $path;
+            $post['gambar'] = basename($path);
+
+            Pegawai::find($id)->update($post);
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Upload foto karyawan berhasil'
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->activity("Upload foto karyawan [failed]", $th->getMessage());
+
+            $response = [
+                'message' => message("Upload foto karyawan gagal", $th->getMessage())
             ];
 
             return response()->json($response, 500);
