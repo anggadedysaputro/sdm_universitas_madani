@@ -435,19 +435,21 @@
                         <div class="col-md-6">
                             <label class="form-label required">Jenis kelamin</label>
                             <div class="row">
-                                <div class="col-6 col-sm-4">
-                                    <label class="form-imagecheck mb-2">
-                                    <input type="radio" value="L" class="form-imagecheck-input form-step-1" name="jns_kel" required checked>
-                                    <span class="form-imagecheck-figure">
-                                        <img src="{{ asset('assets/ilustration/male.jpg') }}" width="100" height="100"/>
+                                <div class="col-md-6 col-sm-4">
+                                    <label class="form-check form-check-inline">
+                                    <input type="radio" value="L" class="form-check-input form-step-1" name="jns_kel" required>
+                                    <span class="form-check-label">
+                                        {{-- <img src="{{ asset('assets/ilustration/male.jpg') }}" width="100" height="100"/> --}}
+                                        Laki-laki
                                     </span>
                                     </label>
                                 </div>
-                                <div class="col-6 col-sm-4">
-                                    <label class="form-imagecheck mb-2">
-                                    <input type="radio" value="P" class="form-imagecheck-input form-step-1" name="jns_kel" required>
-                                    <span class="form-imagecheck-figure">
-                                        <img src="{{ asset('assets/ilustration/female.jpg') }}" width="100" height="100"/>
+                                <div class="col-md-6 col-sm-4">
+                                    <label class="form-check form-check-inline">
+                                    <input type="radio" value="P" class="form-check-input form-step-1" name="jns_kel" required>
+                                    <span class="form-check-label">
+                                        {{-- <img src="{{ asset('assets/ilustration/female.jpg') }}" width="100" height="100"/> --}}
+                                        Perempuan
                                     </span>
                                     </label>
                                 </div>

@@ -1,6 +1,6 @@
 @extends('app')
 @section('title')
-    Title
+    User
 @endsection
 @section('breadcrumb')
     <x-bread-crumbs breadcrumbtitle="settings.user.index"/>

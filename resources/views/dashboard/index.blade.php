@@ -1,4 +1,4 @@
 @extends('app')
 @section('title')
-    Title
+    Dashboard
 @endsection
