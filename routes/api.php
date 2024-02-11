@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['jwt.verify'])->group(function () {
     Route::post('me', [Auth::class, 'me'])->name("api.me");
+    Route::prefix('pegawai')->group(function () {
+    });
 });
 
 Route::post('login', [Auth::class, 'login'])->name("login");
