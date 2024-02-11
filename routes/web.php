@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('login')->group(function () {
+    // dd('sdf');
     Route::get('index', [Login::class, 'index'])->name('login')/* ->middleware('prevent.login') */;
     Route::post('authenticate', [Login::class, 'authenticate'])->name('login.authenticate');
 });

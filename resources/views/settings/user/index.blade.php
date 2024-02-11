@@ -37,7 +37,7 @@
                     <th class="hide respon"></th>
                     <th class="hide aksi" data-priority="-1">Aksi</th>
                     <th class="name" data-priority="1">Nama</th>
-                    <th class="email">Email</th>
+                    <th class="email">Email or Username</th>
                     <th class="peran">Peran</th>
                     <th>Telpon</th>
                     <th class="hide">Tanggal dibuat</th>
@@ -74,7 +74,15 @@
                     <i class="bx bx-star"></i> Nama
                   </label>
                   <input type="text" class="form-control" id="add-user-fullname" placeholder="angga dedy saputro" name="name" aria-label="anggadedysaputro" required>
-                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>
+                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>                
+                <div class="mb-3">
+                  <label class="form-label" for="add-user-contact">Telpon</label>
+                  <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="083865659266" aria-label="john.doe@example.com" name="telpon">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="add-user-company">Email or Username</label>
+                  <input type="text" id="add-user-company" class="form-control" placeholder="Masukkan username or email" aria-label="jdoe1" name="email" required>
+                </div>
                 <div class="mb-3 fv-plugins-icon-container" id="wrapper-password">
                     <label class="form-label" for="add-user-fullname">
                         <i class="bx bx-star"></i> Kata sandi
@@ -88,15 +96,6 @@
                     </label>
                     <input type="password" class="form-control" id="add-user-repassword" placeholder="*****" name="repassword" required autocomplete>
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                </div>
-                
-                <div class="mb-3">
-                  <label class="form-label" for="add-user-contact">Telpon</label>
-                  <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="083865659266" aria-label="john.doe@example.com" name="telpon">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label" for="add-user-company">Email</label>
-                  <input type="text" id="add-user-company" class="form-control" placeholder="angga@gmail.com" aria-label="jdoe1" name="email" required>
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="user-role">

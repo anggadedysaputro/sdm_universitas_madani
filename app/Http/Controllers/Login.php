@@ -22,10 +22,10 @@ class Login extends Controller
     {
         try {
             $credentials = $request->validate([
-                'email' => ['required', 'email'],
+                'email' => ['required'],
                 'password' => ['required'],
             ]);
-
+            // dd('sdf');
             // dd(Auth::attempt($credentials));
             if (Auth::attempt($credentials)) {
                 $user = Auth::user()->toArray();
@@ -53,7 +53,7 @@ class Login extends Controller
 
                 return redirect()->intended('index');
             }
-            $this->activity("Login [failed]", $th->getMessage());
+            $this->activity("Login [failed]");
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.'
             ]);

@@ -140,9 +140,9 @@ class SettingsRole extends Controller
 
             $permission = DB::table('role_has_permissions')->where('role_id', $id)->get()->pluck('permission_id')->toArray();
             // $permissionAllowed = array_merge($permission, $permissionAllowed);
-            // Role::find($id)->update([
-            //     'name' => $roleName
-            // ]);
+            Role::find($id)->update([
+                'name' => $roleName
+            ]);
 
             Role::find($id)->syncPermissions($permissionAllowed);
 
