@@ -16,7 +16,8 @@ class Auth extends Controller
 
         if (!$token = auth('api')->login($user)) {
             return response()->json([
-                'error' => 'Unauthorized'
+                'error' => 'Unauthorized',
+                'status' => 'false'
             ], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -28,7 +29,8 @@ class Auth extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL()
+            'expires_in' => auth('api')->factory()->getTTL(),
+            'status' => true
         ]);
     }
 
@@ -38,7 +40,7 @@ class Auth extends Controller
             $user = auth('api')->userOrFail();
             return response()->json($user);
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage(), 'status' => false], 500);
         }
     }
 
@@ -46,7 +48,7 @@ class Auth extends Controller
     {
         auth('api')->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out', 'status' => true]);
     }
 
     public function refresh()
@@ -54,7 +56,7 @@ class Auth extends Controller
         try {
             return $this->respondWithToken(auth('api')->refresh(true, true));
         } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], 500);
+            return response()->json(['message' => $th->getMessage(), 'status' => false], 500);
         }
     }
 }
