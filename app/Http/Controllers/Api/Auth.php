@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -10,9 +11,10 @@ class Auth extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['email', 'passwordapi']);
+        $user = User::where('email', $credentials['email'])->where('passwordapi', $credentials['passwordapi'])->first();
 
-        if (!$token = auth('api')->attempt($credentials)) {
+        if (!$token = auth('api')->login($user)) {
             return response()->json([
                 'error' => 'Unauthorized'
             ], Response::HTTP_UNAUTHORIZED);
