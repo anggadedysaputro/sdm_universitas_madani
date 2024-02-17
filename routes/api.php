@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth;
+use App\Http\Controllers\Api\Pegawai\ApiPegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,11 +20,13 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::middleware(['jwt.refreshtoken'])->get('refresh-token', [Auth::class, 'refresh'])->name("api.refresh-token");
 Route::middleware(['jwt.verify'])->group(function () {
     Route::post('me', [Auth::class, 'me'])->name("api.me");
-    Route::prefix('pegawai')->group(function () {
-    });
 });
 
 Route::post('login', [Auth::class, 'login'])->name("login");
 Route::post('logout', [Auth::class, 'logout'])->name("logout");
+Route::prefix('pegawai')->group(function () {
+    Route::post('data', [ApiPegawai::class, 'data'])->name('api.pegawai.data');
+});

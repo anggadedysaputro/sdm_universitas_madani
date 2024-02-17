@@ -26,7 +26,7 @@ class Auth extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * env('JWT_EXPIRED')
+            'expires_in' => auth('api')->factory()->getTTL()
         ]);
     }
 
@@ -36,7 +36,7 @@ class Auth extends Controller
             $user = auth('api')->userOrFail();
             return response()->json($user);
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
-            dd($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -45,5 +45,14 @@ class Auth extends Controller
         auth('api')->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function refresh()
+    {
+        try {
+            return $this->respondWithToken(auth('api')->refresh(true, true));
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 500);
+        }
     }
 }
