@@ -22,11 +22,13 @@ class ApiPegawai extends Controller
             }
             return response()->json([
                 'message' => 'Berhasil mengambil data pegawai',
-                'data' => $data
+                'data' => $data,
+                'status' => true
             ], 200);
         } catch (\Throwable $th) {
             $data = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : 'Gagal mengambil data pegawai!'
+                'message' => $th->getCode() == 1 ? $th->getMessage() : 'Gagal mengambil data pegawai!',
+                'status' => false
             ];
 
             return response()->json($data, 400);
