@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Pegawai;
 
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Pegawai;
+use Exception;
 use Illuminate\Http\Request;
 
 class ApiPegawai extends Controller
@@ -16,10 +17,19 @@ class ApiPegawai extends Controller
             $data = $query->get()->toArray();
             if (!empty($idpegawai)) {
                 $query->where('nopeg', $idpegawai);
+            } else {
+                throw new Exception("Pegawai tidak ditemukan", 1);
             }
-            return response()->json($data, 200);
+            return response()->json([
+                'message' => 'Berhasil mengambil data pegawai',
+                'data' => $data
+            ], 200);
         } catch (\Throwable $th) {
-            //throw $th;
+            $data = [
+                'message' => $th->getCode() == 1 ? $th->getMessage() : 'Gagal mengambil data pegawai!'
+            ];
+
+            return response()->json($data, 400);
         }
     }
 }
