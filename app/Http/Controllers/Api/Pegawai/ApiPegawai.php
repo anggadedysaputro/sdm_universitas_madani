@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class ApiPegawai extends Controller
 {
-    public function data(Request $request)
+    public function data(Request $request, $idpegawai)
     {
         try {
-            $idpegawai = $request->input();
             $query = Pegawai::query();
             $data = $query->get()->toArray();
             if (!empty($idpegawai)) {
