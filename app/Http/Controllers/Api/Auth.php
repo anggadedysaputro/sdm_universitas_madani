@@ -22,7 +22,8 @@ class Auth extends Controller
             "p.nohp",
             "js.urai as jabatanstruktural",
             "jf.urai as jabatanfungsional",
-            "kitas.keterangan as namakartuidentitas"
+            "kitas.keterangan as namakartuidentitas",
+            "p.noidentitas",
         )
             ->join("applications.pegawai as p", "p.nopeg", "=", "u.nopeg")
             ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
@@ -47,6 +48,7 @@ class Auth extends Controller
                     'npwp' => $user->npwp,
                     'jns_kel' => $user->jns_kel,
                     'nohp' => $user->nohp,
+                    'noidentitas' => $user->noidentitas,
                     'namakartuidentitas' => $user->namakartuidentitas,
                     'jabatanstruktural' => $user->jabatanstruktural,
                     'jabatanfungsional' => $user->jabatanfungsional
