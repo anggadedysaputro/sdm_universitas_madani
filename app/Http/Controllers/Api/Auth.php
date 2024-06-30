@@ -16,6 +16,10 @@ class Auth extends Controller
             "u.id",
             "p.nopeg",
             "p.nama",
+            "p.alamat",
+            "p.npwp",
+            "p.jns_kel",
+            "p.nohp",
             "js.urai as jabatanstruktural",
             "jf.urai as jabatanfungsional"
         )
@@ -37,6 +41,10 @@ class Auth extends Controller
                     'id' => $user->id,
                     'nopeg' => $user->nopeg,
                     'nama' => $user->nama,
+                    'alamat' => $user->alamat,
+                    'npwp' => $user->npwp,
+                    'jns_kel' => $user->jns_kel,
+                    'nohp' => $user->nohp,
                     'jabatanstruktural' => $user->jabatanstruktural,
                     'jabatanfungsional' => $user->jabatanfungsional
                 ]
