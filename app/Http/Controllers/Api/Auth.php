@@ -12,6 +12,41 @@ class Auth extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'passwordapi']);
+        $user = User::from("users as u")->select(
+            "u.id",
+            "p.nopeg",
+            "p.nama",
+            "js.urai as jabatanstruktural",
+            "jf.urai as jabatanfungsional"
+        )
+            ->join("applications.pegawai as p", "p.nopeg", "=", "u.nopeg")
+            ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
+            ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
+            ->where('u.email', $credentials['email'])->where('u.passwordapi', $credentials['passwordapi'])->first();
+
+        if (empty($user)) {
+            return response()->json([
+                'message' => 'login gagal',
+                'status' => false
+            ], 400);
+        } else {
+            return response()->json([
+                'message' => 'login berhasil',
+                'status' => true,
+                'data' => [
+                    'id' => $user->id,
+                    'nopeg' => $user->nopeg,
+                    'nama' => $user->nama,
+                    'jabatanstruktural' => $user->jabatanstruktural,
+                    'jabatanfungsional' => $user->jabatanfungsional
+                ]
+            ], 200);
+        }
+    }
+
+    /* public function login(Request $request)
+    {
+        $credentials = $request->only(['email', 'passwordapi']);
         $user = User::where('email', $credentials['email'])->where('passwordapi', $credentials['passwordapi'])->first();
 
         if (!$token = auth('api')->login($user)) {
@@ -58,5 +93,5 @@ class Auth extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 500);
         }
-    }
+    } */
 }

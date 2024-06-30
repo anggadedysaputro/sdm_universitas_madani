@@ -23,10 +23,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['jwt.refreshtoken'])->get('refresh-token', [Auth::class, 'refresh'])->name("api.refresh-token");
 Route::middleware(['jwt.verify'])->group(function () {
     Route::post('me', [Auth::class, 'me'])->name("api.me");
-    Route::prefix('pegawai')->group(function () {
-        Route::post('data', [ApiPegawai::class, 'data'])->name('api.pegawai.data');
-    });
 });
 
+Route::prefix('pegawai')->group(function () {
+    Route::post('data', [ApiPegawai::class, 'data'])->name('api.pegawai.data');
+});
 Route::post('login', [Auth::class, 'login'])->name("login");
 Route::post('logout', [Auth::class, 'logout'])->name("logout");
