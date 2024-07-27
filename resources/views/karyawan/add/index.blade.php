@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        
+
                             <div class="tab-content">
                                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
                                     <div class="d-flex flex-column gap-3">
@@ -106,7 +106,7 @@
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="col-md-6">
                                                 <label class="form-label required">Jenis kelamin</label>
                                                 <div class="row">
@@ -143,8 +143,8 @@
                                                         <option value="B">B</option>
                                                         <option value="AB">AB</option>
                                                         <option value="O">O</option>
-                                                    </select>                       
-                                                    <div class="invalid-feedback"></div>                     
+                                                    </select>
+                                                    <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -154,7 +154,7 @@
                                                         @foreach ($agama as $value)
                                                             <option value="{{ $value->id }}">{{ $value->urai }}</option>
                                                         @endforeach
-                                                    </select>                                            
+                                                    </select>
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
@@ -167,7 +167,7 @@
                                                                 <select type="text" class="form-select tomselected form-step-1" name="kewarganegaraan" required>
                                                                     <option value="WNI" selected>WNI</option>
                                                                     <option value="WNA">WNA</option>
-                                                                </select>    
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -176,7 +176,7 @@
                                                                     @foreach ($negara as $value)
                                                                         <option value="{{ $value->id }}" {{ strtolower($value->keterangan)=='indonesia' ? 'selected' : '' }}>{{ $value->keterangan }}</option>
                                                                     @endforeach
-                                                                </select>  
+                                                                </select>
                                                                 <div class="invalid-feedback"></div>
                                                             </div>
                                                         </div>
@@ -193,7 +193,7 @@
                                                         @foreach ($kartuidentitas as $value)
                                                             <option value="{{ $value->id }}">{{ $value->keterangan }}</option>
                                                         @endforeach
-                                                    </select>      
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -247,8 +247,8 @@
                                                         @foreach ($pendidikan as $value)
                                                             <option value="{{ $value->kodependidikan }}">{{ $value->keterangan }}</option>
                                                         @endforeach
-                                                    </select>      
-                                                    <div class="invalid-feedback"></div>                                      
+                                                    </select>
+                                                    <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -285,7 +285,7 @@
                                                         @foreach ($statuspegawai as $value)
                                                             <option value="{{ $value->idstatuspegawai }}">{{ $value->keterangan }}</option>
                                                         @endforeach
-                                                    </select>       
+                                                    </select>
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
@@ -317,14 +317,14 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Jabatan struktural</label>
                                                     <select type="text" class="form-select tomselected" name="kodestruktural">
-                                                    </select>                                            
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Jabatan fungsional</label>
                                                     <select type="text" class="form-select tomselected" name="kodejabfung">
-                                                    </select>                                            
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,7 +378,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                     </form>
                     <div class="mt-3 d-flex justify-content-end">
                         <button class="btn btn-default me-1" id="kembali">Kembali</button>
@@ -391,7 +391,7 @@
 
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
@@ -415,7 +415,7 @@
 
         class Helper {
             constructor(){
-                
+
             }
 
             change(e){
@@ -475,12 +475,12 @@
                         Index.BTN_Simpan.show();
                     }
                 }
-                
+
                 if(next) Index.WIZARD_Main.smartWizard('next');
             }
 
-            next(){     
-                Helper.verify();          
+            next(){
+                Helper.verify();
                 Helper.assignLocalStorage();
             }
             simpan(){
@@ -491,6 +491,11 @@
                 $.each(data, (i,e)=>{
                     formData.append(i,e);
                 });
+
+                if(!Index.CRP_Main.getCroppedCanvas()){
+                    Swal.fire("Informasi","Foto belum dimasukkan!","info");
+                    return;
+                }
                 Index.CRP_Main.getCroppedCanvas().toBlob((blob) => {
                     formData.append("gambar",blob);
                 });
@@ -579,7 +584,7 @@
                                 }
                             });
                         },
-                        success : function(result){     
+                        success : function(result){
                             Swal.close();
                             resolve(result);
                         },
@@ -589,7 +594,7 @@
                         }
                     });
                 });
-                
+
             }
         }
 
@@ -608,10 +613,10 @@
             static DATA_Menu;
             static OFFCNVS_Main;
             static CRP_Main;
-            static INPUT_image;           
+            static INPUT_image;
 
             constructor() {
-                super();  
+                super();
                 Index.JSTREE_Main = $("#organisasi").jstree({
                     "core" : {
                     "check_callback" : true
@@ -637,7 +642,7 @@
 
                 Index.LCS_Formulir = 'formulir_sdm_icbb_';
                 Index.WIZARD_Main = $("#smartwizard").smartWizard({
-                    theme: 'dots', 
+                    theme: 'dots',
                     toolbar: {
                         position: 'none', // none|top|bottom|both
                         showNextButton: true, // show/hide a Next button
@@ -648,7 +653,7 @@
                     keyboard: {
                         keyNavigation: false, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
                     },
-                }); 
+                });
 
                 Index.BTN_Next = $('#selanjutnya');
                 Index.BTN_Previous = $('#kembali');
@@ -762,7 +767,7 @@
                 Index.DATA_Menu.data.forEach(function(e,i){
                     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
                 });
-                
+
                 return this;
             }
 

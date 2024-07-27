@@ -10,6 +10,7 @@ use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
 use App\Models\Masters\StatusNikah;
 use App\Models\Masters\StatusPegawai;
+use App\Models\User;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
@@ -48,8 +49,20 @@ class KaryawanAdd extends Controller
             $post['fullpath'] = $path;
             $post['gambar'] = basename($path);
 
+            // make user
+            $user = [
+                "name" => $post['nama'],
+                "email" => $post['nopeg'],
+                "password" => bcrypt($post['nopeg']),
+                "telpon" => $post['nohp'],
+                "nopeg" => $post['nopeg'],
+                "passwordapi" => md5($post['nopeg'] . md5($post['nopeg'])),
+            ];
+
             Pegawai::create($post);
 
+            $user = User::create($user);
+            $user->assignRole('pegawai');
 
             $this->activity("Input data karyawan [successfully]");
 
