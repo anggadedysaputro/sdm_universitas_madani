@@ -11,6 +11,7 @@ class Auth extends Controller
 {
     public function login(Request $request)
     {
+        // md5('username'||md5('password'))
         $credentials = $request->only(['email', 'passwordapi']);
         $user = User::from("users as u")->select(
             "u.id",
