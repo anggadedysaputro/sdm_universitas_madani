@@ -26,7 +26,7 @@ Route::middleware(['jwt.verify'])->group(function () {
 });
 
 Route::prefix('pegawai')->group(function () {
-    Route::get('/{id}', [ApiPegawai::class, 'data'])->name('api.pegawai.data');
+    Route::post('/', [ApiPegawai::class, 'data'])->name('api.pegawai.data');
 });
 Route::post('login', [Auth::class, 'login'])->name("login");
 Route::post('logout', [Auth::class, 'logout'])->name("logout");

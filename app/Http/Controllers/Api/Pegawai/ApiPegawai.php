@@ -9,14 +9,17 @@ use Illuminate\Http\Request;
 
 class ApiPegawai extends Controller
 {
-    public function data(Request $request, $idpegawai)
+    public function data()
     {
         try {
+            $idpegawai = request('idpegawai');
             $query = Pegawai::query();
+            $query->where('nopeg', $idpegawai);
             $data = $query->get()->toArray();
-            if (!empty($idpegawai)) {
-                $query->where('nopeg', $idpegawai);
-            } else {
+
+            if (empty($idpegawai)) {
+                throw new Exception("Id pegawai harus ada", 1);
+            } else if (empty($data)) {
                 throw new Exception("Pegawai tidak ditemukan", 1);
             }
             return response()->json([
