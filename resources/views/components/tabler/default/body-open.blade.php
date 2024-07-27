@@ -15,6 +15,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<title>@yield('title')</title>
 	<!-- CSS files -->
+    <link rel="stylesheet" href="{{ asset('assets/css/jstree/style.min.css') }}">
     <style>
 		@font-face {
 			font-family: "tabler-icons";

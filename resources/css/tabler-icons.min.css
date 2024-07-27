@@ -2,13 +2,6 @@
  * Tabler Icons 2.32.0 by tabler - https://tabler.io
  * License - https://github.com/tabler/tabler-icons/blob/master/LICENSE
  */
-@font-face {
-    font-family: "tabler-icons";
-    font-style: normal;
-    font-weight: 400;
-    src: url("tabler-icons.eot?v2.32.0");
-    src: url("tabler-icons.eot?#iefix-v2.32.0") format("embedded-opentype"), url("tabler-icons.woff2?v2.32.0") format("woff2"), url("tabler-icons.woff?") format("woff"), url("tabler-icons.ttf?v2.32.0") format("truetype")
-}
 
 .ti {
     font-family: "tabler-icons" !important;
