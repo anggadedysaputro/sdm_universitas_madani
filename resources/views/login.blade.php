@@ -23,18 +23,17 @@
 			}
 		</style>
 		@vite([
-		'resources/css/app.css', 
-		'resources/css/gondes.css',
-		'resources/css/tabler.min.css',
-		'resources/css/tabler-flags.min.css',
-		'resources/css/tabler-payments.min.css',
-		'resources/css/tabler-vendors.min.css',
-		'resources/css/demo.min.css',
-		'resources/js/app.js',
-		'resources/js/tabler.min.js',
-		'resources/js/demo-theme.min.js',
-		'resources/js/demo.min.js',
-		])
+            'resources/css/app.css',
+            'resources/css/gondes.css',
+            'resources/css/tabler.min.css',
+            'resources/css/tabler-payments.min.css',
+            'resources/css/tabler-vendors.min.css',
+            'resources/css/demo.min.css',
+            'resources/js/app.js',
+            'resources/js/tabler.min.js',
+            'resources/js/demo-theme.min.js',
+            'resources/js/demo.min.js',
+            ])
 	</head>
 	<body  class=" d-flex flex-column bg-white">
 		{{-- <script src="./dist/js/demo-theme.min.js?1692870487"></script> --}}
@@ -53,7 +52,7 @@
 					@foreach($errors->getMessages() as $this_error)
                     <div class="alert alert-danger">{{ $this_error[0] }}</div>
 					@endforeach
-					@endif 
+					@endif
 					<form action="{{ route('login.authenticate') }}" method="post" autocomplete="off" novalidate>
 						@csrf
 						<div class="mb-3">
