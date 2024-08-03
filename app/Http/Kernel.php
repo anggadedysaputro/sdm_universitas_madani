@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\InitializeMenu;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Middleware\PreventLogin;
 use App\Http\Middleware\RefreshTokenJWT;
@@ -74,6 +75,7 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'jwt.verify' => JwtMiddleware::class,
-        'jwt.refreshtoken' => RefreshTokenJWT::class
+        'jwt.refreshtoken' => RefreshTokenJWT::class,
+        'initialize.menu' => InitializeMenu::class
     ];
 }
