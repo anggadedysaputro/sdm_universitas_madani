@@ -10,7 +10,7 @@
 @endsection
 @section('action-list')
     <a href="#" class="btn btn-primary d-none d-sm-inline-block add-new-role">
-        <i class="ti ti-plus"></i> Tambah peran baru    
+        <i class="ti ti-plus"></i> Tambah peran baru
     </a>
 @endsection
 @section('content')
@@ -114,7 +114,7 @@
 											<span>Daftar akses</span>
 										</div>
 										<div class="list-group list-group-flush p-3" id="daftar-akses">
-                        
+
 										</div>
 									</div>
 								</div>
@@ -203,7 +203,7 @@
 												didOpen: () => {
 													Swal.showLoading()
 												}
-											});	
+											});
 										},
 										success : function(result){
 											Swal.close();
@@ -233,7 +233,7 @@
 								}else{
 									Index.MD_RoleModal.modal('show');
 								}
-							
+
 							});
 						});
 					}
@@ -272,7 +272,7 @@
 								didOpen: () => {
 									Swal.showLoading()
 								}
-							});	
+							});
 						},
 						success : function(result){
 							Swal.close();
@@ -317,7 +317,7 @@
 									didOpen: () => {
 										Swal.showLoading()
 									}
-								});	
+								});
 							},
 							success : function(result){
 								Swal.fire({
@@ -348,9 +348,9 @@
 			ubahPeran(e){
 				let roleName = $(e.currentTarget).attr('nitip');
 				let idRole = $(e.currentTarget).attr('idrole');
-				Helper.getMenuJstree(idRole).then((result)=>{						
+				Helper.getMenuJstree(idRole).then((result)=>{
 					let clone = Object.assign({}, result.data);
-					
+
 					$.map( clone, function( val, i ) {
 						val['state'] = {
 							checked : val.state,
@@ -365,9 +365,9 @@
 					$('input[name="checkallakses"]').prop("checked",false);
 					Index.MD_RoleModal.modal('show');
 					Index.TMP_Permission = Index.DATA_Permissions[roleName];
-					
+
 					Helper.templatePermissions(Object.values(Myapp.TMP_Permission));
-					
+
 					Index.MD_RoleModal.find('#modalRoleName').val(roleName);
 					Index.MD_RoleModal.attr('nitip','edit');
 					Index.MD_RoleModal.find('h3').text("Ubah peran");
@@ -406,7 +406,7 @@
                                 }
                             });
                         },
-                        success : function(result){     
+                        success : function(result){
                             Swal.close();
                             resolve(result);
                         },
@@ -415,7 +415,7 @@
                             reject(error.responseJSON.message ?? error.responseJSON);
                         }
                     });
-                });   
+                });
             }
 
 			static getPermissions(role=null){
@@ -440,7 +440,7 @@
                                 }
                             });
                         },
-                        success : function(result){     
+                        success : function(result){
                             Swal.close();
                             resolve(result);
                         },
@@ -449,14 +449,14 @@
                             reject(error.responseJSON.message ?? error.responseJSON);
                         }
                     });
-                });   
+                });
             }
 
 			static addPermission(e){
 				let data = $(e.currentTarget).data();
 				let id = data.id;
 				let name = data.name;
-				
+
 				if($(e.currentTarget).is(":checked")){
 					Index.TMP_Permission[id] = {name:name,checked:true,id:id};
 				}else{
@@ -471,7 +471,7 @@
                     let plainText = `
 						<div class="list-group-item p-1">
 							<div class="row align-items-center">
-								<div class="col-auto">		
+								<div class="col-auto">
 									<input type="checkbox" class="form-check-input permission-check" name="name" value="${e.id}" ${ischeck.checked ? 'checked' : ''}>
 								</div>
 								<div class="col text-truncate">
@@ -498,14 +498,14 @@
 					let element = $(plainText);
 					content.push(element);
                 }
-				
+
                 $('#daftar-akses').html(content);
             }
 
 
 			activateNode(node,event){
 				let id = Index.JSTREE_Main.get_selected()[0];
-                
+
                 $.ajax({
                     url : "{{ route('settings.permission.single') }}",
                     method : "POST",
@@ -528,7 +528,7 @@
                     },
                     success:function(result){
                         Swal.close();
-                        
+
                         Helper.templatePermissions(result.data);
 
                         if(result.data.length==0){

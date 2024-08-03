@@ -99,10 +99,10 @@ class SettingsRole extends Controller
                 $data[$rolename['name']] = [];
 
                 foreach (Permission::all()->toArray() as $permission) {
-                    $role = new Role();
+                    $singleRole = Role::findByName($rolename['name']);
                     $tmp = [
                         'name' => $permission['name'],
-                        'checked' => $role->hasPermissionTo($permission['name']),
+                        'checked' => $singleRole->hasPermissionTo($permission['name']),
                         'id' => $permission['id']
                     ];
 

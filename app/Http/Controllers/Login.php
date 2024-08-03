@@ -40,6 +40,7 @@ class Login extends Controller
                     ->join("masters.menu", "role_has_menu.menu_id", "=", "masters.menu.id")
                     ->join("masters.icon", "masters.menu.icon_id", "=", "masters.icon.id")
                     ->where('masters.menu.isactive', true)
+                    ->where('masters.menu.location', "normal")
                     ->where('role_id', $roleId)->get()->toArray();
 
                 $user['menu'] = getChildRecursive($menuRole);

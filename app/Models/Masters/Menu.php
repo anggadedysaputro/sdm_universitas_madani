@@ -34,5 +34,6 @@ class Menu extends Model
         'parent',
         'isactive',
         'icon_id',
+        'location'
     ];
 }

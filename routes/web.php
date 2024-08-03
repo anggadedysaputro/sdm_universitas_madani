@@ -9,6 +9,7 @@ use App\Http\Controllers\Karyawan\Edit\KaryawanEdit;
 use App\Http\Controllers\Karyawan\Karyawan;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
+use App\Http\Controllers\Profile\Profile;
 use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
 use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
@@ -198,6 +199,7 @@ Route::middleware(['validate.login'])->group(function () {
     });
 
     Route::prefix('profile')->group(function () {
+        Route::get('index', [Profile::class, 'index'])->name('profile.index')->middleware(["initialize.menu"]);
     });
     Route::get('/su', function () {
         event(new JoinConnection());

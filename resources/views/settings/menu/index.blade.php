@@ -23,7 +23,7 @@
             </div>
         </a>
     </div>
-    
+
     <!-- Large Modal -->
     <div class="modal modal-blur fade" id="menu-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-md modal-simple modal-dialog-centered " role="document">
@@ -62,7 +62,17 @@
                                     <option value="0">Tidak aktif</option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    Masukkan status
+                                    Pilih status
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3 fv-plugins-icon-container fv-plugins-bootstrap5-row-invalid">
+                                <label class="form-label" for="location">Lokasi</label>
+                                <select id="location" name="location"  required>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="account">Account</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Pilih status
                                 </div>
                             </div>
                             <div class="col-12 text-center demo-vertical-spacing">
@@ -82,7 +92,7 @@
 
         class Helper {
             constructor(){
-                
+
             }
 
             clearForm(){
@@ -145,9 +155,15 @@
                             id : result.data.link,
                             text : result.data.link
                         }
+                        let location = {
+                            id : +result.data.location,
+                            text : result.data.location
+                        }
+
                         Angga.setValueSelect2AjaxRemote(Index.S2_MenuIcon,icon);
                         Angga.setValueSelect2AjaxRemote(Index.S2_MenuAktif,status);
                         Angga.setValueSelect2AjaxRemote(Index.S2_Link,link);
+                        Angga.setValueSelect2AjaxRemote(Index.S2_MenuLocation,location);
                         if(result.data.parent > 0) Angga.setValueSelect2AjaxRemote(Index.S2_Parent,parent);
                         Index.MD_Main.modal('show');
                     },
@@ -216,7 +232,7 @@
                 let url = (mode == 'edit' ? '{{ route('settings.menu.edit') }}' : '{{ route('settings.menu.store') }}');
                 let method = (mode == 'edit' ? 'PATCH' : 'POST');
                 let id = $('#id').val();
-                
+
                 $.each(Index.FRM_Main[0].elements, function(i,e){
                     $(e).removeClass('is-invalid');
                     if( (e.nodeName == 'INPUT' || e.nodeName == 'SELECT') && e.type != 'hidden'){
@@ -305,7 +321,7 @@
                                 }
                             });
                         },
-                        success : function(result){     
+                        success : function(result){
                             Swal.close();
                             // result.data.forEach(function(e,i){
                             //     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
@@ -318,7 +334,7 @@
                         }
                     });
                 });
-                
+
             }
         }
 
@@ -330,6 +346,7 @@
             static S2_MenuAktif;
             static S2_Parent;
             static S2_Link;
+            static S2_MenuLocation;
 			static AJAX_Object;
             static FRM_Main;
             static DATA_Menu;
@@ -353,6 +370,18 @@
                             return "<span class='ms-4'>"+data.text+"</span>";
                         }
                     },
+                    menulocation : {
+                        dropdownParent : $('.modal-content'),
+						theme : 'bootstrap-5',
+                        placeholder : 'Pilih lokasi',
+                        allowClear: true,
+                        escapeMarkup: function(markup) {
+                            return markup;
+                        },
+                        templateSelection: function(data) {
+                            return "<span class='ms-4'>"+data.text+"</span>";
+                        }
+                    },
 					menuicon : Angga.generalAjaxSelect2('{{ route('settings.menu.icon') }}','Pilih icon', Index.MD_Main),
                     menuparent : Angga.generalAjaxSelect2('{{ route('settings.menu.parent') }}','Pilih induk', Index.MD_Main),
                     menulink : Angga.generalAjaxSelect2('{{ route('settings.menu.link') }}','Pilih link', Index.MD_Main),
@@ -360,6 +389,7 @@
 
                 Index.S2_MenuIcon = $('#icon-menu').select2(Index.AJAX_Object.menuicon);
                 Index.S2_MenuAktif = $('#isactive').select2(Index.AJAX_Object.menuactive);
+                Index.S2_MenuLocation = $('#location').select2(Index.AJAX_Object.menulocation);
                 Index.S2_Parent = $('#parent').select2(Index.AJAX_Object.menuparent);
                 Index.S2_Link = $('#link-menu').select2(Index.AJAX_Object.menulink);
 
@@ -368,28 +398,28 @@
                     	"check_callback" : true
                     },
                     "plugins" : [ "contextmenu"],
-                    "contextmenu": {  
-                        items: function (node) {  
-                            return {  
-                                "hapus": {  
-                                    "label": "Delete",  
-                                    "icon": "fa-times",  
-                                    "action": function (obj) {  
+                    "contextmenu": {
+                        items: function (node) {
+                            return {
+                                "hapus": {
+                                    "label": "Delete",
+                                    "icon": "fa-times",
+                                    "action": function (obj) {
                                         Helper.removeNode(node);
-                                    },  
-                                    "_class": "asc"  
+                                    },
+                                    "_class": "asc"
                                 },
-                                "edit": {  
-                                    "label": "Edit",  
-                                    "icon": "uil-times-circle",  
-                                    "action": function (obj) {  
+                                "edit": {
+                                    "label": "Edit",
+                                    "icon": "uil-times-circle",
+                                    "action": function (obj) {
                                         Helper.editNode(node);
-                                    },  
-                                    "_class": "asc"  
+                                    },
+                                    "_class": "asc"
                                 }
-                            }  
-                        },  
-                    },  
+                            }
+                        },
+                    },
                 });
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);

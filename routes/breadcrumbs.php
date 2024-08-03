@@ -138,3 +138,8 @@ Breadcrumbs::for('settings.masters.sub-unit.index', function (BreadcrumbTrail $t
     $trail->parent('settings.masters.index');
     $trail->push('Sub unit', route('settings.masters.sub-unit.index'));
 });
+
+// profile
+Breadcrumbs::for('profile.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Profile', route('profile.index'));
+});
