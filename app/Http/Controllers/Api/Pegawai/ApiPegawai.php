@@ -13,8 +13,52 @@ class ApiPegawai extends Controller
     {
         try {
             $idpegawai = request('idpegawai');
-            $query = Pegawai::query();
-            $query->where('nopeg', $idpegawai);
+            $query = Pegawai::from("applications.pegawai as p")->select(
+                "p.nopeg",
+                "p.nama",
+                "p.tempatlahir",
+                "p.tgl_lahir",
+                "p.idagama",
+                "p.alamat",
+                "p.telp",
+                "p.noidentitas",
+                "p.gol_darah",
+                "p.rekbank",
+                "p.tgl_masuk",
+                "p.aktif",
+                "p.idstatuspegawai",
+                "p.idstatusnikah",
+                "p.email",
+                "p.jns_kel",
+                "p.npwp",
+                "p.kodejabfung",
+                "jf.urai as jabatanfungsional",
+                "p.kodestruktural",
+                "js.urai as jabatanstruktural",
+                "p.kodependidikan",
+                "p.tahun_lulus",
+                "p.namasekolah",
+                "p.prodi",
+                "p.nokk",
+                "p.notelpdarurat",
+                "p.namakeluargadarurat",
+                "p.hubdarurat",
+                "p.nohp",
+                "p.idkartuidentitas",
+                "p.kewarganegaraan",
+                "p.idwarganegara",
+                "p.no_bpjs_ketenagakerjaan",
+                "p.tgl_bpjs_ketenagakerjaan",
+                "p.no_bpjs_kesehatan",
+                "p.tgl_bpjs_kesehatan",
+                "p.created_at",
+                "p.updated_at",
+                "p.fullpath",
+                "p.gambar"
+            )
+                ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
+                ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
+                ->where('nopeg', $idpegawai);
             $data = $query->get()->toArray();
 
             if (empty($idpegawai)) {
