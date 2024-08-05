@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Karyawan\Edit;
 
 use App\Http\Controllers\Controller;
+use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
 use App\Models\Masters\Agama;
 use App\Models\Masters\KartuIdentitas;
@@ -61,7 +62,14 @@ class KaryawanEdit extends Controller
                 "p.kodependidikan",
                 "pen.keterangan as pendidikan",
                 "p.fullpath",
-                "p.gambar"
+                "p.gambar",
+                DB::raw("
+                    (
+                        select json_agg(k.*)
+                        from applications.keluarga k
+                        where nopeg = p.nopeg
+                    ) keluarga
+                ")
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -98,7 +106,23 @@ class KaryawanEdit extends Controller
             if (!array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = 0;
             if (!array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = 0;
 
-            Pegawai::find($id)->update($post);
+            if (isset($post['namakeluarga'])) {
+                Keluarga::where('nopeg', $id)->delete();
+                foreach ($post['namakeluarga'] as $key => $value) {
+                    $insertkeluarga = [
+                        'nopeg' => $id,
+                        'nama' => $value,
+                        'hubungan' => $post['hubungankeluarga'][$key],
+                        'tempatlahir' => $post['tempatlahirkeluarga'][$key],
+                        'tgllahir' => $post['tgllahirkeluarga'][$key],
+                        'telp' => $post['telpkeluarga'][$key],
+                        'alamat' => $post['alamatkeluarga'][$key]
+                    ];
+                    Keluarga::create($insertkeluarga);
+                }
+            } else {
+                Pegawai::find($id)->update($post);
+            }
 
             $this->activity("Edit data karyawan [successfully]");
 

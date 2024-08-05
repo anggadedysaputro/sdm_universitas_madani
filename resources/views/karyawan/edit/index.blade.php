@@ -41,7 +41,7 @@
                                     <img style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : asset('storage/pegawai/'.$pegawai->gambar) }}">
                                 </div>
                             </div>
-                        </div>   
+                        </div>
                         <div class="col-md-12" style="display:none;">
                             <div class="d-flex justify-content-center" id="container-crop">
                                 <div class="p-3">
@@ -189,6 +189,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-between">
+                            <h3>Keluarga</h3>
+                            <span>
+                                <i class="ti ti-dots-vertical" id="edit-keluarga"></i>
+                            </span>
+                        </div>
+                        <div class="list-group list-group-flush list-group-hoverable border-bottom">
+                            @foreach (json_decode($pegawai->keluarga) as $key => $value)
+                            {{-- {{dd($value);}} --}}
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {{ $value->hubungan }}
+                                    </div>
+                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-5">
+                                        {{ $value->nama }}
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Kontak</h3>
                             <span>
@@ -251,7 +273,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
@@ -431,7 +453,7 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label class="form-label required">Jenis kelamin</label>
                             <div class="row">
@@ -474,8 +496,8 @@
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
                                     <option value="O">O</option>
-                                </select>                       
-                                <div class="invalid-feedback"></div>                     
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -485,7 +507,7 @@
                                     @foreach ($agama as $value)
                                         <option value="{{ $value->id }}">{{ $value->urai }}</option>
                                     @endforeach
-                                </select>                                            
+                                </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -498,7 +520,7 @@
                                             <select type="text" class="form-select tomselected form-step-1" name="kewarganegaraan" required>
                                                 <option value="WNI" selected>WNI</option>
                                                 <option value="WNA">WNA</option>
-                                            </select>    
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -507,7 +529,7 @@
                                                 @foreach ($negara as $value)
                                                     <option value="{{ $value->id }}" {{ strtolower($value->keterangan)=='indonesia' ? 'selected' : '' }}>{{ $value->keterangan }}</option>
                                                 @endforeach
-                                            </select>  
+                                            </select>
                                             <div class="invalid-feedback"></div>
                                         </div>
                                     </div>
@@ -543,7 +565,7 @@
                                     @foreach ($kartuidentitas as $value)
                                         <option value="{{ $value->id }}">{{ $value->keterangan }}</option>
                                     @endforeach
-                                </select>      
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -616,8 +638,8 @@
                                     @foreach ($pendidikan as $value)
                                         <option value="{{ $value->kodependidikan }}">{{ $value->keterangan }}</option>
                                     @endforeach
-                                </select>      
-                                <div class="invalid-feedback"></div>                                      
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -669,7 +691,7 @@
                                     @foreach ($statuspegawai as $value)
                                         <option value="{{ $value->idstatuspegawai }}">{{ $value->keterangan }}</option>
                                     @endforeach
-                                </select>       
+                                </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -701,14 +723,14 @@
                             <div class="mb-3">
                                 <label class="form-label">Jabatan struktural</label>
                                 <select type="text" class="form-select tomselected" name="kodestruktural">
-                                </select>                                            
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Jabatan fungsional</label>
                                 <select type="text" class="form-select tomselected" name="kodejabfung">
-                                </select>                                            
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -736,6 +758,98 @@
             </div>
         </div>
     </div>
+
+    {{-- modal keluarga --}}
+    <div class="modal modal-blur fade" id="modal-edit-keluarga" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit keluarga</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" id="form-edit-keluarga">
+                    @foreach (json_decode($pegawai->keluarga) as $value)
+                    <div class="col-md-12 mb-3">
+                        <div class="card position-relative">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
+                                <i class="ti ti-minus text-white"></i>
+                            </span>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Nama</label>
+                                            <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{$value->nama}}" required>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Hubungan</label>
+                                            <select type="text" class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
+                                                <option value="Suami" {{$value->hubungan == "Suami" ? "selected":""}}>Suami</option>
+                                                <option value="Istri" {{$value->hubungan == "Istri" ? "selected":""}}>Istri</option>
+                                                <option value="Anak" {{$value->hubungan == "Anak" ? "selected":""}}>Anak</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Tempat lahir</label>
+                                            <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="{{$value->tempatlahir}}">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Tanggal lahir</label>
+                                            <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="{{$value->tgllahir}}">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">No. telepon</label>
+                                            <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{$value->telp}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Alamat<span class="form-label-description"></label>
+                                            <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="{{$value->alamat}}">{{$value->alamat}}</textarea>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="simpan-keluarga">Simpan</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <div id="organisasi"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('jsweb')
     <script type="module">
@@ -743,7 +857,7 @@
         class Helper {
             constructor(){
             }
-            
+
             change(e){
 				$('#container-crop').parent().show();
                 $('#wrapper-image-karyawan').hide();
@@ -835,7 +949,7 @@
                                 }
                             });
                         },
-                        success : function(result){     
+                        success : function(result){
                             Swal.close();
                             resolve(result);
                         },
@@ -845,9 +959,9 @@
                         }
                     });
                 });
-                
+
             }
-            
+
             static validate(form){
                 let valid = true;
                 $.each(form[0].elements, function(i,e){
@@ -866,6 +980,18 @@
             showCanvas(){
                 Index.MD_EditKepegawaian.modal('hide');
                 Index.OFFCNVS_Main.show();
+            }
+
+            deleteKeluarga(e){
+                const eJquery = $(e.currentTarget);
+                eJquery.parents('.card:first').remove();
+            }
+
+            simpanKeluarga(){
+                const data = Index.FRM_EditKeluarga.serializeObject();
+                if(Helper.validate(Index.FRM_EditKeluarga)){
+                    Helper.store(data);
+                }
             }
 
             simpanInformasiPribadi(){
@@ -904,13 +1030,17 @@
                 Index.MD_PendidikanTerakhir.modal('show');
             }
 
+            editKeluarga(){
+                Index.MD_EditKeluarga.modal('show');
+            }
+
             editInformasiPribadi(){
                 Index.MD_EditInformasiPribadi.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
                 Index.MD_EditInformasiPribadi.find('input[name="nokk"]').val("{{ $pegawai->nokk }}");
                 Index.MD_EditInformasiPribadi.find('input[name="nama"]').val("{{ $pegawai->nama }}");
                 Index.MD_EditInformasiPribadi.find('input[name="tempatlahir"]').val("{{ $pegawai->tempatlahir }}");
                 Index.MD_EditInformasiPribadi.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));
-                Index.FRM_EditInformasiPribadi.find('input[value="{{ $pegawai->jns_kel }}"][name="jns_kel"]').prop('checked',true);                
+                Index.FRM_EditInformasiPribadi.find('input[value="{{ $pegawai->jns_kel }}"][name="jns_kel"]').prop('checked',true);
                 Angga.setValueSelect2AjaxRemote(Index.S2_StatusNikah,{id:"{{ $pegawai->idstatusnikah }}" , text : "{{ $pegawai->status_nikah }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_GolDarah,{id:"{{ $pegawai->gol_darah }}" , text : "{{ $pegawai->gol_darah }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Agama,{id:"{{ $pegawai->idagama }}" , text : "{{ $pegawai->agama }}"});
@@ -1010,14 +1140,18 @@
             static BTN_SimpanPendidikanTerakhir;
             static BTN_SimpanPendidikanTerakhir;
             static BTN_SimpanKepegawaian;
+            static BTN_EditKeluarga;
+            static BTN_SimpanKeluarga;
             static MD_EditInformasiPribadi;
             static MD_EditKontak;
             static MD_PendidikanTerakhir;
             static MD_EditKepegawaian;
+            static MD_EditKeluarga;
             static FRM_EditInformasiPribadi;
             static FRM_Kontak;
             static FRM_PendidikanTerakhir;
             static FRM_Kepegawaian;
+            static FRM_EditKeluarga;
             static S2_StatusNikah;
             static S2_GolDarah;
             static S2_Agama;
@@ -1032,11 +1166,14 @@
             static JSTREE_Main;
             static DATA_Menu;
             static BTN_SimpanUploadKaryawan;
-            
+            static BTN_DeleteKeluarga;
+
             constructor() {
                 super();
                 Index.DATA_Menu = [];
+                Index.BTN_DeleteKeluarga = $('.delete-keluarga');
                 Index.BTN_EditInformasiPribadi = $('#edit-informasi-pribadi').css('cursor','pointer');
+                Index.BTN_EditKeluarga = $('#edit-keluarga').css('cursor','pointer');
                 Index.BTN_EditKontak = $('#edit-kontak').css('cursor','pointer');
                 Index.BTN_EditPendidikanTerakhir = $('#edit-pendidikanterakhir').css('cursor','pointer');
                 Index.BTN_EditKepegawaian = $("#edit-kepegawaian").css('cursor','pointer');
@@ -1044,7 +1181,9 @@
                 Index.BTN_SimpanKontak = $('#simpan-kontak');
                 Index.BTN_SimpanPendidikanTerakhir = $('#simpan-pendidikanterakhir');
                 Index.BTN_SimpanKepegawaian = $('#simpan-kepegawaian');
+                Index.BTN_SimpanKeluarga = $('#simpan-keluarga');
                 Index.MD_EditInformasiPribadi = $('#modal-edit-informasi-pribadi');
+                Index.MD_EditKeluarga = $('#modal-edit-keluarga');
                 Index.MD_EditKontak = $('#modal-edit-kontak');
                 Index.MD_PendidikanTerakhir = $('#modal-edit-pendidikanterakhir');
                 Index.MD_EditKepegawaian = $('#modal-edit-kepegawaian');
@@ -1052,6 +1191,7 @@
                 Index.FRM_Kontak = $('#form-edit-kontak');
                 Index.FRM_Kepegawaian = $('#form-edit-kepegawaian');
                 Index.FRM_PendidikanTerakhir = $('#form-edit-pendidikanterakhir');
+                Index.FRM_EditKeluarga = $('#form-edit-keluarga');
                 Index.FRM_PendidikanTerakhir = $('#form-edit-kepegawaian');
                 Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
 
@@ -1076,7 +1216,7 @@
                     }
                 });
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
-                
+
                 Index.S2_StatusNikah = Index.FRM_EditInformasiPribadi.find('select[name="idstatusnikah"]').select2({
                     placeholder : 'Pilih status pernikahan',
                     theme : 'bootstrap-5'
@@ -1144,7 +1284,7 @@
                         }
                     )
                 );
-                
+
 
                 Index.BTN_SearchOrg = $('#search-organisasi');
 
@@ -1203,6 +1343,7 @@
             }
 
             bindEvent() {
+                Index.BTN_EditKeluarga.on('click', this.editKeluarga);
                 Index.BTN_EditInformasiPribadi.on('click', this.editInformasiPribadi);
                 Index.BTN_EditKontak.on('click', this.editKontak);
                 Index.BTN_SimpanInformasiPribadi.on('click', this.simpanInformasiPribadi);
@@ -1215,6 +1356,8 @@
                 Index.BTN_SimpanKepegawaian.on('click', this.simpanKepegawaian);
                 Index.INPUT_image.on('change', this.change);
                 Index.BTN_SimpanUploadKaryawan.on('click', this.simpanUploadKaryawan);
+                Index.BTN_SimpanKeluarga.on('click', this.simpanKeluarga);
+                Index.BTN_DeleteKeluarga.on('click', this.deleteKeluarga).css('cursor','pointer');
                 return this;
             }
 

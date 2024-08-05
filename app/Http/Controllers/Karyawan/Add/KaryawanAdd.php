@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Karyawan\Add;
 
 use App\Http\Controllers\Controller;
+use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
 use App\Models\Masters\Agama;
 use App\Models\Masters\KartuIdentitas;
@@ -60,6 +61,28 @@ class KaryawanAdd extends Controller
             ];
 
             Pegawai::create($post);
+
+            $namaKeluarga = isset($post["namakeluarga"]) ? $post["namakeluarga"] : [];
+            $hubunganKeluarga = isset($post["hubungankeluarga"]) ? $post["hubungankeluarga"] : [];
+            $tempatlahirKeluarga = isset($post["tempatlahirkeluarga"]) ? $post["tempatlahirkeluarga"] : [];
+            $tgllahirKeluarga = isset($post["tgllahirkeluarga"]) ? $post["tgllahirkeluarga"] : [];
+            $telpKeluarga = isset($post['telpkeluarga']) ? $post['telpkeluarga'] : [];
+            $alamatKeluarga = isset($post['alamatkeluarga']) ? $post['alamatkeluarga'] : [];
+
+            Keluarga::where("nopeg", $post['nopeg'])->delete();
+
+            foreach ($namaKeluarga as $key => $value) {
+                $insertkeluarga = [
+                    'nopeg' => $post['nopeg'],
+                    'nama' => $value,
+                    'hubungan' => $hubunganKeluarga[$key],
+                    'tempatlahir' => $tempatlahirKeluarga[$key],
+                    'tgllahir' => $tgllahirKeluarga[$key],
+                    'telp' => $telpKeluarga[$key],
+                    'alamat' => $alamatKeluarga[$key]
+                ];
+                Keluarga::create($insertkeluarga);
+            }
 
             $user = User::create($user);
             $user->assignRole('pegawai');

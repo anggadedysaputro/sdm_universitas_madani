@@ -127,7 +127,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label required">Status perkawinan</label>
-                                                    <select type="text" class="form-select tomselected form-step-1" name="idstatusnikah" required>
+                                                    <select type="text" class="form-select tomselected form-step-1" name="idstatusnikah" required placeholder="Status perkawinan">
+                                                        <option value="">Pilih status perkawinan</option>
                                                         @foreach ($statusnikah as $value)
                                                             <option value="{{ $value->idstatusnikah }}">{{ $value->status }}</option>
                                                         @endforeach
@@ -138,7 +139,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label required">Golongan darah</label>
-                                                    <select type="text" class="form-select tomselected form-step-1" name="gol_darah" required>
+                                                    <select type="text" class="form-select tomselected form-step-1" name="gol_darah" required placeholder="Golongan darah">
+                                                        <option value="">Pilih golongan darah</option>
                                                         <option value="A">A</option>
                                                         <option value="B">B</option>
                                                         <option value="AB">AB</option>
@@ -150,7 +152,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label required">Agama</label>
-                                                    <select type="text" class="form-select tomselected form-step-1" name="agama" required>
+                                                    <select type="text" class="form-select tomselected form-step-1" name="agama" required placeholder="Agama">
+                                                        <option value="">Pilih agama</option>
                                                         @foreach ($agama as $value)
                                                             <option value="{{ $value->id }}">{{ $value->urai }}</option>
                                                         @endforeach
@@ -164,7 +167,8 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="mb-3">
-                                                                <select type="text" class="form-select tomselected form-step-1" name="kewarganegaraan" required>
+                                                                <select type="text" class="form-select tomselected form-step-1" name="kewarganegaraan" required placeholder="Kewarganegaraan">
+                                                                    <option value="">Pilih kewarganegaraan</option>
                                                                     <option value="WNI" selected>WNI</option>
                                                                     <option value="WNA">WNA</option>
                                                                 </select>
@@ -172,7 +176,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="mb-3">
-                                                                <select type="text" class="form-select tomselected form-step-1" name="idwarganegara" required>
+                                                                <select type="text" class="form-select tomselected form-step-1" name="idwarganegara" required placeholder="Negara">
+                                                                    <option value="">Pilih negara</option>
                                                                     @foreach ($negara as $value)
                                                                         <option value="{{ $value->id }}" {{ strtolower($value->keterangan)=='indonesia' ? 'selected' : '' }}>{{ $value->keterangan }}</option>
                                                                     @endforeach
@@ -189,7 +194,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label required">Tipe kartu identitas</label>
-                                                    <select type="text" class="form-select tomselected form-step-1" name="idkartuidentitas" required>
+                                                    <select type="text" class="form-select tomselected form-step-1" name="idkartuidentitas" required placeholder="Tipe kartu identitas">
+                                                        <option value="">Pilih tipe kartu identitas</option>
                                                         @foreach ($kartuidentitas as $value)
                                                             <option value="{{ $value->id }}">{{ $value->keterangan }}</option>
                                                         @endforeach
@@ -243,7 +249,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label required">Jenjang pendidikan terakhir</label>
-                                                    <select type="text" class="form-select tomselected form-step-1" name="kodependidikan" required>
+                                                    <select type="text" class="form-select tomselected form-step-1" name="kodependidikan" required placeholder="Jenjang pendidikan terakhir">
+                                                        <option value="">Pilih jenjang pendidikan terakhir</option>
                                                         @foreach ($pendidikan as $value)
                                                             <option value="{{ $value->kodependidikan }}">{{ $value->keterangan }}</option>
                                                         @endforeach
@@ -271,6 +278,10 @@
                                                     <input type="text" class="form-control form-step-1" placeholder="Program studi" name="prodi">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <h3>Keluarga <button class="btn btn-success btn-sm" type="button" id="tambah-keluarga"><i class="ti ti-plus"></i></button></h3>
+                                        <div class="row" id="wrapper-keluarga">
+
                                         </div>
                                     </div>
                                 </div>
@@ -418,6 +429,87 @@
 
             }
 
+            static addRowKeluarga(data){
+                let row = [];
+                data.forEach((e,i)=>{
+                    let content = `
+                        <div class="col-md-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Nama</label>
+                                                <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="${e.nama}" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Hubungan</label>
+                                                <select type="text" class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
+                                                    <option value="Suami" ${e.hubung == "Suami" ? `checked` : ``}>Suami</option>
+                                                    <option value="Istri" ${e.hubung == "Istri" ? `checked` : ``}>Istri</option>
+                                                    <option value="Anak" ${e.hubung == "Anak" ? `checked` : ``}>Anak</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tempat lahir</label>
+                                                <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="${e.tempatlahir}">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tanggal lahir</label>
+                                                <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="${e.tanggallahir}">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">No. telepon</label>
+                                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="${e.telp}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Alamat<span class="form-label-description"></label>
+                                                <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="${e.alamat}">${e.alamat}</textarea>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    let rowContent = $(content);
+                    flatpickr(rowContent.find('.flat-picker'),{
+                        disableMobile: "true",
+                        dateFormat: "j F Y",
+                    });
+                    row.push(rowContent);
+                });
+                return row;
+            }
+
+            tambahKeluarga(){
+                const data = Helper.addRowKeluarga(
+                    [
+                        {"nama":"angga", "hubungan":"Anak", "telp" : "083867679277", "alamat":"cangkringan sleman yogyakarta", "tempatlahir":"kediri indonesia","tanggallahir":"6 August 1924"},
+                        {"nama":"anggi", "hubungan":"Anak", "telp" : "083867679277", "alamat":"cangkringan sleman yogyakarta", "tempatlahir":"kediri indonesia", "tanggallahir":"6 August 2024"}
+                    ]
+                );
+                let wrapper = $('#wrapper-keluarga');
+                wrapper.append(data);
+                Myapp.WIZARD_Main.smartWizard("fixHeight");
+
+            }
+
             change(e){
 				$('#container-crop').show();
 				if (e.target.files.length) {
@@ -489,7 +581,13 @@
                 data = $.extend(data, {alamat});
                 let formData = new FormData();
                 $.each(data, (i,e)=>{
-                    formData.append(i,e);
+                    if(Array.isArray(e)) {
+                        e.forEach((ee,ii)=>{
+                            formData.append(i+"[]",ee);
+                        });
+                    }else{
+                        formData.append(i,e);
+                    }
                 });
 
                 if(!Index.CRP_Main.getCroppedCanvas()){
@@ -614,6 +712,7 @@
             static OFFCNVS_Main;
             static CRP_Main;
             static INPUT_image;
+            static BTN_TambahKeluarga;
 
             constructor() {
                 super();
@@ -622,6 +721,7 @@
                     "check_callback" : true
                     }
                 });
+                Index.BTN_TambahKeluarga = $("#tambah-keluarga");
                 Index.INPUT_image = $('input[type="file"]');
                 Index.CRP_Main = new Cropper($('.cropped')[0],{
 					dragMode: 'move',
@@ -756,6 +856,7 @@
                 Index.JSTREE_Main.element.on('select_node.jstree', this.selectedOrg);
                 Index.BTN_Simpan.on('click', this.simpan);
                 Index.INPUT_image.on('change', this.change);
+                Index.BTN_TambahKeluarga.on('click', this.tambahKeluarga);
                 return this;
             }
 
