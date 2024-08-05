@@ -12,6 +12,7 @@ use App\Http\Controllers\Logout;
 use App\Http\Controllers\Profile\Profile;
 use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
 use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
+use App\Http\Controllers\Settings\KonfigUmum\SettingsKonfigUmum;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
 use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
@@ -111,6 +112,15 @@ Route::middleware(['validate.login'])->group(function () {
             Route::post('store', [SettingsLogo::class, 'store'])->name('settings.logo.store');
             Route::delete('delete', [SettingsLogo::class, 'delete'])->name('settings.logo.delete');
         });
+        Route::prefix('konfig-umum')->group(function () {
+            Route::get('index', [SettingsKonfigUmum::class, 'index'])->name('settings.konfig-umum.index')->middleware(["initialize.menu"]);
+            Route::post('store', [SettingsKonfigUmum::class, 'store'])->name('settings.konfig-umum.store');
+            Route::delete('delete', [SettingsKonfigUmum::class, 'delete'])->name('settings.konfig-umum.delete');
+            Route::patch('edit', [SettingsKonfigUmum::class, 'edit'])->name('settings.konfig-umum.edit');
+            Route::post('data', [SettingsKonfigUmum::class, 'data'])->name('settings.konfig-umum.data');
+        });
+
+
         Route::prefix('masters')->group(function () {
             Route::prefix('sub-unit')->group(function () {
                 Route::get('index', [SettingsMastersSubunit::class, 'index'])->name('settings.masters.sub-unit.index')->middleware(["initialize.menu"]);

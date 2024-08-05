@@ -67,6 +67,12 @@ Breadcrumbs::for('settings.logo.index', function (BreadcrumbTrail $trail) {
     $trail->push('Logo', route('settings.logo.index'));
 });
 
+// settings > logo
+Breadcrumbs::for('settings.konfig-umum.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Konfig umum', route('settings.konfig-umum.index'));
+});
+
 // settings > masters
 Breadcrumbs::for('settings.masters.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
