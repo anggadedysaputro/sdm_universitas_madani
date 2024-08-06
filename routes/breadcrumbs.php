@@ -67,10 +67,16 @@ Breadcrumbs::for('settings.logo.index', function (BreadcrumbTrail $trail) {
     $trail->push('Logo', route('settings.logo.index'));
 });
 
-// settings > logo
+// settings > konfig umum
 Breadcrumbs::for('settings.konfig-umum.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
     $trail->push('Konfig umum', route('settings.konfig-umum.index'));
+});
+
+// settings > konfig umum
+Breadcrumbs::for('settings.config-app.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Konfig umum', route('settings.config-app.index'));
 });
 
 // settings > masters

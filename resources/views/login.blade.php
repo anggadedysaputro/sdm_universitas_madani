@@ -41,8 +41,8 @@
 			<div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
 				<div class="container container-tight my-5 px-lg-5">
 					<div class="text-center mb-4">
-						<a href="." class="navbar-brand navbar-brand-autodark">
-						<img src="./static/logo.svg" height="36" alt="">
+						<a href="{{ route("dashboard.index") }}" class="navbar-brand navbar-brand-autodark">
+						<img src="{{ asset("assets/ilustration/logo-default.png") }}" height="36" alt="">
 						</a>
 					</div>
 					<h2 class="h3 text-center mb-3">

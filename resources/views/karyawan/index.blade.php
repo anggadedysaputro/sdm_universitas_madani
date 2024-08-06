@@ -137,7 +137,7 @@
                         {
                             data : "jenis_kelamin"
                         },
-                       
+
                         {
                             data : "gol_darah"
                         },
@@ -156,14 +156,14 @@
                         {
                             data : "nama_kartuidentitas"
                         },
-                        
+
                         {
                             data : "noidentitas"
                         },
                         {
                             data : "alamat"
                         },
-                        
+
                         {
                             data : "notelpdarurat"
                         },
@@ -200,11 +200,11 @@
                             orderable: false,
                             targets: 1
                         },
-                        { 
+                        {
                             targets: [
                                 'informasi-pribadi',
                                 'all'
-                            ], 
+                            ],
                             visible: true
                         },
                         { targets: '_all', visible: false },
@@ -242,9 +242,9 @@
                         },
                         {
                             extend: 'searchPanes',
-                            
+
                             config: {
-                                layout: 'columns-3',    
+                                layout: 'columns-3',
                                 cascadePanes: true,
                                 viewTotal: true
                             }

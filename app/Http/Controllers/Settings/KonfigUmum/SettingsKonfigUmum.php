@@ -131,10 +131,3 @@ class SettingsKonfigUmum extends Controller
         }
     }
 }
-
-// ALTER TABLE applications.konfigumum
-//   ADD COLUMN created_at TIMESTAMP(0) WITHOUT TIME ZONE;
-//   ALTER TABLE applications.konfigumum
-//   ADD COLUMN updated_at TIMESTAMP(0) WITHOUT TIME ZONE;
-// ALTER TABLE applications.konfigumum
-//   ADD COLUMN harilibur VARCHAR(255) DEFAULT 'Jum''at' NOT NULL;

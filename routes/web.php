@@ -12,6 +12,7 @@ use App\Http\Controllers\Logout;
 use App\Http\Controllers\Profile\Profile;
 use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
 use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
+use App\Http\Controllers\Settings\ConfigApp\SettingsConfigApp;
 use App\Http\Controllers\Settings\KonfigUmum\SettingsKonfigUmum;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
@@ -118,6 +119,13 @@ Route::middleware(['validate.login'])->group(function () {
             Route::delete('delete', [SettingsKonfigUmum::class, 'delete'])->name('settings.konfig-umum.delete');
             Route::patch('edit', [SettingsKonfigUmum::class, 'edit'])->name('settings.konfig-umum.edit');
             Route::post('data', [SettingsKonfigUmum::class, 'data'])->name('settings.konfig-umum.data');
+        });
+        Route::prefix('config-app')->group(function () {
+            Route::get('index', [SettingsConfigApp::class, 'index'])->name('settings.config-app.index')->middleware(["initialize.menu"]);
+            Route::post('store', [SettingsConfigApp::class, 'store'])->name('settings.config-app.store');
+            Route::delete('delete', [SettingsConfigApp::class, 'delete'])->name('settings.config-app.delete');
+            Route::patch('edit', [SettingsConfigApp::class, 'edit'])->name('settings.config-app.edit');
+            Route::post('data', [SettingsConfigApp::class, 'data'])->name('settings.config-app.data');
         });
 
 
