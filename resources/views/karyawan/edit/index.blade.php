@@ -1379,7 +1379,7 @@
 
         $(document).ready(function() {
             window.Myapp = Index;
-            //new Myapp().startApp();
+            new Myapp().startApp();
         });
 
     </script>
