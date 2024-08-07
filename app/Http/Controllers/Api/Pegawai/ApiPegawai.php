@@ -67,7 +67,7 @@ class ApiPegawai extends Controller
                 throw new Exception("Pegawai tidak ditemukan", 1);
             }
 
-            $data[0]["link"] = asset("public/storage/pegawai/" . $data[0]["gambar"]);
+            $data[0]["link"] = asset("storage/pegawai/" . $data[0]["gambar"]);
 
             return response()->json([
                 'message' => 'Berhasil mengambil data pegawai',
