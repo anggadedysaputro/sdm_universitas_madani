@@ -80,7 +80,7 @@ class ApiPegawai extends Controller
                 'status' => false
             ];
 
-            return response()->json($data, 400);
+            return response()->json($data, 200);
         }
     }
 }
