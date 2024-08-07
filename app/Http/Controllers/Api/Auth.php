@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Applications\ConfigApp;
+use App\Models\Applications\KonfigUmum;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -14,17 +17,8 @@ class Auth extends Controller
         // md5('username'||md5('password'))
         $credentials = $request->only(['email', 'passwordapi']);
         $user = User::from("users as u")->select(
-            "u.id",
             "p.nopeg",
             "p.nama",
-            "p.alamat",
-            "p.npwp",
-            "p.jns_kel",
-            "p.nohp",
-            "js.urai as jabatanstruktural",
-            "jf.urai as jabatanfungsional",
-            "kitas.keterangan as namakartuidentitas",
-            "p.noidentitas",
         )
             ->join("applications.pegawai as p", "p.nopeg", "=", "u.nopeg")
             ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
@@ -32,28 +26,37 @@ class Auth extends Controller
             ->join("masters.kartuidentitas as kitas", "kitas.id", "=", "p.idkartuidentitas")
             ->where('u.email', $credentials['email'])->where('u.passwordapi', $credentials['passwordapi'])->first();
 
+        $configApp = ConfigApp::where('aktif', true)->first();
+        if (empty($configApp)) throw new Exception("Konfig aplikasi belum disetting", 1);
+        $konfigUmum = KonfigUmum::select(
+            "masuk",
+            "pulang",
+            "masukpuasa",
+            "pulangpuasa",
+            "tanggalawalpuasa",
+            "tanggalakhirpuasa",
+            "defcuti",
+            "harilibur",
+            "lokasidef"
+        )->where('idkonfigumum', $configApp->idkonfig)->first();
+        if (empty($konfigUmum)) throw new Exception("Konfig umum tidak ditemukan", 1);
+
+
         if (empty($user)) {
             return response()->json([
                 'message' => 'login gagal',
                 'status' => false
             ], 400);
         } else {
+            $dataKonfigUmum = $konfigUmum->toArray();
+            unset($dataKonfigUmum['lokasidef']);
+
             return response()->json([
                 'message' => 'login berhasil',
                 'status' => true,
-                'data' => [
-                    'id' => $user->id,
-                    'nopeg' => $user->nopeg,
-                    'nama' => $user->nama,
-                    'alamat' => $user->alamat,
-                    'npwp' => $user->npwp,
-                    'jns_kel' => $user->jns_kel,
-                    'nohp' => $user->nohp,
-                    'noidentitas' => $user->noidentitas,
-                    'namakartuidentitas' => $user->namakartuidentitas,
-                    'jabatanstruktural' => $user->jabatanstruktural,
-                    'jabatanfungsional' => $user->jabatanfungsional
-                ]
+                'nopeg' => $user->nopeg,
+                'konfigumum' => $dataKonfigUmum,
+                'lokasi' => json_decode($konfigUmum->lokasidef)
             ], 200);
         }
     }
