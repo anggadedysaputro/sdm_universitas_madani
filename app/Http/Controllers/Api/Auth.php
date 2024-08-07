@@ -46,7 +46,7 @@ class Auth extends Controller
             return response()->json([
                 'message' => 'login gagal',
                 'status' => false
-            ], 400);
+            ], 200);
         } else {
             $dataKonfigUmum = $konfigUmum->toArray();
             unset($dataKonfigUmum['lokasidef']);
