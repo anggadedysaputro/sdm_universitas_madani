@@ -12,22 +12,6 @@
     <a href="{{ route('karyawan.index') }}" class="btn btn-primary"><i class="ti ti-list"></i>Data karyawan</a>
 @endsection
 @section('search')
-    {{-- <form action="./" method="get" autocomplete="off" novalidate>
-        <div class="input-icon">
-            <span class="input-icon-addon">
-                <!-- Download SVG icon from http://tabler-icons.io/i/search -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                    <path d="M21 21l-6 -6" />
-                </svg>
-            </span>
-            <input type="text" value="" class="form-control" placeholder="Search…"
-                aria-label="Search in website">
-        </div>
-    </form> --}}
 @endsection
 @section('content')
     <div class="card">
@@ -196,8 +180,7 @@
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
-                            @foreach (json_decode($pegawai->keluarga) as $key => $value)
-                            {{-- {{dd($value);}} --}}
+                            @foreach ($keluarga as $key => $value)
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
@@ -470,7 +453,6 @@
                                     <label class="form-check form-check-inline">
                                     <input type="radio" value="P" class="form-check-input form-step-1" name="jns_kel" required>
                                     <span class="form-check-label">
-                                        {{-- <img src="{{ asset('assets/ilustration/female.jpg') }}" width="100" height="100"/> --}}
                                         Perempuan
                                     </span>
                                     </label>
@@ -743,6 +725,7 @@
           </div>
         </div>
     </div>
+
     <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
         <div class="offcanvas-header">
             <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
@@ -769,7 +752,7 @@
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-keluarga">
-                    @foreach (json_decode($pegawai->keluarga) as $value)
+                    @foreach ($keluarga as $value)
                     <div class="col-md-12 mb-3">
                         <div class="card position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
@@ -835,6 +818,7 @@
           </div>
         </div>
     </div>
+
     <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
         <div class="offcanvas-header">
             <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
@@ -1395,7 +1379,7 @@
 
         $(document).ready(function() {
             window.Myapp = Index;
-            new Myapp().startApp();
+            //new Myapp().startApp();
         });
 
     </script>

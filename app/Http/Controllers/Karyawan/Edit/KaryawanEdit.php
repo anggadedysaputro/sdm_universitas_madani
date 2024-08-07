@@ -90,7 +90,9 @@ class KaryawanEdit extends Controller
         $kartuidentitas = KartuIdentitas::all();
         $agama = Agama::all();
 
-        return view('karyawan.edit.index', compact('id', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
+        $keluarga = empty($pegawai->keluarga) ? [] : json_decode($pegawai->keluarga);
+
+        return view('karyawan.edit.index', compact('id', 'keluarga', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
     }
 
     public function store()
