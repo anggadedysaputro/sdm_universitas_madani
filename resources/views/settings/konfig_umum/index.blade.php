@@ -322,8 +322,8 @@
                         {
                             data : null,
                             defaultContent : `
-                                <button class="btn btn-danger hapus"><i class="ti ti-trash-x"></i></button>
-                                <button class="btn btn-warning edit"><i class="ti ti-edit-circle"></i></button>
+                                <button class="btn btn-danger btn-sm hapus"><i class="ti ti-trash-x"></i></button>
+                                <button class="btn btn-warning btn-sm edit"><i class="ti ti-edit-circle"></i></button>
                             `
                         }
                     ],
