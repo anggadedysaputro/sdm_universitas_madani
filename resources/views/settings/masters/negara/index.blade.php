@@ -83,7 +83,7 @@
 
         class Helper {
             constructor(){
-                
+
             }
 
             tambah(){
@@ -101,7 +101,7 @@
                 let url = (mode == 'edit' ? '{{ route('settings.masters.negara.edit') }}' : '{{ route('settings.masters.negara.store') }}');
                 let method = (mode == 'edit' ? 'PATCH' : 'POST');
                 let id = $('#id').val();
-                
+
                 $.each(Index.FRM_Main[0].elements, function(i,e){
                     $(e).removeClass('is-invalid');
                     if( (e.nodeName == 'INPUT' || e.nodeName == 'SELECT') && e.type != 'hidden'){
@@ -250,8 +250,8 @@
                         {
                             data : null,
                             defaultContent : `
-                                <button class="btn btn-danger hapus"><i class="ti ti-trash-x"></i></button>
-                                <button class="btn btn-warning edit"><i class="ti ti-edit-circle"></i></button>
+                                <button class="btn btn-danger btn-sm hapus"><i class="ti ti-trash-x"></i></button>
+                                <button class="btn btn-warning btn-sm edit"><i class="ti ti-edit-circle"></i></button>
                             `
                         }
                     ],

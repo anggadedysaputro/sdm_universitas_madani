@@ -97,7 +97,7 @@
 
         class Helper {
             constructor(){
-                
+
             }
 
             tambah(){
@@ -115,7 +115,7 @@
                 let url = (mode == 'edit' ? '{{ route('settings.masters.jabatan.struktural.edit') }}' : '{{ route('settings.masters.jabatan.struktural.store') }}');
                 let method = (mode == 'edit' ? 'PATCH' : 'POST');
                 let id = $('#id').val();
-                
+
                 $.each(Index.FRM_Struktural[0].elements, function(i,e){
                     $(e).removeClass('is-invalid');
                     if( (e.nodeName == 'INPUT' || e.nodeName == 'SELECT') && e.type != 'hidden'){
@@ -200,7 +200,7 @@
                                 }
                             });
                         },
-                        success : function(result){     
+                        success : function(result){
                             Swal.close();
                             resolve(result);
                         },
@@ -301,8 +301,8 @@
                         {
                             data : null,
                             defaultContent : `
-                                <button class="btn btn-danger hapus"><i class="ti ti-trash-x"></i></button>
-                                <button class="btn btn-warning edit"><i class="ti ti-edit-circle"></i></button>
+                                <button class="btn btn-danger btn-sm hapus"><i class="ti ti-trash-x"></i></button>
+                                <button class="btn btn-warning btn-sm edit"><i class="ti ti-edit-circle"></i></button>
                             `
                         }
                     ],
@@ -317,17 +317,17 @@
                     "check_callback" : true
                     },
                     "plugins" : [ "dnd","contextmenu" ],
-                    "contextmenu": {  
-                        items: function (node) {  
-                            return {  
+                    "contextmenu": {
+                        items: function (node) {
+                            return {
                                 "tambah" : {
-                                    "label": "Tambah",  
-                                    "icon": "ti ti-add",  
+                                    "label": "Tambah",
+                                    "icon": "ti ti-add",
                                     "submenu" : {
                                         "anak" : {
                                             "label" : "Anak",
                                             "_class" :"asc",
-                                            "action": function (obj) {  
+                                            "action": function (obj) {
                                                 let last = node.id.split(".").pop();
                                                 if(last != '0'){
                                                     Swal.fire("Informasi","Tidak boleh tambah anak lagi","info");
@@ -335,50 +335,50 @@
                                                 }else{
                                                     Helper.anak(node);
                                                 }
-                                            },  
+                                            },
                                         },
                                         "saudara" : {
                                             "label" : "Saudara",
                                             "_class" :"asc",
-                                            "action": function (obj) {  
+                                            "action": function (obj) {
                                                 if(node.id == 0){
                                                     Swal.fire('Informasi','Tidak boleh menambah saudara pada root tree','info');
                                                 }else{
                                                     Helper.saudara(node);
                                                 }
-                                            },  
+                                            },
                                         }
                                     },
-                                    "_class": "asc"  
+                                    "_class": "asc"
                                 },
-                                "hapus": {  
-                                    "label": "Delete",  
-                                    "icon": "fa-times",  
-                                    "action": function (obj) {  
+                                "hapus": {
+                                    "label": "Delete",
+                                    "icon": "fa-times",
+                                    "action": function (obj) {
                                         if(node.id == 0){
                                             Swal.fire('Informasi','Tidak boleh menghapus root tree','info');
                                         }else{
 
                                             Helper.remove(node);
                                         }
-                                    },  
-                                    "_class": "asc"  
+                                    },
+                                    "_class": "asc"
                                 },
-                                "edit": {  
-                                    "label": "Edit",  
-                                    "icon": "uil-times-circle",  
-                                    "action": function (obj) {  
+                                "edit": {
+                                    "label": "Edit",
+                                    "icon": "uil-times-circle",
+                                    "action": function (obj) {
                                         if(node.id == 0){
                                             Swal.fire('Informasi','Tidak boleh mengubah root tree','info');
                                         }else{
                                             Helper.edit(node);
                                         }
-                                    },  
-                                    "_class": "asc"  
+                                    },
+                                    "_class": "asc"
                                 }
-                            }  
-                        },  
-                    },  
+                            }
+                        },
+                    },
                 });
 
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
@@ -435,7 +435,7 @@
             }
 
             loadDefaultValue() {
-                
+
                 Index.DATA_Menu.data.forEach(function(e,i){
                     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
                 });
