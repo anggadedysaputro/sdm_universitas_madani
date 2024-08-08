@@ -100,6 +100,42 @@ export default class Angga {
         });
     }
 
+    static validate(form, parent, parentTop = 0, exclude=[]) {
+        let valid = true;
+        let oneScroll = true;
+
+        let scroll = (e, parentTop) => {
+            let top = $(e).offset().top;
+            let topParent = parentTop.offset().top
+            let scrollTop = top < 0 ? top - topParent : top;
+            $(parent).animate({ scrollTop }, 2000);
+            oneScroll = false;
+        }
+        $.each(form[0].elements, function (i, e) {
+            if (e.hasAttribute('required') && !exclude.includes(e.name)) {
+                $(e).addClass('is-invalid');
+                if (e.nodeName == 'INPUT' && e.type != 'radio') {
+                    if (e.value == '') valid = false;
+                } else if (e.nodeName == 'INPUT' && e.type == 'radio') {
+                    let name = e.name;
+                    if (!parent.find("input[name='" + name + "']").is(":checked")) valid = false;
+                } else if (e.nodeName == 'SELECT') {
+                    if ($(e).val() == "" || $(e).val() == 0 || $(e).val() == undefined || $(e).val() == null) valid = false;
+                } else if (e.nodeName == 'TEXTAREA') {
+                    if ($(e).val() == "") valid = false;
+                }
+
+                if (!valid) {
+                    if (oneScroll) scroll(e, parentTop);
+                } else {
+                    $(e).removeClass('is-invalid').addClass('is-valid');
+                }
+            }
+        });
+
+        return valid;
+    }
+
     static trNotFound(colspan, isi) {
         let content = `
             <tr class="trnotfound">
@@ -134,7 +170,7 @@ export default class Angga {
         // untuk delay key up
         // misalnya kamu punya event key up tapi ingin dieksekusi ketika 5 detik
         // setelah keyboard ditekan
-        // contoh : 
+        // contoh :
         // $('#search').keyup(throttle(function(){
         //    do the search if criteria is met
         // },500));

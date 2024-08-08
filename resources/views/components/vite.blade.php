@@ -16,6 +16,10 @@
     'resources/js/tabler.min.js',
     'resources/js/demo-theme.min.js',
     'resources/js/demo.min.js',
+    'resources/js/leaflet.min.js',
+    'resources/js/geocoder.min.js',
+    'resources/css/leaflet.min.css',
+    'resources/css/geocoder.min.css',
 ])
 <style>
     @import url('https://rsms.me/inter/inter.css');

@@ -42,6 +42,22 @@ class SettingsKonfigUmum extends Controller
         try {
             $post = request()->all();
 
+            $latlong = $post['latlong'];
+            $urai = $post['urai'];
+            $maps = [];
+            for ($i = 0; $i < count($latlong); $i++) {
+                $row = [
+                    'urai' => $urai[$i],
+                    'latlong' => $latlong[$i]
+                ];
+                array_push($maps, $row);
+            }
+
+            $post['lokasidef'] = json_encode($maps);
+
+            unset($post['urai']);
+            unset($post['latlong']);
+
             KonfigUmum::create($post);
 
             $this->activity("Input data konfig umum [successfully]");
@@ -105,6 +121,23 @@ class SettingsKonfigUmum extends Controller
             $post = request()->all();
             $id = $post['idkonfigumum'];
             unset($post['idkonfigumum']);
+
+
+            $latlong = $post['latlong'];
+            $urai = $post['urai'];
+            $maps = [];
+            for ($i = 0; $i < count($latlong); $i++) {
+                $row = [
+                    'urai' => $urai[$i],
+                    'latlong' => $latlong[$i]
+                ];
+                array_push($maps, $row);
+            }
+
+            $post['lokasidef'] = json_encode($maps);
+
+            unset($post['urai']);
+            unset($post['latlong']);
 
             KonfigUmum::find($id)->update($post);
 
