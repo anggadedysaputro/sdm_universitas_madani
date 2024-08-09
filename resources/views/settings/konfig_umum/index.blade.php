@@ -36,7 +36,7 @@
             </tbody>
         </table>
     </div>
-  </div>
+</div>
 <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
     <div class="offcanvas-header">
 		<h2 class="offcanvas-title" id="offcanvasEndLabel">Input konfig umum</h2>

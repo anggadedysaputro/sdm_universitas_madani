@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Applications\ConfigApp;
 use App\Models\Public\RoleHasMenu;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
@@ -47,6 +48,10 @@ class Login extends Controller
                 $user['tahun'] = date("Y");
                 $user['tahunaktif'] = date("Y");
                 $user['rolename'] = Auth::user()->getRoleNames()[0];
+                $user['konfigumum'] = ConfigApp::from("applications.configapp as ca")
+                    ->select("ku.*", "ca.tahun")
+                    ->join("applications.konfigumum as ku", "ku.idkonfigumum", "=", "ca.idkonfig")
+                    ->where("ca.aktif", true)->get()->toArray()[0];
                 session($user);
                 $request->session()->regenerate();
 
@@ -59,6 +64,7 @@ class Login extends Controller
                 'email' => 'The provided credentials do not match our records.'
             ]);
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             $this->activity("Login [failed]", $th->getMessage());
             return back()->withErrors([
                 'message' => 'Login gagal'

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\JoinConnection;
+use App\Http\Controllers\Cuti\Cuti;
 use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Jstree\Menu\JstreeMenu;
 use App\Http\Controllers\Jstree\StrukturOrganisasi\JstreeStrukturOrganisasi;
@@ -214,6 +215,14 @@ Route::middleware(['validate.login'])->group(function () {
             Route::patch('store', [KaryawanEdit::class, 'store'])->name('karyawan.edit.store');
             Route::post('upload', [KaryawanEdit::class, 'upload'])->name('karyawan.edit.upload');
         });
+    });
+
+    Route::prefix('cuti')->group(function () {
+        Route::get('index', [Cuti::class, 'index'])->name('cuti.index')->middleware(["initialize.menu"]);
+        Route::post('store', [Cuti::class, 'store'])->name('cuti.store');
+        Route::post('data', [Cuti::class, 'data'])->name('cuti.data');
+        Route::patch('edit', [Cuti::class, 'edit'])->name('cuti.edit');
+        Route::delete('delete', [Cuti::class, 'delete'])->name('cuti.delete');
     });
 
     Route::prefix('profile')->group(function () {
