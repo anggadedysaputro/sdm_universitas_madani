@@ -364,6 +364,17 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
+                                        Bidang
+                                    </div>
+                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-5">
+                                        {{ $pegawai->organisasi }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
                                         Jabatan fungsional
                                     </div>
                                     <div class="col-md-2">:</div>
@@ -986,15 +997,17 @@
             }
 
             simpanKepegawaian(){
-                const data = Index.FRM_Kepegawaian.serializeObject();
-                if(Helper.validate(Index.FRM_Kepegawaian)){
+                let data = Index.FRM_EditKepegawaian.serializeObject();
+                const organisasi = Index.FRM_EditKepegawaian.find("input[name='organisasi']").val();
+                data = $.extend(data,{organisasi});
+                if(Helper.validate(Index.FRM_EditKepegawaian)){
                     Helper.store(data);
                 }
             }
 
             simpanPendidikanTerakhir(){
-                const data = Index.FRM_PendidikanTerakhir.serializeObject();
-                if(Helper.validate(Index.FRM_PendidikanTerakhir)){
+                const data = Index.FRM_EditPendidikanTerakhir.serializeObject();
+                if(Helper.validate(Index.FRM_EditPendidikanTerakhir)){
                     Helper.store(data);
                 }
             }
@@ -1045,7 +1058,8 @@
             }
 
             editKepegawaian(){
-                Index.MD_EditKepegawaian.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
+                Index.FRM_EditKepegawaian.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
+                Index.FRM_EditKepegawaian.find('input[name="organisasi"]').val("{{ $pegawai->organisasi }}");
                 Angga.setValueSelect2AjaxRemote(Index.S2_Pegawai,{id:"{{ $pegawai->idstatuspegawai }}" , text : "{{ $pegawai->status_pegawai }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{id:"{{ $pegawai->kodejabfung }}" , text : "{{ $pegawai->jabatan_fungsional }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Struktural,{id:"{{ $pegawai->kodestruktural }}" , text : "{{ $pegawai->jabatan_struktural }}"});
@@ -1104,7 +1118,7 @@
                 if(selected.node.original.id == '0'){
                     Swal.fire('Informasi','Tidak boleh memilih yayasan','info');
                 }else{
-                    Index.FRM_Kepegawaian.find('input[name="organisasi"]').val(selected.node.original.text).prev().val(selected.node.original.id);
+                    Index.FRM_EditKepegawaian.find('input[name="organisasi"]').val(selected.node.original.text).prev().val(selected.node.original.id);
                     Index.OFFCNVS_Main.hide();
                     Index.MD_EditKepegawaian.modal('show');
                     Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{text : '', id:''});
@@ -1133,7 +1147,7 @@
             static MD_EditKeluarga;
             static FRM_EditInformasiPribadi;
             static FRM_Kontak;
-            static FRM_PendidikanTerakhir;
+            static FRM_EditPendidikanTerakhir;
             static FRM_Kepegawaian;
             static FRM_EditKeluarga;
             static S2_StatusNikah;
@@ -1173,8 +1187,8 @@
                 Index.MD_EditKepegawaian = $('#modal-edit-kepegawaian');
                 Index.FRM_EditInformasiPribadi = Index.MD_EditInformasiPribadi.find('#form-edit-informasi-pribadi');
                 Index.FRM_Kontak = $('#form-edit-kontak');
-                Index.FRM_Kepegawaian = $('#form-edit-kepegawaian');
-                Index.FRM_PendidikanTerakhir = $('#form-edit-pendidikanterakhir');
+                Index.FRM_EditKepegawaian = $('#form-edit-kepegawaian');
+                Index.FRM_EditPendidikanTerakhir = $('#form-edit-pendidikanterakhir');
                 Index.FRM_EditKeluarga = $('#form-edit-keluarga');
                 Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
 
@@ -1224,22 +1238,22 @@
                     placeholder : 'Pilih tipe kartu identitas',
                     theme : 'bootstrap-5'
                 });
-                Index.S2_Pendidikan = Index.FRM_PendidikanTerakhir.find('select[name="kodependidikan"]').select2({
+                Index.S2_Pendidikan = Index.FRM_EditPendidikanTerakhir.find('select[name="kodependidikan"]').select2({
                     placeholder : 'Pilih pendidikan',
                     theme : 'bootstrap-5'
                 });
-                Index.S2_Pegawai = Index.FRM_Kepegawaian.find('select[name="idstatuspegawai"]').select2({
+                Index.S2_Pegawai = Index.FRM_EditKepegawaian.find('select[name="idstatuspegawai"]').select2({
                     placeholder : 'Pilih status pegawai',
                     theme : 'bootstrap-5'
                 });
-                Index.S2_Fungsional = Index.FRM_Kepegawaian.find('select[name="kodejabfung"]').select2(
+                Index.S2_Fungsional = Index.FRM_EditKepegawaian.find('select[name="kodejabfung"]').select2(
                     $.extend(
                         true,
                         Angga.generalAjaxSelect2('{{ route('select2.jabatan.fungsional.data') }}','Pilih jabatan fungsional'),
                         {
                             ajax : {
                                 transport: function (params, success, failure) {
-                                    params.data['organisasi'] = Index.FRM_Kepegawaian.find('input[name="organisasi"]').prev().val();
+                                    params.data['organisasi'] = Index.FRM_EditKepegawaian.find('input[name="organisasi"]').prev().val();
                                     const $request = $.ajax(params);
                                     $request.then(success);
                                     $request.fail(failure);
@@ -1250,14 +1264,14 @@
                     )
                 );
 
-                Index.S2_Struktural = Index.FRM_Kepegawaian.find('select[name="kodestruktural"]').select2(
+                Index.S2_Struktural = Index.FRM_EditKepegawaian.find('select[name="kodestruktural"]').select2(
                     $.extend(
                         true,
                         Angga.generalAjaxSelect2('{{ route('select2.jabatan.struktural.data') }}','Pilih jabatan struktural'),
                         {
                             ajax : {
                                 transport: function (params, success, failure) {
-                                    params.data['organisasi'] = Index.FRM_Kepegawaian.find('input[name="organisasi"]').prev().val();
+                                    params.data['organisasi'] = Index.FRM_EditKepegawaian.find('input[name="organisasi"]').prev().val();
                                     const $request = $.ajax(params);
                                     $request.then(success);
                                     $request.fail(failure);

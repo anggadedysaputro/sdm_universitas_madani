@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
 use App\Models\Masters\Agama;
+use App\Models\Masters\Bidang;
 use App\Models\Masters\KartuIdentitas;
 use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
@@ -107,8 +108,29 @@ class KaryawanEdit extends Controller
             $id = $post['nopeg_lama'];
             unset($post['nopeg_lama']);
             if (array_key_exists("tgl_lahir", $post)) $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
-            if (!array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = 0;
-            if (!array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = 0;
+            if (!array_key_exists("kodestruktural", $post) || empty($post['kodestruktural'])) $post['kodestruktural'] = 0;
+            if (!array_key_exists("kodejabfung", $post) || empty($post['kodejabfung'])) $post['kodejabfung'] = 0;
+
+            if (array_key_exists("organisasi", $post)) {
+                $bidangColumn = [
+                    'kodebidang',
+                    'kodedivisi',
+                    'kodesubdivisi',
+                    'kodesubsubdivisi'
+                ];
+                $bidang = explode(".", substr($post['organisasi'], 0, 7));
+
+                $queryBidang = Bidang::query();
+                for ($i = 0; $i < count($bidang); $i++) {
+                    $queryBidang->where($bidangColumn[$i], $bidang[$i]);
+                }
+
+                $dataBidang = $queryBidang->get()->toArray();
+                if (empty($dataBidang)) throw new Exception("Bidang tidak ditemukan!", 1);
+                $dataBidang = $dataBidang[0];
+
+                $post['idbidang'] = $dataBidang['id'];
+            }
 
             if (isset($post['namakeluarga'])) {
                 Keluarga::where('nopeg', $id)->delete();
