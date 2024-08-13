@@ -1176,7 +1176,6 @@
                 Index.FRM_Kepegawaian = $('#form-edit-kepegawaian');
                 Index.FRM_PendidikanTerakhir = $('#form-edit-pendidikanterakhir');
                 Index.FRM_EditKeluarga = $('#form-edit-keluarga');
-                Index.FRM_PendidikanTerakhir = $('#form-edit-kepegawaian');
                 Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
 
                 Index.INPUT_image = $('input[type="file"]');

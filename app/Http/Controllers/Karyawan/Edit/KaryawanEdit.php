@@ -69,7 +69,8 @@ class KaryawanEdit extends Controller
                         from applications.keluarga k
                         where nopeg = p.nopeg
                     ) keluarga
-                ")
+                "),
+                DB::raw("concat(concat_ws('.',bid.kodebidang,bid.kodedivisi,bid.kodesubdivisi,bid.kodesubsubdivisi), ' - ', bid.urai) as organisasi")
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -79,6 +80,7 @@ class KaryawanEdit extends Controller
             ->join('masters.jabatanfungsional as jf', 'jf.kodejabatanfungsional', '=', 'p.kodejabfung')
             ->join('masters.jabatanstruktural as js', 'js.kodejabatanstruktural', '=', 'p.kodestruktural')
             ->join('masters.pendidikan as pen', 'pen.kodependidikan', '=', 'p.kodependidikan')
+            ->join('masters.bidang as bid', 'bid.id', '=', 'p.idbidang')
             ->first();
 
         if (empty($pegawai)) return redirect()->route('karyawan.index');

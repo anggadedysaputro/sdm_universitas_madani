@@ -54,10 +54,13 @@ class ApiPegawai extends Controller
                 "p.created_at",
                 "p.updated_at",
                 "p.fullpath",
-                "p.gambar"
+                "p.gambar",
+                "p.idbidang",
+                "bid.urai as nama_bidang"
             )
                 ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
                 ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
+                ->join("masters.bidang as bid", "bid.id", "=", "p.idbidang")
                 ->where('nopeg', $idpegawai);
             $data = $query->get()->toArray();
 

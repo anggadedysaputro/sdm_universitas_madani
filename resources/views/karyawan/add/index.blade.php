@@ -578,7 +578,8 @@
             simpan(){
                 let data = Index.FRM_Main.serializeObject();
                 let alamat = Index.FRM_Main.find('textarea[name="alamat"]').val();
-                data = $.extend(data, {alamat});
+                let organisasi = Index.FRM_Main.find("input[name='organisasi']").val();
+                data = $.extend(data, {alamat,organisasi});
                 let formData = new FormData();
                 $.each(data, (i,e)=>{
                     if(Array.isArray(e)) {

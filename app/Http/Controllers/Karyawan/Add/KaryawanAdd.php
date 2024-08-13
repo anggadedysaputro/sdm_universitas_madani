@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
 use App\Models\Masters\Agama;
+use App\Models\Masters\Bidang;
 use App\Models\Masters\KartuIdentitas;
 use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
@@ -38,12 +39,29 @@ class KaryawanAdd extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
+            $bidangColumn = [
+                'kodebidang',
+                'kodedivisi',
+                'kodesubdivisi',
+                'kodesubsubdivisi'
+            ];
+            $bidang = explode(".", substr($post['organisasi'], 0, 7));
+
+            $queryBidang = Bidang::query();
+            for ($i = 0; $i < count($bidang); $i++) {
+                $queryBidang->where($bidangColumn[$i], $bidang[$i]);
+            }
+
+            $dataBidang = $queryBidang->get()->toArray();
+            if (empty($dataBidang)) throw new Exception("Bidang tidak ditemukan!", 1);
+            $dataBidang = $dataBidang[0];
 
             if (Pegawai::where('email', $post['email'])->exists()) throw new Exception("Email sudah digunakan !", 1);
             if (array_key_exists("agama", $post)) $post['idagama'] = $post['agama'] ?? 0;
             if (!array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = empty($post['kodejabfung']) ? 0 : $post['kodejabfung'];
             if (!array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = empty($post['kodestruktural']) ? 0 : $post['kodestruktural'];
             $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
+            $post['idbidang'] = $dataBidang['id'];
 
             $path = Storage::putFile('public/pegawai', $post['gambar']);
             unset($post['gambar']);

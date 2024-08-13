@@ -65,6 +65,7 @@ class Pegawai extends Model
         'no_bpjs_kesehatan',
         'tgl_bpjs_kesehatan',
         'fullpath',
-        'gambar'
+        'gambar',
+        'idbidang'
     ];
 }
