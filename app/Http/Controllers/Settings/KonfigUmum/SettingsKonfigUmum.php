@@ -32,6 +32,7 @@ class SettingsKonfigUmum extends Controller
             "created_at",
             "updated_at",
             "harilibur",
+            "radius"
         );
         return DataTables::of($statusIjin)->toJson();
     }

@@ -37,7 +37,8 @@ class Auth extends Controller
             "tanggalakhirpuasa",
             "defcuti",
             "harilibur",
-            "lokasidef"
+            "lokasidef",
+            "radius"
         )->where('idkonfigumum', $configApp->idkonfig)->first();
         if (empty($konfigUmum)) throw new Exception("Konfig umum tidak ditemukan", 1);
 

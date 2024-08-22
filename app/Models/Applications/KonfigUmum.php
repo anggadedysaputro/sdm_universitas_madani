@@ -38,6 +38,7 @@ class KonfigUmum extends Model
         'tanggalawalpuasa',
         'tanggalakhirpuasa',
         'defcuti',
-        'harilibur'
+        'harilibur',
+        'radius'
     ];
 }

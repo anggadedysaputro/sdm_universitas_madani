@@ -29,6 +29,7 @@
                 <th class="col-md-1 text-center">Tanggal akhir puasa</th>
                 <th class="col-md-1 text-center">Cuti</th>
                 <th class="col-md-1 text-center">Hari libur</th>
+                <th class="col-md-1 text-center">Radius (M)</th>
                 <th class="col-md-1 text-center">Aksi</th>
             </tr>
             </thead>
@@ -130,6 +131,15 @@
                     <div class="mb-3">
                         <label class="form-label">Lokasi <button type="button" id="tambah-lokasi" class="btn btn-sm btn-success"><i class="ti ti-plus"></i></button></label>
                         <div id="wrapper-lokasi-input"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Radius (M)</label>
+                        <input type="text" class="form-control integer-mask" name="radius" placeholder="Input radius" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Radius belum diisi</div>
                     </div>
                 </div>
             </div>
@@ -534,6 +544,7 @@
                         {data : "tanggalakhirpuasa"},
                         {data : "defcuti"},
                         {data : "harilibur"},
+                        {data : "radius"},
                         {
                             data : null,
                             defaultContent : `
