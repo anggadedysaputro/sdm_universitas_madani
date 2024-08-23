@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Pegawai\ApiPegawai;
+use App\Http\Controllers\Api\Presensi\ApiPresensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,11 @@ Route::middleware(['jwt.verify'])->group(function () {
 
 Route::prefix('pegawai')->group(function () {
     Route::post('/', [ApiPegawai::class, 'data'])->name('api.pegawai.data');
+    Route::post('/upload-foto', [ApiPegawai::class, 'uploadFoto'])->name('api.pegawai.upload-foto');
 });
+Route::prefix('presensi')->group(function () {
+    Route::post('/create', [ApiPresensi::class, 'create'])->name('api.pegawai.create');
+});
+
 Route::post('login', [Auth::class, 'login'])->name("login");
 Route::post('logout', [Auth::class, 'logout'])->name("logout");

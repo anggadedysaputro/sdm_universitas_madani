@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Api\Pegawai;
 
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Pegawai;
+use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ApiPegawai extends Controller
 {
+    use TraitsLoggerActivity;
+
     public function data()
     {
         try {
@@ -84,6 +89,45 @@ class ApiPegawai extends Controller
             ];
 
             return response()->json($data, 200);
+        }
+    }
+
+    public function uploadFoto()
+    {
+        DB::beginTransaction();
+        try {
+            $post = request()->all();
+            $pegawai = Pegawai::find($post['nopeg']);
+            Storage::delete($pegawai->fullpath);
+
+            $path = Storage::putFile('public/pegawai', $post['foto']);
+
+            $id = $post['nopeg'];
+            unset($post['nopeg']);
+            unset($post['foto']);
+            $post['fullpath'] = $path;
+            $post['gambar'] = basename($path);
+
+            Pegawai::find($id)->update($post);
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Upload foto karyawan berhasil',
+                'status' => true
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->activity("Upload foto karyawan [failed]", $th->getMessage());
+
+            $response = [
+                'message' => message("Upload foto karyawan gagal", $th->getMessage()),
+                'status' => false
+            ];
+
+            return response()->json($response, 200);
         }
     }
 }
