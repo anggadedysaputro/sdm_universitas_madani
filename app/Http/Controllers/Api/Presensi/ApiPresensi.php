@@ -54,4 +54,26 @@ class ApiPresensi extends Controller
             return response()->json($response, 200);
         }
     }
+
+    public function data()
+    {
+        try {
+            $post = request()->all();
+            $data = DB::select(
+                'select * from data_presensi(?,?,?) where retambil = ?',
+                [$post['tglawal'], $post['tglakhir'], $post['nopeg'], 1]
+            );
+            $response = [
+                'data' => $data,
+                'status' => true,
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'message' => message("Ambil data presensi gagal", $th->getMessage()),
+                'status' => false
+            ];
+            return response()->json($response, 200);
+        }
+    }
 }
