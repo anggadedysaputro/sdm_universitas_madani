@@ -157,6 +157,12 @@ Breadcrumbs::for('settings.masters.sub-unit.index', function (BreadcrumbTrail $t
     $trail->push('Sub unit', route('settings.masters.sub-unit.index'));
 });
 
+// settings > masters > kantor
+Breadcrumbs::for('settings.masters.kantor.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Kantor');
+});
+
 // profile
 Breadcrumbs::for('profile.index', function (BreadcrumbTrail $trail) {
     $trail->push('Profile', route('profile.index'));

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Applications;
+namespace App\Models\Masters;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KonfigUmum extends Model
+class Kantor extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,14 @@ class KonfigUmum extends Model
      *
      * @var string
      */
-    protected $table = 'applications.konfigumum';
+    protected $table = 'masters.kantor';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idkonfigumum';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -29,15 +29,9 @@ class KonfigUmum extends Model
      * @var array
      */
     protected $fillable = [
-        'idkonfig',
-        'masuk',
-        'pulang',
-        'masukpuasa',
-        'pulangpuasa',
-        'tanggalawalpuasa',
-        'tanggalakhirpuasa',
-        'defcuti',
-        'harilibur',
-        'radius',
+        "nama",
+        "latlong",
+        "idusers",
+        "approval"
     ];
 }

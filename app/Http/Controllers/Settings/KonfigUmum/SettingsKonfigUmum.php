@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Settings\KonfigUmum;
 
 use App\Http\Controllers\Controller;
 use App\Models\Applications\KonfigUmum;
+use App\Models\Applications\KonfigUmumKantor;
+use App\Models\Masters\Kantor;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,7 +25,6 @@ class SettingsKonfigUmum extends Controller
             "idkonfigumum",
             "masuk",
             "pulang",
-            "lokasidef",
             "masukpuasa",
             "pulangpuasa",
             DB::raw("TO_CHAR(tanggalawalpuasa, 'dd Monthyyyy') as tanggalawalpuasa"),
@@ -32,7 +33,8 @@ class SettingsKonfigUmum extends Controller
             "created_at",
             "updated_at",
             "harilibur",
-            "radius"
+            "radius",
+            DB::raw("(select json_agg(json_build_object('id',k.id, 'nama', k.nama)) from applications.konfigumum_kantor kk join masters.kantor k on k.id = kk.idkantor where idkonfigumum = ku.idkonfigumum and k.approval = 'Y') as latlong")
         );
         return DataTables::of($statusIjin)->toJson();
     }
@@ -42,24 +44,10 @@ class SettingsKonfigUmum extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
-
-            $latlong = $post['latlong'];
-            $urai = $post['urai'];
-            $maps = [];
-            for ($i = 0; $i < count($latlong); $i++) {
-                $row = [
-                    'urai' => $urai[$i],
-                    'latlong' => $latlong[$i]
-                ];
-                array_push($maps, $row);
+            $idkonfig = KonfigUmum::create($post);
+            foreach ($post['latlong'] as $key => $value) {
+                KonfigUmumKantor::create(['idkonfigumum' => $idkonfig->idkonfigumum, 'idkantor' => $value]);
             }
-
-            $post['lokasidef'] = json_encode($maps);
-
-            unset($post['urai']);
-            unset($post['latlong']);
-
-            KonfigUmum::create($post);
 
             $this->activity("Input data konfig umum [successfully]");
 
@@ -122,23 +110,12 @@ class SettingsKonfigUmum extends Controller
             $post = request()->all();
             $id = $post['idkonfigumum'];
             unset($post['idkonfigumum']);
-
-
-            $latlong = $post['latlong'];
-            $urai = $post['urai'];
-            $maps = [];
-            for ($i = 0; $i < count($latlong); $i++) {
-                $row = [
-                    'urai' => $urai[$i],
-                    'latlong' => $latlong[$i]
-                ];
-                array_push($maps, $row);
+            foreach ($post['latlong'] as $key => $value) {
+                KonfigUmumKantor::updateOrCreate(
+                    ['idkonfigumum' => $id, 'idkantor' => $value],
+                    ['idkonfigumum' => $id, 'idkantor' => $value]
+                );
             }
-
-            $post['lokasidef'] = json_encode($maps);
-
-            unset($post['urai']);
-            unset($post['latlong']);
 
             KonfigUmum::find($id)->update($post);
 

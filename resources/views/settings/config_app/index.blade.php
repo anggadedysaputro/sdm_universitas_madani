@@ -327,7 +327,7 @@
                         {data : "idkonfigumum"},
                         {data : "masuk"},
                         {data : "pulang"},
-                        {data : "lokasidef"},
+                        {data : "latlong"},
                         {data : "masukpuasa"},
                         {data : "pulangpuasa"},
                         {data : "tanggalawalpuasa"},

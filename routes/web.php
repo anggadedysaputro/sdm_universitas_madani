@@ -13,11 +13,13 @@ use App\Http\Controllers\Logout;
 use App\Http\Controllers\Profile\Profile;
 use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
 use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
+use App\Http\Controllers\Select2\Kantor\Select2Kantor;
 use App\Http\Controllers\Settings\ConfigApp\SettingsConfigApp;
 use App\Http\Controllers\Settings\KonfigUmum\SettingsKonfigUmum;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
 use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
+use App\Http\Controllers\Settings\Masters\Kantor\SettingsMastersKantor;
 use App\Http\Controllers\Settings\Masters\KartuIdentitas\SettingsMastersKartuIdentitas;
 use App\Http\Controllers\Settings\Masters\Libur\SettingsMastersLibur;
 use App\Http\Controllers\Settings\Masters\Negara\SettingsMastersNegara;
@@ -72,6 +74,9 @@ Route::middleware(['validate.login'])->group(function () {
             Route::prefix('struktural')->group(function () {
                 Route::post('data', [Select2JabatanStruktural::class, 'data'])->name('select2.jabatan.struktural.data');
             });
+        });
+        Route::prefix('kantor')->group(function () {
+            Route::post('data', [Select2Kantor::class, 'data'])->name('select2.kantor.data');
         });
     });
 
@@ -199,6 +204,15 @@ Route::middleware(['validate.login'])->group(function () {
                 Route::delete('delete', [SettingsMastersKartuIdentitas::class, 'delete'])->name('settings.masters.kartu-identitas.delete');
                 Route::patch('edit', [SettingsMastersKartuIdentitas::class, 'edit'])->name('settings.masters.kartu-identitas.edit');
                 Route::post('data', [SettingsMastersKartuIdentitas::class, 'data'])->name('settings.masters.kartu-identitas.data');
+            });
+            Route::prefix('kantor')->group(function () {
+                Route::get('index', [SettingsMastersKantor::class, 'index'])->name('settings.masters.kantor.index')->middleware(["initialize.menu"]);
+                Route::post('store', [SettingsMastersKantor::class, 'store'])->name('settings.masters.kantor.store');
+                Route::delete('delete', [SettingsMastersKantor::class, 'delete'])->name('settings.masters.kantor.delete');
+                Route::patch('edit', [SettingsMastersKantor::class, 'edit'])->name('settings.masters.kantor.edit');
+                Route::patch('setujui', [SettingsMastersKantor::class, 'setujui'])->name('settings.masters.kantor.setujui');
+                Route::patch('tolak', [SettingsMastersKantor::class, 'tolak'])->name('settings.masters.kantor.tolak');
+                Route::post('data', [SettingsMastersKantor::class, 'data'])->name('settings.masters.kantor.data');
             });
         });
     });

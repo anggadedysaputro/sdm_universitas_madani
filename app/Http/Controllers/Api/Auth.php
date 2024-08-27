@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class Auth extends Controller
 {
@@ -28,7 +29,7 @@ class Auth extends Controller
 
         $configApp = ConfigApp::where('aktif', true)->first();
         if (empty($configApp)) throw new Exception("Konfig aplikasi belum disetting", 1);
-        $konfigUmum = KonfigUmum::select(
+        $konfigUmum = KonfigUmum::from("applications.konfigumum as ku")->select(
             "masuk",
             "pulang",
             "masukpuasa",
@@ -37,7 +38,7 @@ class Auth extends Controller
             "tanggalakhirpuasa",
             "defcuti",
             "harilibur",
-            "lokasidef",
+            DB::raw("(select json_agg(json_build_object('id',k.id, 'urai', k.nama,'latlong',k.latlong)) from applications.konfigumum_kantor kk join masters.kantor k on k.id = kk.idkantor where idkonfigumum = ku.idkonfigumum and k.approval = 'Y') as lokasidef"),
             "radius"
         )->where('idkonfigumum', $configApp->idkonfig)->first();
         if (empty($konfigUmum)) throw new Exception("Konfig umum tidak ditemukan", 1);
@@ -57,7 +58,8 @@ class Auth extends Controller
                 'status' => true,
                 'nopeg' => $user->nopeg,
                 'konfigumum' => $dataKonfigUmum,
-                'lokasi' => json_decode($konfigUmum->lokasidef)
+                'lokasi' => json_decode($konfigUmum->lokasidef),
+                'peran' => $user->roles->pluck('name')
             ], 200);
         }
     }

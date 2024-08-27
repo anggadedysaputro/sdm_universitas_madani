@@ -51,7 +51,8 @@ class Login extends Controller
                 $user['konfigumum'] = ConfigApp::from("applications.configapp as ca")
                     ->select("ku.*", "ca.tahun")
                     ->join("applications.konfigumum as ku", "ku.idkonfigumum", "=", "ca.idkonfig")
-                    ->where("ca.aktif", true)->get()->toArray()[0];
+                    ->where("ca.aktif", true)->get()->toArray();
+                if (!empty($user['konfigumum'])) $user['konfigumum'] = $user['konfigumum'][0];
                 session($user);
                 $request->session()->regenerate();
 

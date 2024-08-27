@@ -24,6 +24,9 @@
 			src: url("{{ asset('assets/icons/tabler-icons.eot') }}");
 			src: url("{{ asset('assets/icons/tabler-icons.eot') }}") format("embedded-opentype"), url("{{ asset('assets/icons/tabler-icons.woff2') }}") format("woff2"), url("{{ asset('assets/icons/tabler-icons.woff') }}") format("woff"), url("{{ asset('assets/icons/tabler-icons.ttf') }}") format("truetype")
 		}
+        .flatpickr-wrapper{
+            display: block !important;
+        }
 	</style>
 	<x-vite/>
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
