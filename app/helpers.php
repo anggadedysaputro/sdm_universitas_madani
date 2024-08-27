@@ -2,6 +2,7 @@
 
 use eiriksm\GitInfo\GitInfo;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
 if (!function_exists('message')) {
     function message($notifikasi = "", $sistemNotifikasi = "")
@@ -258,6 +259,17 @@ if (!function_exists('convertGeneralDate')) {
             $tahun = $exp[2];
 
             return $tahun . "-" . $bulan . "-" . $tanggal;
+        }
+    }
+}
+
+if (!function_exists('buatFolder')) {
+    function buatFolder($folder)
+    {
+        // $mkdir = storage_path('app/public/') . $this->folder;
+
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder, 0775, true);
         }
     }
 }

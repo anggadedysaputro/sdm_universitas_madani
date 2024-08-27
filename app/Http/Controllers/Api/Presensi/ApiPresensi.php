@@ -8,10 +8,17 @@ use App\Traits\Logger\TraitsLoggerActivity;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ApiPresensi extends Controller
 {
     use TraitsLoggerActivity;
+    protected $path;
+
+    public function __construct()
+    {
+        $this->path = 'public/presensi';
+    }
 
     public function create()
     {
@@ -30,6 +37,13 @@ class ApiPresensi extends Controller
             $post['hari'] = $now->format("d");
             $post['jam'] = $now->format("H");
             $post['menit'] = $now->format("i");
+
+            buatFolder(storage_path('app/' . $this->path));
+
+            $path = Storage::putFile($this->path, $post['foto']);
+
+            $post['fullpath'] = $path;
+            $post['gambar'] = basename($path);
 
             Presensi::create($post);
 
