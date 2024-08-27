@@ -38,5 +38,6 @@ class Presensi extends Model
         "jam",
         "menit",
         "lokasi",
+        "idkantor"
     ];
 }
