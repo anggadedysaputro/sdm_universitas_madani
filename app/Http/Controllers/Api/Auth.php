@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\ConfigApp;
 use App\Models\Applications\KonfigUmum;
+use App\Models\Masters\Kantor;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -38,11 +39,10 @@ class Auth extends Controller
             "tanggalakhirpuasa",
             "defcuti",
             "harilibur",
-            DB::raw("(select json_agg(json_build_object('id',k.id, 'urai', k.nama,'latlong',k.latlong)) from applications.konfigumum_kantor kk join masters.kantor k on k.id = kk.idkantor where idkonfigumum = ku.idkonfigumum and k.approval = 'Y') as lokasidef"),
             "radius"
         )->where('idkonfigumum', $configApp->idkonfig)->first();
         if (empty($konfigUmum)) throw new Exception("Konfig umum tidak ditemukan", 1);
-
+        $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
 
         if (empty($user)) {
             return response()->json([
@@ -58,7 +58,7 @@ class Auth extends Controller
                 'status' => true,
                 'nopeg' => $user->nopeg,
                 'konfigumum' => $dataKonfigUmum,
-                'lokasi' => json_decode($konfigUmum->lokasidef),
+                'lokasi' => $kantor->get(),
                 'peran' => $user->roles->pluck('name')
             ], 200);
         }
