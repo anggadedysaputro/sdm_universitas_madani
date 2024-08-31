@@ -39,11 +39,12 @@ class ApiPresensi extends Controller
             $post['menit'] = $now->format("i");
 
             buatFolder(storage_path('app/' . $this->path));
+            $name = $post['foto']->getClientOriginalName();
 
-            $path = Storage::putFile($this->path, $post['foto']);
+            $path = Storage::putFileAs($this->path, $post['foto'], $name);
 
             $post['fullpath'] = $path;
-            $post['gambar'] = basename($path);
+            $post['gambar'] = $name;
 
             Presensi::create($post);
 
