@@ -31,6 +31,12 @@ Breadcrumbs::for('cuti.index', function (BreadcrumbTrail $trail) {
     $trail->push('Cuti', route('cuti.index'));
 });
 
+// presensi
+Breadcrumbs::for('presensi.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard.index');
+    $trail->push('Presensi', route('presensi.index'));
+});
+
 // karyawan > add
 Breadcrumbs::for('karyawan.add.index', function (BreadcrumbTrail $trail) {
     $trail->parent('karyawan.index');

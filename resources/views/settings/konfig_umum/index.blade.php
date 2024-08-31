@@ -28,7 +28,6 @@
                 <th class="col-md-1 text-center">Tanggal akhir puasa</th>
                 <th class="col-md-1 text-center">Cuti</th>
                 <th class="col-md-1 text-center">Hari libur</th>
-                <th class="col-md-1 text-center">Kantor</th>
                 <th class="col-md-1 text-center">Radius (M)</th>
                 <th class="col-md-1 text-center">Aksi</th>
             </tr>
@@ -129,14 +128,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Tambah kantor <button type="button" id="tambah-lokasi" class="btn btn-sm btn-success"><i class="ti ti-plus"></i></button></label>
-                        <div id="wrapper-lokasi-input"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
                         <label class="form-label">Radius (M)</label>
                         <input type="text" class="form-control integer-mask" name="radius" placeholder="Input radius" fdprocessedid="tigmx5" required>
                         <div class="invalid-feedback">Radius belum diisi</div>
@@ -167,23 +158,6 @@
                 $(e.currentTarget).parents('.mb-3:first').remove();
             }
 
-            static tambahLokasi(){
-
-                let wrapper = $('#wrapper-lokasi-input');
-                let content = `
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <select class="form-control" name="latlong[]"></select>
-                            <button type="button" class="btn btn-danger"><i class="ti ti-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-                let element = $(content);
-                element.find('button').on('click', Helper.removeLokasi);
-                element.find("select").select2(Angga.generalAjaxSelect2("{{ route('select2.kantor.data') }}","Pilih kantor"));
-                wrapper.append(element);
-            }
-
             tambah(){
                 Helper.clear();
                 Index.BTN_Simpan.attr('mode','tambah');
@@ -210,11 +184,6 @@
                         }
                     }
                 });
-
-                if(!Index.FRM_Main.serializeObject().hasOwnProperty('latlong') && send){
-                    Swal.fire("Informasi","Lokasi belum dimasukkan","info");
-                    send = false;
-                }
 
                 if(send){
                     Swal.fire({
@@ -317,7 +286,6 @@
                 let data = $(e.currentTarget).data();
                 let latlong = JSON.parse(data.latlong.replace(/&quot;/g,'"'));
                 Index.OFFCNVS_Main.show();
-                $('#wrapper-lokasi-input').html("");
                 Index.BTN_Simpan.attr('mode','edit');
                 $.each(Index.FRM_Main[0].elements, function(i,e){
                     if($(e).hasClass("flatpicker-date")){
@@ -326,13 +294,6 @@
                         $(e).val(data[e.name]);
                     }
                 });
-                $.each(latlong,(i,e)=>{
-                    Helper.tambahLokasi();
-
-                    let select2 = $('#wrapper-lokasi-input').find('select')[i];
-                    Angga.setValueSelect2AjaxRemote($(select2),{id:e.id,text:e.nama});
-                });
-
             }
         }
 
@@ -375,7 +336,6 @@
                         {data : "tanggalakhirpuasa"},
                         {data : "defcuti"},
                         {data : "harilibur"},
-                        {data : null, defaultContent : "", className : "latlong"},
                         {data : "radius"},
                         {
                             data : null,
@@ -386,10 +346,6 @@
                         }
                     ],
                     createdRow : function(row,data){
-                        let latlong = JSON.parse(data.latlong.replace(/&quot;/g,'"'));
-                        let content = `<ol class="list-group list-group-numbered"></ol>`;
-                        console.log(latlong);
-                        $(row).find(".latlong").html($(content).html(latlong.map((e)=>`<li class="list-group-item">${e.nama}</li>`)));
                         $(row).find('.hapus').on('click', Helper.hapus).data(data);
                         $(row).find('.edit').on('click', Helper.edit).data(data);
                     }

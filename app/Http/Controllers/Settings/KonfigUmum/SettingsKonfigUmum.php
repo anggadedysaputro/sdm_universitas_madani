@@ -45,9 +45,6 @@ class SettingsKonfigUmum extends Controller
         try {
             $post = request()->all();
             $idkonfig = KonfigUmum::create($post);
-            foreach ($post['latlong'] as $key => $value) {
-                KonfigUmumKantor::create(['idkonfigumum' => $idkonfig->idkonfigumum, 'idkantor' => $value]);
-            }
 
             $this->activity("Input data konfig umum [successfully]");
 
@@ -110,13 +107,6 @@ class SettingsKonfigUmum extends Controller
             $post = request()->all();
             $id = $post['idkonfigumum'];
             unset($post['idkonfigumum']);
-            foreach ($post['latlong'] as $key => $value) {
-                KonfigUmumKantor::updateOrCreate(
-                    ['idkonfigumum' => $id, 'idkantor' => $value],
-                    ['idkonfigumum' => $id, 'idkantor' => $value]
-                );
-            }
-
             KonfigUmum::find($id)->update($post);
 
             $this->activity("Edit data konfig umum [successfully]");
