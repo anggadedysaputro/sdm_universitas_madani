@@ -65,7 +65,7 @@
     <div class="offcanvas-body">
         <form action="#" id="form-struktural">
             <input type="hidden" id="id" name="id"/>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label class="form-label">Pilih organisasi</label>
@@ -74,7 +74,7 @@
                         <div class="invalid-feedback">Organisasi belum dipilih</div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-3">
@@ -101,7 +101,7 @@
             }
 
             tambah(){
-                Index.JSTREE_Main.deselect_all();
+                // Index.JSTREE_Main.deselect_all();
                 Index.FRM_Struktural.find('input[name="urai"]').val("");
                 Index.BTN_Simpan.attr('mode','tambah');
                 Myapp.OFFCNVS_Jabatan.show();
@@ -181,35 +181,35 @@
                 }
             }
 
-            static getMenuJstree(){
-                return new Promise((resolve, reject) => {
-                    $.ajax({
-                        url : "{{ route('jstree.struktur-organisasi.data') }}",
-                        method : "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        beforeSend : function(){
-                            Swal.fire({
-                                title: 'Mendapatkan data!',
-                                html: 'Silahkan tunggu...',
-                                allowEscapeKey: false,
-                                allowOutsideClick: false,
-                                didOpen: () => {
-                                    Swal.showLoading()
-                                }
-                            });
-                        },
-                        success : function(result){
-                            Swal.close();
-                            resolve(result);
-                        },
-                        error : function(error){
-                            Swal.fire('Gagal',error.responseJSON.message ?? error.responseJSON,'error');
-                        }
-                    });
-                });
-            }
+            // static getMenuJstree(){
+            //     return new Promise((resolve, reject) => {
+            //         $.ajax({
+            //             url : "{{ route('jstree.struktur-organisasi.data') }}",
+            //             method : "POST",
+            //             headers: {
+            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //             },
+            //             beforeSend : function(){
+            //                 Swal.fire({
+            //                     title: 'Mendapatkan data!',
+            //                     html: 'Silahkan tunggu...',
+            //                     allowEscapeKey: false,
+            //                     allowOutsideClick: false,
+            //                     didOpen: () => {
+            //                         Swal.showLoading()
+            //                     }
+            //                 });
+            //             },
+            //             success : function(result){
+            //                 Swal.close();
+            //                 resolve(result);
+            //             },
+            //             error : function(error){
+            //                 Swal.fire('Gagal',error.responseJSON.message ?? error.responseJSON,'error');
+            //             }
+            //         });
+            //     });
+            // }
 
             static hapus(e){
                 let data = $(e.currentTarget).data();
@@ -262,8 +262,8 @@
             static edit(e){
                 let data = $(e.currentTarget).data();
                 Index.BTN_Simpan.attr('mode','edit');
-                Myapp.JSTREE_Main.deselect_all();
-                Myapp.JSTREE_Main.select_node(data.id);
+                // Myapp.JSTREE_Main.deselect_all();
+                // Myapp.JSTREE_Main.select_node(data.id);
                 Index.FRM_Struktural.find('input[name="urai"]').val(data.urai);
                 Index.FRM_Struktural.find('input[name="id"]').val(data.kodejabatanstruktural);
                 Index.OFFCNVS_Jabatan.show();
@@ -278,7 +278,7 @@
             static FRM_Struktural;
             static DATA_Menu;
             static OFFCNVS_Jabatan;
-            static JSTREE_Main;
+            // static JSTREE_Main;
 
             constructor() {
                 super();
@@ -312,76 +312,76 @@
                     }
                 });
                 Index.OFFCNVS_Jabatan = new bootstrap.Offcanvas(document.getElementById('canvas-jabatan'));
-                Index.JSTREE_Main = $("#jstree").jstree({
-                    "core" : {
-                    "check_callback" : true
-                    },
-                    "plugins" : [ "dnd","contextmenu" ],
-                    "contextmenu": {
-                        items: function (node) {
-                            return {
-                                "tambah" : {
-                                    "label": "Tambah",
-                                    "icon": "ti ti-add",
-                                    "submenu" : {
-                                        "anak" : {
-                                            "label" : "Anak",
-                                            "_class" :"asc",
-                                            "action": function (obj) {
-                                                let last = node.id.split(".").pop();
-                                                if(last != '0'){
-                                                    Swal.fire("Informasi","Tidak boleh tambah anak lagi","info");
-                                                    return;
-                                                }else{
-                                                    Helper.anak(node);
-                                                }
-                                            },
-                                        },
-                                        "saudara" : {
-                                            "label" : "Saudara",
-                                            "_class" :"asc",
-                                            "action": function (obj) {
-                                                if(node.id == 0){
-                                                    Swal.fire('Informasi','Tidak boleh menambah saudara pada root tree','info');
-                                                }else{
-                                                    Helper.saudara(node);
-                                                }
-                                            },
-                                        }
-                                    },
-                                    "_class": "asc"
-                                },
-                                "hapus": {
-                                    "label": "Delete",
-                                    "icon": "fa-times",
-                                    "action": function (obj) {
-                                        if(node.id == 0){
-                                            Swal.fire('Informasi','Tidak boleh menghapus root tree','info');
-                                        }else{
+                // Index.JSTREE_Main = $("#jstree").jstree({
+                //     "core" : {
+                //     "check_callback" : true
+                //     },
+                //     "plugins" : [ "dnd","contextmenu" ],
+                //     "contextmenu": {
+                //         items: function (node) {
+                //             return {
+                //                 "tambah" : {
+                //                     "label": "Tambah",
+                //                     "icon": "ti ti-add",
+                //                     "submenu" : {
+                //                         "anak" : {
+                //                             "label" : "Anak",
+                //                             "_class" :"asc",
+                //                             "action": function (obj) {
+                //                                 let last = node.id.split(".").pop();
+                //                                 if(last != '0'){
+                //                                     Swal.fire("Informasi","Tidak boleh tambah anak lagi","info");
+                //                                     return;
+                //                                 }else{
+                //                                     Helper.anak(node);
+                //                                 }
+                //                             },
+                //                         },
+                //                         "saudara" : {
+                //                             "label" : "Saudara",
+                //                             "_class" :"asc",
+                //                             "action": function (obj) {
+                //                                 if(node.id == 0){
+                //                                     Swal.fire('Informasi','Tidak boleh menambah saudara pada root tree','info');
+                //                                 }else{
+                //                                     Helper.saudara(node);
+                //                                 }
+                //                             },
+                //                         }
+                //                     },
+                //                     "_class": "asc"
+                //                 },
+                //                 "hapus": {
+                //                     "label": "Delete",
+                //                     "icon": "fa-times",
+                //                     "action": function (obj) {
+                //                         if(node.id == 0){
+                //                             Swal.fire('Informasi','Tidak boleh menghapus root tree','info');
+                //                         }else{
 
-                                            Helper.remove(node);
-                                        }
-                                    },
-                                    "_class": "asc"
-                                },
-                                "edit": {
-                                    "label": "Edit",
-                                    "icon": "uil-times-circle",
-                                    "action": function (obj) {
-                                        if(node.id == 0){
-                                            Swal.fire('Informasi','Tidak boleh mengubah root tree','info');
-                                        }else{
-                                            Helper.edit(node);
-                                        }
-                                    },
-                                    "_class": "asc"
-                                }
-                            }
-                        },
-                    },
-                });
+                //                             Helper.remove(node);
+                //                         }
+                //                     },
+                //                     "_class": "asc"
+                //                 },
+                //                 "edit": {
+                //                     "label": "Edit",
+                //                     "icon": "uil-times-circle",
+                //                     "action": function (obj) {
+                //                         if(node.id == 0){
+                //                             Swal.fire('Informasi','Tidak boleh mengubah root tree','info');
+                //                         }else{
+                //                             Helper.edit(node);
+                //                         }
+                //                     },
+                //                     "_class": "asc"
+                //                 }
+                //             }
+                //         },
+                //     },
+                // });
 
-                Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
+                // Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
             }
 
             async serialLoadData() {
@@ -396,13 +396,13 @@
 
                 return new Promise((resolve, reject) => {
                     // // to code ajax first
-                    // resolve(true);
-                    Helper.getMenuJstree().then((result)=>{
-                        Index.DATA_Menu = result;
-                        resolve(true);
-                    }).catch((error)=>{
-                        console.log(error);
-                    });
+                    resolve(true);
+                    // Helper.getMenuJstree().then((result)=>{
+                    //     Index.DATA_Menu = result;
+                    //     resolve(true);
+                    // }).catch((error)=>{
+                    //     console.log(error);
+                    // });
                     // Global.callAjax('{{ url('menu/show') }}', toastr, 'Loading data menu...').then((result)=>{
                     //     // console.log(Global.promiseResult(data.status));
                     //     resolve(result.status);
@@ -423,10 +423,10 @@
             bindEvent() {
                 Index.BTN_Simpan.on('click', this.simpan);
                 Index.BTN_Tambah.on('click',this.tambah);
-                $('#jstree').on("select_node.jstree", function(e,data){
-                    const val = data.selected[0];
-                    if(val != '0') Index.FRM_Struktural.find('input[name="id_bidang"]').val(val);
-                });
+                // $('#jstree').on("select_node.jstree", function(e,data){
+                //     const val = data.selected[0];
+                //     if(val != '0') Index.FRM_Struktural.find('input[name="id_bidang"]').val(val);
+                // });
                 return this;
             }
 
@@ -436,9 +436,9 @@
 
             loadDefaultValue() {
 
-                Index.DATA_Menu.data.forEach(function(e,i){
-                    Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
-                });
+                // Index.DATA_Menu.data.forEach(function(e,i){
+                //     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
+                // });
                 return this;
             }
 

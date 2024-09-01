@@ -659,8 +659,8 @@
                 }else{
                     Index.FRM_Main.find('input[name="organisasi"]').val(selected.node.original.text).prev().val(selected.node.original.id);
                     Index.OFFCNVS_Main.hide();
-                    Angga.setValueSelect2AjaxRemote(Index.S2_JabatanFungsional,{text : '', id:''});
-                    Angga.setValueSelect2AjaxRemote(Index.S2_JabatanStruktural,{text : '', id:''});
+                    // Angga.setValueSelect2AjaxRemote(Index.S2_JabatanFungsional,{text : '', id:''});
+                    // Angga.setValueSelect2AjaxRemote(Index.S2_JabatanStruktural,{text : '', id:''});
                 }
             }
 

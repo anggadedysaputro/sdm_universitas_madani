@@ -16,20 +16,20 @@ class Select2JabatanFungsional extends Controller
         $resultCount = 10;
         $page = request('page');
         $offset = ($page - 1) * $resultCount;
-        if (empty(request('organisasi'))) {
-            $idbidang = (object) array('id' => '0');
-        } else {
-            $org = explode(".", request('organisasi'));
-            $idbidang = Bidang::where('kodebidang', $org[0])
-                ->where('kodedivisi', $org[1])
-                ->where('kodesubdivisi', $org[2])
-                ->where('kodesubsubdivisi', $org[3])
-                ->select("id")
-                ->first() ??  (object) array('id' => '0');
-        }
+        // if (empty(request('organisasi'))) {
+        //     $idbidang = (object) array('id' => '0');
+        // } else {
+        //     $org = explode(".", request('organisasi'));
+        //     $idbidang = Bidang::where('kodebidang', $org[0])
+        //         ->where('kodedivisi', $org[1])
+        //         ->where('kodesubdivisi', $org[2])
+        //         ->where('kodesubsubdivisi', $org[3])
+        //         ->select("id")
+        //         ->first() ??  (object) array('id' => '0');
+        // }
 
         $query = JabatanFungsional::select("kodejabatanfungsional as id", "urai as text", DB::raw("sum(1)over() as total"))
-            ->where('id_bidang', $idbidang->id)
+            // ->where('id_bidang', $idbidang->id)
             ->take($resultCount)->skip($offset);
 
         $sql = "urai ilike ?";

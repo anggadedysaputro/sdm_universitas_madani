@@ -36,10 +36,10 @@ class SettingsMastersJabatanFungsional extends Controller
         $jabatan = DB::table(
             DB::raw("
                 (
-                    select kodejabatanfungsional, js.urai, concat(b.kodebidang, '.', b.kodedivisi, '.', b.kodesubdivisi, '.', b.kodesubsubdivisi) as id
+                    select kodejabatanfungsional, js.urai --, concat(b.kodebidang, '.', b.kodedivisi, '.', b.kodesubdivisi, '.', b.kodesubsubdivisi) as id
                     from masters.jabatanfungsional js
-                    join masters.bidang b
-                    on js.id_bidang = b.id
+                    -- join masters.bidang b
+                    -- on js.id_bidang = b.id
                 ) as w
             ")
         );
@@ -54,13 +54,13 @@ class SettingsMastersJabatanFungsional extends Controller
 
             unset($post['id']);
 
-            $query = Bidang::query();
-            foreach (explode(".", $post['id_bidang']) as $key => $value) {
-                $query->where($this->bidangKolom[$key], $value);
-            }
+            // $query = Bidang::query();
+            // foreach (explode(".", $post['id_bidang']) as $key => $value) {
+            //     $query->where($this->bidangKolom[$key], $value);
+            // }
 
-            $id_bidang = $query->first()->id;
-            $post['id_bidang'] = $id_bidang;
+            // $id_bidang = $query->first()->id;
+            // $post['id_bidang'] = $id_bidang;
 
             JabatanFungsional::create($post);
 
@@ -126,13 +126,13 @@ class SettingsMastersJabatanFungsional extends Controller
             $id = $post['id'];
             unset($post['id']);
 
-            $query = Bidang::query();
-            foreach (explode(".", $post['id_bidang']) as $key => $value) {
-                $query->where($this->bidangKolom[$key], $value);
-            }
+            // $query = Bidang::query();
+            // foreach (explode(".", $post['id_bidang']) as $key => $value) {
+            //     $query->where($this->bidangKolom[$key], $value);
+            // }
 
-            $id_bidang = $query->first()->id;
-            $post['id_bidang'] = $id_bidang;
+            // $id_bidang = $query->first()->id;
+            // $post['id_bidang'] = $id_bidang;
 
             JabatanFungsional::find($id)->update($post);
 

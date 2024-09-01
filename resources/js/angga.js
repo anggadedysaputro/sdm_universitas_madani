@@ -229,8 +229,7 @@ export default class Angga {
         });
     }
 
-    static generalAjaxSelect2(url, placeholder, modal = false) {
-
+    static generalAjaxSelect2(url, placeholder, modal = false, where = '', wherevalue = false) {
         let select2Object = {
             theme: 'bootstrap-5',
             placeholder,
@@ -246,13 +245,20 @@ export default class Angga {
                     var query = {
                         search: params.term,
                         type: 'public',
-                        page: params.page || 1
-                    }
+                        page: params.page || 1,
+                        where,
+                        wherevalue: wherevalue ? (wherevalue.val() ?? "").trim() : ''
+                    };
 
                     // Query parameters will be ?search=[term]&type=public
                     return query;
                 },
                 processResults: function (data) {
+                    data['results'] = data.results.map((e,i)=>{
+                        e.id = e.hasOwnProperty('kode') ? e.kode : e.id;
+                        return e;
+                    });
+
                     return {
                         results: data.results,
                         pagination: data.pagination
@@ -265,7 +271,7 @@ export default class Angga {
             templateResult: function (data) {
                 let content = `
                     <div class="d-flex justify-content-between">
-                        <span>
+                        <span class="ml-2 ms-2">
                             ${data.text}
                         </span>
                         ${data.hasOwnProperty('icon') ? `<i class="${data.icon}"></i>` : ``}
@@ -274,7 +280,7 @@ export default class Angga {
                 return content;
             },
             templateSelection: function (data) {
-                return "<span class='ms-4'>" + data.text + "</span>";
+                return "<span class='ms-4 ml-2'>" + data.text + "</span>";
             }
         }
 

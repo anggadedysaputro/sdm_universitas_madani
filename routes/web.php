@@ -12,9 +12,15 @@ use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
 use App\Http\Controllers\Presensi\Presensi;
 use App\Http\Controllers\Profile\Profile;
+use App\Http\Controllers\Select2\Bidang\Divisi\Select2BidangDivisi;
+use App\Http\Controllers\Select2\Bidang\Select2Bidang;
 use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
 use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
 use App\Http\Controllers\Select2\Kantor\Select2Kantor;
+use App\Http\Controllers\Select2\Organisasi\Bidang\Select2OrganisasiBidang;
+use App\Http\Controllers\Select2\Organisasi\Divisi\Select2OrganisasiDivisi;
+use App\Http\Controllers\Select2\Organisasi\SubDivisi\Select2OrganisasiSubDivisi;
+use App\Http\Controllers\Select2\Organisasi\SubSubDivisi\Select2OrganisasiSubSubDivisi;
 use App\Http\Controllers\Settings\ConfigApp\SettingsConfigApp;
 use App\Http\Controllers\Settings\KonfigUmum\SettingsKonfigUmum;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
@@ -78,6 +84,20 @@ Route::middleware(['validate.login'])->group(function () {
         });
         Route::prefix('kantor')->group(function () {
             Route::post('data', [Select2Kantor::class, 'data'])->name('select2.kantor.data');
+        });
+        Route::prefix('organisasi')->group(function () {
+            Route::prefix('bidang')->group(function () {
+                Route::post('data', [Select2OrganisasiBidang::class, 'data'])->name('select2.organisasi.bidang.data');
+            });
+            Route::prefix('divisi')->group(function () {
+                Route::post('data', [Select2OrganisasiDivisi::class, 'data'])->name('select2.organisasi.divisi.data');
+            });
+            Route::prefix('sub-divisi')->group(function () {
+                Route::post('data', [Select2OrganisasiSubDivisi::class, 'data'])->name('select2.organisasi.sub-divisi.data');
+            });
+            Route::prefix('sub-sub-divisi')->group(function () {
+                Route::post('data', [Select2OrganisasiSubSubDivisi::class, 'data'])->name('select2.organisasi.sub-sub-divisi.data');
+            });
         });
     });
 
@@ -246,6 +266,7 @@ Route::middleware(['validate.login'])->group(function () {
 
     Route::prefix('presensi')->group(function () {
         Route::get('index', [Presensi::class, 'index'])->name('presensi.index')->middleware(["initialize.menu"]);
+        Route::post('data', [Presensi::class, 'data'])->name('presensi.data');
     });
 
     Route::get('/su', function () {

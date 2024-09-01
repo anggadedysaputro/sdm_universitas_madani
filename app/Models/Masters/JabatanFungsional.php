@@ -30,6 +30,5 @@ class JabatanFungsional extends Model
      */
     protected $fillable = [
         'urai',
-        'id_bidang'
     ];
 }

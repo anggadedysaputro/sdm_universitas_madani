@@ -1121,8 +1121,8 @@
                     Index.FRM_EditKepegawaian.find('input[name="organisasi"]').val(selected.node.original.text).prev().val(selected.node.original.id);
                     Index.OFFCNVS_Main.hide();
                     Index.MD_EditKepegawaian.modal('show');
-                    Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{text : '', id:''});
-                    Angga.setValueSelect2AjaxRemote(Index.S2_Struktural,{text : '', id:''});
+                    // Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{text : '', id:''});
+                    // Angga.setValueSelect2AjaxRemote(Index.S2_Struktural,{text : '', id:''});
                 }
             }
         }
