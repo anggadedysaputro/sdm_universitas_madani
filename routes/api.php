@@ -33,6 +33,7 @@ Route::prefix('pegawai')->group(function () {
 Route::prefix('presensi')->group(function () {
     Route::post('/create', [ApiPresensi::class, 'create'])->name('api.presensi.create');
     Route::post('/data', [ApiPresensi::class, 'data'])->name('api.presensi.data');
+    Route::post('/detail', [ApiPresensi::class, 'detail'])->name('api.presensi.detail');
 });
 
 Route::post('login', [Auth::class, 'login'])->name("login");

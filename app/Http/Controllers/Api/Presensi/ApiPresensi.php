@@ -91,4 +91,37 @@ class ApiPresensi extends Controller
             return response()->json($response, 200);
         }
     }
+
+    public function detail()
+    {
+        try {
+            $post = request()->all();
+
+            $queryPresensi = Presensi::select(
+                "lokasi",
+                "gambar",
+                "waktu",
+                "tanggal"
+            )->where('nopeg', $post['nopeg'])
+                ->where('tanggal', $post['tanggal']);
+
+            if (strtolower($post['jenis']) == 'masuk') {
+                $queryPresensi->orderBy("tanggal", "asc");
+            } else {
+                $queryPresensi->orderBy("tanggal", "desc");
+            }
+
+            $response = [
+                'data' => $queryPresensi->first(),
+                'status' => true,
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'message' => message("Ambil detail presensi gagal", $th->getMessage()),
+                'status' => false
+            ];
+            return response()->json($response, 200);
+        }
+    }
 }

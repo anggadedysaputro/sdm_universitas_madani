@@ -355,6 +355,7 @@
                     enableTime: true,
                     noCalendar: true,
                     dateFormat: "H:i",
+                    minuteIncrement: 1,
                     time_24hr: true
                 });
                 Index.FLATPICKR_Date = flatpickr('.flatpicker-date',{
