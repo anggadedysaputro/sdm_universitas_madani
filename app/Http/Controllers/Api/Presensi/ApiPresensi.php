@@ -111,8 +111,14 @@ class ApiPresensi extends Controller
                 $queryPresensi->orderBy("tanggal", "desc");
             }
 
+            if ($queryPresensi->exists()) {
+                $data = $queryPresensi->first()->toArray();
+            } else {
+                $data = [];
+            }
+
             $response = [
-                'data' => $queryPresensi->first(),
+                'data' => $data,
                 'status' => true,
             ];
             return response()->json($response, 200);
