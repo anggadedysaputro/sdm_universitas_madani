@@ -267,6 +267,7 @@ Route::middleware(['validate.login'])->group(function () {
     Route::prefix('presensi')->group(function () {
         Route::get('index', [Presensi::class, 'index'])->name('presensi.index')->middleware(["initialize.menu"]);
         Route::post('data', [Presensi::class, 'data'])->name('presensi.data');
+        Route::post('detail', [Presensi::class, 'detail'])->name('presensi.detail');
     });
 
     Route::get('/su', function () {

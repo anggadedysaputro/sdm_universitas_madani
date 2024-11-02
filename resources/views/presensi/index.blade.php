@@ -27,7 +27,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Bidang</label>
-                                <select name="kodebidang" class="form-control" style="widht:100%;" placeholder="Pilih bidang"></select>
+                                <select name="kodebidang" class="organisasi form-control" style="widht:100%;" placeholder="Pilih bidang"></select>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Divisi</label>
-                                <select name="kodedivisi" class="form-control kodebidang" placeholder="Pilih divisi"></select>
+                                <select name="kodedivisi" class="organisasi form-control kodebidang" placeholder="Pilih divisi"></select>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Sub divisi</label>
-                                <select name="kodesubdivisi" class="form-control kodebidang kodedivisi" placeholder="Pilih sub divisi"></select>
+                                <select name="kodesubdivisi" class="organisasi form-control kodebidang kodedivisi" placeholder="Pilih sub divisi"></select>
                             </div>
                         </div>
                     </div>
@@ -51,15 +51,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Sub Sub divisi</label>
-                                <select name="kodesubsubdivisi" class="form-control kodebidang kodedivisi" placeholder="Pilih sub sub divisi"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Tanggal</label>
-                                <input type="text" name="tanggal" class="form-control flatpickr-range">
+                                <select name="kodesubsubdivisi" class="organisasi form-control kodebidang kodedivisi" placeholder="Pilih sub sub divisi"></select>
                             </div>
                         </div>
                     </div>
@@ -67,8 +59,8 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="d-flex gap-3">
-                                    <button type="button" class="btn btn-default flex-fill">Kosongkan</button>
-                                    <button type="button" class="btn btn-warning flex-fill">Terapkan</button>
+                                    <button type="button" id="kosongkan" class="btn btn-default flex-fill">Kosongkan</button>
+                                    <button type="button" id="terapkan" class="btn btn-warning flex-fill">Terapkan</button>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +95,35 @@
             </div>
         </div>
     </div>
+</div>
+<div class="modal" id="modal-presensi" tabindex="-1">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Data presensi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table" id="table-detail-presensi">
+                <thead class="sticky-top">
+                  <tr class="table-primary">
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Jam masuk</th>
+                    <th scope="col">Jam pulang</th>
+                    <th scope="col">Kantor masuk</th>
+                    <th scope="col">Kantor pulang</th>
+                  </tr>
+                </thead>
+                <tbody>
 
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
 </div>
 @endsection
 @section('jsweb')
@@ -112,6 +132,69 @@
         class Helper {
             constructor(){
 
+            }
+
+            static bulanLink(e){
+                let bulan = $(e.currentTarget).attr('nitip');
+                let nopeg = Index.DT_Main.row($(e.currentTarget).parents('tr:first')).data().nopeg;
+
+                $.ajax({
+                    url : "{{ route('presensi.detail') }}",
+                    method : "POST",
+                    data : {bulan, nopeg },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend : function(){
+                        Swal.fire({
+                            title: 'Mengambil data!',
+                            html: 'Silahkan tunggu...',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
+                    },
+                    success : function(result){
+                        Swal.close();
+                        const table = $('#table-detail-presensi');
+                        let body = [];
+                        table.find('tbody').html("");
+                        result.forEach((e,i)=>{
+                            let content = `
+                                <tr>
+                                    <td>${e.tg_view}</td>
+                                    <td>${e.retwaktumasuk}</td>
+                                    <td>${e.retwaktukeluar}</td>
+                                    <td>${e.retkantormasuk}</td>
+                                    <td>${e.retkantorkeluar}</td>
+                                </tr>
+                            `;
+
+                            body.push($(content));
+                        });
+                        table.find('tbody').append(body);
+                        Index.MD_Presensi.modal('show');
+                    },
+                    error : function(e){
+                        Swal.fire('Error', e.responseJSON.message,'error');
+                        Swal.close();
+                    }
+                })
+            }
+
+            terapkan(){
+                Index.DT_Main.button('.filter-table-presensi').trigger();
+                Index.DT_Main.ajax.reload();
+            }
+
+            kosongkan(){
+                Index.FRM_Presensi.find('.organisasi').each(function(i,e){
+                    Angga.setValueSelect2AjaxRemote($(e), {id:"",text :$(e).attr('placeholder')});
+                });
+                Index.DT_Main.button('.filter-table-presensi').trigger();
+                Index.DT_Main.ajax.reload();
             }
 
             resetSelect2(e){
@@ -139,9 +222,16 @@
             static S2_KodesubsubDivisi;
             static FRM_Presensi;
             static DT_Main;
+            static BTN_Kosongkan;
+            static BTN_Terapkan;
+            static MD_Presensi;
 
             constructor() {
                 super();
+
+                Index.MD_Presensi = $('#modal-presensi');
+                Index.BTN_Terapkan = $('#terapkan');
+                Index.BTN_Kosongkan = $('#kosongkan');
                 Index.FRM_Presensi = $('#form-presensi');
                 Index.S2_KodeBidang = Index.FRM_Presensi.find('select[name="kodebidang"]').select2(Angga.generalAjaxSelect2("{{ route('select2.organisasi.bidang.data') }}", "Pilih bidang"));
                 Index.S2_KodeDivisi = Index.FRM_Presensi.find('select[name="kodedivisi"]').select2(Angga.generalAjaxSelect2("{{ route('select2.organisasi.divisi.data') }}", "Pilih divisi", false, "kodebidang", Index.S2_KodeBidang));
@@ -154,18 +244,101 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
+                        data : function(d){
+                            // d = $.extend(d,Index.FRM_Presensi.serializeObject());
+                            d = $.extend(d,Index.FRM_Presensi.serializeObject());
+                            return d;
+                        }
                     },
+                    serverSide : true,
+                    processing : true,
                     dom: 'Blfrtip',
                     buttons: [
                         {
                             text: 'Filter',
-                            action: Helper.filter
+                            action: Helper.filter,
+                            className : "filter-table-presensi"
                         }
                     ],
                     columns : [
-                        {data:"retnopeg"},
-                        {data:"retnama"},
+                        {data:"nopeg"},
+                        {data:"nama"},
+                        {
+                            data:"januari",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="1" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"februari",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="2" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"maret",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="3" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"april",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="4" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"mei",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="5" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"juni",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="6" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"juli",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="7" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"agustus",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="8" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"september",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="9" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"oktober",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="10" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"november",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="11" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
+                        {
+                            data:"desember",
+                            render: function (data, type, row, meta) {
+                                return '<a nitip="12" class="bulan-link" href="#">'+data+'</a>';
+                            }
+                        },
                     ],
+                    createdRow : function(row, data){
+                        $(row).find('a.bulan-link').on('click', Helper.bulanLink);
+                    }
                 });
 
             }
@@ -204,6 +377,8 @@
                 Index.S2_KodeBidang.on('select2:select select2:clearing', this.resetSelect2);
                 Index.S2_KodeDivisi.on('select2:select select2:clearing', this.resetSelect2);
                 Index.S2_KodesubDivisi.on('select2:select select2:clearing', this.resetSelect2);
+                Index.BTN_Kosongkan.on('click', this.kosongkan);
+                Index.BTN_Terapkan.on('click', this.terapkan);
                 return this;
             }
 
