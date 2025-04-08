@@ -273,3 +273,18 @@ if (!function_exists('buatFolder')) {
         }
     }
 }
+
+if (!function_exists('numericFormatToNormalFormat')) {
+    function numericFormatToNormalFormat($value)
+    {
+        // Hapus prefix "Rp" dan spasi
+        $cleanedValue = preg_replace('/^Rp\.?\s*/', '', $value);
+        // Ganti separator ribuan (.) dengan string kosong
+        $withoutThousandSeparator = str_replace('.', '', $cleanedValue);
+        // Ganti separator desimal (,) dengan titik (.)
+        $numberValue = str_replace(',', '.', $withoutThousandSeparator);
+
+        // Konversi string menjadi angka float
+        return (float) $numberValue;
+    }
+}

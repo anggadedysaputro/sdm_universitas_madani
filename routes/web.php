@@ -12,24 +12,31 @@ use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
 use App\Http\Controllers\Presensi\Presensi;
 use App\Http\Controllers\Profile\Profile;
+use App\Http\Controllers\Select2\Biaya\Select2Biaya;
 use App\Http\Controllers\Select2\Bidang\Divisi\Select2BidangDivisi;
 use App\Http\Controllers\Select2\Bidang\Select2Bidang;
 use App\Http\Controllers\Select2\Jabatan\Fungsional\Select2JabatanFungsional;
 use App\Http\Controllers\Select2\Jabatan\Struktural\Select2JabatanStruktural;
+use App\Http\Controllers\Select2\JenisSertifikat\Select2JenisSertifikat;
 use App\Http\Controllers\Select2\Kantor\Select2Kantor;
 use App\Http\Controllers\Select2\Organisasi\Bidang\Select2OrganisasiBidang;
 use App\Http\Controllers\Select2\Organisasi\Divisi\Select2OrganisasiDivisi;
 use App\Http\Controllers\Select2\Organisasi\SubDivisi\Select2OrganisasiSubDivisi;
 use App\Http\Controllers\Select2\Organisasi\SubSubDivisi\Select2OrganisasiSubSubDivisi;
+use App\Http\Controllers\Select2\Pendidikan\Select2Pendidikan;
+use App\Http\Controllers\Select2\Tahun\Select2Tahun;
 use App\Http\Controllers\Settings\ConfigApp\SettingsConfigApp;
 use App\Http\Controllers\Settings\KonfigUmum\SettingsKonfigUmum;
 use App\Http\Controllers\Settings\Logo\SettingsLogo;
+use App\Http\Controllers\Settings\Masters\Biaya\SettingsMastersBiaya;
 use App\Http\Controllers\Settings\Masters\Jabatan\Fungsional\SettingsMastersJabatanFungsional;
 use App\Http\Controllers\Settings\Masters\Jabatan\Struktural\SettingsMastersJabatanStruktural;
+use App\Http\Controllers\Settings\Masters\JenisSertifikat\SettingsMastersJenisSertifikat;
 use App\Http\Controllers\Settings\Masters\Kantor\SettingsMastersKantor;
 use App\Http\Controllers\Settings\Masters\KartuIdentitas\SettingsMastersKartuIdentitas;
 use App\Http\Controllers\Settings\Masters\Libur\SettingsMastersLibur;
 use App\Http\Controllers\Settings\Masters\Negara\SettingsMastersNegara;
+use App\Http\Controllers\Settings\Masters\Pekerjaan\SettingsMastersPekerjaan;
 use App\Http\Controllers\Settings\Masters\Pendidikan\SettingsMastersPendidikan;
 use App\Http\Controllers\Settings\Masters\StatusIjin\SettingsMastersStatusIjin;
 use App\Http\Controllers\Settings\Masters\StatusPegawai\SettingsMastersStatusPegawai;
@@ -98,6 +105,18 @@ Route::middleware(['validate.login'])->group(function () {
             Route::prefix('sub-sub-divisi')->group(function () {
                 Route::post('data', [Select2OrganisasiSubSubDivisi::class, 'data'])->name('select2.organisasi.sub-sub-divisi.data');
             });
+        });
+        Route::prefix('jenis-sertifikat')->group(function () {
+            Route::post('data', [Select2JenisSertifikat::class, 'data'])->name('select2.jenis-sertifikat.data');
+        });
+        Route::prefix('biaya')->group(function () {
+            Route::post('data', [Select2Biaya::class, 'data'])->name('select2.biaya.data');
+        });
+        Route::prefix('tahun')->group(function () {
+            Route::post('data', [Select2Tahun::class, 'data'])->name('select2.tahun.data');
+        });
+        Route::prefix('pendidikan')->group(function () {
+            Route::post('data', [Select2Pendidikan::class, 'data'])->name('select2.pendidikan.data');
         });
     });
 
@@ -234,6 +253,27 @@ Route::middleware(['validate.login'])->group(function () {
                 Route::patch('setujui', [SettingsMastersKantor::class, 'setujui'])->name('settings.masters.kantor.setujui');
                 Route::patch('tolak', [SettingsMastersKantor::class, 'tolak'])->name('settings.masters.kantor.tolak');
                 Route::post('data', [SettingsMastersKantor::class, 'data'])->name('settings.masters.kantor.data');
+            });
+            Route::prefix('pekerjaan')->group(function () {
+                Route::get('index', [SettingsMastersPekerjaan::class, 'index'])->name('settings.masters.pekerjaan.index')->middleware(["initialize.menu"]);
+                Route::post('store', [SettingsMastersPekerjaan::class, 'store'])->name('settings.masters.pekerjaan.store');
+                Route::delete('delete', [SettingsMastersPekerjaan::class, 'delete'])->name('settings.masters.pekerjaan.delete');
+                Route::patch('edit', [SettingsMastersPekerjaan::class, 'edit'])->name('settings.masters.pekerjaan.edit');
+                Route::post('data', [SettingsMastersPekerjaan::class, 'data'])->name('settings.masters.pekerjaan.data');
+            });
+            Route::prefix('biaya')->group(function () {
+                Route::get('index', [SettingsMastersBiaya::class, 'index'])->name('settings.masters.biaya.index')->middleware(["initialize.menu"]);
+                Route::post('store', [SettingsMastersBiaya::class, 'store'])->name('settings.masters.biaya.store');
+                Route::delete('delete', [SettingsMastersBiaya::class, 'delete'])->name('settings.masters.biaya.delete');
+                Route::patch('edit', [SettingsMastersBiaya::class, 'edit'])->name('settings.masters.biaya.edit');
+                Route::post('data', [SettingsMastersBiaya::class, 'data'])->name('settings.masters.biaya.data');
+            });
+            Route::prefix('jenis-sertifikat')->group(function () {
+                Route::get('index', [SettingsMastersJenisSertifikat::class, 'index'])->name('settings.masters.jenis-sertifikat.index')->middleware(["initialize.menu"]);
+                Route::post('store', [SettingsMastersJenisSertifikat::class, 'store'])->name('settings.masters.jenis-sertifikat.store');
+                Route::delete('delete', [SettingsMastersJenisSertifikat::class, 'delete'])->name('settings.masters.jenis-sertifikat.delete');
+                Route::patch('edit', [SettingsMastersJenisSertifikat::class, 'edit'])->name('settings.masters.jenis-sertifikat.edit');
+                Route::post('data', [SettingsMastersJenisSertifikat::class, 'data'])->name('settings.masters.jenis-sertifikat.data');
             });
         });
     });

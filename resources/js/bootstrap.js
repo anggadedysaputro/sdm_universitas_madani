@@ -77,6 +77,21 @@ Inputmask({
         }
     }
 }).mask(".email-mask");
+
+Inputmask('numeric', {
+    radixPoint: ",",
+    allowMinus: false,
+    regex: "[0-9]*",
+    groupSeparator: ".",
+    rightAlign: false,
+    digits: 2, min: 0,
+    alias: 'numeric',
+    onBeforeMask: function (value, opts) {
+        console.log("kusir", value);
+        return value;
+    }
+}).mask('.money-mask');
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

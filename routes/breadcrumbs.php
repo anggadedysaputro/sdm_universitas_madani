@@ -121,6 +121,24 @@ Breadcrumbs::for('settings.masters.libur.index', function (BreadcrumbTrail $trai
     $trail->push('Libur');
 });
 
+// settings > masters > pekerjaan
+Breadcrumbs::for('settings.masters.pekerjaan.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Pekerjaan');
+});
+
+// settings > masters > biaya
+Breadcrumbs::for('settings.masters.biaya.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Biaya');
+});
+
+// settings > masters > jenis sertifikat
+Breadcrumbs::for('settings.masters.jenis-sertifikat.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.masters.index');
+    $trail->push('Jenis Sertifikat');
+});
+
 // settings > masters > kartu-identitas
 Breadcrumbs::for('settings.masters.kartu-identitas.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.masters.index');
