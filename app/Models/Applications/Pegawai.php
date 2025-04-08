@@ -67,7 +67,6 @@ class Pegawai extends Model
         'fullpath',
         'gambar',
         'idbidang',
-        'nama_panggilan',
         'alamat_domisili',
         'nama_kepala_keluarga',
         'nama_keluarga_darurat',

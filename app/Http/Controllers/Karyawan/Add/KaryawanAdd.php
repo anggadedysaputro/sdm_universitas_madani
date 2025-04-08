@@ -72,8 +72,6 @@ class KaryawanAdd extends Controller
             $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
             $post['idbidang'] = $dataBidang['id'];
 
-
-
             // foto profile
             if ($post['gambar'] != "undefined") {
                 buatFolder(storage_path('app/' . 'public/pegawai'));
@@ -87,38 +85,42 @@ class KaryawanAdd extends Controller
             if ($post['foto_npwp'] != "undefined") {
                 buatFolder(storage_path('app/' . 'public/foto_npwp'));
                 $filename = uniqid() . ".jpg";
-                $foto_npwp = Storage::put('public/foto_npwp/' . $filename, Image::make($post['foto_npwp'])->encode("jpg", 40));
+                Storage::put('public/foto_npwp/' . $filename, Image::make($post['foto_npwp'])->encode("jpg", 40));
+                $post['foto_npwp'] = $filename;
+            } else {
                 unset($post['foto_npwp']);
-                $post['foto_npwp'] = basename($foto_npwp);
             }
 
             // foto bpjs kesehatan
             if ($post['foto_bpjs_kesehatan'] != "undefined") {
                 buatFolder(storage_path('app/' . 'public/foto_bpjs_kesehatan'));
                 $filename = uniqid() . ".jpg";
-                $foto_bpjs_kesehatan = Storage::put('public/foto_bpjs_kesehatan/' . $filename, Image::make($post['foto_bpjs_kesehatan'])->encode("jpg", 40));
+                Storage::put('public/foto_bpjs_kesehatan/' . $filename, Image::make($post['foto_bpjs_kesehatan'])->encode("jpg", 40));
                 unset($post['foto_bpjs_kesehatan']);
-                $post['foto_bpjs_kesehatan'] = basename($foto_bpjs_kesehatan);
+                $post['foto_bpjs_kesehatan'] = $filename;
+            } else {
+                unset($post['foto_bpjs_kesehatan']);
             }
 
             // foto bpjs ketenagakerjaan
             if ($post['foto_bpjs_ketenagakerjaan'] != "undefined") {
                 buatFolder(storage_path('app/' . 'public/foto_bpjs_ketenagakerjaan'));
                 $filename = uniqid() . ".jpg";
-                $foto_bpjs_ketenagakerjaan = Storage::put('public/foto_bpjs_ketenagakerjaan/' . $filename, Image::make($post['foto_bpjs_ketenagakerjaan'])->encode("jpg", 40));
+                Storage::put('public/foto_bpjs_ketenagakerjaan/' . $filename, Image::make($post['foto_bpjs_ketenagakerjaan'])->encode("jpg", 40));
+                $post['foto_bpjs_ketenagakerjaan'] = $filename;
+            } else {
                 unset($post['foto_bpjs_ketenagakerjaan']);
-                $post['foto_bpjs_ketenagakerjaan'] = basename($foto_bpjs_ketenagakerjaan);
             }
-
 
             // Dok. Surat Penjanjian Kerja
             if ($post['dok_surat_perjanjian_kerja'] != "undefined") {
                 buatFolder(storage_path('app/' . 'public/dok_surat_perjanjian_kerja'));
                 $extension = $post['dok_surat_perjanjian_kerja']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_surat_perjanjian_kerja = Storage::put('public/dok_surat_perjanjian_kerja/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_surat_perjanjian_kerja'])->encode($extension, 40) : $post['dok_surat_perjanjian_kerja']));
+                Storage::put('public/dok_surat_perjanjian_kerja/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_surat_perjanjian_kerja'])->encode($extension, 40) : $post['dok_surat_perjanjian_kerja']));
+                $post['dok_surat_perjanjian_kerja'] = $filename;
+            } else {
                 unset($post['dok_surat_perjanjian_kerja']);
-                $post['dok_surat_perjanjian_kerja'] = basename($dok_surat_perjanjian_kerja);
             }
 
             // Dok. Pakta Integritas
@@ -126,9 +128,10 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_pakta_integritas'));
                 $extension = $post['dok_pakta_integritas']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_pakta_integritas = Storage::put('public/dok_pakta_integritas/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_pakta_integritas'])->encode($extension, 40) : $post['dok_pakta_integritas']));
+                Storage::put('public/dok_pakta_integritas/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_pakta_integritas'])->encode($extension, 40) : $post['dok_pakta_integritas']));
+                $post['dok_pakta_integritas'] = $filename;
+            } else {
                 unset($post['dok_pakta_integritas']);
-                $post['dok_pakta_integritas'] = basename($dok_pakta_integritas);
             }
 
             // Dok. Hasil Test
@@ -136,9 +139,10 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_hasil_test'));
                 $extension = $post['dok_hasil_test']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_hasil_test = Storage::put('public/dok_hasil_test/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_test'])->encode($extension, 40) : $post['dok_hasil_test']));
+                Storage::put('public/dok_hasil_test/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_test'])->encode($extension, 40) : $post['dok_hasil_test']));
+                $post['dok_hasil_test'] = $filename;
+            } else {
                 unset($post['dok_hasil_test']);
-                $post['dok_hasil_test'] = basename($dok_hasil_test);
             }
 
             // Dok. Hasil Interview
@@ -147,8 +151,9 @@ class KaryawanAdd extends Controller
                 $extension = $post['dok_hasil_interview']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
                 $dok_hasil_interview = Storage::put('public/dok_hasil_interview/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']));
+                $post['dok_hasil_interview'] = $filename;
+            } else {
                 unset($post['dok_hasil_interview']);
-                $post['dok_hasil_interview'] = basename($dok_hasil_interview);
             }
 
             // Dok. Ijazah
@@ -156,9 +161,10 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_ijazah'));
                 $extension = $post['dok_ijazah']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_ijazah = Storage::put('public/dok_ijazah/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_ijazah'])->encode($extension, 40) : $post['dok_ijazah']));
+                Storage::put('public/dok_ijazah/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_ijazah'])->encode($extension, 40) : $post['dok_ijazah']));
+                $post['dok_ijazah'] = $filename;
+            } else {
                 unset($post['dok_ijazah']);
-                $post['dok_ijazah'] = basename($dok_ijazah);
             }
 
             // Dok. Transkrip Nilai
@@ -166,9 +172,10 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_transkrip_nilai'));
                 $extension = $post['dok_transkrip_nilai']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_transkrip_nilai = Storage::put('public/dok_transkrip_nilai/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_transkrip_nilai'])->encode($extension, 40) : $post['dok_transkrip_nilai']));
+                Storage::put('public/dok_transkrip_nilai/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_transkrip_nilai'])->encode($extension, 40) : $post['dok_transkrip_nilai']));
+                $post['dok_transkrip_nilai'] = basename($filename);
+            } else {
                 unset($post['dok_transkrip_nilai']);
-                $post['dok_transkrip_nilai'] = basename($dok_transkrip_nilai);
             }
 
             // make user

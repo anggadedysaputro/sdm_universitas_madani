@@ -590,14 +590,14 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Kompetensi Hard Skill</label>
-                                                <input type="text" class="form-control form-step-6" placeholder="Masukkan kompetensi hard skill" name="kompentensi_hard_skill">
+                                                <input type="text" class="form-control form-step-6" placeholder="Masukkan kompetensi hard skill" name="kompetensi_hard_skill">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Kompetensi Soft Skill</label>
-                                                <input type="text" class="form-control form-step-6" placeholder="Masukkan kompetensi soft skill" name="kompentensi_soft_skill">
+                                                <input type="text" class="form-control form-step-6" placeholder="Masukkan kompetensi soft skill" name="kompetensi_soft_skill">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
