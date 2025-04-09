@@ -629,7 +629,7 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Jumlah KG</label>
-                                                <input type="text" class="form-control decimal-mask" placeholder="Masukkan jumlah KG" name="jumlah_kg">
+                                                <input type="text" class="form-control decimal-mask" placeholder="Masukkan jumlah KG" name="jumlah_beras_kg">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
@@ -658,14 +658,14 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Nama lembaga pendidikan</label>
-                                                <input type="text" class="form-control" placeholder="masukkan nama lembaga pendidikan" name="nama_lembaga_pendidikan">
+                                                <input type="text" class="form-control" placeholder="masukkan nama lembaga pendidikan" name="nama_lembaga_beasiswa_pendidikan">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Biaya per semester</label>
-                                                <input type="text" class="form-control money-mask" placeholder="masukkan biaya per semester" name="biaya_per_semester">
+                                                <input type="text" class="form-control money-mask" placeholder="masukkan biaya per semester" name="biaya_beasiswa_per_semester">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>

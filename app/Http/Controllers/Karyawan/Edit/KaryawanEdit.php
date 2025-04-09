@@ -38,6 +38,7 @@ class KaryawanEdit extends Controller
                 "p.idstatusnikah",
                 "p.kewarganegaraan",
                 "n.keterangan as negara",
+                "p.gelar",
                 "p.idwarganegara",
                 "p.tempatlahir",
                 "p.nokk",
@@ -53,7 +54,10 @@ class KaryawanEdit extends Controller
                 "sp.keterangan as status_pegawai",
                 DB::raw("convertnumericdatetoalphabetical(tgl_masuk) as tanggal_masuk"),
                 "p.tgl_masuk",
+                DB::raw("convertnumericdatetoalphabetical(tgl_berakhir_kontrak) as tgl_berakhir_kontrak"),
+                "p.tgl_berakhir_kontrak",
                 "p.kodejabfung",
+                "p.tugas_tambahan",
                 "jf.urai as jabatan_fungsional",
                 "p.kodestruktural",
                 "js.urai as jabatan_struktural",
@@ -64,14 +68,95 @@ class KaryawanEdit extends Controller
                 "pen.keterangan as pendidikan",
                 "p.fullpath",
                 "p.gambar",
+                "p.foto_npwp",
+                "p.foto_bpjs_kesehatan",
+                "p.foto_bpjs_ketenagakerjaan",
+                "p.dok_pakta_integritas",
+                "p.dok_surat_perjanjian_kerja",
+                "p.dok_hasil_test",
+                "p.dok_hasil_interview",
+                "p.dok_ijazah",
+                "p.dok_transkrip_nilai",
+                "p.nama_kepala_keluarga",
+                "p.nama_keluarga_darurat",
+                "p.telp_keluarga_darurat",
                 DB::raw("
                     (
-                        select json_agg(k.*)
+                        select
+                            json_agg(
+                                json_build_object(
+                                    'nama',nama,
+                                    'hubungan', hubungan,
+                                    'tempatlahir', tempatlahir,
+                                    'tgllahir',tgllahir,
+                                    'tgllahir_view',convertnumericdatetoalphabetical(tgllahir),
+                                    'telp',telp,
+                                    'alamat',alamat
+                                )
+                            )
                         from applications.keluarga k
                         where nopeg = p.nopeg
                     ) keluarga
                 "),
-                DB::raw("concat(concat_ws('.',bid.kodebidang,bid.kodedivisi,bid.kodesubdivisi,bid.kodesubsubdivisi), ' - ', bid.urai) as organisasi")
+                DB::raw("
+                    (
+                        select
+                            json_agg(
+                                json_build_object(
+                                    'nomor_sertifikat',nomor_sertifikat,
+                                    'idjenissertifikat',idjenissertifikat,
+                                    'jenissertifikat',j.urai,
+                                    'lembaga_penyelenggara',lembaga_penyelenggara,
+                                    'tahun',tahun,
+                                    'biaya',biaya,
+                                    'jenisbiaya', b.urai
+                                )
+                            )
+                        from applications.sertifikat k
+                        join masters.jenis_sertifikat as j on j.id = k.idjenissertifikat
+                        join masters.biaya as b on b.id = k.idjenisbiaya
+                        where nopeg = p.nopeg
+                    ) cert
+                "),
+                DB::raw("
+                    (
+                        select
+                            json_agg(
+                                json_build_object(
+                                    'dari_tahun',dari_tahun,
+                                    'sampai_tahun',sampai_tahun,
+                                    'jabatan',jabatan,
+                                    'paklaring',paklaring
+                                )
+                            )
+                        from applications.pengalaman_kerja k
+                        where nopeg = p.nopeg
+                    ) data_pengalaman_kerja
+                "),
+                DB::raw("
+                    (
+                        select
+                            json_agg(
+                                json_build_object(
+                                    'anak_ke',anak_ke,
+                                    'jenjangpendidikan', pen.keterangan,
+                                    'jenis_biaya_pendidikan',jenis_biaya_pendidikan,
+                                    'besaran_dispensasi',besaran_dispensasi
+                                )
+                            )
+                        from applications.biaya_pendidikan_anak k
+                        join masters.pendidikan as pen on k.idjenjangpendidikan = pen.kodependidikan
+                        where nopeg = p.nopeg
+                    ) data_biaya_pendidikan_anak
+                "),
+                DB::raw("concat(concat_ws('.',bid.kodebidang,bid.kodedivisi,bid.kodesubdivisi,bid.kodesubsubdivisi), ' - ', bid.urai) as organisasi"),
+                'kompetensi_hard_skill',
+                'kompetensi_soft_skill',
+                'biaya_tempat_tinggal_pertahun',
+                'jumlah_beras_kg',
+                'merk_kendaraan',
+                'biaya_beasiswa_per_semester',
+                'tahun_kendaraan'
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -94,8 +179,11 @@ class KaryawanEdit extends Controller
         $agama = Agama::all();
 
         $keluarga = empty($pegawai->keluarga) ? [] : json_decode($pegawai->keluarga);
+        $sertifikat = empty($pegawai->cert) ? [] : json_decode($pegawai->cert);
+        $pengalamankerja = empty($pegawai->data_pengalaman_kerja) ? [] : json_decode($pegawai->data_pengalaman_kerja);
+        $biayapendidikananak = empty($pegawai->data_biaya_pendidikan_anak) ? [] : json_decode($pegawai->data_biaya_pendidikan_anak);
 
-        return view('karyawan.edit.index', compact('id', 'keluarga', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
+        return view('karyawan.edit.index', compact('id', 'biayapendidikananak', 'pengalamankerja', 'sertifikat', 'keluarga', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
     }
 
     public function store()

@@ -43,7 +43,7 @@ class KaryawanAdd extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
-            $post['biaya_per_semester'] = numericFormatToNormalFormat($post['biaya_per_semester']);
+            $post['biaya_beasiswa_per_semester'] = numericFormatToNormalFormat($post['biaya_beasiswa_per_semester']);
             $post['biaya_tempat_tinggal_pertahun'] = numericFormatToNormalFormat($post['biaya_tempat_tinggal_pertahun']);
 
             if (Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Nomor NIPY sudah ada", 1);
@@ -117,7 +117,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_surat_perjanjian_kerja'));
                 $extension = $post['dok_surat_perjanjian_kerja']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_surat_perjanjian_kerja/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_surat_perjanjian_kerja'])->encode($extension, 40) : $post['dok_surat_perjanjian_kerja']));
+                Storage::put('public/dok_surat_perjanjian_kerja/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_surat_perjanjian_kerja'])->encode($extension, 40) : $post['dok_surat_perjanjian_kerja']->get()));
                 $post['dok_surat_perjanjian_kerja'] = $filename;
             } else {
                 unset($post['dok_surat_perjanjian_kerja']);
@@ -128,7 +128,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_pakta_integritas'));
                 $extension = $post['dok_pakta_integritas']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_pakta_integritas/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_pakta_integritas'])->encode($extension, 40) : $post['dok_pakta_integritas']));
+                Storage::put('public/dok_pakta_integritas/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_pakta_integritas'])->encode($extension, 40) : $post['dok_pakta_integritas']->get()));
                 $post['dok_pakta_integritas'] = $filename;
             } else {
                 unset($post['dok_pakta_integritas']);
@@ -139,7 +139,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_hasil_test'));
                 $extension = $post['dok_hasil_test']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_hasil_test/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_test'])->encode($extension, 40) : $post['dok_hasil_test']));
+                Storage::put('public/dok_hasil_test/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_test'])->encode($extension, 40) : $post['dok_hasil_test']->get()));
                 $post['dok_hasil_test'] = $filename;
             } else {
                 unset($post['dok_hasil_test']);
@@ -150,7 +150,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_hasil_interview'));
                 $extension = $post['dok_hasil_interview']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_hasil_interview = Storage::put('public/dok_hasil_interview/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']));
+                $dok_hasil_interview = Storage::put('public/dok_hasil_interview/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']->get()));
                 $post['dok_hasil_interview'] = $filename;
             } else {
                 unset($post['dok_hasil_interview']);
@@ -161,7 +161,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_ijazah'));
                 $extension = $post['dok_ijazah']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_ijazah/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_ijazah'])->encode($extension, 40) : $post['dok_ijazah']));
+                Storage::put('public/dok_ijazah/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_ijazah'])->encode($extension, 40) : $post['dok_ijazah']->get()));
                 $post['dok_ijazah'] = $filename;
             } else {
                 unset($post['dok_ijazah']);
@@ -172,7 +172,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_transkrip_nilai'));
                 $extension = $post['dok_transkrip_nilai']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_transkrip_nilai/' . $filename, ($extension == in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_transkrip_nilai'])->encode($extension, 40) : $post['dok_transkrip_nilai']));
+                Storage::put('public/dok_transkrip_nilai/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_transkrip_nilai'])->encode($extension, 40) : $post['dok_transkrip_nilai']->get()));
                 $post['dok_transkrip_nilai'] = basename($filename);
             } else {
                 unset($post['dok_transkrip_nilai']);

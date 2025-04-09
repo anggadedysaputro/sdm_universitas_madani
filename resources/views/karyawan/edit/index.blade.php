@@ -42,10 +42,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="d-flex flex-column">
                         <div class="d-flex justify-content-between">
-                            <h3>Informasi pribadi</h3>
+                            <h3>Data personal</h3>
                             <span>
                                 <i class="ti ti-dots-vertical" id="edit-informasi-pribadi"></i>
                             </span>
@@ -54,21 +54,10 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        NIPY
-                                    </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->nopeg }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
                                         Nama
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->nama }}
                                     </div>
                                 </div>
@@ -78,8 +67,8 @@
                                     <div class="col-md-5">
                                         Tempat lahir
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->tempatlahir }}
                                     </div>
                                 </div>
@@ -89,8 +78,8 @@
                                     <div class="col-md-5">
                                         Tanggal lahir
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->tanggal_lahir }}
                                     </div>
                                 </div>
@@ -100,9 +89,53 @@
                                     <div class="col-md-5">
                                         Jenis kelamin
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->jenis_kelamin }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Status nikah
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->status_nikah }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Foto NPWP
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        <a href="{{ $pegawai->foto_npwp_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Foto BPJS Kesehatan
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        <a href="{{ $pegawai->foto_bpjs_kesehatan_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Foto BPJS Ketenagakerjaan
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        <a href="{{ $pegawai->foto_bpjs_ketenagakerjaan_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
                                     </div>
                                 </div>
                             </div>
@@ -111,8 +144,8 @@
                                     <div class="col-md-5">
                                         Golongan darah
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->gol_darah }}
                                     </div>
                                 </div>
@@ -122,20 +155,9 @@
                                     <div class="col-md-5">
                                         Agama
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->agama }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        Status nikah
-                                    </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->status_nikah }}
                                     </div>
                                 </div>
                             </div>
@@ -144,8 +166,8 @@
                                     <div class="col-md-5">
                                         Kewarganegaraan
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->kewarganegaraan }}
                                     </div>
                                 </div>
@@ -155,8 +177,8 @@
                                     <div class="col-md-5">
                                         Negara
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->negara }}
                                     </div>
                                 </div>
@@ -164,38 +186,136 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Nomor kartu keluarga
+                                        Tipe kartu identitas
                                     </div>
-                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->kartu_identitas }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
                                     <div class="col-md-5">
-                                        {{ $pegawai->nokk }}
+                                        ID kartu identitas
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->noidentitas }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <h3>Keluarga</h3>
+                            <h3>Data Keluarga</h3>
                             <span>
                                 <i class="ti ti-dots-vertical" id="edit-keluarga"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
-                            @foreach ($keluarga as $key => $value)
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        {{ $value->hubungan }}
+                                        No kartu keluarga
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $value->nama }}
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->nokk }}
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Nama kepala keluarga
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->nama_kepala_keluarga }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Nama keluarga darurat
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->nama_keluarga_darurat }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        No. telepon keluarga darurat
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->telp_keluarga_darurat }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Keluarga
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                @foreach ($keluarga as $key => $value)
+                                                    <div class="{{ $key > 0 ? 'd-none show-more' : '' }}">
+                                                        <table class="table table-bordered mb-4">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="col-md-4">Nama</td>
+                                                                    <td class="col-md-8">{{ $value->nama }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Hubungan</td>
+                                                                    <td class="col-md-8">{{ $value->hubungan }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Tempat lahir</td>
+                                                                    <td class="col-md-8">{{ $value->tempatlahir }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Tanggal lahir</td>
+                                                                    <td class="col-md-8">{{ $value->tgllahir_view }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">No. telepon</td>
+                                                                    <td class="col-md-8">{{ $value->telp }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Alamat</td>
+                                                                    <td class="col-md-8">{{ $value->alamat }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @endforeach
+
+                                                @if (count($keluarga) > 2)
+                                                    <div class="text-center">
+                                                        <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
+                                                    </div>
+                                                @endif
+
+                                                @if(count($keluarga) ==0)
+                                                    <div>Tidak ada data</div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="d-flex justify-content-between mt-3">
-                            <h3>Kontak</h3>
+                            <h3>Data Pekerjaan</h3>
                             <span>
                                 <i class="ti ti-dots-vertical" id="edit-kontak"></i>
                             </span>
@@ -204,84 +324,147 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Tipe kartu identitas
+                                        NIPY
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->kartu_identitas }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        Nomor kartu identitas
-                                    </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->noidentitas }}
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->nopeg }}
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Alamat
+                                        Status karyawan
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->alamat }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        No. HP
-                                    </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->nohp }}
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->status_pegawai }}
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        No. telepon
+                                        Tgl. Masuk Yayasan
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->telp }}
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->tanggal_masuk }}
                                     </div>
                                 </div>
                             </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Tgl. Berakhir Kontrak
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->tgl_berakhir_kontrak }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Organisasi
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->organisasi }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Jabatan struktural
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->jabatan_struktural }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Jabatan fungsional
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->jabatan_fungsional }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Tugas tambahan
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->tugas_tambahan }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Dok. Surat Penjanjian Kerja
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        @if (!empty($pegawai->dok_surat_perjanjian_kerja))
+                                        <a href="{{ $pegawai->dok_surat_perjanjian_kerja_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
 
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        No. telepon darurat
-                                    </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->notelpdarurat }}
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Email
+                                        Dok. Pakta Integritas
                                     </div>
-                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        @if (!empty($pegawai->dok_pakta_integritas))
+                                            <a href="{{ $pegawai->dok_pakta_integritas_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
                                     <div class="col-md-5">
-                                        {{ $pegawai->email }}
+                                        Dok. Hasil Test
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        @if (!empty($pegawai->dok_hasil_test))
+                                            <a href="{{ $pegawai->dok_hasil_test_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Dok. Hasil Interview
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        @if (!empty($pegawai->dok_hasil_interview))
+                                            <a href="{{ $pegawai->dok_hasil_interview_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between mt-3">
-                            <h3>Pendidikan terkahir</h3>
+                            <h3>Data pendidikan</h3>
                             <span>
                                 <i class="ti ti-dots-vertical" id="edit-pendidikanterakhir"></i>
                             </span>
@@ -292,8 +475,8 @@
                                     <div class="col-md-5">
                                         Jenjang pendidikan terakhir
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->pendidikan }}
                                     </div>
                                 </div>
@@ -303,8 +486,8 @@
                                     <div class="col-md-5">
                                         Tahun lulus
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->tahun_lulus }}
                                     </div>
                                 </div>
@@ -312,10 +495,10 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Nama institusi pendidikan
+                                        Nama Lembaga Pendidikan
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->namasekolah }}
                                     </div>
                                 </div>
@@ -325,72 +508,303 @@
                                     <div class="col-md-5">
                                         Program studi
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
                                         {{ $pegawai->prodi }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Dok. Ijazah
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        @if (!empty($pegawai->dok_ijazah))
+                                            <a href="{{ $pegawai->dok_ijazah_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Dok. Transkrip Nilai
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        @if (!empty($pegawai->dok_transkrip_nilai))
+                                            <a href="{{ $pegawai->dok_transkrip_nilai_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Gelar
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->gelar }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between mt-3">
-                            <h3>Kepegawaian</h3>
+                            <h3>Data Sertifikat</h3>
                             <span>
                                 <i class="ti ti-dots-vertical" id="edit-kepegawaian"></i>
+                            </span>
+                        </div>
+                        <div class="list-group list-group-flush list-group-hoverable border-bottom">
+                            <div class="card">
+                                <div class="card-body">
+                                    @foreach ($sertifikat as $key => $value)
+                                        <div class="{{ $key > 0 ? 'd-none show-more' : '' }}">
+                                            <table class="table table-bordered mb-4">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="col-md-4">Nomor sertifikat</td>
+                                                        <td class="col-md-8">{{ $value->nomor_sertifikat }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Jenis sertifikat</td>
+                                                        <td class="col-md-8">{{ $value->jenissertifikat }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Lembaga penyelenggara</td>
+                                                        <td class="col-md-8">{{ $value->lembaga_penyelenggara }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Tahun</td>
+                                                        <td class="col-md-8">{{ $value->tahun }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Biaya</td>
+                                                        <td class="col-md-8">{{ number_format($value->biaya,2,",",".") }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Jenis biaya</td>
+                                                        <td class="col-md-8">{{ $value->jenisbiaya }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endforeach
+
+                                    @if (count($sertifikat) > 2)
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
+                                        </div>
+                                    @endif
+
+                                    @if (count($sertifikat) == 0)
+                                        <div>Tidak ada data</div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <h3>Data Kompetensi</h3>
+                            <span>
+                                <i class="ti ti-dots-vertical" id="edit-kompetensi"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Status pegawai
+                                        Kompetensi Hard Skill
                                     </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->status_pegawai }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        Tanggal bergabung
-                                    </div>
-                                    <div class="col-md-2">:</div>
-                                    <div class="col-md-5">
-                                        {{ $pegawai->tanggal_masuk }}
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->kompetensi_hard_skill }}
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Bidang
+                                        Kompetensi Soft Skill
                                     </div>
-                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->kompetensi_soft_skill }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <h3>Data Pengalaman Kerja</h3>
+                            <span>
+                                <i class="ti ti-dots-vertical" id="edit-pengalaman-kerja"></i>
+                            </span>
+                        </div>
+                        <div class="list-group list-group-flush list-group-hoverable border-bottom">
+                            <div class="card">
+                                <div class="card-body">
+                                    @foreach ($pengalamankerja as $key => $value)
+                                        <div class="{{ $key > 0 ? 'd-none show-more' : '' }}">
+                                            <table class="table table-bordered mb-4">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="col-md-4">Dari tahun</td>
+                                                        <td class="col-md-8">{{ $value->dari_tahun }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Sampai tahun</td>
+                                                        <td class="col-md-8">{{ $value->sampai_tahun }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Jabatan</td>
+                                                        <td class="col-md-8">{{ $value->jabatan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-4">Paklaring</td>
+                                                        <td class="col-md-8">{{ $value->paklaring }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endforeach
+
+                                    @if (count($pengalamankerja) > 2)
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
+                                        </div>
+                                    @endif
+
+                                    @if (count($pengalamankerja) == 0)
+                                        <div>Tidak ada data</div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <h3>Data Fasilitas</h3>
+                            <span>
+                                <i class="ti ti-dots-vertical" id="edit-fasilitas"></i>
+                            </span>
+                        </div>
+                        <div class="list-group list-group-flush list-group-hoverable border-bottom">
+                            <h4>Tempat tinggal</h4>
+                            <div class="list-group-item">
+                                <div class="row">
                                     <div class="col-md-5">
-                                        {{ $pegawai->organisasi }}
+                                        Biaya per tahun
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->biaya_tempat_tinggal_pertahun }}
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Beras</h4>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Jumlah KG
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->jumlah_kg }}
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Kendaraan</h4>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Merk kendaraan
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->merk_kendaraan }}
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Jabatan fungsional
+                                        Tahun kendaraan
                                     </div>
-                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->tahun_kendaraan }}
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Beasiswa pendidikan</h4>
+                            <div class="list-group-item">
+                                <div class="row">
                                     <div class="col-md-5">
-                                        {{ $pegawai->jabatan_fungsional }}
+                                        Nama lembaga pendidikan
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->biaya_tempat_tinggal_pertahun }}
                                     </div>
                                 </div>
                             </div>
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Jabatan struktural
+                                        Biaya per semester
                                     </div>
-                                    <div class="col-md-2">:</div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ number_format($pegawai->biaya_beasiswa_per_semester,2,',','.') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Biaya pendidikan anak</h4>
+                            <div class="list-group-item">
+                                <div class="row">
                                     <div class="col-md-5">
-                                        {{ $pegawai->jabatan_struktural }}
+                                        Data biaya pendidikan anak
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                @foreach ($biayapendidikananak as $key => $value)
+                                                    <div class="{{ $key > 0 ? 'd-none show-more' : '' }}">
+                                                        <table class="table table-bordered mb-4">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="col-md-4">Anak ke</td>
+                                                                    <td class="col-md-8">{{ $value->anak_ke }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Jenjang pendidikan</td>
+                                                                    <td class="col-md-8">{{ $value->jenjangpendidikan }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Jenis biaya pendidikan</td>
+                                                                    <td class="col-md-8">{{ $value->jenis_biaya_pendidikan }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="col-md-4">Besaran dispensasi</td>
+                                                                    <td class="col-md-8">{{ number_format($value->besaran_dispensasi,2,',','.') }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @endforeach
+
+                                                @if (count($biayapendidikananak) > 2)
+                                                    <div class="text-center">
+                                                        <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
+                                                    </div>
+                                                @endif
+
+                                                @if(count($biayapendidikananak) ==0)
+                                                    <div>Tidak ada data</div>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -853,6 +1267,14 @@
             constructor(){
             }
 
+            toggleLoadMore(e) {
+                const items = $(e.currentTarget).parent().find('.show-more')[0];
+                items.forEach(el => el.classList.toggle('d-none'));
+
+                const btn = event.target;
+                btn.textContent = btn.textContent.includes('lebih') ? 'Sembunyikan' : 'Tampilkan lebih banyak';
+            }
+
             change(e){
 				$('#container-crop').parent().show();
                 $('#wrapper-image-karyawan').hide();
@@ -1165,10 +1587,12 @@
             static DATA_Menu;
             static BTN_SimpanUploadKaryawan;
             static BTN_DeleteKeluarga;
+            static BTN_LoadMore;
 
             constructor() {
                 super();
                 Index.DATA_Menu = [];
+                Index.BTN_LoadMore = $('.loadMore');
                 Index.BTN_DeleteKeluarga = $('.delete-keluarga');
                 Index.BTN_EditInformasiPribadi = $('#edit-informasi-pribadi').css('cursor','pointer');
                 Index.BTN_EditKeluarga = $('#edit-keluarga').css('cursor','pointer');
@@ -1355,6 +1779,7 @@
                 Index.BTN_SimpanUploadKaryawan.on('click', this.simpanUploadKaryawan);
                 Index.BTN_SimpanKeluarga.on('click', this.simpanKeluarga);
                 Index.BTN_DeleteKeluarga.on('click', this.deleteKeluarga).css('cursor','pointer');
+                Index.BTN_LoadMore.on('click', this.toggleLoadMore);
                 return this;
             }
 

@@ -86,5 +86,101 @@ class Pegawai extends Model
         'foto_bpjs_ketenagakerjaan',
         'kompetensi_hard_skill',
         'kompetensi_soft_skill',
+        'biaya_tempat_tinggal_pertahun',
+        'jumlah_beras_kg',
+        'merk_kendaraan',
+        'nama_lembaga_beasiswa_pendidikan',
+        'biaya_beasiswa_per_semester',
+        'tahun_kendaraan'
     ];
+
+    public function getFotoNpwpUrlAttribute()
+    {
+        if ($this->foto_npwp) {
+            return asset('storage/foto_npwp/' . $this->foto_npwp);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getFotoBpjsKesehatanUrlAttribute()
+    {
+        if ($this->foto_bpjs_kesehatan) {
+            return asset('storage/foto_bpjs_kesehatan/' . $this->foto_bpjs_kesehatan);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getFotoBpjsKetenagakerjaanUrlAttribute()
+    {
+        if ($this->foto_bpjs_ketenagakerjaan) {
+            return asset('storage/foto_bpjs_ketenagakerjaan/' . $this->foto_bpjs_ketenagakerjaan);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getDokSuratPerjanjianKerjaUrlAttribute()
+    {
+        if ($this->dok_surat_perjanjian_kerja) {
+            return asset('storage/dok_surat_perjanjian_kerja/' . $this->dok_surat_perjanjian_kerja);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getDokPaktaIntegritasUrlAttribute()
+    {
+        if ($this->dok_pakta_integritas) {
+            return asset('storage/dok_pakta_integritas/' . $this->dok_pakta_integritas);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getDokHasilTestUrlAttribute()
+    {
+        if ($this->dok_pakta_integritas) {
+            return asset('storage/dok_hasil_test/' . $this->dok_hasil_test);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getDokHasilInterviewUrlAttribute()
+    {
+        if ($this->dok_pakta_integritas) {
+            return asset('storage/dok_hasil_interview/' . $this->dok_hasil_interview);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getDokIjazahUrlAttribute()
+    {
+        if ($this->dok_pakta_integritas) {
+            return asset('storage/dok_ijazah/' . $this->dok_ijazah);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
+
+    public function getDokTranskripNilaiUrlAttribute()
+    {
+        if ($this->dok_pakta_integritas) {
+            return asset('storage/dok_transkrip_nilai/' . $this->dok_transkrip_nilai);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
 }
