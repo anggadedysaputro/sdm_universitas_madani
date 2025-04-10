@@ -434,15 +434,15 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label required">Tgl. Masuk Yayasan                                                    </label>
+                                                    <label class="form-label required">Tgl. Masuk Yayasan</label>
                                                     <input type="text" class="form-control flat-picker form-step-3" placeholder="Tanggal bergabung" name="tgl_masuk" required>
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Tgl. Berakhir Kontrak                                                    </label>
-                                                    <input type="text" class="form-control flat-picker" placeholder="Tanggal bergabung" name="tgl_masuk">
+                                                    <label class="form-label">Tgl. Berakhir Kontrak</label>
+                                                    <input type="text" class="form-control flat-picker" placeholder="Tanggal berakhir kontrak" name="tgl_berakhir_kontrak">
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>

@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="d-flex flex-column">
-                                <input type="file" class="form-control" id="basic-default-foto" placeholder="Foto" accept="image/*">
+                                <input type="file" class="form-control" id="foto-profile" placeholder="Foto" accept="image/*">
                                 <button class="btn btn-success flex-fill" id="simpan-image-karyawan">Simpan</button>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="d-flex justify-content-between">
                             <h3>Data personal</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-informasi-pribadi"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-personal"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -209,7 +209,7 @@
                         <div class="d-flex justify-content-between">
                             <h3>Data Keluarga</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-keluarga"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-keluarga"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -299,7 +299,7 @@
                                                     </div>
                                                 @endforeach
 
-                                                @if (count($keluarga) > 2)
+                                                @if (count($keluarga) > 1)
                                                     <div class="text-center">
                                                         <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
                                                     </div>
@@ -317,7 +317,7 @@
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Data Pekerjaan</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-kontak"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-pekerjaan"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -361,7 +361,18 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        {{ $pegawai->tgl_berakhir_kontrak }}
+                                        {{ $pegawai->tgl_berakhir_kontrak_view }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        Masa bakti
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->masa_bakti }}
                                     </div>
                                 </div>
                             </div>
@@ -466,7 +477,7 @@
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Data pendidikan</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-pendidikanterakhir"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-pendidikan"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -594,7 +605,7 @@
                                         </div>
                                     @endforeach
 
-                                    @if (count($sertifikat) > 2)
+                                    @if (count($sertifikat) > 1)
                                         <div class="text-center">
                                             <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
                                         </div>
@@ -670,7 +681,7 @@
                                         </div>
                                     @endforeach
 
-                                    @if (count($pengalamankerja) > 2)
+                                    @if (count($pengalamankerja) > 1)
                                         <div class="text-center">
                                             <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
                                         </div>
@@ -794,7 +805,7 @@
                                                     </div>
                                                 @endforeach
 
-                                                @if (count($biayapendidikananak) > 2)
+                                                @if (count($biayapendidikananak) > 1)
                                                     <div class="text-center">
                                                         <button type="button" class="btn btn-sm btn-primary loadMore">Tampilkan lebih banyak</button>
                                                     </div>
@@ -815,35 +826,21 @@
         </div>
     </div>
 
-    {{-- modal informasi pribadi --}}
-    <div class="modal modal-blur fade" id="modal-edit-informasi-pribadi" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    {{-- modal data personal --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-pribadi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Edit informasi pribadi</h5>
+              <h5 class="modal-title">Edit data personal</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" id="form-edit-informasi-pribadi">
+                <form action="#" id="form-edit-data-personal">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label required">NIPY</label>
-                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="NIPY" name="nopeg" required>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">No kartu keluarga</label>
-                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="Nomor kartu keluarga" name="nokk" required>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label required">Nama lengkap</label>
-                                <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="nama" required>
+                                <label class="form-label required">Nama</label>
+                                <input type="text" class="form-control form-step-1" placeholder="Nama lengkap" name="nama" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -854,14 +851,13 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="mb-3">
                                 <label class="form-label required">Tanggal lahir</label>
-                                <input type="text" class="form-control flat-picker form-step-1" placeholder="Tempat lahir" name="tgl_lahir" required>
+                                <input type="text" class="form-control form-step-1" placeholder="Tanggal lahir" name="tgl_lahir" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label required">Jenis kelamin</label>
                             <div class="row">
@@ -894,6 +890,29 @@
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <div>
+                                    <label class="form-label">Foto NPWP</label>
+                                    <input type="file" name="foto_npwp" class="file-data form-control" placeholder="Foto" accept="image/*">
+                                </div>
+                                <a href="#" class="previewFileOnNewTab mb-3"></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Foto BPJS Kesehatan</label>
+                                <input type="file" name="foto_bpjs_kesehatan" class="file-data form-control" placeholder="Foto" accept="image/*" only="image/">
+                            </div>
+                            <a href="#" class="previewFileOnNewTab mb-3"></a>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Foto BPJS Ketenagakerjaan</label>
+                                <input type="file" name="foto_bpjs_ketenagakerjaan" class="file-data form-control" placeholder="Foto" accept="image/*" only="image/">
+                            </div>
+                            <a href="#" class="previewFileOnNewTab mb-3"></a>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -943,6 +962,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Tipe kartu identitas</label>
+                                <select class="form-select tomselected form-step-1" name="idkartuidentitas" required placeholder="Pilih Tipe kartu identitas">
+                                    <option value="">Pilih tipe kartu identitas</option>
+                                    @foreach ($kartuidentitas as $value)
+                                        <option value="{{ $value->id }}" {{ strtolower($value->keterangan)=='indonesia' ? 'selected' : '' }}>{{ $value->keterangan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label required">ID kartu identitas</label>
+                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="ID kartu identitas" name="noidentitas" required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -954,66 +991,123 @@
         </div>
     </div>
 
-    {{-- modal kontak --}}
-    <div class="modal modal-blur fade" id="modal-edit-kontak" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    {{-- modal data pekerjaan --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-pekerjaan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Edit informasi pribadi</h5>
+              <h5 class="modal-title">Edit data pekerjaan</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" id="form-edit-kontak">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">Tipe kartu identitas</label>
-                                <select type="text" class="form-select tomselected form-step-1" name="idkartuidentitas" required>
-                                    @foreach ($kartuidentitas as $value)
-                                        <option value="{{ $value->id }}">{{ $value->keterangan }}</option>
-                                    @endforeach
-                                </select>
+                <form action="#" id="form-edit-data-pekerjaan">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label required">NIPY</label>
+                                    <input type="text" class="form-control integer-mask form-step-3" placeholder="NIPY" name="nopeg" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">ID kartu identitas</label>
-                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="Input ID kartu identitas" name="noidentitas" required>
-                                <div class="invalid-feedback"></div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label required">Status karyawan</label>
+                                    <select class="form-select tomselected form-step-3" name="idstatuspegawai" required>
+                                        @foreach ($statuspegawai as $value)
+                                            <option value="{{ $value->idstatuspegawai }}">{{ $value->keterangan }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label required">Email</label>
-                                <input type="text" class="form-control form-step-1 email-mask" placeholder="Email" name="email" required>
-                                <div class="invalid-feedback"></div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label required">Tgl. Masuk Yayasan</label>
+                                    <input type="text" class="form-control flat-picker form-step-3" placeholder="Tanggal bergabung" name="tgl_masuk" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">No. HP</label>
-                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. HP" name="nohp" required>
-                                <div class="invalid-feedback"></div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tgl. Berakhir Kontrak</label>
+                                    <input type="text" class="form-control flat-picker" placeholder="Tanggal berakhir kontrak" name="tgl_berakhir_kontrak">
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">No. telepon</label>
-                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. Telepon" name="telp" required>
-                                <div class="invalid-feedback"></div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Masa Bakti</label>
+                                    <input type="text" class="form-control integer-mask" placeholder="Masukkan masa bakti" name="masa_bakti">
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label">No. telepon darurat</label>
-                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon darurat" name="notelpdarurat">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label required">Pilih organisasi</label>
+                                    <div class="row g-2">
+                                      <div class="col">
+                                        <input type="hidden" class="form-step-3 required" required>
+                                        <input type="text" class="form-control" placeholder="Klik tombol cari..." disabled name="organisasi">
+                                        <div class="invalid-feedback"></div>
+                                      </div>
+                                      <div class="col-auto">
+                                        <a href="#" class="btn btn-icon" aria-label="Button" id="search-organisasi">
+                                          <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                                        </a>
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label required">Alamat kartu identitas <span class="form-label-description"></label>
-                                <textarea class="form-control form-step-1" rows="6" placeholder="Alamat kartu identitas" name="alamat" required></textarea>
-                                <div class="invalid-feedback"></div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Jabatan struktural</label>
+                                    <select class="form-select tomselected step-3" name="kodestruktural">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Jabatan fungsional</label>
+                                    <select class="form-select tomselected step-3" name="kodejabfung">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Tugas tambahan <span class="form-label-description"></label>
+                                    <textarea class="form-control" rows="6" placeholder="Masukkan tugas tambahan" name="tugas_tambahan"></textarea>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label class="form-label">Dok. Surat Penjanjian Kerja</label>
+                                    <input type="file" name="dok_surat_perjanjian_kerja" class="file-data form-control" id="basic-default-foto" placeholder="Foto">
+                                </div>
+                                <a href="#" class="previewFileOnNewTab mb-3"></a>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label class="form-label">Dok. Pakta Integritas</label>
+                                    <input type="file" name="dok_pakta_integritas" class="file-data form-control" id="basic-default-foto" placeholder="Foto">
+                                </div>
+                                <a href="#" class="previewFileOnNewTab mb-3"></a>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label class="form-label">Dok. Hasil Test</label>
+                                    <input type="file" name="dok_hasil_test" class="file-data form-control" id="basic-default-foto" placeholder="Foto">
+                                </div>
+                                <a href="#" class="previewFileOnNewTab mb-3"></a>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label class="form-label">Dok. Hasil Interview</label>
+                                    <input type="file" name="dok_hasil_interview" class="file-data form-control" id="basic-default-foto" placeholder="Foto">
+                                </div>
+                                <a href="#" class="previewFileOnNewTab mb-3"></a>
                             </div>
                         </div>
                     </div>
@@ -1021,14 +1115,14 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="simpan-kontak">Simpan</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-pekerjaan">Simpan</button>
             </div>
           </div>
         </div>
     </div>
 
-    {{-- modal pendidikanterakhir --}}
-    <div class="modal modal-blur fade" id="modal-edit-pendidikanterakhir" tabindex="-1" aria-hidden="true">
+    {{-- modal data pendidikan --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-pendidikan" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -1036,14 +1130,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" id="form-edit-pendidikanterakhir">
+                <form action="#" id="form-edit-data-pendidikan">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label required">Jenjang pendidikan terakhir</label>
-                                <select type="text" class="form-select tomselected form-step-1" name="kodependidikan" required>
+                                <select class="form-select tomselected form-step-4" name="kodependidikan" required placeholder="Jenjang pendidikan terakhir">
                                     @foreach ($pendidikan as $value)
-                                        <option value="{{ $value->kodependidikan }}">{{ $value->keterangan }}</option>
+                                        <option value="{{ $value->kodependidikan }}" {{ strtolower($value->keterangan)=='indonesia' ? 'selected' : '' }}>{{ $value->keterangan }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -1052,21 +1146,42 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label required">Tahun lulus</label>
-                                <input type="text" class="form-control form-step-1 flat-picker-years" placeholder="Tahun lulus" name="tahun_lulus" required>
+                                <select class="form-select tomselected form-step-4" name="tahun_lulus" required placeholder="Tahun lulus"></select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label required">Nama institusi pendidikan</label>
-                                <input type="text" class="form-control form-step-1" placeholder="Nama institusi pendidikan" name="namasekolah" required>
+                                <label class="form-label required">Nama Lembaga Pendidikan                                                </label>
+                                <input type="text" class="form-control form-step-4" placeholder="Masukkan Nama Lembaga Pendidikan" name="namasekolah" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Program studi</label>
-                                <input type="text" class="form-control form-step-1" placeholder="Program studi" name="prodi">
+                                <input type="text" class="form-control" placeholder="Program studi" name="prodi">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Dok. Ijazah</label>
+                                <input type="file" name="dok_ijazah" class="file-data form-control" id="basic-default-foto">
+                            </div>
+                            <a href="#" class="previewFileOnNewTab mb-3"></a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Dok. Transkrip Nilai</label>
+                                <input type="file" name="dok_transkrip_nilai" class="file-data form-control" id="basic-default-foto">
+                            </div>
+                            <a href="#" class="previewFileOnNewTab mb-3"></a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Gelar</label>
+                                <input type="text" class="form-control" placeholder="Masukkan gelar" name="gelar">
+                                <div class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
@@ -1074,70 +1189,26 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="simpan-pendidikanterakhir">Simpan</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-pendidikan">Simpan</button>
             </div>
           </div>
         </div>
     </div>
 
     {{-- modal kepegawaian --}}
-    <div class="modal modal-blur fade" id="modal-edit-kepegawaian" tabindex="-1" aria-hidden="true">
+    <div class="modal modal-blur fade" id="modal-edit-data-sertifikat" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Edit kepegawaian</h5>
+              <h5 class="modal-title">Edit data sertifikat</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" id="form-edit-kepegawaian">
+                <form action="#" id="form-edit-data-sertifikat">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">Status karyawan</label>
-                                <select type="text" class="form-select tomselected form-step-2" name="idstatuspegawai" required>
-                                    @foreach ($statuspegawai as $value)
-                                        <option value="{{ $value->idstatuspegawai }}">{{ $value->keterangan }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label required">Tanggal bergabung</label>
-                                <input type="text" class="form-control flat-picker form-step-2" placeholder="Tanggal bergabung" name="tgl_masuk" required>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
                         <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label">Pilih organisasi</label>
-                                <div class="row g-2">
-                                  <div class="col">
-                                    <input type="hidden">
-                                    <input type="text" class="form-control" placeholder="Klik tombol cari.." disabled name="organisasi">
-                                  </div>
-                                  <div class="col-auto">
-                                    <button type="button" class="btn btn-icon" aria-label="Button" id="search-organisasi">
-                                      <!-- Download SVG icon from http://tabler-icons.io/i/search -->
-                                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
-                                    </button>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Jabatan struktural</label>
-                                <select type="text" class="form-select tomselected" name="kodestruktural">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Jabatan fungsional</label>
-                                <select type="text" class="form-select tomselected" name="kodejabfung">
-                                </select>
+                            <h3>Daftar sertifikat <button class="btn btn-success btn-sm" type="button" id="tambah-sertifikat"><i class="ti ti-plus"></i></button></h3>
+                            <div class="row" id="wrapper-sertifikat">
                             </div>
                         </div>
                     </div>
@@ -1146,6 +1217,120 @@
             <div class="modal-footer">
               <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-kepegawaian">Simpan</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {{-- modal keluarga --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-keluarga" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit data keluarga</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" id="form-edit-keluarga">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label required">No kartu keluarga</label>
+                                    <input type="text" class="form-control integer-mask form-step-2" placeholder="Nomor kartu keluarga" name="nokk" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label required">Nama kepala keluarga</label>
+                                    <input type="text" class="form-control form-step-2" placeholder="Input nama kepala keluarga" name="nama_kepala_keluarga" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nama keluarga darurat</label>
+                                    <input type="text" class="form-control form-step-2" placeholder="Input nama keluarga darurat" name="nama_keluarga_darurat">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">No. telepon keluarga darurat</label>
+                                    <input type="text" class="form-control integer-mask form-step-2" placeholder="No. telepon" name="telp_keluarga_darurat">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Daftar keluarga <button class="btn btn-success btn-sm" type="button" id="tambah-keluarga"><i class="ti ti-plus"></i></button></h3>
+                        </div>
+                    </div>
+                    <div class="row" id="wrapper-keluarga">
+                        @foreach ($keluarga as $value)
+                        <div class="col-md-12 mb-3">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Nama</label>
+                                                <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{$value->nama}}" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Hubungan</label>
+                                                <select type="text" class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
+                                                    <option value="Suami" {{$value->hubungan == "Suami" ? "selected":""}}>Suami</option>
+                                                    <option value="Istri" {{$value->hubungan == "Istri" ? "selected":""}}>Istri</option>
+                                                    <option value="Anak" {{$value->hubungan == "Anak" ? "selected":""}}>Anak</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tempat lahir</label>
+                                                <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="{{$value->tempatlahir}}">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tanggal lahir</label>
+                                                <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="{{$value->tgllahir}}">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">No. telepon</label>
+                                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{$value->telp}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Alamat<span class="form-label-description"></label>
+                                                <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="{{$value->alamat}}">{{$value->alamat}}</textarea>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-keluarga">Simpan</button>
             </div>
           </div>
         </div>
@@ -1164,83 +1349,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    {{-- modal keluarga --}}
-    <div class="modal modal-blur fade" id="modal-edit-keluarga" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit keluarga</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#" id="form-edit-keluarga">
-                    @foreach ($keluarga as $value)
-                    <div class="col-md-12 mb-3">
-                        <div class="card position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
-                                <i class="ti ti-minus text-white"></i>
-                            </span>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label required">Nama</label>
-                                            <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{$value->nama}}" required>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label required">Hubungan</label>
-                                            <select type="text" class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
-                                                <option value="Suami" {{$value->hubungan == "Suami" ? "selected":""}}>Suami</option>
-                                                <option value="Istri" {{$value->hubungan == "Istri" ? "selected":""}}>Istri</option>
-                                                <option value="Anak" {{$value->hubungan == "Anak" ? "selected":""}}>Anak</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label required">Tempat lahir</label>
-                                            <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="{{$value->tempatlahir}}">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label required">Tanggal lahir</label>
-                                            <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="{{$value->tgllahir}}">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">No. telepon</label>
-                                            <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{$value->telp}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label required">Alamat<span class="form-label-description"></label>
-                                            <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="{{$value->alamat}}">{{$value->alamat}}</textarea>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="simpan-keluarga">Simpan</button>
-            </div>
-          </div>
         </div>
     </div>
 
@@ -1267,9 +1375,257 @@
             constructor(){
             }
 
+            tambahSertifikat(){
+                const data = Helper.addRowSertifikat(
+                    [
+                        {"nomor_sertifikat":"", "jenis_sertifikat":"", "lembaga_penyelenggara" : "", "tahun":"", "biaya":"","jenis_biaya":""},
+                    ]
+                );
+                let wrapper = $('#wrapper-sertifikat');
+                wrapper.prepend(data);
+            }
+
+            tambahKeluarga(){
+                const data = Helper.addRowKeluarga(
+                    [
+                        {"nama":"", "hubungan":"", "telp" : "", "alamat":"", "tempatlahir":"","tanggallahir":""},
+                    ]
+                );
+                let wrapper = $('#wrapper-keluarga');
+                wrapper.prepend(data);
+            }
+
+            static addRowSertifikat(data){
+                let row = [];
+                data.forEach((e,i)=>{
+                    let content = `
+                        <div class="col-md-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Nomor sertifikat</label>
+                                                <input type="text" class="form-control form-step-5" placeholder="Input nomor sertifikat" name="nomor_sertifikat[]" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Jenis sertifikat</label>
+                                                <select class="form-select tomselected form-step-5 jenis-sertifikat" name="idjenissertifikat[]" required placeholder="Pilih jenis sertifikat">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Lembaga penyelenggara</label>
+                                                <input type="text" class="form-control form-step-5" placeholder="Input lembaga penyelenggara" name="lembaga_penyelenggara[]" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tahun</label>
+                                                <select class="form-select tomselected form-step-5 tahun" name="tahun[]" required placeholder="Pilih tahun">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Biaya</label>
+                                                <input type="text" class="form-control form-step-5 money-mask" placeholder="Input biaya" name="biaya[]" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Jenis biaya</label>
+                                                <select class="form-select tomselected form-step-5 biaya" name="idjenisbiaya[]" required placeholder="Pilih biaya">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    let rowContent = $(content);
+                    rowContent.find('select.jenis-sertifikat').select2(Angga.generalAjaxSelect2('{{ route('select2.jenis-sertifikat.data') }}','Pilih jenis sertifikat'));
+                    rowContent.find('select.tahun').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun'));
+                    rowContent.find('select.biaya').select2(Angga.generalAjaxSelect2('{{ route('select2.biaya.data') }}','Pilih jenis biaya'));
+
+                    Inputmask('numeric', {
+                        radixPoint: ",",
+                        allowMinus: false,
+                        regex: "[0-9]*",
+                        groupSeparator: ".",
+                        rightAlign: false,
+                        digits: 2, min: 0,
+                        alias: 'numeric',
+                        onBeforeMask: function (value, opts) {
+                            return value;
+                        }
+                    }).mask(rowContent.find('.money-mask'));
+
+                    // set the data
+                    Angga.setValueSelect2AjaxRemote(rowContent.find('select.jenis-sertifikat'),{id:e.idjenissertifikat,text:e.jenissertifikat});
+                    Angga.setValueSelect2AjaxRemote(rowContent.find('select.tahun'),{id:e.tahun,text:e.tahun});
+                    Angga.setValueSelect2AjaxRemote(rowContent.find('select.biaya'),{id:e.idjenisbiaya,text:e.jenisbiaya});
+                    rowContent.find('.money-mask').val(e.biaya);
+                    rowContent.find('input[name="nomor_sertifikat[]"]').val(e.nomor_sertifikat);
+                    rowContent.find('input[name="lembaga_penyelenggara[]"]').val(e.lembaga_penyelenggara);
+
+
+                    row.push(rowContent);
+                });
+                return row;
+            }
+
+            static addRowKeluarga(data){
+                let row = [];
+                data.forEach((e,i)=>{
+                    let content = `
+                        <div class="col-md-12 mb-3">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Nama</label>
+                                                <input type="text" class="form-control form-step-2" placeholder="Input nama lengkap" name="namakeluarga[]" value="${e.nama}" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Hubungan</label>
+                                                <select class="form-select tomselected form-step-2" name="hubungankeluarga[]" required>
+                                                    <option value="Suami" ${e.hubung == "Suami" ? `checked` : ``}>Suami</option>
+                                                    <option value="Istri" ${e.hubung == "Istri" ? `checked` : ``}>Istri</option>
+                                                    <option value="Anak" ${e.hubung == "Anak" ? `checked` : ``}>Anak</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tempat lahir</label>
+                                                <input type="text" class="form-control form-step-2" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="${e.tempatlahir}">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Tanggal lahir</label>
+                                                <input type="text" class="form-control flat-picker form-step-2" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="${e.tanggallahir}">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">No. telepon</label>
+                                                <input type="text" class="form-control integer-mask form-step-2" placeholder="No. telepon" name="telpkeluarga[]" value="${e.telp}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label required">Alamat<span class="form-label-description"></label>
+                                                <textarea class="form-control form-step-2" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="${e.alamat}">${e.alamat}</textarea>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    let rowContent = $(content);
+                    rowContent.find('.delete-keluarga').on('click', Helper.deleteKeluarga).css('cursor','pointer');
+                    flatpickr(rowContent.find('.flat-picker'),{
+                        disableMobile: "true",
+                        dateFormat: "j F Y",
+                    });
+                    var selectorinteger = rowContent.find(".integer-mask")[0];
+                    var iminteger = new Inputmask({
+                        regex: "^[0-9]*$"
+                    });
+                    iminteger.mask(selectorinteger);
+                    row.push(rowContent);
+                });
+                return row;
+            }
+
+            previewFileOnNewTab(e){
+                const input = $(e.currentTarget).prev().find('input')[0];
+                const file = input.files[0];
+                const fileURL = URL.createObjectURL(file);
+                window.open(fileURL, "_blank");
+            }
+
+            fileData(e) {
+                const input = $(e.currentTarget);
+                const only = input.attr('only');
+                const name = e.currentTarget.name;
+                const previewButton = $(e.currentTarget).parent().next();
+                const file = e.target.files[0];
+
+                // Reset tombol preview
+                previewButton.hide();
+
+                if (file) {
+                    const fileName = file.name;
+
+                    // ✅ Check ukuran file
+                    const maxSize = 1 * 1024 * 1024; // 1 MB dalam byte
+                    if (file.size > maxSize) {
+                        Swal.fire('Informasi', 'Ukuran file maksimal 1 MB!', 'info');
+                        input.val(""); // Reset input
+                        return;
+                    }
+
+                    // ✅ Lanjutkan pengecekan format
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        if (e.target.result) {
+                            // Validasi format berdasarkan allowedTypes
+                            if (!Index.allowedTypes.some(type => e.target.result.startsWith(`data:${type}`))) {
+                                Swal.fire('Informasi', 'Format file tidak didukung!', 'info');
+                                input.val("");
+                                return;
+                            }
+                        }
+
+                        // Validasi 'only' jika ada
+                        if (only != undefined && !e.target.result.startsWith(`data:${only}`)) {
+                            Swal.fire('Informasi', 'Format file tidak didukung!', 'info');
+                            input.val("");
+                            return;
+                        }
+
+                        previewButton.text(fileName);
+                        previewButton.show();
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+
             toggleLoadMore(e) {
-                const items = $(e.currentTarget).parent().find('.show-more')[0];
-                items.forEach(el => el.classList.toggle('d-none'));
+                const items = $(e.currentTarget).parents('.card-body:first').find('.show-more');
+                $.each(items,(index,el)=>{
+                    el.classList.toggle('d-none')
+                });
 
                 const btn = event.target;
                 btn.textContent = btn.textContent.includes('lebih') ? 'Sembunyikan' : 'Tampilkan lebih banyak';
@@ -1380,116 +1736,190 @@
             }
 
             static validate(form){
-                let valid = true;
+                let allow = true;
+                let scroll = true;
                 $.each(form[0].elements, function(i,e){
                     $(e).removeClass('is-invalid');
-                    if(e.nodeName == 'INPUT' && e.type == 'text' && e.name != 'organisasi'){
-                        if($(e).val() == ''){
-                            $(e).addClass('is-invalid').next().text($(e).attr('placeholder')+' belum diisi!');
-                            valid = false;
-                        }
+                    if(e.nodeName == 'INPUT' && e.type == 'text' || e.nodeName == 'TEXTAREA'){
+                        if(($(e).val() == '') && $(e).attr('required')){
+                            $(e).next().text($(e).attr('placeholder')+' belum disii!');
+                            $(e).addClass('is-invalid');
+                            allow = false;
+                            if(scroll) Index.MD_EditDataKeluarga.scrollTop($(e).position().top);
+                            scroll = false;
+                        };
+                    }else if(e.nodeName == 'SELECT'){
+                        if(($(e).val() == '' || $(e).val() == undefined) && $(e).attr('required')){
+                            $(e).parent().find('.invalid-feedback').text($(e).attr('placeholder')+' belum disii!');
+                            $(e).addClass('is-invalid');
+                            allow = false;
+                            if(scroll) Index.MD_EditDataKeluarga.scrollTop($(e).position().top);
+                            scroll = false;
+                        };
+                    }else if(e.type == 'hidden'){
+                        // console.log(e);
+                        if(($(e).val() == '') && $(e).attr('required')){
+                            $(e).parent().find('.invalid-feedback').text($(e).next().attr('placeholder')+' belum disii!');
+                            $(e).next().addClass('is-invalid');
+                            allow = false;
+                            if(scroll) Index.MD_EditDataKeluarga.scrollTop($(e).next().position().top);
+                            scroll = false;
+                        };
                     }
                 });
 
-                return valid;
+                return allow;
             }
 
             showCanvas(){
-                Index.MD_EditKepegawaian.modal('hide');
+                Index.MD_EditDataPekerjaan.modal('hide');
                 Index.OFFCNVS_Main.show();
             }
 
-            deleteKeluarga(e){
+            static deleteKeluarga(e){
                 const eJquery = $(e.currentTarget);
-                eJquery.parents('.card:first').remove();
+                eJquery.parents('.card:first').parent().remove();
             }
 
-            simpanKeluarga(){
-                const data = Index.FRM_EditKeluarga.serializeObject();
-                if(Helper.validate(Index.FRM_EditKeluarga)){
+            simpanDataPersonal(){
+                const data = Index.FRM_EditDataPersonal.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataPersonal)){
                     Helper.store(data);
                 }
             }
 
-            simpanInformasiPribadi(){
-                const data = Index.FRM_EditInformasiPribadi.serializeObject();
-                if(Helper.validate(Index.FRM_EditInformasiPribadi)){
+            simpanDataKeluarga(){
+                const data = Index.FRM_EditDataKeluarga.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataKeluarga)){
                     Helper.store(data);
                 }
             }
+
+            simpanDataPekerjaan(){
+                const data = Index.FRM_EditDataPekerjaan.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataPekerjaan)){
+                    Helper.store(data);
+                }
+            }
+
+            simpanDataPendidikan(){
+                const data = Index.FRM_EditDataPendidikan.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataPendidikan)){
+                    Helper.store(data);
+                }
+            }
+
 
             simpanKepegawaian(){
-                let data = Index.FRM_EditKepegawaian.serializeObject();
-                const organisasi = Index.FRM_EditKepegawaian.find("input[name='organisasi']").val();
+                let data = Index.FRM_EditDataSertifikat.serializeObject();
+                const organisasi = Index.FRM_EditDataSertifikat.find("input[name='organisasi']").val();
                 data = $.extend(data,{organisasi});
-                if(Helper.validate(Index.FRM_EditKepegawaian)){
+                if(Helper.validate(Index.FRM_EditDataSertifikat)){
                     Helper.store(data);
                 }
             }
 
-            simpanPendidikanTerakhir(){
-                const data = Index.FRM_EditPendidikanTerakhir.serializeObject();
-                if(Helper.validate(Index.FRM_EditPendidikanTerakhir)){
-                    Helper.store(data);
-                }
-            }
 
-            simpanKontak(){
-                const data = Index.FRM_Kontak.serializeObject();
-                if(Helper.validate(Index.FRM_Kontak)){
-                    Helper.store(data);
-                }
-            }
-
-            editPendidikanTerakhir(){
-                Index.MD_PendidikanTerakhir.find('input[name="prodi"]').val("{{ $pegawai->prodi }}");
-                Index.MD_PendidikanTerakhir.find('input[name="namasekolah"]').val("{{ $pegawai->namasekolah }}");
-                Index.MD_PendidikanTerakhir.find('input[name="tahun_lulus"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tahun_lulus }}"), "Y"));
-                Angga.setValueSelect2AjaxRemote(Index.S2_Pendidikan,{id:"{{ $pegawai->kodependidikan }}" , text : "{{ $pegawai->pendidikan }}"});
-                Index.MD_PendidikanTerakhir.modal('show');
-            }
-
-            editKeluarga(){
-                Index.MD_EditKeluarga.modal('show');
-            }
-
-            editInformasiPribadi(){
-                Index.MD_EditInformasiPribadi.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
-                Index.MD_EditInformasiPribadi.find('input[name="nokk"]').val("{{ $pegawai->nokk }}");
-                Index.MD_EditInformasiPribadi.find('input[name="nama"]').val("{{ $pegawai->nama }}");
-                Index.MD_EditInformasiPribadi.find('input[name="tempatlahir"]').val("{{ $pegawai->tempatlahir }}");
-                Index.MD_EditInformasiPribadi.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));
-                Index.FRM_EditInformasiPribadi.find('input[value="{{ $pegawai->jns_kel }}"][name="jns_kel"]').prop('checked',true);
+            editDataPersonal(){
+                Helper.reset();
+                Index.MD_EditDataPersonal.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
+                Index.MD_EditDataPersonal.find('input[name="nokk"]').val("{{ $pegawai->nokk }}");
+                Index.MD_EditDataPersonal.find('input[name="nama"]').val("{{ $pegawai->nama }}");
+                Index.MD_EditDataPersonal.find('input[name="tempatlahir"]').val("{{ $pegawai->tempatlahir }}");
+                Index.MD_EditDataPersonal.find('input[name="noidentitas"]').val("{{ $pegawai->noidentitas }}");
+                Index.MD_EditDataPersonal.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));
+                Index.FRM_EditDataPersonal.find('input[value="{{ $pegawai->jns_kel }}"][name="jns_kel"]').prop('checked',true);
                 Angga.setValueSelect2AjaxRemote(Index.S2_StatusNikah,{id:"{{ $pegawai->idstatusnikah }}" , text : "{{ $pegawai->status_nikah }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_GolDarah,{id:"{{ $pegawai->gol_darah }}" , text : "{{ $pegawai->gol_darah }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Agama,{id:"{{ $pegawai->idagama }}" , text : "{{ $pegawai->agama }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Kewarganegaraan,{id:"{{ $pegawai->kewarganegaraan }}" , text : "{{ $pegawai->kewarganegaraan }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Negara,{id:"{{ $pegawai->idwarganegara }}" , text : "{{ $pegawai->negara }}"});
-                Index.MD_EditInformasiPribadi.modal('show');
-            }
-
-            editKontak(){
-                Index.MD_EditKontak.find('input[name="noidentitas"]').val("{{ $pegawai->noidentitas }}");
-                Index.MD_EditKontak.find('textarea[name="alamat"]').val("{{ $pegawai->alamat }}");
-                Index.MD_EditKontak.find('input[name="email"]').val("{{ $pegawai->email }}");
-                Index.MD_EditKontak.find('input[name="nohp"]').val("{{ $pegawai->nohp }}");
-                Index.MD_EditKontak.find('input[name="telp"]').val("{{ $pegawai->telp }}");
-                Index.MD_EditKontak.find('input[name="notelpdarurat"]').val("{{ $pegawai->notelpdarurat }}");
                 Angga.setValueSelect2AjaxRemote(Index.S2_TipeKartuIdentitas,{id:"{{ $pegawai->idkartuidentitas }}" , text : "{{ $pegawai->kartu_identitas }}"});
-                Index.MD_EditKontak.modal('show');
+                Index.MD_EditDataPersonal.modal('show');
             }
 
-            editKepegawaian(){
-                Index.FRM_EditKepegawaian.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
-                Index.FRM_EditKepegawaian.find('input[name="organisasi"]').val("{{ $pegawai->organisasi }}");
-                Angga.setValueSelect2AjaxRemote(Index.S2_Pegawai,{id:"{{ $pegawai->idstatuspegawai }}" , text : "{{ $pegawai->status_pegawai }}"});
+            editDataKeluarga(){
+                Helper.reset();
+                Index.FRM_EditDataKeluarga.find('input[name="nokk"]').val("{{ $pegawai->nokk }}")
+                Index.FRM_EditDataKeluarga.find('input[name="nama_kepala_keluarga"]').val("{{ $pegawai->nama_kepala_keluarga }}")
+                Index.FRM_EditDataKeluarga.find('input[name="nama_keluarga_darurat"]').val("{{ $pegawai->nama_keluarga_darurat }}")
+                Index.FRM_EditDataKeluarga.find('input[name="telp_keluarga_darurat"]').val("{{ $pegawai->telp_keluarga_darurat }}")
+                Index.MD_EditDataKeluarga.modal('show');
+            }
+
+            editDataPekerjaan(){
+                Helper.reset();
+                Index.FRM_EditDataPekerjaan.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
+                Index.FRM_EditDataPekerjaan.find('select[name="idstatuspegawai"]').val("{{ $pegawai->idstatuspegawai }}");
+                Index.FRM_EditDataPekerjaan.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
+                Index.FRM_EditDataPekerjaan.find('input[name="tgl_berakhir_kontrak"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_berakhir_kontrak }}"), "j F Y"));
+                Index.FRM_EditDataPekerjaan.find('input[name="masa_bakti"]').val("{{ $pegawai->masa_bakti }}");
+                Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').val("{{ $pegawai->organisasi }}");
+                Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').prev().val("{{ $pegawai->kodeorg }}");
+                Index.FRM_EditDataPekerjaan.find('textarea[name="tugas_tambahan"]').val("{{ $pegawai->tugas_tambahan }}");
+
                 Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{id:"{{ $pegawai->kodejabfung }}" , text : "{{ $pegawai->jabatan_fungsional }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Struktural,{id:"{{ $pegawai->kodestruktural }}" , text : "{{ $pegawai->jabatan_struktural }}"});
-                Index.MD_EditKepegawaian.modal('show');
+
+                Index.MD_EditDataPekerjaan.modal('show');
+            }
+
+            editDataPendidikan(){
+                Index.MD_EditDataPendidikan.find('input[name="prodi"]').val("{{ $pegawai->prodi }}");
+                Index.MD_EditDataPendidikan.find('input[name="gelar"]').val("{{ $pegawai->gelar }}");
+                Index.MD_EditDataPendidikan.find('input[name="namasekolah"]').val("{{ $pegawai->namasekolah }}");
+                Angga.setValueSelect2AjaxRemote(Index.S2_PendidikanTerakhir,{id:"{{ $pegawai->kodependidikan }}" , text : "{{ $pegawai->pendidikan }}"});
+                Angga.setValueSelect2AjaxRemote(Index.S2_TahunLulus,{id:"{{ $pegawai->tahun_lulus }}" , text : "{{ $pegawai->tahun_lulus }}"});
+                Index.MD_EditDataPendidikan.modal('show');
+            }
+
+            editDataSertifikat(){
+
+                let str = "{{ $pegawai->cert }}".replace(/&quot;/g, '"');
+                // Ubah jadi objek
+                let data = JSON.parse(str == "" ? "[]":str);
+                Index.MD_EditDataSertifikat.find('#wrapper-sertifikat').html(Helper.addRowSertifikat(data));
+                Index.MD_EditDataSertifikat.modal('show');
+            }
+
+            static reset(){
+                Index.FRM_EditDataPersonal[0].reset();
+                Index.FRM_EditDataPersonal[0].reset();
+                Index.FRM_EditDataPekerjaan[0].reset();
+                Index.FRM_EditDataPendidikan[0].reset();
+                $('.previewFileOnNewTab').hide();
             }
 
             static store(data){
                 data = $.extend(data,{nopeg_lama : "{{ $pegawai->nopeg }}"});
+                let formData = new FormData();
+                formData.append('_method', 'PATCH');
+                $.each(data, (i,e)=>{
+                    if(Array.isArray(e)) {
+                        e.forEach((ee,ii)=>{
+                            formData.append(i+"[]",ee);
+                        });
+                    }else{
+                        formData.append(i,e);
+                    }
+                });
+                formData.append('organisasi',Index.FRM_EditDataPekerjaan.find("input[name='organisasi']").val());
+
+                // data personal
+                formData.append("foto_npwp",Index.FRM_EditDataPersonal.find('input[name="foto_npwp"]')[0].files[0]);
+                formData.append("foto_bpjs_kesehatan",Index.FRM_EditDataPersonal.find('input[name="foto_bpjs_kesehatan"]')[0].files[0]);
+                formData.append("foto_bpjs_ketenagakerjaan",Index.FRM_EditDataPersonal.find('input[name="foto_bpjs_ketenagakerjaan"]')[0].files[0]);
+
+                // pekerjaan
+                formData.append("dok_surat_perjanjian_kerja",Index.FRM_EditDataPekerjaan.find('input[name="dok_surat_perjanjian_kerja"]')[0].files[0]);
+                formData.append("dok_pakta_integritas",Index.FRM_EditDataPekerjaan.find('input[name="dok_pakta_integritas"]')[0].files[0]);
+                formData.append("dok_hasil_test",Index.FRM_EditDataPekerjaan.find('input[name="dok_hasil_test"]')[0].files[0]);
+                formData.append("dok_hasil_interview",Index.FRM_EditDataPekerjaan.find('input[name="dok_hasil_interview"]')[0].files[0]);
+
+                //pendidikan
+                formData.append("dok_ijazah",Index.FRM_EditDataPendidikan.find('input[name="dok_ijazah"]')[0].files[0]);
+                formData.append("dok_transkrip_nilai",Index.FRM_EditDataPendidikan.find('input[name="dok_transkrip_nilai"]')[0].files[0]);
+
                 Swal.fire({
                     title : 'Konfirmasi',
                     text : 'Apakah anda yakin ingin mengubah data?',
@@ -1501,11 +1931,13 @@
                     if(result.isConfirmed){
                         $.ajax({
                             url : "{{ route('karyawan.edit.store') }}",
-                            method : "PATCH",
+                            method : "POST",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            data,
+                            data : formData,
+                            processData:false,
+                            contentType:false,
                             beforeSend : function(){
                                 Swal.fire({
                                     title: 'Menyimpan data!',
@@ -1518,6 +1950,7 @@
                                 });
                             },
                             success : function(result){
+                                Helper.reset();
                                 Swal.fire({
                                     title : 'Berhasil',
                                     text : result.message,
@@ -1540,9 +1973,9 @@
                 if(selected.node.original.id == '0'){
                     Swal.fire('Informasi','Tidak boleh memilih yayasan','info');
                 }else{
-                    Index.FRM_EditKepegawaian.find('input[name="organisasi"]').val(selected.node.original.text).prev().val(selected.node.original.id);
+                    Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').val(selected.node.original.text).prev().val(selected.node.original.id);
                     Index.OFFCNVS_Main.hide();
-                    Index.MD_EditKepegawaian.modal('show');
+                    Index.MD_EditDataPekerjaan.modal('show');
                     // Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{text : '', id:''});
                     // Angga.setValueSelect2AjaxRemote(Index.S2_Struktural,{text : '', id:''});
                 }
@@ -1551,34 +1984,34 @@
 
         export default class Index extends Helper{
             // deklarasi variabel
-            static BTN_EditInformasiPribadi;
-            static BTN_EditKontak;
-            static BTN_EditPendidikanTerakhir;
+            static BTN_EditDataPersonal;
+            static BTN_EditDataPekerjaan;
+            static BTN_EditDataPendidikan;
             static BTN_EditKepegawaian;
-            static BTN_SimpanInformasiPribadi;
-            static BTN_SimpanKontak;
-            static BTN_SimpanPendidikanTerakhir;
-            static BTN_SimpanPendidikanTerakhir;
+            static BTN_SimpanDataPersonal;
+            static BTN_SimpanDataPekerjaan;
+            static BTN_SimpanDataPendidikan;
             static BTN_SimpanKepegawaian;
-            static BTN_EditKeluarga;
-            static BTN_SimpanKeluarga;
-            static MD_EditInformasiPribadi;
-            static MD_EditKontak;
-            static MD_PendidikanTerakhir;
-            static MD_EditKepegawaian;
-            static MD_EditKeluarga;
-            static FRM_EditInformasiPribadi;
-            static FRM_Kontak;
-            static FRM_EditPendidikanTerakhir;
+            static BTN_EditDataKeluarga;
+            static BTN_SimpanDataKeluarga;
+            static MD_EditDataPersonal;
+            static MD_EditDataPekerjaan;
+            static MD_EditDataPendidikan;
+            static MD_EditDataSertifikat;
+            static FRM_EditDataPersonal;
+            static MD_EditDataKeluarga;
+            static FRM_EditDataPekerjaan;
+            static FRM_EditDataPendidikan;
             static FRM_Kepegawaian;
-            static FRM_EditKeluarga;
+            static FRM_EditDataKeluarga;
             static S2_StatusNikah;
             static S2_GolDarah;
             static S2_Agama;
             static S2_Kewarganegaraan;
             static S2_Negara;
             static S2_TipeKartuIdentitas;
-            static S2_Pendidikan;
+            static S2_PendidikanTerakhir;
+            static S2_TahunLulus;
             static S2_Pegawai;
             static S2_Fungsional;
             static S2_Struktural;
@@ -1588,35 +2021,55 @@
             static BTN_SimpanUploadKaryawan;
             static BTN_DeleteKeluarga;
             static BTN_LoadMore;
+            static FILE_DATA;
+            static allowedTypes;
+            static BTN_PreviewFile;
+            static BTN_TambahKeluarga;
+            static BTN_TambahSertifikat;
 
             constructor() {
                 super();
+                Index.BTN_TambahSertifikat = $('#tambah-sertifikat');
+                Index.BTN_TambahKeluarga = $("#tambah-keluarga");
+                Index.allowedTypes = [
+                    'image/', // Semua jenis gambar (JPEG, PNG, GIF, dll.)
+                    'application/pdf', // PDF
+                    'application/msword', // Word format lama (doc)
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // Word format baru (docx)
+                ];
+                Index.BTN_PreviewFile = $('.previewFileOnNewTab');
+                Index.FILE_DATA = $('input.file-data');
                 Index.DATA_Menu = [];
                 Index.BTN_LoadMore = $('.loadMore');
                 Index.BTN_DeleteKeluarga = $('.delete-keluarga');
-                Index.BTN_EditInformasiPribadi = $('#edit-informasi-pribadi').css('cursor','pointer');
-                Index.BTN_EditKeluarga = $('#edit-keluarga').css('cursor','pointer');
-                Index.BTN_EditKontak = $('#edit-kontak').css('cursor','pointer');
-                Index.BTN_EditPendidikanTerakhir = $('#edit-pendidikanterakhir').css('cursor','pointer');
+
+                Index.BTN_EditDataPersonal = $('#edit-data-personal').css('cursor','pointer');
+                Index.BTN_EditDataKeluarga = $('#edit-data-keluarga').css('cursor','pointer');
+                Index.BTN_EditDataPekerjaan = $('#edit-data-pekerjaan').css('cursor','pointer');
+                Index.BTN_EditDataPendidikan = $('#edit-data-pendidikan').css('cursor','pointer');
                 Index.BTN_EditKepegawaian = $("#edit-kepegawaian").css('cursor','pointer');
-                Index.BTN_SimpanInformasiPribadi = $('#simpan-informasi-pribadi');
-                Index.BTN_SimpanKontak = $('#simpan-kontak');
-                Index.BTN_SimpanPendidikanTerakhir = $('#simpan-pendidikanterakhir');
+
+                Index.BTN_SimpanDataPersonal = $('#simpan-informasi-pribadi');
+                Index.BTN_SimpanDataKeluarga = $('#simpan-data-keluarga');
+                Index.BTN_SimpanDataPekerjaan = $('#simpan-data-pekerjaan');
+                Index.BTN_SimpanDataPendidikan = $('#simpan-data-pendidikan');
                 Index.BTN_SimpanKepegawaian = $('#simpan-kepegawaian');
-                Index.BTN_SimpanKeluarga = $('#simpan-keluarga');
-                Index.MD_EditInformasiPribadi = $('#modal-edit-informasi-pribadi');
-                Index.MD_EditKeluarga = $('#modal-edit-keluarga');
-                Index.MD_EditKontak = $('#modal-edit-kontak');
-                Index.MD_PendidikanTerakhir = $('#modal-edit-pendidikanterakhir');
-                Index.MD_EditKepegawaian = $('#modal-edit-kepegawaian');
-                Index.FRM_EditInformasiPribadi = Index.MD_EditInformasiPribadi.find('#form-edit-informasi-pribadi');
-                Index.FRM_Kontak = $('#form-edit-kontak');
-                Index.FRM_EditKepegawaian = $('#form-edit-kepegawaian');
-                Index.FRM_EditPendidikanTerakhir = $('#form-edit-pendidikanterakhir');
-                Index.FRM_EditKeluarga = $('#form-edit-keluarga');
                 Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
 
-                Index.INPUT_image = $('input[type="file"]');
+                Index.MD_EditDataPersonal = $('#modal-edit-data-pribadi');
+                Index.MD_EditDataKeluarga = $('#modal-edit-data-keluarga');
+                Index.MD_EditDataPekerjaan = $('#modal-edit-data-pekerjaan');
+                Index.MD_EditDataPendidikan = $('#modal-edit-data-pendidikan');
+
+                Index.MD_EditDataSertifikat = $('#modal-edit-data-sertifikat');
+
+                Index.FRM_EditDataPersonal = Index.MD_EditDataPersonal.find('#form-edit-data-personal');
+                Index.FRM_EditDataPekerjaan = $('#form-edit-data-pekerjaan');
+                Index.FRM_EditDataSertifikat = $('#form-edit-data-sertifikat');
+                Index.FRM_EditDataPendidikan = $('#form-edit-data-pendidikan');
+                Index.FRM_EditDataKeluarga = $('#form-edit-keluarga');
+
+                Index.INPUT_image = $('input#foto-profile');
                 Index.CRP_Main = new Cropper($('.cropped')[0],{
 					dragMode: 'move',
 					aspectRatio: 1 / 1,
@@ -1638,46 +2091,50 @@
                 });
                 Index.JSTREE_Main = $.jstree.reference(Index.JSTREE_Main);
 
-                Index.S2_StatusNikah = Index.FRM_EditInformasiPribadi.find('select[name="idstatusnikah"]').select2({
+                Index.S2_StatusNikah = Index.FRM_EditDataPersonal.find('select[name="idstatusnikah"]').select2({
                     placeholder : 'Pilih status pernikahan',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPersonal.find('.modal-content')
                 });
-                Index.S2_GolDarah = Index.FRM_EditInformasiPribadi.find('select[name="gol_darah"]').select2({
+                Index.S2_GolDarah = Index.FRM_EditDataPersonal.find('select[name="gol_darah"]').select2({
                     placeholder : 'Pilih golongan darah',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPersonal.find('.modal-content')
                 });
-                Index.S2_Agama = Index.FRM_EditInformasiPribadi.find('select[name="agama"]').select2({
+                Index.S2_Agama = Index.FRM_EditDataPersonal.find('select[name="agama"]').select2({
                     placeholder : 'Pilih agama',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPersonal.find('.modal-content')
                 });
-                Index.S2_Kewarganegaraan = Index.FRM_EditInformasiPribadi.find('select[name="kewarganegaraan"]').select2({
+                Index.S2_Kewarganegaraan = Index.FRM_EditDataPersonal.find('select[name="kewarganegaraan"]').select2({
                     placeholder : 'Pilih kewarganegaraan',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPersonal.find('.modal-content')
                 });
-                Index.S2_Negara = Index.FRM_EditInformasiPribadi.find('select[name="idwarganegara"]').select2({
+                Index.S2_Negara = Index.FRM_EditDataPersonal.find('select[name="idwarganegara"]').select2({
                     placeholder : 'Pilih negara',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPersonal.find('.modal-content')
                 });
-                Index.S2_TipeKartuIdentitas = Index.FRM_Kontak.find('select[name="idkartuidentitas"]').select2({
+                Index.S2_TipeKartuIdentitas = Index.FRM_EditDataPersonal.find('select[name="idkartuidentitas"]').select2({
                     placeholder : 'Pilih tipe kartu identitas',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPersonal.find('.modal-content')
                 });
-                Index.S2_Pendidikan = Index.FRM_EditPendidikanTerakhir.find('select[name="kodependidikan"]').select2({
+                Index.S2_PendidikanTerakhir = Index.FRM_EditDataPendidikan.find('select[name="kodependidikan"]').select2({
                     placeholder : 'Pilih pendidikan',
-                    theme : 'bootstrap-5'
+                    theme : 'bootstrap-5',
+                    dropdownParent : Index.MD_EditDataPendidikan.find('.modal-content')
                 });
-                Index.S2_Pegawai = Index.FRM_EditKepegawaian.find('select[name="idstatuspegawai"]').select2({
-                    placeholder : 'Pilih status pegawai',
-                    theme : 'bootstrap-5'
-                });
-                Index.S2_Fungsional = Index.FRM_EditKepegawaian.find('select[name="kodejabfung"]').select2(
+                Index.S2_TahunLulus = Index.FRM_EditDataPendidikan.find('select[name="tahun_lulus"]').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun lulus'));
+                Index.S2_Fungsional = Index.FRM_EditDataPekerjaan.find('select[name="kodejabfung"]').select2(
                     $.extend(
                         true,
                         Angga.generalAjaxSelect2('{{ route('select2.jabatan.fungsional.data') }}','Pilih jabatan fungsional'),
                         {
                             ajax : {
                                 transport: function (params, success, failure) {
-                                    params.data['organisasi'] = Index.FRM_EditKepegawaian.find('input[name="organisasi"]').prev().val();
+                                    params.data['organisasi'] = Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').prev().val();
                                     const $request = $.ajax(params);
                                     $request.then(success);
                                     $request.fail(failure);
@@ -1688,14 +2145,14 @@
                     )
                 );
 
-                Index.S2_Struktural = Index.FRM_EditKepegawaian.find('select[name="kodestruktural"]').select2(
+                Index.S2_Struktural = Index.FRM_EditDataPekerjaan.find('select[name="kodestruktural"]').select2(
                     $.extend(
                         true,
                         Angga.generalAjaxSelect2('{{ route('select2.jabatan.struktural.data') }}','Pilih jabatan struktural'),
                         {
                             ajax : {
                                 transport: function (params, success, failure) {
-                                    params.data['organisasi'] = Index.FRM_EditKepegawaian.find('input[name="organisasi"]').prev().val();
+                                    params.data['organisasi'] = Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').prev().val();
                                     const $request = $.ajax(params);
                                     $request.then(success);
                                     $request.fail(failure);
@@ -1764,22 +2221,29 @@
             }
 
             bindEvent() {
-                Index.BTN_EditKeluarga.on('click', this.editKeluarga);
-                Index.BTN_EditInformasiPribadi.on('click', this.editInformasiPribadi);
-                Index.BTN_EditKontak.on('click', this.editKontak);
-                Index.BTN_SimpanInformasiPribadi.on('click', this.simpanInformasiPribadi);
-                Index.BTN_EditPendidikanTerakhir.on('click', this.editPendidikanTerakhir);
-                Index.BTN_SimpanKontak.on('click', this.simpanKontak);
-                Index.BTN_SimpanPendidikanTerakhir.on('click', this.simpanPendidikanTerakhir);
-                Index.BTN_EditKepegawaian.on('click', this.editKepegawaian);
+                Index.BTN_EditDataPersonal.on('click', this.editDataPersonal);
+                Index.BTN_EditDataKeluarga.on('click', this.editDataKeluarga);
+                Index.BTN_EditDataPekerjaan.on('click', this.editDataPekerjaan);
+                Index.BTN_EditDataPendidikan.on('click', this.editDataPendidikan);
+                Index.BTN_EditKepegawaian.on('click', this.editDataSertifikat);
+
+                Index.BTN_SimpanDataPersonal.on('click', this.simpanDataPersonal);
+                Index.BTN_SimpanDataKeluarga.on('click', this.simpanDataKeluarga);
+                Index.BTN_SimpanDataPekerjaan.on('click', this.simpanDataPekerjaan);
+                Index.BTN_SimpanDataPendidikan.on('click', this.simpanDataPendidikan);
+
                 Index.JSTREE_Main.element.on('select_node.jstree', this.selectedOrg);
                 Index.BTN_SearchOrg.on('click', this.showCanvas);
-                Index.BTN_SimpanKepegawaian.on('click', this.simpanKepegawaian);
                 Index.INPUT_image.on('change', this.change);
+                Index.BTN_SimpanKepegawaian.on('click', this.simpanKepegawaian);
                 Index.BTN_SimpanUploadKaryawan.on('click', this.simpanUploadKaryawan);
-                Index.BTN_SimpanKeluarga.on('click', this.simpanKeluarga);
-                Index.BTN_DeleteKeluarga.on('click', this.deleteKeluarga).css('cursor','pointer');
+                Index.BTN_DeleteKeluarga.on('click', Helper.deleteKeluarga).css('cursor','pointer');
                 Index.BTN_LoadMore.on('click', this.toggleLoadMore);
+                Index.FILE_DATA.on('change', this.fileData);
+                Index.BTN_PreviewFile.on('click', this.previewFileOnNewTab);
+
+                Index.BTN_TambahKeluarga.on('click', this.tambahKeluarga);
+                Index.BTN_TambahSertifikat.on('click', this.tambahSertifikat);
                 return this;
             }
 

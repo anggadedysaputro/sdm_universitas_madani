@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Karyawan\Edit;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
+use App\Models\Applications\Sertifikat;
 use App\Models\Masters\Agama;
 use App\Models\Masters\Bidang;
 use App\Models\Masters\KartuIdentitas;
@@ -13,9 +14,11 @@ use App\Models\Masters\Pendidikan;
 use App\Models\Masters\StatusNikah;
 use App\Models\Masters\StatusPegawai;
 use App\Traits\Logger\TraitsLoggerActivity;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class KaryawanEdit extends Controller
 {
@@ -54,7 +57,7 @@ class KaryawanEdit extends Controller
                 "sp.keterangan as status_pegawai",
                 DB::raw("convertnumericdatetoalphabetical(tgl_masuk) as tanggal_masuk"),
                 "p.tgl_masuk",
-                DB::raw("convertnumericdatetoalphabetical(tgl_berakhir_kontrak) as tgl_berakhir_kontrak"),
+                DB::raw("convertnumericdatetoalphabetical(tgl_berakhir_kontrak) as tgl_berakhir_kontrak_view"),
                 "p.tgl_berakhir_kontrak",
                 "p.kodejabfung",
                 "p.tugas_tambahan",
@@ -109,6 +112,7 @@ class KaryawanEdit extends Controller
                                     'lembaga_penyelenggara',lembaga_penyelenggara,
                                     'tahun',tahun,
                                     'biaya',biaya,
+                                    'idjenisbiaya',idjenisbiaya,
                                     'jenisbiaya', b.urai
                                 )
                             )
@@ -150,13 +154,16 @@ class KaryawanEdit extends Controller
                     ) data_biaya_pendidikan_anak
                 "),
                 DB::raw("concat(concat_ws('.',bid.kodebidang,bid.kodedivisi,bid.kodesubdivisi,bid.kodesubsubdivisi), ' - ', bid.urai) as organisasi"),
+                DB::raw("concat_ws('.',bid.kodebidang,bid.kodedivisi,bid.kodesubdivisi,bid.kodesubsubdivisi) as kodeorg"),
                 'kompetensi_hard_skill',
                 'kompetensi_soft_skill',
                 'biaya_tempat_tinggal_pertahun',
                 'jumlah_beras_kg',
                 'merk_kendaraan',
                 'biaya_beasiswa_per_semester',
-                'tahun_kendaraan'
+                'tahun_kendaraan',
+                "masa_bakti",
+                "tugas_tambahan"
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -193,13 +200,19 @@ class KaryawanEdit extends Controller
 
             $post = request()->all();
 
+            // dd($post);
+
             $id = $post['nopeg_lama'];
             unset($post['nopeg_lama']);
+
+            $pegawaiLama = Pegawai::find($id);
+            if (!$pegawaiLama) throw new Exception("Pegawai tidak ditemukan", 1);
+
             if (array_key_exists("tgl_lahir", $post)) $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
             if (!array_key_exists("kodestruktural", $post) || empty($post['kodestruktural'])) $post['kodestruktural'] = 0;
             if (!array_key_exists("kodejabfung", $post) || empty($post['kodejabfung'])) $post['kodejabfung'] = 0;
 
-            if (array_key_exists("organisasi", $post)) {
+            if (array_key_exists("organisasi", $post) && !empty($post['organisasi'])) {
                 $bidangColumn = [
                     'kodebidang',
                     'kodedivisi',
@@ -220,23 +233,110 @@ class KaryawanEdit extends Controller
                 $post['idbidang'] = $dataBidang['id'];
             }
 
-            if (isset($post['namakeluarga'])) {
-                Keluarga::where('nopeg', $id)->delete();
-                foreach ($post['namakeluarga'] as $key => $value) {
-                    $insertkeluarga = [
-                        'nopeg' => $id,
-                        'nama' => $value,
-                        'hubungan' => $post['hubungankeluarga'][$key],
-                        'tempatlahir' => $post['tempatlahirkeluarga'][$key],
-                        'tgllahir' => $post['tgllahirkeluarga'][$key],
-                        'telp' => $post['telpkeluarga'][$key],
-                        'alamat' => $post['alamatkeluarga'][$key]
-                    ];
-                    Keluarga::create($insertkeluarga);
-                }
+            $this->insertKeluarga($post, $id);
+            $this->insertSertifikat($post, $id);
+
+            // foto npwp
+            if ($post['foto_npwp'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/foto_npwp'));
+                $filename = uniqid() . ".jpg";
+                Storage::put('public/foto_npwp/' . $filename, Image::make($post['foto_npwp'])->encode("jpg", 40));
+                $post['foto_npwp'] = $filename;
+                Storage::delete('public/foto_npwp/' . $pegawaiLama->foto_npwp);
             } else {
-                Pegawai::find($id)->update($post);
+                unset($post['foto_npwp']);
             }
+
+            // foto bpjs kesehatan
+            if ($post['foto_bpjs_kesehatan'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/foto_bpjs_kesehatan'));
+                $filename = uniqid() . ".jpg";
+                Storage::put('public/foto_bpjs_kesehatan/' . $filename, Image::make($post['foto_bpjs_kesehatan'])->encode("jpg", 40));
+                unset($post['foto_bpjs_kesehatan']);
+                $post['foto_bpjs_kesehatan'] = $filename;
+                Storage::delete('public/foto_npwp/' . $pegawaiLama->foto_bpjs_kesehatan);
+            } else {
+                unset($post['foto_bpjs_kesehatan']);
+            }
+
+            // foto bpjs ketenagakerjaan
+            if ($post['foto_bpjs_ketenagakerjaan'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/foto_bpjs_ketenagakerjaan'));
+                $filename = uniqid() . ".jpg";
+                Storage::put('public/foto_bpjs_ketenagakerjaan/' . $filename, Image::make($post['foto_bpjs_ketenagakerjaan'])->encode("jpg", 40));
+                $post['foto_bpjs_ketenagakerjaan'] = $filename;
+                Storage::delete('public/foto_npwp/' . $pegawaiLama->foto_bpjs_ketenagakerjaan);
+            } else {
+                unset($post['foto_bpjs_ketenagakerjaan']);
+            }
+
+            // Dok. Surat Penjanjian Kerja
+            if ($post['dok_surat_perjanjian_kerja'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/dok_surat_perjanjian_kerja'));
+                $extension = $post['dok_surat_perjanjian_kerja']->getClientOriginalExtension();
+                $filename = uniqid() . "." . $extension;
+                Storage::put('public/dok_surat_perjanjian_kerja/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_surat_perjanjian_kerja'])->encode($extension, 40) : $post['dok_surat_perjanjian_kerja']->get()));
+                $post['dok_surat_perjanjian_kerja'] = $filename;
+            } else {
+                unset($post['dok_surat_perjanjian_kerja']);
+            }
+
+            // Dok. Pakta Integritas
+            if ($post['dok_pakta_integritas'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/dok_pakta_integritas'));
+                $extension = $post['dok_pakta_integritas']->getClientOriginalExtension();
+                $filename = uniqid() . "." . $extension;
+                Storage::put('public/dok_pakta_integritas/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_pakta_integritas'])->encode($extension, 40) : $post['dok_pakta_integritas']->get()));
+                $post['dok_pakta_integritas'] = $filename;
+            } else {
+                unset($post['dok_pakta_integritas']);
+            }
+
+            // Dok. Hasil Test
+            if ($post['dok_hasil_test'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/dok_hasil_test'));
+                $extension = $post['dok_hasil_test']->getClientOriginalExtension();
+                $filename = uniqid() . "." . $extension;
+                Storage::put('public/dok_hasil_test/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_test'])->encode($extension, 40) : $post['dok_hasil_test']->get()));
+                $post['dok_hasil_test'] = $filename;
+            } else {
+                unset($post['dok_hasil_test']);
+            }
+
+            // Dok. Hasil Interview
+            if ($post['dok_hasil_interview'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/dok_hasil_interview'));
+                $extension = $post['dok_hasil_interview']->getClientOriginalExtension();
+                $filename = uniqid() . "." . $extension;
+                Storage::put('public/dok_hasil_interview/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']->get()));
+                $post['dok_hasil_interview'] = $filename;
+            } else {
+                unset($post['dok_hasil_interview']);
+            }
+
+            // Dok. Ijazah
+            if ($post['dok_ijazah'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/dok_ijazah'));
+                $extension = $post['dok_ijazah']->getClientOriginalExtension();
+                $filename = uniqid() . "." . $extension;
+                Storage::put('public/dok_ijazah/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_ijazah'])->encode($extension, 40) : $post['dok_ijazah']->get()));
+                $post['dok_ijazah'] = $filename;
+            } else {
+                unset($post['dok_ijazah']);
+            }
+
+            // Dok. Transkrip Nilai
+            if ($post['dok_transkrip_nilai'] != "undefined") {
+                buatFolder(storage_path('app/' . 'public/dok_transkrip_nilai'));
+                $extension = $post['dok_transkrip_nilai']->getClientOriginalExtension();
+                $filename = uniqid() . "." . $extension;
+                Storage::put('public/dok_transkrip_nilai/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_transkrip_nilai'])->encode($extension, 40) : $post['dok_transkrip_nilai']->get()));
+                $post['dok_transkrip_nilai'] = basename($filename);
+            } else {
+                unset($post['dok_transkrip_nilai']);
+            }
+
+            Pegawai::find($id)->update($post);
 
             $this->activity("Edit data karyawan [successfully]");
 
@@ -258,6 +358,56 @@ class KaryawanEdit extends Controller
             ];
 
             return response()->json($response, 500);
+        }
+    }
+
+    public function insertKeluarga($post, $nopeg)
+    {
+        $namaKeluarga = isset($post["namakeluarga"]) ? $post["namakeluarga"] : [];
+        $hubunganKeluarga = isset($post["hubungankeluarga"]) ? $post["hubungankeluarga"] : [];
+        $tempatlahirKeluarga = isset($post["tempatlahirkeluarga"]) ? $post["tempatlahirkeluarga"] : [];
+        $tgllahirKeluarga = isset($post["tgllahirkeluarga"]) ? $post["tgllahirkeluarga"] : [];
+        $telpKeluarga = isset($post['telpkeluarga']) ? $post['telpkeluarga'] : [];
+        $alamatKeluarga = isset($post['alamatkeluarga']) ? $post['alamatkeluarga'] : [];
+
+        if (isset($post["namakeluarga"])) Keluarga::where("nopeg", $nopeg)->delete();
+
+        foreach ($namaKeluarga as $key => $value) {
+            $insert = [
+                'nopeg' => $nopeg,
+                'nama' => $value,
+                'hubungan' => $hubunganKeluarga[$key],
+                'tempatlahir' => $tempatlahirKeluarga[$key],
+                'tgllahir' => $tgllahirKeluarga[$key],
+                'telp' => $telpKeluarga[$key],
+                'alamat' => $alamatKeluarga[$key]
+            ];
+            Keluarga::create($insert);
+        }
+    }
+
+    public function insertSertifikat($post, $nopeg)
+    {
+        $nomorSertifikat = isset($post["nomor_sertifikat"]) ? $post["nomor_sertifikat"] : [];
+        $jenisSertifikat = isset($post["idjenissertifikat"]) ? $post["idjenissertifikat"] : [];
+        $lembagaPenyelenggara = isset($post["lembaga_penyelenggara"]) ? $post["lembaga_penyelenggara"] : [];
+        $tahun = isset($post["tahun"]) ? $post["tahun"] : [];
+        $biaya = isset($post['biaya']) ? $post['biaya'] : [];
+        $idjenisbiaya = isset($post['idjenisbiaya']) ? $post['idjenisbiaya'] : [];
+
+        if (isset($post["nomor_sertifikat"])) Sertifikat::where("nopeg", $nopeg)->delete();
+
+        foreach ($nomorSertifikat as $key => $value) {
+            $insert = [
+                'nopeg' => $nopeg,
+                'nomor_sertifikat' => $value,
+                'idjenissertifikat' => $jenisSertifikat[$key],
+                'lembaga_penyelenggara' => $lembagaPenyelenggara[$key],
+                'tahun' => $tahun[$key],
+                'biaya' => numericFormatToNormalFormat($biaya[$key]),
+                'idjenisbiaya' => $idjenisbiaya[$key]
+            ];
+            Sertifikat::create($insert);
         }
     }
 

@@ -70,6 +70,8 @@ class KaryawanAdd extends Controller
             if (!array_key_exists("kodejabfung", $post)) $post['kodejabfung'] = empty($post['kodejabfung']) ? 0 : $post['kodejabfung'];
             if (!array_key_exists("kodestruktural", $post)) $post['kodestruktural'] = empty($post['kodestruktural']) ? 0 : $post['kodestruktural'];
             $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
+            $post['tgl_masuk'] = convertGeneralDate($post['tgl_masuk']);
+            $post['tgl_berakhir_kontrak'] = convertGeneralDate($post['tgl_berakhir_kontrak']);
             $post['idbidang'] = $dataBidang['id'];
 
             // foto profile
@@ -150,7 +152,7 @@ class KaryawanAdd extends Controller
                 buatFolder(storage_path('app/' . 'public/dok_hasil_interview'));
                 $extension = $post['dok_hasil_interview']->getClientOriginalExtension();
                 $filename = uniqid() . "." . $extension;
-                $dok_hasil_interview = Storage::put('public/dok_hasil_interview/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']->get()));
+                Storage::put('public/dok_hasil_interview/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']->get()));
                 $post['dok_hasil_interview'] = $filename;
             } else {
                 unset($post['dok_hasil_interview']);
