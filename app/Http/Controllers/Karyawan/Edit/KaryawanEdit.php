@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Karyawan\Edit;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
+use App\Models\Applications\PengalamanKerja;
 use App\Models\Applications\Sertifikat;
 use App\Models\Masters\Agama;
 use App\Models\Masters\Bidang;
@@ -235,6 +236,7 @@ class KaryawanEdit extends Controller
 
             $this->insertKeluarga($post, $id);
             $this->insertSertifikat($post, $id);
+            $this->insertPengalamanKerja($post, $id);
 
             // foto npwp
             if ($post['foto_npwp'] != "undefined") {
@@ -408,6 +410,28 @@ class KaryawanEdit extends Controller
                 'idjenisbiaya' => $idjenisbiaya[$key]
             ];
             Sertifikat::create($insert);
+        }
+    }
+
+    public function insertPengalamanKerja($post, $id)
+    {
+        $dariTahun = isset($post["dari_tahun"]) ? $post["dari_tahun"] : [];
+        $sampaiTahun = isset($post["sampai_tahun"]) ? $post["sampai_tahun"] : [];
+        $jabatan = isset($post["jabatan"]) ? $post["jabatan"] : [];
+        $paklaring = isset($post["paklaring"]) ? $post["paklaring"] : [];
+
+        if (isset($post["dari_tahun"])) PengalamanKerja::where("nopeg", $id)->delete();
+
+        foreach ($dariTahun as $key => $value) {
+            $insert = [
+                'nopeg' => $id,
+                'dari_tahun' => $value,
+                'sampai_tahun' => $sampaiTahun[$key],
+                'jabatan' => $jabatan[$key],
+                'paklaring' => $paklaring[$key]
+            ];
+
+            PengalamanKerja::create($insert);
         }
     }
 

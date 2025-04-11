@@ -566,7 +566,7 @@
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Data Sertifikat</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-kepegawaian"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-sertifikat"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -620,7 +620,7 @@
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Data Kompetensi</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-kompetensi"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-kompetensi"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -650,7 +650,7 @@
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Data Pengalaman Kerja</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-pengalaman-kerja"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-pengalaman-kerja"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -1195,7 +1195,7 @@
         </div>
     </div>
 
-    {{-- modal kepegawaian --}}
+    {{-- modal data sertifikat --}}
     <div class="modal modal-blur fade" id="modal-edit-data-sertifikat" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div class="modal-content">
@@ -1216,11 +1216,75 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="simpan-kepegawaian">Simpan</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-sertifikat">Simpan</button>
             </div>
           </div>
         </div>
     </div>
+
+    {{-- modal data kompetensi --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-kompetensi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit data kompetensi</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" id="form-edit-data-kompetensi">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Kompetensi Hard Skill</label>
+                                <input type="text" class="form-control form-step-6" placeholder="Masukkan kompetensi hard skill" name="kompetensi_hard_skill">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Kompetensi Soft Skill</label>
+                                <input type="text" class="form-control form-step-6" placeholder="Masukkan kompetensi soft skill" name="kompetensi_soft_skill">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-kompetensi">Simpan</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {{-- modal data pengalaman kerja --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-pengalaman-kerja" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit data pengalaman kerja</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" id="form-edit-data-pengalaman-kerja">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Daftar pengalaman kerja <button class="btn btn-success btn-sm" type="button" id="tambah-pengalaman-kerja"><i class="ti ti-plus"></i></button></h3>
+                            <div class="row" id="wrapper-pengalaman-kerja">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-pengalaman-kerja">Simpan</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
 
     {{-- modal keluarga --}}
     <div class="modal modal-blur fade" id="modal-edit-data-keluarga" tabindex="-1" aria-hidden="true">
@@ -1375,6 +1439,16 @@
             constructor(){
             }
 
+            tambahPengalamanKerja(){
+                const data = Helper.addRowPengalamanKerja(
+                    [
+                        {tahun:""}
+                    ]
+                );
+                let wrapper = $('#wrapper-pengalaman-kerja');
+                wrapper.prepend(data);
+            }
+
             tambahSertifikat(){
                 const data = Helper.addRowSertifikat(
                     [
@@ -1395,12 +1469,77 @@
                 wrapper.prepend(data);
             }
 
+            static addRowPengalamanKerja(data){
+                let row = [];
+                data.forEach((e,i)=>{
+                    let content = `
+                        <div class="col-md-12 mb-3">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Dari tahun</label>
+                                                <select class="form-select tomselected tahun-dari" name="dari_tahun[]" placeholder="Pilih dari tahun">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Sampai tahun</label>
+                                                <select class="form-select tomselected tahun-sampai" name="sampai_tahun[]" placeholder="Pilih sampai tahun">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Jabatan</label>
+                                                <input type="text" class="form-control" placeholder="Masukkan jabatan" name="jabatan[]">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Paklaring</label>
+                                                <input type="text" class="form-control" placeholder="Masukkan paklaring" name="paklaring[]">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    let rowContent = $(content);
+                    rowContent.find('select.tahun-sampai').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih sampai tahun'));
+                    rowContent.find('select.tahun-dari').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih dari tahun'));
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
+                    Angga.setValueSelect2AjaxRemote(rowContent.find('select.tahun-dari'),{id:e.dari_tahun,text:e.dari_tahun});
+                    Angga.setValueSelect2AjaxRemote(rowContent.find('select.tahun-sampai'),{id:e.sampai_tahun,text:e.sampai_tahun});
+                    rowContent.find('input[name="jabatan[]"]').val(e.jabatan);
+                    rowContent.find('input[name="paklaring[]').val(e.paklaring);
+                    row.push(rowContent);
+                });
+                return row;
+            }
+
             static addRowSertifikat(data){
                 let row = [];
                 data.forEach((e,i)=>{
                     let content = `
                         <div class="col-md-12 mb-3">
-                            <div class="card">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -1461,7 +1600,7 @@
                     rowContent.find('select.jenis-sertifikat').select2(Angga.generalAjaxSelect2('{{ route('select2.jenis-sertifikat.data') }}','Pilih jenis sertifikat'));
                     rowContent.find('select.tahun').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun'));
                     rowContent.find('select.biaya').select2(Angga.generalAjaxSelect2('{{ route('select2.biaya.data') }}','Pilih jenis biaya'));
-
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     Inputmask('numeric', {
                         radixPoint: ",",
                         allowMinus: false,
@@ -1482,8 +1621,6 @@
                     rowContent.find('.money-mask').val(e.biaya);
                     rowContent.find('input[name="nomor_sertifikat[]"]').val(e.nomor_sertifikat);
                     rowContent.find('input[name="lembaga_penyelenggara[]"]').val(e.lembaga_penyelenggara);
-
-
                     row.push(rowContent);
                 });
                 return row;
@@ -1495,7 +1632,7 @@
                     let content = `
                         <div class="col-md-12 mb-3">
                             <div class="card position-relative">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
                                     <i class="ti ti-minus text-white"></i>
                                 </span>
                                 <div class="card-body">
@@ -1551,7 +1688,7 @@
                     `;
 
                     let rowContent = $(content);
-                    rowContent.find('.delete-keluarga').on('click', Helper.deleteKeluarga).css('cursor','pointer');
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     flatpickr(rowContent.find('.flat-picker'),{
                         disableMobile: "true",
                         dateFormat: "j F Y",
@@ -1776,7 +1913,7 @@
                 Index.OFFCNVS_Main.show();
             }
 
-            static deleteKeluarga(e){
+            static deleteRowData(e){
                 const eJquery = $(e.currentTarget);
                 eJquery.parents('.card:first').parent().remove();
             }
@@ -1809,8 +1946,7 @@
                 }
             }
 
-
-            simpanKepegawaian(){
+            simpanDataSertifikat(){
                 let data = Index.FRM_EditDataSertifikat.serializeObject();
                 const organisasi = Index.FRM_EditDataSertifikat.find("input[name='organisasi']").val();
                 data = $.extend(data,{organisasi});
@@ -1819,6 +1955,19 @@
                 }
             }
 
+            simpanDataKompetensi(){
+                const data = Index.FRM_EditDataKompetensi.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataKompetensi)){
+                    Helper.store(data);
+                }
+            }
+
+            simpanDataPengalamanKerja(){
+                const data = Index.FRM_EditDataPengalamanKerja.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataPengalamanKerja)){
+                    Helper.store(data);
+                }
+            }
 
             editDataPersonal(){
                 Helper.reset();
@@ -1865,6 +2014,7 @@
             }
 
             editDataPendidikan(){
+                Helper.reset();
                 Index.MD_EditDataPendidikan.find('input[name="prodi"]').val("{{ $pegawai->prodi }}");
                 Index.MD_EditDataPendidikan.find('input[name="gelar"]').val("{{ $pegawai->gelar }}");
                 Index.MD_EditDataPendidikan.find('input[name="namasekolah"]').val("{{ $pegawai->namasekolah }}");
@@ -1874,12 +2024,26 @@
             }
 
             editDataSertifikat(){
-
                 let str = "{{ $pegawai->cert }}".replace(/&quot;/g, '"');
                 // Ubah jadi objek
                 let data = JSON.parse(str == "" ? "[]":str);
                 Index.MD_EditDataSertifikat.find('#wrapper-sertifikat').html(Helper.addRowSertifikat(data));
                 Index.MD_EditDataSertifikat.modal('show');
+            }
+
+            editDataKompetensi(){
+                Helper.reset();
+                Index.FRM_EditDataKompetensi.find('input[name="kompetensi_hard_skill"]').val("{{ $pegawai->kompetensi_hard_skill }}");
+                Index.FRM_EditDataKompetensi.find('input[name="kompetensi_soft_skill"]').val("{{ $pegawai->kompetensi_soft_skill }}");
+                Index.MD_EditDataKompetensi.modal('show');
+            }
+
+            editDataPengalamanKerja(){
+                let str = "{{ $pegawai->data_pengalaman_kerja }}".replace(/&quot;/g, '"');
+                // Ubah jadi objek
+                let data = JSON.parse(str == "" ? "[]":str);
+                Index.MD_EditDataPengalamanKerja.find('#wrapper-pengalaman-kerja').html(Helper.addRowPengalamanKerja(data));
+                Index.MD_EditDataPengalamanKerja.modal('show');
             }
 
             static reset(){
@@ -1987,23 +2151,42 @@
             static BTN_EditDataPersonal;
             static BTN_EditDataPekerjaan;
             static BTN_EditDataPendidikan;
-            static BTN_EditKepegawaian;
+            static BTN_EditDataSertifikat;
+            static BTN_EditDataKompetensi;
+            static BTN_EditDataPengalamanKerja;
+
             static BTN_SimpanDataPersonal;
             static BTN_SimpanDataPekerjaan;
             static BTN_SimpanDataPendidikan;
-            static BTN_SimpanKepegawaian;
+            static BTN_SimpanDataSertifikat;
+            static BTN_SimpanDataKompetensi;
+            static BTN_SimpanDataPengalamanKerja;
+
             static BTN_EditDataKeluarga;
             static BTN_SimpanDataKeluarga;
+            static BTN_PreviewFile;
+            static BTN_TambahKeluarga;
+            static BTN_TambahSertifikat;
+            static BTN_SearchOrg;
+            static BTN_SimpanUploadKaryawan;
+            static BTN_LoadMore;
+
             static MD_EditDataPersonal;
+            static MD_EditDataKeluarga;
             static MD_EditDataPekerjaan;
             static MD_EditDataPendidikan;
             static MD_EditDataSertifikat;
+            static MD_EditDataKompetensi;
+            static MD_EditDataPengalamanKerja;
+
             static FRM_EditDataPersonal;
-            static MD_EditDataKeluarga;
             static FRM_EditDataPekerjaan;
             static FRM_EditDataPendidikan;
-            static FRM_Kepegawaian;
             static FRM_EditDataKeluarga;
+            static FRM_EditDataSertifikat;
+            static FRM_EditDataKompetensi;
+            static FRM_EditDataPengalamanKerja;
+
             static S2_StatusNikah;
             static S2_GolDarah;
             static S2_Agama;
@@ -2015,22 +2198,17 @@
             static S2_Pegawai;
             static S2_Fungsional;
             static S2_Struktural;
-            static BTN_SearchOrg;
+
             static JSTREE_Main;
             static DATA_Menu;
-            static BTN_SimpanUploadKaryawan;
-            static BTN_DeleteKeluarga;
-            static BTN_LoadMore;
             static FILE_DATA;
             static allowedTypes;
-            static BTN_PreviewFile;
-            static BTN_TambahKeluarga;
-            static BTN_TambahSertifikat;
 
             constructor() {
                 super();
                 Index.BTN_TambahSertifikat = $('#tambah-sertifikat');
                 Index.BTN_TambahKeluarga = $("#tambah-keluarga");
+                Index.BTN_TambahPengalamanKerja = $('#tambah-pengalaman-kerja');
                 Index.allowedTypes = [
                     'image/', // Semua jenis gambar (JPEG, PNG, GIF, dll.)
                     'application/pdf', // PDF
@@ -2041,25 +2219,30 @@
                 Index.FILE_DATA = $('input.file-data');
                 Index.DATA_Menu = [];
                 Index.BTN_LoadMore = $('.loadMore');
-                Index.BTN_DeleteKeluarga = $('.delete-keluarga');
 
                 Index.BTN_EditDataPersonal = $('#edit-data-personal').css('cursor','pointer');
                 Index.BTN_EditDataKeluarga = $('#edit-data-keluarga').css('cursor','pointer');
                 Index.BTN_EditDataPekerjaan = $('#edit-data-pekerjaan').css('cursor','pointer');
                 Index.BTN_EditDataPendidikan = $('#edit-data-pendidikan').css('cursor','pointer');
-                Index.BTN_EditKepegawaian = $("#edit-kepegawaian").css('cursor','pointer');
+                Index.BTN_EditDataSertifikat = $("#edit-data-sertifikat").css('cursor','pointer');
+                Index.BTN_EditDataKompetensi = $("#edit-data-kompetensi").css('cursor','pointer');
+                Index.BTN_EditDataPengalamanKerja = $('#edit-data-pengalaman-kerja').css('cursor','pointer');
 
                 Index.BTN_SimpanDataPersonal = $('#simpan-informasi-pribadi');
                 Index.BTN_SimpanDataKeluarga = $('#simpan-data-keluarga');
                 Index.BTN_SimpanDataPekerjaan = $('#simpan-data-pekerjaan');
                 Index.BTN_SimpanDataPendidikan = $('#simpan-data-pendidikan');
-                Index.BTN_SimpanKepegawaian = $('#simpan-kepegawaian');
+                Index.BTN_SimpanDataSertifikat = $('#simpan-data-sertifikat');
                 Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
+                Index.BTN_SimpanDataKompetensi = $('#simpan-data-kompetensi');
+                Index.BTN_SimpanDataPengalamanKerja = $('#simpan-data-pengalaman-kerja');
 
                 Index.MD_EditDataPersonal = $('#modal-edit-data-pribadi');
                 Index.MD_EditDataKeluarga = $('#modal-edit-data-keluarga');
                 Index.MD_EditDataPekerjaan = $('#modal-edit-data-pekerjaan');
                 Index.MD_EditDataPendidikan = $('#modal-edit-data-pendidikan');
+                Index.MD_EditDataKompetensi = $('#modal-edit-data-kompetensi');
+                Index.MD_EditDataPengalamanKerja = $('#modal-edit-data-pengalaman-kerja')
 
                 Index.MD_EditDataSertifikat = $('#modal-edit-data-sertifikat');
 
@@ -2068,6 +2251,8 @@
                 Index.FRM_EditDataSertifikat = $('#form-edit-data-sertifikat');
                 Index.FRM_EditDataPendidikan = $('#form-edit-data-pendidikan');
                 Index.FRM_EditDataKeluarga = $('#form-edit-keluarga');
+                Index.FRM_EditDataKompetensi = $('#form-edit-data-kompetensi');
+                Index.FRM_EditDataPengalamanKerja = $('#form-edit-data-pengalaman-kerja');
 
                 Index.INPUT_image = $('input#foto-profile');
                 Index.CRP_Main = new Cropper($('.cropped')[0],{
@@ -2225,25 +2410,29 @@
                 Index.BTN_EditDataKeluarga.on('click', this.editDataKeluarga);
                 Index.BTN_EditDataPekerjaan.on('click', this.editDataPekerjaan);
                 Index.BTN_EditDataPendidikan.on('click', this.editDataPendidikan);
-                Index.BTN_EditKepegawaian.on('click', this.editDataSertifikat);
+                Index.BTN_EditDataSertifikat.on('click', this.editDataSertifikat);
+                Index.BTN_EditDataKompetensi.on('click', this.editDataKompetensi);
+                Index.BTN_EditDataPengalamanKerja.on('click', this.editDataPengalamanKerja);
 
                 Index.BTN_SimpanDataPersonal.on('click', this.simpanDataPersonal);
                 Index.BTN_SimpanDataKeluarga.on('click', this.simpanDataKeluarga);
                 Index.BTN_SimpanDataPekerjaan.on('click', this.simpanDataPekerjaan);
+                Index.BTN_SimpanDataSertifikat.on('click', this.simpanDataSertifikat);
                 Index.BTN_SimpanDataPendidikan.on('click', this.simpanDataPendidikan);
+                Index.BTN_SimpanDataKompetensi.on('click', this.simpanDataKompetensi);
+                Index.BTN_SimpanDataPengalamanKerja.on('click', this.simpanDataPengalamanKerja);
 
                 Index.JSTREE_Main.element.on('select_node.jstree', this.selectedOrg);
                 Index.BTN_SearchOrg.on('click', this.showCanvas);
                 Index.INPUT_image.on('change', this.change);
-                Index.BTN_SimpanKepegawaian.on('click', this.simpanKepegawaian);
                 Index.BTN_SimpanUploadKaryawan.on('click', this.simpanUploadKaryawan);
-                Index.BTN_DeleteKeluarga.on('click', Helper.deleteKeluarga).css('cursor','pointer');
                 Index.BTN_LoadMore.on('click', this.toggleLoadMore);
                 Index.FILE_DATA.on('change', this.fileData);
                 Index.BTN_PreviewFile.on('click', this.previewFileOnNewTab);
 
                 Index.BTN_TambahKeluarga.on('click', this.tambahKeluarga);
                 Index.BTN_TambahSertifikat.on('click', this.tambahSertifikat);
+                Index.BTN_TambahPengalamanKerja.on('click', this.tambahPengalamanKerja);
                 return this;
             }
 
