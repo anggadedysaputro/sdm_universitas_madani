@@ -62,6 +62,15 @@ var imdecimal = new Inputmask("decimal", {
 });
 imdecimal.mask(selectordecimal);
 
+Inputmask('numeric', {
+    radixPoint: ",",
+    rightAlign: false,
+    digits: 2,
+    onBeforeMask: function (value, opts) {
+        return value;
+    }
+}).mask('.decimal-mask-morethan');
+
 Inputmask({
     mask: "*{1,50}[.*{1,50}][.*{1,50}][.*{1,50}]@*{1,20}[.*{2,6}][.*{1,2}]",
     greedy: false,
@@ -87,7 +96,6 @@ Inputmask('numeric', {
     digits: 2, min: 0,
     alias: 'numeric',
     onBeforeMask: function (value, opts) {
-        console.log("kusir", value);
         return value;
     }
 }).mask('.money-mask');

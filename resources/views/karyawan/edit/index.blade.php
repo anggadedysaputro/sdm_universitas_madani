@@ -696,7 +696,7 @@
                         <div class="d-flex justify-content-between mt-3">
                             <h3>Data Fasilitas</h3>
                             <span>
-                                <i class="ti ti-dots-vertical" id="edit-fasilitas"></i>
+                                <i class="ti ti-dots-vertical" id="edit-data-fasilitas"></i>
                             </span>
                         </div>
                         <div class="list-group list-group-flush list-group-hoverable border-bottom">
@@ -708,7 +708,7 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        {{ $pegawai->biaya_tempat_tinggal_pertahun }}
+                                        {{ number_format($pegawai->biaya_tempat_tinggal_pertahun,2,',','.') }}
                                     </div>
                                 </div>
                             </div>
@@ -720,7 +720,7 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        {{ $pegawai->jumlah_kg }}
+                                        {{ $pegawai->jumlah_beras_kg }}
                                     </div>
                                 </div>
                             </div>
@@ -755,7 +755,7 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        {{ $pegawai->biaya_tempat_tinggal_pertahun }}
+                                        {{ $pegawai->nama_lembaga_beasiswa_pendidikan }}
                                     </div>
                                 </div>
                             </div>
@@ -832,7 +832,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit data personal</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-data-personal">
@@ -984,7 +984,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-informasi-pribadi">Simpan</button>
             </div>
           </div>
@@ -997,7 +997,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit data pekerjaan</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-data-pekerjaan">
@@ -1114,7 +1114,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-data-pekerjaan">Simpan</button>
             </div>
           </div>
@@ -1127,7 +1127,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit pendidikan terakhir</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-data-pendidikan">
@@ -1188,7 +1188,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-data-pendidikan">Simpan</button>
             </div>
           </div>
@@ -1201,7 +1201,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit data sertifikat</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-data-sertifikat">
@@ -1215,7 +1215,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-data-sertifikat">Simpan</button>
             </div>
           </div>
@@ -1228,7 +1228,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit data kompetensi</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-data-kompetensi">
@@ -1251,7 +1251,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-data-kompetensi">Simpan</button>
             </div>
           </div>
@@ -1264,7 +1264,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit data pengalaman kerja</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-data-pengalaman-kerja">
@@ -1278,8 +1278,90 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-data-pengalaman-kerja">Simpan</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {{-- modal data fasilitas --}}
+    <div class="modal modal-blur fade" id="modal-edit-data-fasilitas" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit data fasilitas</h5>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" id="form-edit-data-fasilitas">
+                    <div class="row">
+                        <h3>Tempat tinggal</h3>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Biaya per tahun</label>
+                                <input type="text" class="form-control money-mask" placeholder="masukkan biaya pertahun" name="biaya_tempat_tinggal_pertahun">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3>Beras</h3>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">Jumlah KG</label>
+                                <input type="text" class="form-control decimal-mask-morethan" placeholder="Masukkan jumlah KG" name="jumlah_beras_kg">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3>Kendaraan</h3>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Merk kendaraan</label>
+                                <input type="text" class="form-control" placeholder="masukkan merk" name="merk_kendaraan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tahun kendaraan</label>
+                                <select class="form-select tomselected" name="tahun_kendaraan" placeholder="Pilih tahun kendaraan">
+
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3>Beasiswa pendidikan</h3>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Nama lembaga pendidikan</label>
+                                <input type="text" class="form-control" placeholder="masukkan nama lembaga pendidikan" name="nama_lembaga_beasiswa_pendidikan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Biaya per semester</label>
+                                <input type="text" class="form-control money-mask" placeholder="masukkan biaya per semester" name="biaya_beasiswa_per_semester">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Biaya pendidikan anak <button class="btn btn-success btn-sm" type="button" id="tambah-data-fasilitas"><i class="ti ti-plus"></i></button></h3>
+                            <div class="row" id="wrapper-fasilitas">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="simpan-data-fasilitas">Simpan</button>
             </div>
           </div>
         </div>
@@ -1292,7 +1374,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Edit data keluarga</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="form-edit-keluarga">
@@ -1393,7 +1475,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="simpan-data-keluarga">Simpan</button>
             </div>
           </div>
@@ -1403,7 +1485,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
         <div class="offcanvas-header">
             <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close text-reset modal-btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="row">
@@ -1419,7 +1501,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
         <div class="offcanvas-header">
             <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close text-reset modal-btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="row">
@@ -1437,6 +1519,16 @@
 
         class Helper {
             constructor(){
+            }
+
+            tambahFasilitas(){
+                const data = Helper.addRowBiayaPendidikanAnak(
+                    [
+                        {anak_ke:""}
+                    ]
+                );
+                let wrapper = $('#wrapper-fasilitas');
+                wrapper.prepend(data);
             }
 
             tambahPengalamanKerja(){
@@ -1526,6 +1618,84 @@
                     Angga.setValueSelect2AjaxRemote(rowContent.find('select.tahun-sampai'),{id:e.sampai_tahun,text:e.sampai_tahun});
                     rowContent.find('input[name="jabatan[]"]').val(e.jabatan);
                     rowContent.find('input[name="paklaring[]').val(e.paklaring);
+                    row.push(rowContent);
+                });
+                return row;
+            }
+
+            static addRowBiayaPendidikanAnak(data){
+                let row = [];
+                data.forEach((e,i)=>{
+                    let content = `
+                        <div class="col-md-12 mb-3">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Anak ke</label>
+                                                <input type="text" class="form-control integer-mask form-step-8" placeholder="Masukkan anak ke" name="anak_ke[]">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Jenjang pendidikan</label>
+                                                <select class="form-select tomselected form-step-8 jenjang-pendidikan" name="idjenjangpendidikan[]" placeholder="Pilih jenjang pendidikan">
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Jenis biaya pendidikan</label>
+                                                <input type="text" class="form-control form-step-8" placeholder="Masukkan jenis biaya pendidikan" name="jenis_biaya_pendidikan[]">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Besaran dispensasi</label>
+                                                <input type="text" class="form-control form-step-8 money-mask" placeholder="Masukkan besaran dispensasi" name="besaran_dispensasi[]">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    let rowContent = $(content);
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
+                    rowContent.find('select.jenjang-pendidikan').select2(Angga.generalAjaxSelect2('{{ route('select2.pendidikan.data') }}','Pilih dari pendidikan'));
+                    Inputmask('numeric', {
+                        radixPoint: ",",
+                        allowMinus: false,
+                        regex: "[0-9]*",
+                        groupSeparator: ".",
+                        rightAlign: false,
+                        digits: 2, min: 0,
+                        alias: 'numeric',
+                        onBeforeMask: function (value, opts) {
+                            return value;
+                        }
+                    }).mask(rowContent.find('.money-mask'));
+
+                    var selectorinteger = rowContent[0].getElementsByClassName("integer-mask");
+                    var iminteger = new Inputmask({
+                        regex: "^[0-9]*$"
+                    });
+                    iminteger.mask(selectorinteger);
+
+                    rowContent.find('input[name="anak_ke[]"]').val(e.anak_ke);
+                    rowContent.find('input[name="jenis_biaya_pendidikan[]"]').val(e.jenis_biaya_pendidikan);
+                    rowContent.find('input[name="besaran_dispensasi[]"]').val(e.besaran_dispensasi);
+                    Angga.setValueSelect2AjaxRemote(rowContent.find('select.jenjang-pendidikan'),{id:e.idjenjangpendidikan,text:e.jenjangpendidikan});
                     row.push(rowContent);
                 });
                 return row;
@@ -1701,6 +1871,11 @@
                     row.push(rowContent);
                 });
                 return row;
+            }
+
+            closeModal(){
+                Helper.reset();
+                $('.previewFileOnNewTab').hide();
             }
 
             previewFileOnNewTab(e){
@@ -1969,8 +2144,15 @@
                 }
             }
 
+            simpanDataFasilitas(){
+                const data = Index.FRM_EditDataFasilitas.serializeObject();
+                if(Helper.validate(Index.FRM_EditDataFasilitas)){
+                    Helper.store(data);
+                }
+            }
+
             editDataPersonal(){
-                Helper.reset();
+                // Helper.reset();
                 Index.MD_EditDataPersonal.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
                 Index.MD_EditDataPersonal.find('input[name="nokk"]').val("{{ $pegawai->nokk }}");
                 Index.MD_EditDataPersonal.find('input[name="nama"]').val("{{ $pegawai->nama }}");
@@ -1988,7 +2170,7 @@
             }
 
             editDataKeluarga(){
-                Helper.reset();
+                // Helper.reset();
                 Index.FRM_EditDataKeluarga.find('input[name="nokk"]').val("{{ $pegawai->nokk }}")
                 Index.FRM_EditDataKeluarga.find('input[name="nama_kepala_keluarga"]').val("{{ $pegawai->nama_kepala_keluarga }}")
                 Index.FRM_EditDataKeluarga.find('input[name="nama_keluarga_darurat"]').val("{{ $pegawai->nama_keluarga_darurat }}")
@@ -1997,7 +2179,7 @@
             }
 
             editDataPekerjaan(){
-                Helper.reset();
+                // Helper.reset();
                 Index.FRM_EditDataPekerjaan.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
                 Index.FRM_EditDataPekerjaan.find('select[name="idstatuspegawai"]').val("{{ $pegawai->idstatuspegawai }}");
                 Index.FRM_EditDataPekerjaan.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
@@ -2014,7 +2196,7 @@
             }
 
             editDataPendidikan(){
-                Helper.reset();
+                // Helper.reset();
                 Index.MD_EditDataPendidikan.find('input[name="prodi"]').val("{{ $pegawai->prodi }}");
                 Index.MD_EditDataPendidikan.find('input[name="gelar"]').val("{{ $pegawai->gelar }}");
                 Index.MD_EditDataPendidikan.find('input[name="namasekolah"]').val("{{ $pegawai->namasekolah }}");
@@ -2024,6 +2206,7 @@
             }
 
             editDataSertifikat(){
+                // Helper.reset();
                 let str = "{{ $pegawai->cert }}".replace(/&quot;/g, '"');
                 // Ubah jadi objek
                 let data = JSON.parse(str == "" ? "[]":str);
@@ -2032,13 +2215,14 @@
             }
 
             editDataKompetensi(){
-                Helper.reset();
+                // Helper.reset();
                 Index.FRM_EditDataKompetensi.find('input[name="kompetensi_hard_skill"]').val("{{ $pegawai->kompetensi_hard_skill }}");
                 Index.FRM_EditDataKompetensi.find('input[name="kompetensi_soft_skill"]').val("{{ $pegawai->kompetensi_soft_skill }}");
                 Index.MD_EditDataKompetensi.modal('show');
             }
 
             editDataPengalamanKerja(){
+                // Helper.reset();
                 let str = "{{ $pegawai->data_pengalaman_kerja }}".replace(/&quot;/g, '"');
                 // Ubah jadi objek
                 let data = JSON.parse(str == "" ? "[]":str);
@@ -2046,12 +2230,33 @@
                 Index.MD_EditDataPengalamanKerja.modal('show');
             }
 
+            editDataFasilitas(){
+                // Helper.reset();
+                let str = "{{ $pegawai->data_biaya_pendidikan_anak }}".replace(/&quot;/g, '"');
+                // Ubah jadi objek
+                let data = JSON.parse(str == "" ? "[]":str);
+                Index.MD_EditDataFasilitas.find('#wrapper-fasilitas').html(Helper.addRowBiayaPendidikanAnak(data));
+
+                const tahunkendaraan = "{{ $pegawai->tahun_kendaraan }}";
+                Angga.setValueSelect2AjaxRemote(Index.S2_TahunKendaraan,{id:tahunkendaraan,text:tahunkendaraan});
+
+                Index.FRM_EditDataFasilitas.find('input[name="biaya_tempat_tinggal_pertahun"]').val("{{ $pegawai->biaya_tempat_tinggal_pertahun }}");
+                Index.FRM_EditDataFasilitas.find('input[name="jumlah_beras_kg"]').val("{{ $pegawai->jumlah_beras_kg }}")
+                Index.FRM_EditDataFasilitas.find('input[name="merk_kendaraan"]').val("{{ $pegawai->merk_kendaraan }}")
+                Index.FRM_EditDataFasilitas.find('input[name="nama_lembaga_beasiswa_pendidikan"]').val("{{ $pegawai->nama_lembaga_beasiswa_pendidikan }}")
+                Index.FRM_EditDataFasilitas.find('input[name="biaya_beasiswa_per_semester"]').val("{{ $pegawai->biaya_beasiswa_per_semester }}")
+                Index.MD_EditDataFasilitas.modal('show');
+            }
+
             static reset(){
                 Index.FRM_EditDataPersonal[0].reset();
-                Index.FRM_EditDataPersonal[0].reset();
+                Index.FRM_EditDataKeluarga[0].reset();
                 Index.FRM_EditDataPekerjaan[0].reset();
                 Index.FRM_EditDataPendidikan[0].reset();
-                $('.previewFileOnNewTab').hide();
+                Index.FRM_EditDataSertifikat[0].reset();
+                Index.FRM_EditDataKompetensi[0].reset();
+                Index.FRM_EditDataPengalamanKerja[0].reset();
+                Index.FRM_EditDataFasilitas[0].reset();
             }
 
             static store(data){
@@ -2083,7 +2288,7 @@
                 //pendidikan
                 formData.append("dok_ijazah",Index.FRM_EditDataPendidikan.find('input[name="dok_ijazah"]')[0].files[0]);
                 formData.append("dok_transkrip_nilai",Index.FRM_EditDataPendidikan.find('input[name="dok_transkrip_nilai"]')[0].files[0]);
-
+                console.log(formData,'formdata');
                 Swal.fire({
                     title : 'Konfirmasi',
                     text : 'Apakah anda yakin ingin mengubah data?',
@@ -2149,27 +2354,32 @@
         export default class Index extends Helper{
             // deklarasi variabel
             static BTN_EditDataPersonal;
+            static BTN_EditDataKeluarga;
             static BTN_EditDataPekerjaan;
             static BTN_EditDataPendidikan;
             static BTN_EditDataSertifikat;
             static BTN_EditDataKompetensi;
             static BTN_EditDataPengalamanKerja;
+            static BTN_EditDataFasilitas;
 
             static BTN_SimpanDataPersonal;
+            static BTN_SimpanDataKeluarga;
             static BTN_SimpanDataPekerjaan;
             static BTN_SimpanDataPendidikan;
             static BTN_SimpanDataSertifikat;
             static BTN_SimpanDataKompetensi;
             static BTN_SimpanDataPengalamanKerja;
+            static BTN_SimpanDataFasilitas;
 
-            static BTN_EditDataKeluarga;
-            static BTN_SimpanDataKeluarga;
             static BTN_PreviewFile;
-            static BTN_TambahKeluarga;
-            static BTN_TambahSertifikat;
             static BTN_SearchOrg;
             static BTN_SimpanUploadKaryawan;
             static BTN_LoadMore;
+            static BTN_CloseModal;
+
+            static BTN_TambahKeluarga;
+            static BTN_TambahSertifikat;
+            static BTN_TambahFasilitas;
 
             static MD_EditDataPersonal;
             static MD_EditDataKeluarga;
@@ -2178,6 +2388,7 @@
             static MD_EditDataSertifikat;
             static MD_EditDataKompetensi;
             static MD_EditDataPengalamanKerja;
+            static MD_EditDataFasilitas;
 
             static FRM_EditDataPersonal;
             static FRM_EditDataPekerjaan;
@@ -2186,6 +2397,7 @@
             static FRM_EditDataSertifikat;
             static FRM_EditDataKompetensi;
             static FRM_EditDataPengalamanKerja;
+            static FRM_EditDataFasilitas;
 
             static S2_StatusNikah;
             static S2_GolDarah;
@@ -2198,6 +2410,7 @@
             static S2_Pegawai;
             static S2_Fungsional;
             static S2_Struktural;
+            static S2_TahunKendaraan;
 
             static JSTREE_Main;
             static DATA_Menu;
@@ -2206,8 +2419,12 @@
 
             constructor() {
                 super();
+
+                Index.BTN_CloseModal = $('.modal-btn-close');
                 Index.BTN_TambahSertifikat = $('#tambah-sertifikat');
                 Index.BTN_TambahKeluarga = $("#tambah-keluarga");
+                Index.BTN_TambahFasilitas = $('#tambah-data-fasilitas');
+
                 Index.BTN_TambahPengalamanKerja = $('#tambah-pengalaman-kerja');
                 Index.allowedTypes = [
                     'image/', // Semua jenis gambar (JPEG, PNG, GIF, dll.)
@@ -2227,6 +2444,7 @@
                 Index.BTN_EditDataSertifikat = $("#edit-data-sertifikat").css('cursor','pointer');
                 Index.BTN_EditDataKompetensi = $("#edit-data-kompetensi").css('cursor','pointer');
                 Index.BTN_EditDataPengalamanKerja = $('#edit-data-pengalaman-kerja').css('cursor','pointer');
+                Index.BTN_EditDataFasilitas = $('#edit-data-fasilitas').css('cursor','pointer');
 
                 Index.BTN_SimpanDataPersonal = $('#simpan-informasi-pribadi');
                 Index.BTN_SimpanDataKeluarga = $('#simpan-data-keluarga');
@@ -2236,15 +2454,16 @@
                 Index.BTN_SimpanUploadKaryawan = $('#simpan-image-karyawan');
                 Index.BTN_SimpanDataKompetensi = $('#simpan-data-kompetensi');
                 Index.BTN_SimpanDataPengalamanKerja = $('#simpan-data-pengalaman-kerja');
+                Index.BTN_SimpanDataFasilitas = $('#simpan-data-fasilitas');
 
                 Index.MD_EditDataPersonal = $('#modal-edit-data-pribadi');
                 Index.MD_EditDataKeluarga = $('#modal-edit-data-keluarga');
                 Index.MD_EditDataPekerjaan = $('#modal-edit-data-pekerjaan');
                 Index.MD_EditDataPendidikan = $('#modal-edit-data-pendidikan');
+                Index.MD_EditDataSertifikat = $('#modal-edit-data-sertifikat');
                 Index.MD_EditDataKompetensi = $('#modal-edit-data-kompetensi');
                 Index.MD_EditDataPengalamanKerja = $('#modal-edit-data-pengalaman-kerja')
-
-                Index.MD_EditDataSertifikat = $('#modal-edit-data-sertifikat');
+                Index.MD_EditDataFasilitas = $('#modal-edit-data-fasilitas');
 
                 Index.FRM_EditDataPersonal = Index.MD_EditDataPersonal.find('#form-edit-data-personal');
                 Index.FRM_EditDataPekerjaan = $('#form-edit-data-pekerjaan');
@@ -2253,6 +2472,7 @@
                 Index.FRM_EditDataKeluarga = $('#form-edit-keluarga');
                 Index.FRM_EditDataKompetensi = $('#form-edit-data-kompetensi');
                 Index.FRM_EditDataPengalamanKerja = $('#form-edit-data-pengalaman-kerja');
+                Index.FRM_EditDataFasilitas = $('#form-edit-data-fasilitas');
 
                 Index.INPUT_image = $('input#foto-profile');
                 Index.CRP_Main = new Cropper($('.cropped')[0],{
@@ -2311,6 +2531,7 @@
                     theme : 'bootstrap-5',
                     dropdownParent : Index.MD_EditDataPendidikan.find('.modal-content')
                 });
+                Index.S2_TahunKendaraan = Index.FRM_EditDataFasilitas.find('select[name="tahun_kendaraan"]').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun kendaraan'));
                 Index.S2_TahunLulus = Index.FRM_EditDataPendidikan.find('select[name="tahun_lulus"]').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun lulus'));
                 Index.S2_Fungsional = Index.FRM_EditDataPekerjaan.find('select[name="kodejabfung"]').select2(
                     $.extend(
@@ -2413,6 +2634,7 @@
                 Index.BTN_EditDataSertifikat.on('click', this.editDataSertifikat);
                 Index.BTN_EditDataKompetensi.on('click', this.editDataKompetensi);
                 Index.BTN_EditDataPengalamanKerja.on('click', this.editDataPengalamanKerja);
+                Index.BTN_EditDataFasilitas.on('click',this.editDataFasilitas);
 
                 Index.BTN_SimpanDataPersonal.on('click', this.simpanDataPersonal);
                 Index.BTN_SimpanDataKeluarga.on('click', this.simpanDataKeluarga);
@@ -2421,6 +2643,7 @@
                 Index.BTN_SimpanDataPendidikan.on('click', this.simpanDataPendidikan);
                 Index.BTN_SimpanDataKompetensi.on('click', this.simpanDataKompetensi);
                 Index.BTN_SimpanDataPengalamanKerja.on('click', this.simpanDataPengalamanKerja);
+                Index.BTN_SimpanDataFasilitas.on('click', this.simpanDataFasilitas);
 
                 Index.JSTREE_Main.element.on('select_node.jstree', this.selectedOrg);
                 Index.BTN_SearchOrg.on('click', this.showCanvas);
@@ -2429,10 +2652,12 @@
                 Index.BTN_LoadMore.on('click', this.toggleLoadMore);
                 Index.FILE_DATA.on('change', this.fileData);
                 Index.BTN_PreviewFile.on('click', this.previewFileOnNewTab);
+                Index.BTN_CloseModal.on('click', this.closeModal);
 
                 Index.BTN_TambahKeluarga.on('click', this.tambahKeluarga);
                 Index.BTN_TambahSertifikat.on('click', this.tambahSertifikat);
                 Index.BTN_TambahPengalamanKerja.on('click', this.tambahPengalamanKerja);
+                Index.BTN_TambahFasilitas.on('click', this.tambahFasilitas);
                 return this;
             }
 
@@ -2448,6 +2673,7 @@
             }
 
             loadFinish() {
+                Helper.reset();
                 return this;
             }
 

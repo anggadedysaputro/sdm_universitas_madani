@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Karyawan\Edit;
 
 use App\Http\Controllers\Controller;
+use App\Models\Applications\BiayaPendidikanAnak;
 use App\Models\Applications\Keluarga;
 use App\Models\Applications\Pegawai;
 use App\Models\Applications\PengalamanKerja;
@@ -144,13 +145,14 @@ class KaryawanEdit extends Controller
                             json_agg(
                                 json_build_object(
                                     'anak_ke',anak_ke,
-                                    'jenjangpendidikan', pen.keterangan,
+                                    'idjenjangpendidikan',coalesce(idjenjangpendidikan,'0'),
+                                    'jenjangpendidikan', coalesce(pen.keterangan,'Belum dipilih'),
                                     'jenis_biaya_pendidikan',jenis_biaya_pendidikan,
                                     'besaran_dispensasi',besaran_dispensasi
                                 )
                             )
                         from applications.biaya_pendidikan_anak k
-                        join masters.pendidikan as pen on k.idjenjangpendidikan = pen.kodependidikan
+                        left join masters.pendidikan as pen on k.idjenjangpendidikan = pen.kodependidikan
                         where nopeg = p.nopeg
                     ) data_biaya_pendidikan_anak
                 "),
@@ -164,7 +166,8 @@ class KaryawanEdit extends Controller
                 'biaya_beasiswa_per_semester',
                 'tahun_kendaraan',
                 "masa_bakti",
-                "tugas_tambahan"
+                "tugas_tambahan",
+                "nama_lembaga_beasiswa_pendidikan"
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -210,8 +213,11 @@ class KaryawanEdit extends Controller
             if (!$pegawaiLama) throw new Exception("Pegawai tidak ditemukan", 1);
 
             if (array_key_exists("tgl_lahir", $post)) $post['tgl_lahir'] = convertGeneralDate($post['tgl_lahir']);
-            if (!array_key_exists("kodestruktural", $post) || empty($post['kodestruktural'])) $post['kodestruktural'] = 0;
-            if (!array_key_exists("kodejabfung", $post) || empty($post['kodejabfung'])) $post['kodejabfung'] = 0;
+            if (isset($post['kodestruktural']) && (!array_key_exists("kodestruktural", $post) || empty($post['kodestruktural']))) $post['kodestruktural'] = 0;
+            if (isset($post['kodejabfung']) && (!array_key_exists("kodejabfung", $post) || empty($post['kodejabfung']))) $post['kodejabfung'] = 0;
+            if (isset($post['biaya_beasiswa_per_semester'])) $post['biaya_beasiswa_per_semester'] = numericFormatToNormalFormat($post['biaya_beasiswa_per_semester']);
+            if (isset($post['biaya_tempat_tinggal_pertahun'])) $post['biaya_tempat_tinggal_pertahun'] = numericFormatToNormalFormat($post['biaya_tempat_tinggal_pertahun']);
+            if (isset($post['jumlah_beras_kg'])) $post['jumlah_beras_kg'] = numericFormatToNormalFormat($post['jumlah_beras_kg']);
 
             if (array_key_exists("organisasi", $post) && !empty($post['organisasi'])) {
                 $bidangColumn = [
@@ -237,6 +243,7 @@ class KaryawanEdit extends Controller
             $this->insertKeluarga($post, $id);
             $this->insertSertifikat($post, $id);
             $this->insertPengalamanKerja($post, $id);
+            $this->insertBiayaPendidikanAnak($post, $id);
 
             // foto npwp
             if ($post['foto_npwp'] != "undefined") {
@@ -432,6 +439,28 @@ class KaryawanEdit extends Controller
             ];
 
             PengalamanKerja::create($insert);
+        }
+    }
+
+    public function insertBiayaPendidikanAnak($post, $id)
+    {
+        $anak_ke = isset($post["anak_ke"]) ? $post["anak_ke"] : [];
+        $jenjang_pendidikan = isset($post["idjenjangpendidikan"]) ? $post["idjenjangpendidikan"] : [];
+        $jenis_biaya_pendidikan = isset($post["jenis_biaya_pendidikan"]) ? $post["jenis_biaya_pendidikan"] : [];
+        $besaran_dispensasi = isset($post["besaran_dispensasi"]) ? $post["besaran_dispensasi"] : [];
+
+        if (isset($post["anak_ke"])) BiayaPendidikanAnak::where("nopeg", $id)->delete();
+
+        foreach ($anak_ke as $key => $value) {
+            $insert = [
+                'nopeg' => $id,
+                'anak_ke' => $value,
+                'idjenjangpendidikan' => $jenjang_pendidikan[$key],
+                'jenis_biaya_pendidikan' => $jenis_biaya_pendidikan[$key],
+                'besaran_dispensasi' => numericFormatToNormalFormat($besaran_dispensasi[$key])
+            ];
+
+            BiayaPendidikanAnak::create($insert);
         }
     }
 
