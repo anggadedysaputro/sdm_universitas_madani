@@ -113,7 +113,9 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        <a href="{{ $pegawai->foto_npwp_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @if (!empty($pegawai->foto_npwp_url))
+                                            <a href="{{ $pegawai->foto_npwp_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +126,9 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        <a href="{{ $pegawai->foto_bpjs_kesehatan_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @if (!empty($pegawai->foto_bpjs_kesehatan_url))
+                                            <a href="{{ $pegawai->foto_bpjs_kesehatan_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +139,9 @@
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
-                                        <a href="{{ $pegawai->foto_bpjs_ketenagakerjaan_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @if (!empty($pegawai->foto_bpjs_ketenagakerjaan_url))
+                                            <a href="{{ $pegawai->foto_bpjs_ketenagakerjaan_url }}" target="blank" class="previewFileOnNewTab mb-3">Preview</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
