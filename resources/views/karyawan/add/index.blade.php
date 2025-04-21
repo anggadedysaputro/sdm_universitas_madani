@@ -723,7 +723,10 @@
                 data.forEach((e,i)=>{
                     let content = `
                         <div class="col-md-12 mb-3">
-                            <div class="card">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -781,6 +784,7 @@
                     `;
 
                     let rowContent = $(content);
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     rowContent.find('select.jenis-sertifikat').select2(Angga.generalAjaxSelect2('{{ route('select2.jenis-sertifikat.data') }}','Pilih jenis sertifikat'));
                     rowContent.find('select.tahun').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun'));
                     rowContent.find('select.biaya').select2(Angga.generalAjaxSelect2('{{ route('select2.biaya.data') }}','Pilih jenis biaya'));
@@ -808,7 +812,10 @@
                 data.forEach((e,i)=>{
                     let content = `
                         <div class="col-md-12 mb-3">
-                            <div class="card">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -850,6 +857,7 @@
                     `;
 
                     let rowContent = $(content);
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     rowContent.find('select.tahun-sampai').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih sampai tahun'));
                     rowContent.find('select.tahun-dari').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih dari tahun'));
                     row.push(rowContent);
@@ -862,7 +870,10 @@
                 data.forEach((e,i)=>{
                     let content = `
                         <div class="col-md-12 mb-3">
-                            <div class="card">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -902,6 +913,7 @@
                     `;
 
                     let rowContent = $(content);
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     rowContent.find('select.jenjang-pendidikan').select2(Angga.generalAjaxSelect2('{{ route('select2.pendidikan.data') }}','Pilih dari pendidikan'));
                     Inputmask('numeric', {
                         radixPoint: ",",
@@ -931,7 +943,10 @@
                 data.forEach((e,i)=>{
                     let content = `
                         <div class="col-md-12 mb-3">
-                            <div class="card">
+                            <div class="card position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-row-data">
+                                    <i class="ti ti-minus text-white"></i>
+                                </span>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -985,6 +1000,7 @@
                     `;
 
                     let rowContent = $(content);
+                    rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     flatpickr(rowContent.find('.flat-picker'),{
                         disableMobile: "true",
                         dateFormat: "j F Y",
@@ -997,6 +1013,11 @@
                     row.push(rowContent);
                 });
                 return row;
+            }
+
+            static deleteRowData(e){
+                const eJquery = $(e.currentTarget);
+                eJquery.parents('.card:first').parent().remove();
             }
 
             tambahKeluarga(){
