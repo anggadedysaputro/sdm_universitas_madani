@@ -9,7 +9,7 @@
     Karyawan [{{ $id }}]
 @endsection
 @section('action-list')
-    <a href="{{ route('karyawan.edit.delete',['id' => $id]) }}" class="btn btn-danger"><i class="ti ti-trash"></i>Hapus karyawan</a>
+    <a href="#" data-url="{{ route('karyawan.edit.delete', ['id' => $id]) }}" class="btn btn-danger" id="delete-karyawan"><i class="ti ti-trash"></i>Hapus karyawan</a>
     <a href="{{ route('karyawan.index') }}" class="btn btn-primary"><i class="ti ti-list"></i>Data karyawan</a>
 @endsection
 @section('search')
@@ -1533,6 +1533,23 @@
             constructor(){
             }
 
+            deleteKaryawan(e){
+                const link = $(e.currentTarget).attr('data-url');
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Apakah anda yakin ingin menghapus karyawan ini?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        window.location.href= link;
+                    }
+                });
+
+            }
+
             tambahFasilitas(){
                 const data = Helper.addRowBiayaPendidikanAnak(
                     [
@@ -2392,6 +2409,7 @@
             static BTN_TambahKeluarga;
             static BTN_TambahSertifikat;
             static BTN_TambahFasilitas;
+            static BTN_DeleteKaryawan;
 
             static MD_EditDataPersonal;
             static MD_EditDataKeluarga;
@@ -2436,6 +2454,7 @@
                 Index.BTN_TambahSertifikat = $('#tambah-sertifikat');
                 Index.BTN_TambahKeluarga = $("#tambah-keluarga");
                 Index.BTN_TambahFasilitas = $('#tambah-data-fasilitas');
+                Index.BTN_DeleteKaryawan = $('#delete-karyawan');
 
                 Index.BTN_TambahPengalamanKerja = $('#tambah-pengalaman-kerja');
                 Index.allowedTypes = [
@@ -2670,6 +2689,7 @@
                 Index.BTN_TambahSertifikat.on('click', this.tambahSertifikat);
                 Index.BTN_TambahPengalamanKerja.on('click', this.tambahPengalamanKerja);
                 Index.BTN_TambahFasilitas.on('click', this.tambahFasilitas);
+                Index.BTN_DeleteKaryawan.on('click', this.deleteKaryawan);
                 return this;
             }
 
