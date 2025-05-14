@@ -15,6 +15,7 @@ use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
 use App\Models\Masters\StatusNikah;
 use App\Models\Masters\StatusPegawai;
+use App\Models\User;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
@@ -506,6 +507,7 @@ class KaryawanEdit extends Controller
         DB::beginTransaction();
         try {
             Pegawai::where('nopeg', $id)->delete();
+            User::where('nopeg', $id)->delete();
 
             DB::commit();
 
