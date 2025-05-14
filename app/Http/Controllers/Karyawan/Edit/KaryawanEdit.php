@@ -500,4 +500,24 @@ class KaryawanEdit extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function delete($id)
+    {
+        DB::beginTransaction();
+        try {
+            Pegawai::where('nopeg', $id)->delete();
+
+            DB::commit();
+
+            return redirect()
+                ->route('karyawan.index') // ganti ke route tujuan setelah delete
+                ->with('success', 'Karyawan berhasil dihapus.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->activity("Hapus karyawan [failed]", $th->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus karyawan: ' . $th->getMessage());
+        }
+    }
 }

@@ -9,11 +9,17 @@
     Karyawan [{{ $id }}]
 @endsection
 @section('action-list')
+    <a href="{{ route('karyawan.edit.delete',['id' => $id]) }}" class="btn btn-danger"><i class="ti ti-trash"></i>Hapus karyawan</a>
     <a href="{{ route('karyawan.index') }}" class="btn btn-primary"><i class="ti ti-list"></i>Data karyawan</a>
 @endsection
 @section('search')
 @endsection
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <div class="row">
