@@ -23,6 +23,10 @@ class Pegawai extends Model
      */
     protected $primaryKey = 'nopeg';
 
+    protected $casts = [
+        'nopeg' => 'string', // ini biar Laravel tetep baca nopeg sebagai string
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
