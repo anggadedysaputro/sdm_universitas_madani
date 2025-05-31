@@ -101,7 +101,7 @@
                 let send = true;
                 let mode = Index.BTN_Simpan.attr('mode');
                 let text = (mode == 'edit' ? 'Anda ingin mengubah data?' : 'Anda ingin menyimpan data?');
-                let url = (mode == 'edit' ? '{{ route('settings.masters.pendidikan.edit') }}' : '{{ route('settings.masters.pendidikan.store') }}');
+                let url = (mode == 'edit' ? '{{ route('settings.masters.status-pegawai.edit') }}' : '{{ route('settings.masters.status-pegawai.store') }}');
                 let method = (mode == 'edit' ? 'PATCH' : 'POST');
                 let id = $('#id').val();
 
