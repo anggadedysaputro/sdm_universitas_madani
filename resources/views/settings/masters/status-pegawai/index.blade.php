@@ -3,7 +3,7 @@
     Status pegawai
 @endsection
 @section('breadcrumb')
-    <x-bread-crumbs breadcrumbtitle="settings.masters.pendidikan.index"/>
+    <x-bread-crumbs breadcrumbtitle="settings.masters.status-pegawai.index"/>
 @endsection
 @section('page-title')
     Status pegawai
@@ -178,7 +178,7 @@
                 }).then((result)=>{
                     if(result.isConfirmed){
                         $.ajax({
-                            url : "{{ route('settings.masters.pendidikan.delete') }}",
+                            url : "{{ route('settings.masters.status-pegawai.delete') }}",
                             method : "DELETE",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
