@@ -60,7 +60,7 @@ class KaryawanAdd extends Controller
 
             $queryBidang = Bidang::query();
             for ($i = 0; $i < count($bidang); $i++) {
-                $queryBidang->where($bidangColumn[$i], $bidang[$i]);
+                $queryBidang->where($bidangColumn[$i], empty($bidang[$i]) ? 0 : $bidang[$i]);
             }
 
             $dataBidang = $queryBidang->get()->toArray();
