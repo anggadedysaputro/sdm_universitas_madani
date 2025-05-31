@@ -71,6 +71,17 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
+                                        Nama panggilan
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6">
+                                        {{ $pegawai->nama_panggilan }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-5">
                                         Tempat lahir
                                     </div>
                                     <div class="col-md-1">:</div>
@@ -858,12 +869,19 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
+                                <label class="form-label">Nama panggilan</label>
+                                <input type="text" class="form-control form-step-1" placeholder="Nama panggilan" name="nama_panggilan">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
                                 <label class="form-label required">Tempat lahir</label>
                                 <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahir" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label required">Tanggal lahir</label>
                                 <input type="text" class="form-control form-step-1" placeholder="Tanggal lahir" name="tgl_lahir" required>
@@ -1447,6 +1465,8 @@
                                                     <option value="Suami" {{$value->hubungan == "Suami" ? "selected":""}}>Suami</option>
                                                     <option value="Istri" {{$value->hubungan == "Istri" ? "selected":""}}>Istri</option>
                                                     <option value="Anak" {{$value->hubungan == "Anak" ? "selected":""}}>Anak</option>
+                                                    <option value="Ayah" {{$value->hubungan == "Ayah" ? "selected":""}}>Ayah</option>
+                                                    <option value="Ibu" {{$value->hubungan == "Ibu" ? "selected":""}}>Ibu</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -2184,6 +2204,7 @@
                 Index.MD_EditDataPersonal.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
                 Index.MD_EditDataPersonal.find('input[name="nokk"]').val("{{ $pegawai->nokk }}");
                 Index.MD_EditDataPersonal.find('input[name="nama"]').val("{{ $pegawai->nama }}");
+                Index.MD_EditDataPersonal.find('input[name="nama_panggilan"]').val("{{ $pegawai->nama_panggilan }}");
                 Index.MD_EditDataPersonal.find('input[name="tempatlahir"]').val("{{ $pegawai->tempatlahir }}");
                 Index.MD_EditDataPersonal.find('input[name="noidentitas"]').val("{{ $pegawai->noidentitas }}");
                 Index.MD_EditDataPersonal.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));

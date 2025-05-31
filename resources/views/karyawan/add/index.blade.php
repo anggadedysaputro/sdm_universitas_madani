@@ -139,10 +139,17 @@
                                             </div> --}}
                                             <div class="col-md-9">
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label required">Nama lengkap</label>
                                                             <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="nama" required>
+                                                            <div class="invalid-feedback"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Nama panggilan</label>
+                                                            <input type="text" class="form-control form-step-1" placeholder="Input nama panggilan" name="nama_panggilan">
                                                             <div class="invalid-feedback"></div>
                                                         </div>
                                                     </div>
@@ -962,6 +969,8 @@
                                                     <option value="Suami" ${e.hubung == "Suami" ? `checked` : ``}>Suami</option>
                                                     <option value="Istri" ${e.hubung == "Istri" ? `checked` : ``}>Istri</option>
                                                     <option value="Anak" ${e.hubung == "Anak" ? `checked` : ``}>Anak</option>
+                                                    <option value="Ayah" ${e.hubung == "Ayah" ? `checked` : ``}>Ayah</option>
+                                                    <option value="Ibu" ${e.hubung == "Ibu" ? `checked` : ``}>Ibu</option>
                                                 </select>
                                             </div>
                                         </div>

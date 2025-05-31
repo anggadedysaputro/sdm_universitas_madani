@@ -34,6 +34,7 @@ class KaryawanEdit extends Controller
             ->select(
                 "nopeg",
                 "nama",
+                "nama_panggilan",
                 DB::raw("convertnumericdatetoalphabetical(tgl_lahir) as tanggal_lahir"),
                 "tgl_lahir",
                 "jns_kel",
