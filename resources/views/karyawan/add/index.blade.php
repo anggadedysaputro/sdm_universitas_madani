@@ -971,6 +971,8 @@
                                                     <option value="Anak" ${e.hubung == "Anak" ? `checked` : ``}>Anak</option>
                                                     <option value="Ayah" ${e.hubung == "Ayah" ? `checked` : ``}>Ayah</option>
                                                     <option value="Ibu" ${e.hubung == "Ibu" ? `checked` : ``}>Ibu</option>
+                                                    <option value="Adik" ${e.hubung == "Adik" ? `checked` : ``}>Adik</option>
+                                                    <option value="Kakak" ${e.hubung == "Kakak" ? `checked` : ``}>Kakak</option>
                                                 </select>
                                             </div>
                                         </div>

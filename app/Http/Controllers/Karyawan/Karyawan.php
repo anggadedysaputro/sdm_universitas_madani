@@ -19,7 +19,7 @@ class Karyawan extends Controller
     {
         $data = DB::table(DB::raw("
             (
-                select 
+                select
                     p.nopeg, p.nama, convertnumericdatetoalphabetical(p.tgl_lahir) tanggal_lahir,
                     p.alamat, case when p.jns_kel = 'L' then 'Laki - laki' else 'Perempuan' end as jenis_kelamin,
                     p.gol_darah,a.urai as agama, sn.status as status_nikah, p.kewarganegaraan, ki.keterangan as nama_kartuidentitas,p.noidentitas,
@@ -95,4 +95,6 @@ class Karyawan extends Controller
             ->searchPane('jabatan_fungsional', $jabatanfungsional)
             ->toJson();
     }
+
+    public function template() {}
 }

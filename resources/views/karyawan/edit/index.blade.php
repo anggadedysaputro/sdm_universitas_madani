@@ -1314,87 +1314,95 @@
         </div>
     </div>
 
-    {{-- modal data fasilitas --}}
+    {{-- Modal data fasilitas --}}
     <div class="modal modal-blur fade" id="modal-edit-data-fasilitas" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit data fasilitas</h5>
-              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Edit data fasilitas</h5>
+            <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="#" id="form-edit-data-fasilitas">
+            <div class="row mb-3">
+                <h3>Tempat Tinggal</h3>
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Biaya per tahun</label>
+                    <input type="text" class="form-control money-mask" placeholder="Masukkan biaya pertahun" name="biaya_tempat_tinggal_pertahun">
+                    <div class="invalid-feedback"></div>
+                </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="#" id="form-edit-data-fasilitas">
-                    <div class="row">
-                        <h3>Tempat tinggal</h3>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label">Biaya per tahun</label>
-                                <input type="text" class="form-control money-mask" placeholder="masukkan biaya pertahun" name="biaya_tempat_tinggal_pertahun">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h3>Beras</h3>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label class="form-label">Jumlah KG</label>
-                                <input type="text" class="form-control decimal-mask-morethan" placeholder="Masukkan jumlah KG" name="jumlah_beras_kg">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h3>Kendaraan</h3>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Merk kendaraan</label>
-                                <input type="text" class="form-control" placeholder="masukkan merk" name="merk_kendaraan">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Tahun kendaraan</label>
-                                <select class="form-select tomselected" name="tahun_kendaraan" placeholder="Pilih tahun kendaraan">
 
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h3>Beasiswa pendidikan</h3>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Nama lembaga pendidikan</label>
-                                <input type="text" class="form-control" placeholder="masukkan nama lembaga pendidikan" name="nama_lembaga_beasiswa_pendidikan">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Biaya per semester</label>
-                                <input type="text" class="form-control money-mask" placeholder="masukkan biaya per semester" name="biaya_beasiswa_per_semester">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Biaya pendidikan anak <button class="btn btn-success btn-sm" type="button" id="tambah-data-fasilitas"><i class="ti ti-plus"></i></button></h3>
-                            <div class="row" id="wrapper-fasilitas">
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="row mb-3">
+                <h3>Beras</h3>
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Jumlah KG</label>
+                    <input type="text" class="form-control decimal-mask-morethan" placeholder="Masukkan jumlah KG" name="jumlah_beras_kg">
+                    <div class="invalid-feedback"></div>
+                </div>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="simpan-data-fasilitas">Simpan</button>
+
+            <div class="row mb-3">
+                <h3>Kendaraan</h3>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Merk Kendaraan</label>
+                    <input type="text" class="form-control" placeholder="Masukkan merk" name="merk_kendaraan">
+                    <div class="invalid-feedback"></div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Tahun Kendaraan</label>
+                    <select class="form-select tomselected" name="tahun_kendaraan" placeholder="Pilih tahun kendaraan"></select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                </div>
             </div>
-          </div>
+
+            <div class="row mb-3">
+                <h3>Beasiswa Pendidikan</h3>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Nama Lembaga Pendidikan</label>
+                    <input type="text" class="form-control" placeholder="Masukkan nama lembaga pendidikan" name="nama_lembaga_beasiswa_pendidikan">
+                    <div class="invalid-feedback"></div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Biaya per semester</label>
+                    <input type="text" class="form-control money-mask" placeholder="Masukkan biaya per semester" name="biaya_beasiswa_per_semester">
+                    <div class="invalid-feedback"></div>
+                </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                <h3>
+                    Biaya Pendidikan Anak
+                    <button class="btn btn-success btn-sm" type="button" id="tambah-data-fasilitas">
+                    <i class="ti ti-plus"></i>
+                    </button>
+                </h3>
+                <div class="row" id="wrapper-fasilitas"></div>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="simpan-data-fasilitas">Simpan</button>
+        </div>
         </div>
     </div>
+    </div>
+
 
 
     {{-- modal keluarga --}}
@@ -1467,6 +1475,8 @@
                                                     <option value="Anak" {{$value->hubungan == "Anak" ? "selected":""}}>Anak</option>
                                                     <option value="Ayah" {{$value->hubungan == "Ayah" ? "selected":""}}>Ayah</option>
                                                     <option value="Ibu" {{$value->hubungan == "Ibu" ? "selected":""}}>Ibu</option>
+                                                    <option value="Adik" {{$value->hubungan == "Adik" ? "selected":""}}>Adik</option>
+                                                    <option value="Kakak" {{$value->hubungan == "Kakak" ? "selected":""}}>Kakak</option>
                                                 </select>
                                             </div>
                                         </div>
