@@ -10,6 +10,7 @@ use App\Models\Applications\PengalamanKerja;
 use App\Models\Applications\Sertifikat;
 use App\Models\Masters\Agama;
 use App\Models\Masters\Bidang;
+use App\Models\Masters\GolonganDarah;
 use App\Models\Masters\KartuIdentitas;
 use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
@@ -189,13 +190,14 @@ class KaryawanEdit extends Controller
         $negara = Negara::all();
         $kartuidentitas = KartuIdentitas::all();
         $agama = Agama::all();
+        $golongan_darah = GolonganDarah::all();
 
         $keluarga = empty($pegawai->keluarga) ? [] : json_decode($pegawai->keluarga);
         $sertifikat = empty($pegawai->cert) ? [] : json_decode($pegawai->cert);
         $pengalamankerja = empty($pegawai->data_pengalaman_kerja) ? [] : json_decode($pegawai->data_pengalaman_kerja);
         $biayapendidikananak = empty($pegawai->data_biaya_pendidikan_anak) ? [] : json_decode($pegawai->data_biaya_pendidikan_anak);
 
-        return view('karyawan.edit.index', compact('id', 'biayapendidikananak', 'pengalamankerja', 'sertifikat', 'keluarga', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
+        return view('karyawan.edit.index', compact('id', 'biayapendidikananak', 'pengalamankerja', 'sertifikat', 'keluarga', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama', 'golongan_darah'));
     }
 
     public function store()

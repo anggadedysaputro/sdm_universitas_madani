@@ -219,10 +219,9 @@
                                                     <label class="form-label required">Golongan darah</label>
                                                     <select class="form-select tomselected form-step-1" name="gol_darah" required placeholder="Golongan darah">
                                                         <option value="">Pilih golongan darah</option>
-                                                        <option value="A">A</option>
-                                                        <option value="B">B</option>
-                                                        <option value="AB">AB</option>
-                                                        <option value="O">O</option>
+                                                        @foreach ($golongan_darah as $value)
+                                                            <option value="{{ $value->id }}">{{ $value->nama }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="invalid-feedback"></div>
                                                 </div>

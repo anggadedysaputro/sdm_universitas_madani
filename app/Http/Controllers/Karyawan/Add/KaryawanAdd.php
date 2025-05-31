@@ -10,6 +10,7 @@ use App\Models\Applications\PengalamanKerja;
 use App\Models\Applications\Sertifikat;
 use App\Models\Masters\Agama;
 use App\Models\Masters\Bidang;
+use App\Models\Masters\GolonganDarah;
 use App\Models\Masters\KartuIdentitas;
 use App\Models\Masters\Negara;
 use App\Models\Masters\Pendidikan;
@@ -35,7 +36,8 @@ class KaryawanAdd extends Controller
         $negara = Negara::all();
         $kartuidentitas = KartuIdentitas::all();
         $agama = Agama::all();
-        return view('karyawan.add.index', compact('statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama'));
+        $golongan_darah = GolonganDarah::all();
+        return view('karyawan.add.index', compact('statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama', 'golongan_darah'));
     }
 
     public function store()

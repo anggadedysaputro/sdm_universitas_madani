@@ -930,10 +930,9 @@
                             <div class="mb-3">
                                 <label class="form-label required">Golongan darah</label>
                                 <select type="text" class="form-select tomselected form-step-1" name="gol_darah" required>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                    <option value="O">O</option>
+                                    @foreach ($golongan_darah as $value)
+                                        <option value="{{ $value->id }}">{{ $value->golongan_darah }}</option>
+                                    @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
