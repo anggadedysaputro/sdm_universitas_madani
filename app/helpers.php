@@ -1,8 +1,10 @@
 <?php
 
 use eiriksm\GitInfo\GitInfo;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 
 if (!function_exists('message')) {
     function message($notifikasi = "", $sistemNotifikasi = "")
@@ -286,5 +288,75 @@ if (!function_exists('numericFormatToNormalFormat')) {
 
         // Konversi string menjadi angka float
         return (float) $numberValue;
+    }
+}
+
+if (!function_exists('listTahun')) {
+    function listTahun()
+    {
+        $tahunSekarang = (int)date("Y");
+        $tahunAwal = $tahunSekarang - 100;
+
+        $listTahun = [0]; // Tahun 0 di awal
+
+        for ($tahun = $tahunSekarang; $tahun >= $tahunAwal; $tahun--) {
+            $listTahun[] = $tahun;
+        }
+
+        return $listTahun;
+    }
+}
+
+// if (!function_exists('makeUploadedFileFromUrl')) {
+//     function makeUploadedFileFromUrl($url, $filename = 'temp.jpg')
+//     {
+//         $tempPath = tempnam(sys_get_temp_dir(), 'upload_');
+//         $response = Http::get($url);
+
+//         if ($response->successful()) {
+//             file_put_contents($tempPath, $response->body());
+
+//             return new UploadedFile(
+//                 $tempPath,
+//                 $filename,
+//                 $response->header('Content-Type'),
+//                 null,
+//                 true // $testMode = true → agar tidak dicek sebagai upload HTTP sesungguhnya
+//             );
+//         }
+
+//         return null;
+//     }
+// }
+
+
+if (!function_exists('makeUploadedFileFromUrl')) {
+    function makeUploadedFileFromUrl(string $driveUrl): ?string
+    {
+        // Ekstrak file ID dari URL
+        if (!preg_match('#/d/([a-zA-Z0-9_-]+)#', $driveUrl, $matches)) {
+            return null; // URL tidak valid
+        }
+
+        $fileId = $matches[1];
+        $url = "https://drive.google.com/uc?export=download&id={$fileId}";
+
+        $response = Http::get($url);
+
+        if (
+            $response->successful() &&
+            !str_contains($response->header('Content-Type'), 'text/html')
+        ) {
+            return $response->body(); // ✅ Kembalikan isi file
+        }
+
+        return null; // Gagal ambil file
+    }
+}
+
+if (!function_exists('hubungan')) {
+    function hubungan()
+    {
+        return ['Suami', 'Istri', 'Anak', 'Ayah', 'Ibu', 'Adik', 'Kakak', 'Keluarga Dekat', 'Saudara'];
     }
 }

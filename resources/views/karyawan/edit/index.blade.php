@@ -347,7 +347,7 @@
                             <div class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        NIPY
+                                        Nomor Pegawai
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6">
@@ -1034,8 +1034,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label required">NIPY</label>
-                                    <input type="text" class="form-control integer-mask form-step-3" placeholder="NIPY" name="nopeg" required>
+                                    <label class="form-label required">Nomor Pegawai</label>
+                                    <input type="text" class="form-control integer-mask form-step-3" placeholder="Nomor Pegawai" name="nopeg" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -1452,65 +1452,63 @@
                     </div>
                     <div class="row" id="wrapper-keluarga">
                         @foreach ($keluarga as $value)
-                        <div class="col-md-12 mb-3">
-                            <div class="card position-relative">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga">
-                                    <i class="ti ti-minus text-white"></i>
-                                </span>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label required">Nama</label>
-                                                <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{$value->nama}}" required>
-                                                <div class="invalid-feedback"></div>
+                            <div class="col-md-12 mb-3">
+                                <div class="card position-relative">
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga" style="cursor:pointer;">
+                                        <i class="ti ti-minus text-white"></i>
+                                    </span>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label required">Nama</label>
+                                                    <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{ $value->nama }}" required>
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label required">Hubungan</label>
-                                                <select type="text" class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
-                                                    <option value="Suami" {{$value->hubungan == "Suami" ? "selected":""}}>Suami</option>
-                                                    <option value="Istri" {{$value->hubungan == "Istri" ? "selected":""}}>Istri</option>
-                                                    <option value="Anak" {{$value->hubungan == "Anak" ? "selected":""}}>Anak</option>
-                                                    <option value="Ayah" {{$value->hubungan == "Ayah" ? "selected":""}}>Ayah</option>
-                                                    <option value="Ibu" {{$value->hubungan == "Ibu" ? "selected":""}}>Ibu</option>
-                                                    <option value="Adik" {{$value->hubungan == "Adik" ? "selected":""}}>Adik</option>
-                                                    <option value="Kakak" {{$value->hubungan == "Kakak" ? "selected":""}}>Kakak</option>
-                                                </select>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label required">Hubungan</label>
+                                                    <select class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
+                                                        @foreach (hubungan() as $item)
+                                                            <option value="{{ $item }}" {{ $value->hubungan == $item ? 'selected' : '' }}>
+                                                                {{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label required">Tempat lahir</label>
-                                                <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="{{$value->tempatlahir}}">
-                                                <div class="invalid-feedback"></div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tempat lahir</label>
+                                                    <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" value="{{ $value->tempatlahir }}">
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label required">Tanggal lahir</label>
-                                                <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="{{$value->tgllahir}}">
-                                                <div class="invalid-feedback"></div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tanggal lahir</label>
+                                                    <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" value="{{ $value->tgllahir }}">
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">No. telepon</label>
-                                                <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{$value->telp}}">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">No. telepon</label>
+                                                    <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{ $value->telp }}">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label required">Alamat<span class="form-label-description"></label>
-                                                <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="{{$value->alamat}}">{{$value->alamat}}</textarea>
-                                                <div class="invalid-feedback"></div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Alamat</label>
+                                                    <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]">{{ $value->alamat }}</textarea>
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </form>

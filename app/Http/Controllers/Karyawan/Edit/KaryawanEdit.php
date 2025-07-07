@@ -391,10 +391,11 @@ class KaryawanEdit extends Controller
                 'nama' => $value,
                 'hubungan' => $hubunganKeluarga[$key],
                 'tempatlahir' => $tempatlahirKeluarga[$key],
-                'tgllahir' => $tgllahirKeluarga[$key],
                 'telp' => $telpKeluarga[$key],
                 'alamat' => $alamatKeluarga[$key]
             ];
+
+            if (!empty($tgllahirKeluarga[$key])) $insert['tgllahir'] = $tgllahirKeluarga[$key];
             Keluarga::create($insert);
         }
     }

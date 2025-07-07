@@ -280,13 +280,15 @@ Route::middleware(['validate.login'])->group(function () {
 
     Route::prefix('karyawan')->group(function () {
         Route::get('index', [Karyawan::class, 'index'])->name('karyawan.index')->middleware(["initialize.menu"]);
+        Route::get('template', [Karyawan::class, 'template'])->name('karyawan.template');
         Route::post('data', [Karyawan::class, 'data'])->name('karyawan.data');
+        Route::post('upload', [Karyawan::class, 'upload'])->name('karyawan.upload');
         Route::prefix('add')->group(function () {
             Route::get('index', [KaryawanAdd::class, 'index'])->name('karyawan.add.index')->middleware("permission:add karyawan");
             Route::post('store', [KaryawanAdd::class, 'store'])->name('karyawan.add.store');
         });
         Route::prefix('edit')->group(function () {
-            Route::get('index/{id}', [KaryawanEdit::class, 'index'])->name('karyawan.edit.index')->middleware("permission:edit karyawan");;
+            Route::get('index/{id}', [KaryawanEdit::class, 'index'])->name('karyawan.edit.index')->middleware("permission:edit karyawan");
             Route::patch('store', [KaryawanEdit::class, 'store'])->name('karyawan.edit.store');
             Route::post('upload', [KaryawanEdit::class, 'upload'])->name('karyawan.edit.upload');
             Route::get('delete/{id}', [KaryawanEdit::class, 'delete'])->name('karyawan.edit.delete');

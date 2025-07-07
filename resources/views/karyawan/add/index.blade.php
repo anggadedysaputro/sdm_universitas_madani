@@ -422,8 +422,8 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label required">NIPY</label>
-                                                    <input type="text" class="form-control integer-mask form-step-3" placeholder="NIPY" name="nopeg" required>
+                                                    <label class="form-label required">Nomor Pegawai</label>
+                                                    <input type="text" class="form-control integer-mask form-step-3" placeholder="Nomor Pegawai" name="nopeg" required>
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
@@ -947,6 +947,10 @@
             static addRowKeluarga(data){
                 let row = [];
                 data.forEach((e,i)=>{
+                    const options = Index.DATA_Hubungan.map(item => `
+                        <option value="${item}" ${e.hubung === item ? 'selected' : ''}>${item}</option>
+                    `).join('');
+
                     let content = `
                         <div class="col-md-12 mb-3">
                             <div class="card position-relative">
@@ -966,27 +970,21 @@
                                             <div class="mb-3">
                                                 <label class="form-label required">Hubungan</label>
                                                 <select class="form-select tomselected form-step-2" name="hubungankeluarga[]" required>
-                                                    <option value="Suami" ${e.hubung == "Suami" ? `checked` : ``}>Suami</option>
-                                                    <option value="Istri" ${e.hubung == "Istri" ? `checked` : ``}>Istri</option>
-                                                    <option value="Anak" ${e.hubung == "Anak" ? `checked` : ``}>Anak</option>
-                                                    <option value="Ayah" ${e.hubung == "Ayah" ? `checked` : ``}>Ayah</option>
-                                                    <option value="Ibu" ${e.hubung == "Ibu" ? `checked` : ``}>Ibu</option>
-                                                    <option value="Adik" ${e.hubung == "Adik" ? `checked` : ``}>Adik</option>
-                                                    <option value="Kakak" ${e.hubung == "Kakak" ? `checked` : ``}>Kakak</option>
+                                                    ${options}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label required">Tempat lahir</label>
-                                                <input type="text" class="form-control form-step-2" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" required value="${e.tempatlahir}">
+                                                <label class="form-label">Tempat lahir</label>
+                                                <input type="text" class="form-control form-step-2" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" value="${e.tempatlahir}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label required">Tanggal lahir</label>
-                                                <input type="text" class="form-control flat-picker form-step-2" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" required value="${e.tanggallahir}">
+                                                <label class="form-label">Tanggal lahir</label>
+                                                <input type="text" class="form-control flat-picker form-step-2" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" value="${e.tanggallahir}">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
@@ -998,8 +996,8 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label required">Alamat<span class="form-label-description"></label>
-                                                <textarea class="form-control form-step-2" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="${e.alamat}">${e.alamat}</textarea>
+                                                <label class="form-label">Alamat<span class="form-label-description"></label>
+                                                <textarea class="form-control form-step-2" rows="6" placeholder="Alamat" name="alamatkeluarga[]" value="${e.alamat}">${e.alamat}</textarea>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
@@ -1406,9 +1404,12 @@
             static BTN_PreviewPekerjaanFile;
             static BTN_TambahBiayaPendidikanAnak;
             static allowedTypes;
+            static DATA_Hubungan;
 
             constructor() {
                 super();
+                Index.DATA_Hubungan = @json(hubungan());
+
                 Index.BTN_PreviewPekerjaanFile = $('.previewFileOnNewTab');
                 Index.allowedTypes = [
                     'image/', // Semua jenis gambar (JPEG, PNG, GIF, dll.)

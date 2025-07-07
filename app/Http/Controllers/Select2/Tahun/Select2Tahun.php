@@ -22,7 +22,7 @@ class Select2Tahun extends Controller
                         tahun::text as text,
                         count(1) over() as total
                     from generate_series(0, EXTRACT(YEAR from now())) as x(tahun)
-                    where tahun >= 1900 or tahun = 0
+                    where tahun >= EXTRACT(YEAR from now()) - 100 or tahun = 0
                     order by text desc
                 ) as x
             ")
