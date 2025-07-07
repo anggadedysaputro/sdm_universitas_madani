@@ -473,7 +473,6 @@
                     ]
                 });
 
-                console.log(Index.ErrorData['DATA FASILITAS']);
                 Index.DT_Personal = $('#table-personal').DataTable({
                     data : Index.ErrorData['DATA PERSONAL'],
                     columns : [

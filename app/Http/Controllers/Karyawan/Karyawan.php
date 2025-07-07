@@ -292,7 +292,7 @@ class Karyawan extends Controller
                 select
                     p.nopeg, p.nama, convertnumericdatetoalphabetical(p.tgl_lahir) tanggal_lahir,
                     p.alamat, case when p.jns_kel = 'L' then 'Laki - laki' else 'Perempuan' end as jenis_kelamin,
-                    p.gol_darah,a.urai as agama, sn.status as status_nikah, p.kewarganegaraan, ki.keterangan as nama_kartuidentitas,p.noidentitas,
+                    gd.nama as gol_darah,a.urai as agama, sn.status as status_nikah, p.kewarganegaraan, ki.keterangan as nama_kartuidentitas,p.noidentitas,
                     p.notelpdarurat, p.email, sp.keterangan as status_pegawai,convertnumericdatetoalphabetical(p.tgl_masuk) as tanggal_bergabung,
                     jb.urai as jabatan_fungsional, js.urai as jabatan_struktural, n.keterangan as negara
                 from applications.pegawai p
@@ -310,6 +310,8 @@ class Karyawan extends Controller
                 on a.id = p.idagama
                 join masters.negara n
                 on n.id = p.idwarganegara
+                join masters.golongan_darah gd
+                on gd.id = p.gol_darah
             ) as p
         "));
 
