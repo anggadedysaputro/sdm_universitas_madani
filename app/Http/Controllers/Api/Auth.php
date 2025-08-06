@@ -23,9 +23,9 @@ class Auth extends Controller
             "p.nama",
         )
             ->join("applications.pegawai as p", "p.nopeg", "=", "u.nopeg")
-            ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
-            ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
-            ->join("masters.kartuidentitas as kitas", "kitas.id", "=", "p.idkartuidentitas")
+            ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
+            ->leftJoin("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
+            ->leftJoin("masters.kartuidentitas as kitas", "kitas.id", "=", "p.idkartuidentitas")
             ->where('u.email', $credentials['email'])->where('u.passwordapi', $credentials['passwordapi'])->first();
 
         $configApp = ConfigApp::where('aktif', true)->first();

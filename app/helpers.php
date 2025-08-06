@@ -357,6 +357,16 @@ if (!function_exists('makeUploadedFileFromUrl')) {
 if (!function_exists('hubungan')) {
     function hubungan()
     {
-        return ['Suami', 'Istri', 'Anak', 'Ayah', 'Ibu', 'Adik', 'Kakak', 'Keluarga Dekat', 'Saudara'];
+        return [
+            'Suami' => 'Suami',
+            'Istri' => 'Istri',
+            'Anak' => 'Anak',
+            'Ayah' => 'Ayah',
+            'Ibu' => 'Ibu',
+            'Adik' => 'Adik',
+            'Kakak' => 'Kakak',
+            'Keluarga Dekat' => 'Keluarga Dekat',
+            'Saudara' => 'Saudara',
+        ];
     }
 }
