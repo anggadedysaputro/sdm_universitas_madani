@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Applications\Presensi;
 use App\Traits\Logger\TraitsLoggerActivity;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,9 @@ class ApiPresensi extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
+
+            if (!isset($post['foto'])) throw new Exception("Foto belum dimasukkan!", 1);
+
             $now = new DateTime();
             $current = $now->format('Y-m-d H:i:s');
 
