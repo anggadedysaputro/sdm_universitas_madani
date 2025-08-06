@@ -46,7 +46,7 @@ class ApiPegawai extends Controller
                 "p.prodi",
                 "p.nokk",
                 "p.notelpdarurat",
-                "p.namakeluargadarurat",
+                DB::raw("'wis diganti' as namakeluargadarurat"),
                 "p.hubdarurat",
                 "p.nohp",
                 "p.idkartuidentitas",
@@ -63,9 +63,9 @@ class ApiPegawai extends Controller
                 "p.idbidang",
                 "bid.urai as nama_bidang"
             )
-                ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
-                ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
-                ->join("masters.bidang as bid", "bid.id", "=", "p.idbidang")
+                ->leftJoin("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
+                ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
+                ->leftJoin("masters.bidang as bid", "bid.id", "=", "p.idbidang")
                 ->where('nopeg', $idpegawai);
             $data = $query->get()->toArray();
 
@@ -84,6 +84,7 @@ class ApiPegawai extends Controller
                 'status' => true
             ], 200);
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             $data = [
                 'message' => $th->getCode() == 1 ? $th->getMessage() : 'Gagal mengambil data pegawai!',
                 'status' => false
