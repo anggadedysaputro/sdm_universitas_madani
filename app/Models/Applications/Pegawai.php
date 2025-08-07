@@ -96,7 +96,8 @@ class Pegawai extends Model
         'nama_lembaga_beasiswa_pendidikan',
         'biaya_beasiswa_per_semester',
         'tahun_kendaraan',
-        'nama_panggilan'
+        'nama_panggilan',
+        "isreguler"
     ];
 
     public function getFotoNpwpUrlAttribute()

@@ -170,7 +170,8 @@ class KaryawanEdit extends Controller
                 'tahun_kendaraan',
                 "masa_bakti",
                 "tugas_tambahan",
-                "nama_lembaga_beasiswa_pendidikan"
+                "nama_lembaga_beasiswa_pendidikan",
+                "isreguler"
             )->where('nopeg', $id)
             ->join('masters.agama as a', 'a.id', '=', 'p.idagama')
             ->join('masters.statusnikah as sn', 'sn.idstatusnikah', '=', 'p.idstatusnikah')
@@ -524,6 +525,24 @@ class KaryawanEdit extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Gagal menghapus karyawan: ' . $th->getMessage());
+        }
+    }
+
+    public function switchAbsensi()
+    {
+        DB::beginTransaction();
+        try {
+            Pegawai::where('nopeg', request()->input('nopeg'))->update([
+                'isreguler' => request()->input('absensi')
+            ]);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Mode absensi karyawan berhasil diperbarui.'], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->activity("Mode absensi karyawan gagal diperbarui [failed]", $th->getMessage());
+            return response()->json(['message' => 'Mode absensi karyawan gagal diperbarui: ' . $th->getMessage(), 500]);
         }
     }
 }

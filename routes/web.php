@@ -292,6 +292,7 @@ Route::middleware(['validate.login'])->group(function () {
             Route::patch('store', [KaryawanEdit::class, 'store'])->name('karyawan.edit.store');
             Route::post('upload', [KaryawanEdit::class, 'upload'])->name('karyawan.edit.upload');
             Route::get('delete/{id}', [KaryawanEdit::class, 'delete'])->name('karyawan.edit.delete');
+            Route::post('switch-absensi', [KaryawanEdit::class, 'switchAbsensi'])->name('karyawan.edit.switch-absensi');
         });
     });
 

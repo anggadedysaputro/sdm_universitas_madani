@@ -21,6 +21,7 @@ class Auth extends Controller
         $user = User::from("users as u")->select(
             "p.nopeg",
             "p.nama",
+            "p.isreguler"
         )
             ->join("applications.pegawai as p", "p.nopeg", "=", "u.nopeg")
             ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
@@ -57,6 +58,7 @@ class Auth extends Controller
                 'message' => 'login berhasil',
                 'status' => true,
                 'nopeg' => $user->nopeg,
+                'isreguler' => $user->isreguler,
                 'konfigumum' => $dataKonfigUmum,
                 'lokasi' => $kantor->get(),
                 'peran' => $user->roles->pluck('name')

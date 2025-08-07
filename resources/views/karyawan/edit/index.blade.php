@@ -46,6 +46,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-check form-switch mt-5">
+                                <input class="form-check-input" type="checkbox" id="absensi-change" {{$pegawai->isreguler?"checked":""}}>
+                                <label class="form-check-label" for="absensi-change">Absensi Reguler/WFH</label>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-8">
@@ -1560,6 +1569,59 @@
             constructor(){
             }
 
+            switchAbsensi(e){
+                const absensi = $(e.currentTarget).prop('checked');
+                Swal.fire({
+                    title : 'Konfirmasi',
+                    text : 'Apakah anda yakin ingin mengubah mode absensi karyawan ini?',
+                    icon : 'question',
+                    showCancelButton : true,
+                    cancelButtonText: 'Tidak',
+                    confirmButtonText : 'Ya'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url : "{{ route('karyawan.edit.switch-absensi') }}",
+                            method : "POST",
+                            data : {
+                                "nopeg" : "{{ $pegawai->nopeg }}",
+                                "absensi" : absensi
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            beforeSend : function(){
+                                Swal.fire({
+                                    title: 'Menyimpan data!',
+                                    html: 'Silahkan tunggu...',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    }
+                                });
+                            },
+                            success : function(result){
+                                Swal.fire({
+                                    title : 'Berhasil',
+                                    text : result.message,
+                                    icon : 'success',
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                }).then(()=>{
+                                    window.location.href = "{{ url('karyawan/edit/index') }}"+"/"+"{{ $pegawai->nopeg }}";
+                                });
+                            },
+                            error : function(error){
+                                Swal.fire('Gagal',error.responseJSON.message,'error');
+                            }
+                        });
+                    }else{
+                        $(e.currentTarget).prop('checked',!absensi);
+                    }
+                });
+            }
+
             deleteKaryawan(e){
                 const link = $(e.currentTarget).attr('data-url');
                 Swal.fire({
@@ -2474,10 +2536,12 @@
             static DATA_Menu;
             static FILE_DATA;
             static allowedTypes;
+            static SWITCH_Absensi;
 
             constructor() {
                 super();
 
+                Index.SWITCH_Absensi = $('#absensi-change');
                 Index.BTN_CloseModal = $('.modal-btn-close');
                 Index.BTN_TambahSertifikat = $('#tambah-sertifikat');
                 Index.BTN_TambahKeluarga = $("#tambah-keluarga");
@@ -2718,6 +2782,8 @@
                 Index.BTN_TambahPengalamanKerja.on('click', this.tambahPengalamanKerja);
                 Index.BTN_TambahFasilitas.on('click', this.tambahFasilitas);
                 Index.BTN_DeleteKaryawan.on('click', this.deleteKaryawan);
+
+                Index.SWITCH_Absensi.on('click', this.switchAbsensi);
                 return this;
             }
 
