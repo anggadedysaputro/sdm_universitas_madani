@@ -61,7 +61,8 @@ class ApiPegawai extends Controller
                 "p.fullpath",
                 "p.gambar",
                 "p.idbidang",
-                "bid.urai as nama_bidang"
+                "bid.urai as nama_bidang",
+                "p.isreguler"
             )
                 ->leftJoin("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
                 ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
