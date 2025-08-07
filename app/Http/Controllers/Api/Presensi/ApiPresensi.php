@@ -108,7 +108,8 @@ class ApiPresensi extends Controller
                 "lokasi",
                 "gambar",
                 "waktu",
-                "tanggal"
+                "tanggal",
+                "isreguler"
             )->where('nopeg', $post['nopeg'])
                 ->where('tanggal', $post['tanggal']);
 
