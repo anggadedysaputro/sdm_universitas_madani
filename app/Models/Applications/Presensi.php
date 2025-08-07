@@ -40,6 +40,7 @@ class Presensi extends Model
         "lokasi",
         "idkantor",
         "fullpath",
-        "gambar"
+        "gambar",
+        "isreguler"
     ];
 }

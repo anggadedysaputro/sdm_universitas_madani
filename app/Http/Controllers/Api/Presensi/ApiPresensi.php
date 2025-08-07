@@ -27,6 +27,9 @@ class ApiPresensi extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
+            $post['isreguler'] = filter_var($post['isreguler'], FILTER_VALIDATE_BOOLEAN);;
+
+            if (!$post['isreguler']) unset($post['idkantor']);
 
             if (!isset($post['foto'])) throw new Exception("Foto belum dimasukkan!", 1);
 
