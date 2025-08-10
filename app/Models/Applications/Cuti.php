@@ -35,5 +35,6 @@ class Cuti extends Model
         'keterangan',
         'jumlah',
         'sisa',
+        'approval'
     ];
 }

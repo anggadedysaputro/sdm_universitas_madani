@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth;
+use App\Http\Controllers\Api\Cuti\ApiCuti;
 use App\Http\Controllers\Api\Pegawai\ApiPegawai;
 use App\Http\Controllers\Api\Presensi\ApiPresensi;
 use Illuminate\Http\Request;
@@ -34,6 +35,10 @@ Route::prefix('presensi')->group(function () {
     Route::post('/create', [ApiPresensi::class, 'create'])->name('api.presensi.create');
     Route::post('/data', [ApiPresensi::class, 'data'])->name('api.presensi.data');
     Route::post('/detail', [ApiPresensi::class, 'detail'])->name('api.presensi.detail');
+});
+Route::prefix('cuti')->group(function () {
+    Route::post('/create', [ApiCuti::class, 'create'])->name('api.cuti.create');
+    Route::post('/data', [ApiCuti::class, 'data'])->name('api.cuti.data');
 });
 
 Route::post('login', [Auth::class, 'login'])->name("login");

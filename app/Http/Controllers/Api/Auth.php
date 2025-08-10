@@ -41,7 +41,7 @@ class Auth extends Controller
             "defcuti",
             "harilibur",
             "radius"
-        )->where('idkonfigumum', $configApp->idkonfig)->first();
+        )->where('idkonfigumum', $configApp->idkonfig)->orderBy("idkonfigumum", "desc")->first();
         if (empty($konfigUmum)) throw new Exception("Konfig umum tidak ditemukan", 1);
         $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
 
