@@ -9,6 +9,7 @@ use App\Models\Applications\KonfigUmum;
 use App\Models\Applications\Pegawai;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,13 @@ use Illuminate\Support\Facades\Validator;
 class ApiCuti extends Controller
 {
     use TraitsLoggerActivity;
+
+    protected $config;
+
+    public function __construct()
+    {
+        $this->config = ConfigApp::where('aktif', true)->first();
+    }
 
 
     public function create()
@@ -25,18 +33,18 @@ class ApiCuti extends Controller
         try {
             $post = request()->all();
             $form = $this->validateForm($post);
-
+            if ($form instanceof JsonResponse) return $form;
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
+            if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", $form['tgl_awal'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
 
-            $config = ConfigApp::where('aktif', true)->first();
             $konfigUmum = KonfigUmum::from("applications.konfigumum as ku")->select(
                 "defcuti",
-            )->where('idkonfigumum', $config->idkonfig)->orderBy("idkonfigumum", "desc")->first();
+            )->where('idkonfigumum', $this->config->idkonfig)->orderBy("idkonfigumum", "desc")->first();
 
-            if (!$config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
+            if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
 
             $totalCuti = Cuti::where('nopeg', $form['nopeg'])
-                ->whereRaw("extract(year from tgl_awal) = {$config->tahun}")
+                ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
                 ->sum('jumlah');
 
             $sisaCuti = $konfigUmum->defcuti - ($totalCuti + $form['jumlah']);
@@ -74,7 +82,7 @@ class ApiCuti extends Controller
         $validator = Validator::make($post, [
             'nopeg' => 'required',
             'tgl_awal' => 'required|date',
-            'tgl_akhir' => 'required|date',
+            'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
             'keterangan' => 'nullable',
             'jumlah' => 'required|integer',
         ], []);
@@ -83,6 +91,7 @@ class ApiCuti extends Controller
         if ($validator->fails()) {
             // Tangani error secara manual
             return response()->json([
+                'message' => message("Data yang di kirim tidak sesuai aturan!", "validasi gagal"),
                 'errors' => $validator->errors(),
                 'status' => false
             ], 200);
@@ -92,5 +101,26 @@ class ApiCuti extends Controller
         $validatedData = $validator->validated();
 
         return $validatedData;
+    }
+
+    public function data()
+    {
+        try {
+            $post = request()->all();
+            if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
+            if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
+            $data = Cuti::select(["*", DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")])->where("nopeg", $post['nopeg'])->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")->get();
+            $response = [
+                'data' => $data,
+                'status' => true,
+            ];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = [
+                'message' => message("Ambil data cuti gagal", $th->getMessage()),
+                'status' => false
+            ];
+            return response()->json($response, 200);
+        }
     }
 }
