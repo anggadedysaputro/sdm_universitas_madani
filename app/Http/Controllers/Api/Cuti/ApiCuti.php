@@ -68,7 +68,7 @@ class ApiCuti extends Controller
             $this->activity("Cuti [failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode == 1 ? $th->getMessage() : message("Cuti gagal diajukan", $th->getMessage()),
+                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Cuti gagal diajukan", $th->getMessage()),
                 'status' => false
             ];
 
