@@ -44,7 +44,6 @@ class ApiCuti extends Controller
 
             // Hitung selisih hari
             $selisihHari = $start->diffInDays($end);
-
             $form['jumlah'] = $selisihHari;
 
             if ($form instanceof JsonResponse) return $form;
@@ -98,7 +97,6 @@ class ApiCuti extends Controller
             'tgl_awal' => 'required|date',
             'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
             'keterangan' => 'nullable',
-            'jumlah' => 'required|integer',
         ], []);
 
 
