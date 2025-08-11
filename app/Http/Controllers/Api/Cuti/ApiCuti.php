@@ -44,6 +44,9 @@ class ApiCuti extends Controller
 
             // Hitung selisih hari
             $selisihHari = $start->diffInDays($end);
+
+            if ($selisihHari == 0) throw new Exception("Minimal cuti 1 hari", 1);
+
             $form['jumlah'] = $selisihHari;
 
             if ($form instanceof JsonResponse) return $form;
