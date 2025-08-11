@@ -8,6 +8,7 @@ use App\Models\Applications\Cuti;
 use App\Models\Applications\KonfigUmum;
 use App\Models\Applications\Pegawai;
 use App\Traits\Logger\TraitsLoggerActivity;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,6 +34,19 @@ class ApiCuti extends Controller
         try {
             $post = request()->all();
             $form = $this->validateForm($post);
+            // Ambil data dari POST
+            $tanggalawal  = $form['tgl_awal'];
+            $tanggalakhir = $form['tgl_akhir'];
+
+            // Ubah ke objek Carbon
+            $start = Carbon::parse($tanggalawal);
+            $end   = Carbon::parse($tanggalakhir);
+
+            // Hitung selisih hari
+            $selisihHari = $start->diffInDays($end);
+
+            $form['jumlah'] = $selisihHari;
+
             if ($form instanceof JsonResponse) return $form;
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", $form['tgl_awal'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
