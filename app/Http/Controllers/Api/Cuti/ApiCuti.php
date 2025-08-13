@@ -43,7 +43,7 @@ class ApiCuti extends Controller
             $end   = Carbon::parse($tanggalakhir);
 
             // Hitung selisih hari
-            $selisihHari = $start->diffInDays($end);
+            $selisihHari = $start->diffInDays($end) + 1;
 
             if ($selisihHari == 0) throw new Exception("Minimal cuti 1 hari", 1);
 
