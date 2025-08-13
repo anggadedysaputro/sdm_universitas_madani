@@ -45,6 +45,10 @@ class ApiCuti extends Controller
             // Hitung selisih hari
             $selisihHari = $start->diffInDays($end) + 1;
 
+            $getLibur = DB::select("select count(1) as jumlah from list_libur(?,?)", [$form['tgl_awal'], $form['tgl_akhir']]);
+
+            $selisihHari -= $getLibur[0]->jumlah;
+
             if ($selisihHari == 0) throw new Exception("Minimal cuti 1 hari", 1);
 
             $form['jumlah'] = $selisihHari;
