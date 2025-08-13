@@ -51,7 +51,7 @@ class ApiCuti extends Controller
 
             if ($form instanceof JsonResponse) return $form;
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
-            if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", $form['tgl_awal'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
+            if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
 
             $konfigUmum = KonfigUmum::from("applications.konfigumum as ku")->select(
                 "defcuti",
