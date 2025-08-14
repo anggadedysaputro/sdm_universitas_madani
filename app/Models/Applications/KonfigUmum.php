@@ -39,5 +39,7 @@ class KonfigUmum extends Model
         'defcuti',
         'harilibur',
         'radius',
+        'tglawalbulan',
+        'tglakhirbulan',
     ];
 }

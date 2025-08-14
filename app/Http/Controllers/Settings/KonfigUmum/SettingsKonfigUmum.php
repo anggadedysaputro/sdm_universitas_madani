@@ -34,6 +34,8 @@ class SettingsKonfigUmum extends Controller
             "updated_at",
             "harilibur",
             "radius",
+            "tglawalbulan",
+            "tglakhirbulan",
             DB::raw("(select json_agg(json_build_object('id',k.id, 'nama', k.nama)) from applications.konfigumum_kantor kk join masters.kantor k on k.id = kk.idkantor where idkonfigumum = ku.idkonfigumum and k.approval = 'Y') as latlong")
         );
         return DataTables::of($statusIjin)->toJson();

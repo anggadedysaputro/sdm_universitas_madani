@@ -28,6 +28,8 @@
                 <th class="col-md-1 text-center">Tanggal akhir puasa</th>
                 <th class="col-md-1 text-center">Cuti</th>
                 <th class="col-md-1 text-center">Hari libur</th>
+                <th class="col-md-1 text-center">Tanggal awal bulan</th>
+                <th class="col-md-1 text-center">Tanggal akhir bulan</th>
                 <th class="col-md-1 text-center">Radius (M)</th>
                 <th class="col-md-1 text-center">Aksi</th>
             </tr>
@@ -122,6 +124,24 @@
                             <option value="Minggu">Minggu</option>
                         </select>
                         <div class="invalid-feedback">Jumlah cuti belum diisi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal awal bulan</label>
+                        <input type="text" class="form-control integer-mask" name="tglawalbulan" placeholder="Input tanggal awal bulan" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Tanggal awal bulan belum diisi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal akhir bulan</label>
+                        <input type="text" class="form-control integer-mask" name="tglakhirbulan" placeholder="Input tanggal akhir bulan" fdprocessedid="tigmx5" required>
+                        <div class="invalid-feedback">Tanggal akhir bulan belum diisi</div>
                     </div>
                 </div>
             </div>
@@ -348,6 +368,8 @@
                         {data : "tanggalawalpuasa"},
                         {data : "tanggalakhirpuasa"},
                         {data : "defcuti"},
+                        {data : "tglawalbulan"},
+                        {data : "tglakhirbulan"},
                         {data : "harilibur"},
                         {data : "radius"},
                         {
