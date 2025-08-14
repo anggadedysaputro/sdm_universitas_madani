@@ -284,6 +284,19 @@
 
             static edit(e){
                 let data = $(e.currentTarget).data();
+                // decode semua value string di data
+                for (let k in data) {
+                    if (typeof data[k] === 'string') {
+                        data[k] = data[k]
+                            .replace(/&quot;/g, '"')
+                            .replace(/&#039;/g, "'")
+                            .replace(/&apos;/g, "'")
+                            .replace(/&amp;/g, '&')
+                            .replace(/&lt;/g, '<')
+                            .replace(/&gt;/g, '>');
+                    }
+                }
+
                 let latlong = JSON.parse(data.latlong.replace(/&quot;/g,'"'));
                 Index.OFFCNVS_Main.show();
                 Index.BTN_Simpan.attr('mode','edit');
