@@ -151,7 +151,7 @@ class ApiPresensi extends Controller
             $tglakhir = $post['tglakhir'];
             $type = "pdf";
 
-            $input = public_path('report/slip_gaji.jrxml');
+            $input = public_path('report/slip_gaji.jasper');
             $filename = uniqid("slip_gaji", TRUE);
             $fileForSave = "Laporan Presensi";
             $output = storage_path('app/jasper/' . $filename);
