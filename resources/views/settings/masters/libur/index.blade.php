@@ -38,7 +38,8 @@
             <thead>
             <tr>
                 <th class="col-md-1 text-center">Kode libur</th>
-                <th class="col-md-9 text-center">Keterangan</th>
+                <th class="col-md-2 text-center">Tanggal</th>
+                <th class="col-md-7 text-center">Keterangan</th>
                 <th class="col-md-2 text-center">Aksi</th>
             </tr>
             </thead>
@@ -58,6 +59,15 @@
                 <div class="col-md-12">
                     <div class="mb-3">
                         <input type="hidden" class="form-control" name="id">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal</label>
+                        <input type="text" class="form-control flatpicker-date" name="tanggal" placeholder="Input Tanggal" fdprocessedid="tigmx5">
+                        <div class="invalid-feedback">Tanggal belum diisi</div>
                     </div>
                 </div>
             </div>
@@ -87,8 +97,7 @@
             }
 
             tambah(){
-                Index.FRM_Main.find('input[name="keterangan"]').val("");
-                Index.FRM_Main.find('input[name="id"]').val("");
+                Index.FRM_Main[0].reset();
                 Index.BTN_Simpan.attr('mode','tambah');
                 Index.OFFCNVS_Main.show();
             }
@@ -216,6 +225,7 @@
                 Index.BTN_Simpan.attr('mode','edit');
                 Index.FRM_Main.find('input[name="keterangan"]').val(data.keterangan);
                 Index.FRM_Main.find('input[name="id"]').val(data.id);
+                Index.FLATPICKR_Date.setDate(data.tanggal);
                 Index.OFFCNVS_Main.show();
             }
         }
@@ -228,9 +238,22 @@
             static FRM_Main;
             static DATA_Menu;
             static OFFCNVS_Main;
+            static FLATPICKR_Date;
 
             constructor() {
                 super();
+                Index.FLATPICKR_Date = flatpickr('.flatpicker-date',{
+                    disableMobile: "true",
+                    dateFormat: "j F Y",
+                    static : true,
+                    onOpen: [
+                        function(selectedDates, dateStr, instance){
+                            let value = instance._input.value || flatpickr.formatDate(new Date(), "j F Y");
+                            instance.setDate(value);
+                        },
+                    ]
+                });
+
                 Index.BTN_Simpan=$('#simpan');
                 Index.FRM_Main=$('#form-main');
                 Index.BTN_Tambah=$('#tambah');
@@ -246,6 +269,7 @@
                     serverSide : true,
                     columns : [
                         {data : "id"},
+                        {data : "tanggal"},
                         {data : "keterangan"},
                         {
                             data : null,

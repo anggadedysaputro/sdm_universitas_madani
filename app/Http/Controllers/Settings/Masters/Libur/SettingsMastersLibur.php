@@ -20,7 +20,7 @@ class SettingsMastersLibur extends Controller
 
     public function data()
     {
-        $statusPegawai = Libur::query();
+        $statusPegawai = Libur::select("id", "keterangan", DB::raw("TO_CHAR(tanggal, 'dd Monthyyyy') as tanggal"),);
         return DataTables::of($statusPegawai)->toJson();
     }
 
