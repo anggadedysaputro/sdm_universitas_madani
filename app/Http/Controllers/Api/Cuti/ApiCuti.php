@@ -23,7 +23,7 @@ class ApiCuti extends Controller
 
     public function __construct()
     {
-        $this->config = ConfigApp::where('aktif', true)->first();
+        $this->config = tahunAplikasi();
     }
 
 
@@ -57,17 +57,13 @@ class ApiCuti extends Controller
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
 
-            $konfigUmum = KonfigUmum::from("applications.konfigumum as ku")->select(
-                "defcuti",
-            )->where('idkonfigumum', $this->config->idkonfig)->orderBy("idkonfigumum", "desc")->first();
-
             if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
 
             $totalCuti = Cuti::where('nopeg', $form['nopeg'])
                 ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
                 ->sum('jumlah');
 
-            $sisaCuti = $konfigUmum->defcuti - ($totalCuti + $form['jumlah']);
+            $sisaCuti = $this->config->defcuti - ($totalCuti + $form['jumlah']);
 
             if ($sisaCuti < 0) throw new Exception("Kuota cuti anda sudah habis!", 1);
             $form['sisa'] = $sisaCuti;

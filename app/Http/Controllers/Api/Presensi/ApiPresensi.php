@@ -10,15 +10,18 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PHPJasper\PHPJasper;
 
 class ApiPresensi extends Controller
 {
     use TraitsLoggerActivity;
     protected $path;
+    protected $config;
 
     public function __construct()
     {
         $this->path = 'public/presensi';
+        $this->config = tahunAplikasi();
     }
 
     public function create()
@@ -136,6 +139,51 @@ class ApiPresensi extends Controller
                 'status' => false
             ];
             return response()->json($response, 200);
+        }
+    }
+
+    public function laporan()
+    {
+        try {
+            $post = request()->all();
+            $idpeg = $post['idpeg'];
+            $tglawal = $post['tglawal'];
+            $tglakhir = $post['tglakhir'];
+            $type = "pdf";
+
+            $input = public_path('report/slip_gaji.jrxml');
+            $filename = uniqid("slip_gaji", TRUE);
+            $fileForSave = "Laporan Presensi";
+            $output = storage_path('app/jasper/' . $filename);
+            $outputFile = storage_path('app/jasper/' . $filename . "." . $type);
+
+            buatFolder(storage_path('app/jasper'));
+
+            $options = [
+                'format' => [$type],
+                'locale' => 'id',
+                'params' => [
+                    'idpeg' => $idpeg,
+                    'tglawal' => $tglawal,
+                    'tglakhir' => $tglakhir,
+                    'jammasuk' => $this->config->masuk,
+                    'jamkeluar' => $this->config->pulang
+                ],
+                'db_connection' => jasperConnection()
+            ];
+
+            $jasper = new PHPJasper;
+
+
+            $jasper->process(
+                $input,
+                $output,
+                $options
+            )->execute();
+
+            return response()->download($outputFile, $fileForSave . "." . $type, [], 'inline')->deleteFileAfterSend(true);
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
         }
     }
 }

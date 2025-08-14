@@ -35,6 +35,7 @@ Route::prefix('presensi')->group(function () {
     Route::post('/create', [ApiPresensi::class, 'create'])->name('api.presensi.create');
     Route::post('/data', [ApiPresensi::class, 'data'])->name('api.presensi.data');
     Route::post('/detail', [ApiPresensi::class, 'detail'])->name('api.presensi.detail');
+    Route::post('/laporan', [ApiPresensi::class, 'laporan'])->name('api.presensi.laporan');
 });
 Route::prefix('cuti')->group(function () {
     Route::post('/create', [ApiCuti::class, 'create'])->name('api.cuti.create');

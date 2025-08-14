@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Applications\KonfigUmum;
 use eiriksm\GitInfo\GitInfo;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
@@ -125,24 +126,19 @@ if (!function_exists('nomorInvoice')) {
     }
 }
 
-if (!function_exists('tahunAjaran')) {
-    function tahunAjaran()
+if (!function_exists('tahunAplikasi')) {
+    function tahunAplikasi()
     {
-        $bulan = (int)date("m");
-        $year = (int)date("Y");
+        $query = KonfigUmum::from("applications.konfigumum as ku")
+            ->select("ku.*", "capp.tahun", "capp.urai", "capp.idkonfig")
+            ->join("applications.configapp as capp", "capp.idkonfig", "=", "ku.idkonfigumum")
+            ->where("capp.aktif", true);
 
-        $tahunAjaran = "";
-        if ($bulan >= 7 && $bulan <= 12) {
-            $startYear = $year;
-            $endYear = $year + 1;
-        } else {
-            $startYear = $year - 1;
-            $endYear = $year;
-        }
+        $result = $query->first();
 
-        $tahunAjaran = $startYear . "/" . $endYear;
+        if (empty($result)) throw new Exception("Tidak ada konfigurasi yang aktif", 1);
 
-        return $tahunAjaran;
+        return $result;
     }
 }
 
@@ -368,5 +364,26 @@ if (!function_exists('hubungan')) {
             'Keluarga Dekat' => 'Keluarga Dekat',
             'Saudara' => 'Saudara',
         ];
+    }
+}
+
+if (!function_exists('jasperConnection')) {
+    function jasperConnection()
+    {
+        $mapDriver = [
+            'pgsql' => 'postgres',
+            'mysql' => 'mysql'
+        ];
+
+        $connection = [
+            'driver' => $mapDriver[env('DB_CONNECTION')],
+            'host' => env('DB_HOST'),
+            'port' => env('DB_PORT'),
+            'database' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+        ];
+
+        return $connection;
     }
 }

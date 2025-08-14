@@ -29,20 +29,8 @@ class Auth extends Controller
             ->leftJoin("masters.kartuidentitas as kitas", "kitas.id", "=", "p.idkartuidentitas")
             ->where('u.email', $credentials['email'])->where('u.passwordapi', $credentials['passwordapi'])->first();
 
-        $configApp = ConfigApp::where('aktif', true)->first();
-        if (empty($configApp)) throw new Exception("Konfig aplikasi belum disetting", 1);
-        $konfigUmum = KonfigUmum::from("applications.konfigumum as ku")->select(
-            "masuk",
-            "pulang",
-            "masukpuasa",
-            "pulangpuasa",
-            "tanggalawalpuasa",
-            "tanggalakhirpuasa",
-            "defcuti",
-            "harilibur",
-            "radius"
-        )->where('idkonfigumum', $configApp->idkonfig)->orderBy("idkonfigumum", "desc")->first();
-        if (empty($konfigUmum)) throw new Exception("Konfig umum tidak ditemukan", 1);
+
+        $konfigUmum = tahunAplikasi();
         $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
 
         if (empty($user)) {

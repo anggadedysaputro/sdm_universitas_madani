@@ -7,8 +7,15 @@
         "framework"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Xint0-elab/phpjasper.git"
+        }
+    ],
     "require": {
         "php": "^8.1",
+        "geekcom/phpjasper": "dev-Upgrade_to_JasperStarter_3.6.2",
         "beyondcode/laravel-websockets": "^1.14",
         "box/spout": "^3.3",
         "diglactic/laravel-breadcrumbs": "^8.1",
