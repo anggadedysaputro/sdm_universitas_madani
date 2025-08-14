@@ -174,11 +174,6 @@ class ApiPresensi extends Controller
 
             $jasper = new PHPJasper;
 
-            dd($jasper->process(
-                $input,
-                $output,
-                $options
-            )->output());
 
             $jasper->process(
                 $input,
