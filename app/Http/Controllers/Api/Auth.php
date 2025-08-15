@@ -18,17 +18,21 @@ class Auth extends Controller
     {
         // md5('username'||md5('password'))
         $credentials = $request->only(['email', 'passwordapi']);
-        $user = User::from("users as u")->select(
-            "p.nopeg",
-            "p.nama",
-            "p.isreguler"
-        )
-            ->join("applications.pegawai as p", "p.nopeg", "=", "u.nopeg")
-            ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
-            ->leftJoin("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
-            ->leftJoin("masters.kartuidentitas as kitas", "kitas.id", "=", "p.idkartuidentitas")
-            ->where('u.email', $credentials['email'])->where('u.passwordapi', $credentials['passwordapi'])->first();
-
+        $user = User::from('users as u')
+            ->select(
+                'u.id', // penting untuk relasi
+                'p.nopeg',
+                'p.nama',
+                'p.isreguler'
+            )
+            ->join('applications.pegawai as p', 'p.nopeg', '=', 'u.nopeg')
+            ->leftJoin('masters.jabatanstruktural as js', 'js.kodejabatanstruktural', '=', 'p.kodestruktural')
+            ->leftJoin('masters.jabatanfungsional as jf', 'jf.kodejabatanfungsional', '=', 'p.kodejabfung')
+            ->leftJoin('masters.kartuidentitas as kitas', 'kitas.id', '=', 'p.idkartuidentitas')
+            ->where('u.email', $credentials['email'])
+            ->where('u.passwordapi', $credentials['passwordapi'])
+            ->with('roles') // ini yang load relasi
+            ->first();
 
         $konfigUmum = tahunAplikasi();
         $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
