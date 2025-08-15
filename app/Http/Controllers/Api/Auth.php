@@ -53,7 +53,8 @@ class Auth extends Controller
                 'isreguler' => $user->isreguler,
                 'konfigumum' => $dataKonfigUmum,
                 'lokasi' => $kantor->get(),
-                'peran' => $user->roles->pluck('name')
+                'peran' => $user->roles->pluck('name')->first(),
+                'idusers' => $user->id
             ], 200);
         }
     }
