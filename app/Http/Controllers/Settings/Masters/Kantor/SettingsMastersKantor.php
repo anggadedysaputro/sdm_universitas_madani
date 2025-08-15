@@ -20,7 +20,7 @@ class SettingsMastersKantor extends Controller
 
     public function data()
     {
-        $query = Kantor::query();
+        $query = Kantor::from("masters.kantor as k")->select("k.latlong", "k.approval", "k.nama", "k.id", "u.name")->join("users as u", "u.id", "=", "k.idusers");
         return DataTables::of($query)->toJson();
     }
 

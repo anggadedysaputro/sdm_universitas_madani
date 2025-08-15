@@ -39,8 +39,9 @@
             <tr>
                 <th class="col-md-1 text-center">#</th>
                 <th class="col-md-3 text-center">Nama</th>
-                <th class="col-md-3 text-center">Approval</th>
-                <th class="col-md-3 text-center">Latitude & Longitude</th>
+                <th class="col-md-1 text-center">Approval</th>
+                <th class="col-md-2 text-center">Latitude & Longitude</th>
+                <th class="col-md-2 text-center">Pemohon</th>
                 <th class="col-md-2 text-center">Aksi</th>
             </tr>
             </thead>
@@ -527,6 +528,7 @@
                             defaultContent : ""
                         },
                         {data : "latlong"},
+                        {data : "name"},
                         {
                             data : null,
                             defaultContent : `
