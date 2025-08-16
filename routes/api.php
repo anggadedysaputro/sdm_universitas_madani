@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Cuti\ApiCuti;
+use App\Http\Controllers\Api\Jabatan\Struktural\ApiJabatanStruktural;
 use App\Http\Controllers\Api\Kantor\ApiKantor;
 use App\Http\Controllers\Api\Pegawai\ApiPegawai;
 use App\Http\Controllers\Api\Presensi\ApiPresensi;
@@ -44,6 +45,11 @@ Route::prefix('cuti')->group(function () {
 });
 Route::prefix('kantor')->group(function () {
     Route::post('/create', [ApiKantor::class, 'create'])->name('api.kantor.create');
+});
+Route::prefix('jabatan')->group(function () {
+    Route::prefix('struktural')->group(function () {
+        Route::get('/data', [ApiJabatanStruktural::class, 'data'])->name('api.jabatan.struktural.data');
+    });
 });
 Route::post('login', [Auth::class, 'login'])->name("login");
 Route::post('logout', [Auth::class, 'logout'])->name("logout");
