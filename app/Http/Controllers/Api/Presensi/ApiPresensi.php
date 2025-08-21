@@ -112,8 +112,11 @@ class ApiPresensi extends Controller
                 "gambar",
                 "waktu",
                 "tanggal",
-                "isreguler"
-            )->where('nopeg', $post['nopeg'])
+                "isreguler",
+                "masters.kantor.nama as nama_kantor"
+            )
+                ->leftJoin("masters.kantor", "masters.kantor.id", "=", "applications.presensi.idkantor")
+                ->where('nopeg', $post['nopeg'])
                 ->where('tanggal', $post['tanggal']);
 
             if (strtolower($post['jenis']) == 'masuk') {
