@@ -117,9 +117,9 @@ class ApiPresensi extends Controller
                 ->where('tanggal', $post['tanggal']);
 
             if (strtolower($post['jenis']) == 'masuk') {
-                $queryPresensi->orderBy("tanggal", "asc");
+                $queryPresensi->orderByRaw("tanggal+waktu asc");
             } else {
-                $queryPresensi->orderBy("tanggal", "desc");
+                $queryPresensi->orderByRaw("tanggal+waktu desc");
             }
 
             if ($queryPresensi->exists()) {
