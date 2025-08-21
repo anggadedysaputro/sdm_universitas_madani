@@ -113,7 +113,7 @@ class ApiPresensi extends Controller
                 "waktu",
                 "tanggal",
                 "isreguler",
-                "masters.kantor.nama as nama_kantor"
+                DB::raw("coalesce(masters.kantor.nama,'WFH / WFA') as nama_kantor")
             )
                 ->leftJoin("masters.kantor", "masters.kantor.id", "=", "applications.presensi.idkantor")
                 ->where('nopeg', $post['nopeg'])
