@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Cuti\ApiCuti;
 use App\Http\Controllers\Api\Jabatan\Struktural\ApiJabatanStruktural;
 use App\Http\Controllers\Api\Kantor\ApiKantor;
+use App\Http\Controllers\Api\Libur\ApiLibur;
 use App\Http\Controllers\Api\Pegawai\ApiPegawai;
 use App\Http\Controllers\Api\Presensi\ApiPresensi;
 use Illuminate\Http\Request;
@@ -45,6 +46,9 @@ Route::prefix('cuti')->group(function () {
 });
 Route::prefix('kantor')->group(function () {
     Route::post('/create', [ApiKantor::class, 'create'])->name('api.kantor.create');
+});
+Route::prefix('libur')->group(function () {
+    Route::get('/data', [ApiLibur::class, 'data'])->name('api.libur.data');
 });
 Route::prefix('jabatan')->group(function () {
     Route::prefix('struktural')->group(function () {
