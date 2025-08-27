@@ -12,7 +12,7 @@ class ApiJabatanStruktural extends Controller
     {
         try {
             $query = Pegawai::from("applications.pegawai as p")
-                ->select("p.nama", "js.urai as nama_jabatan")
+                ->select("p.nama", "js.urai as nama_jabatan", "p.nopeg")
                 ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "p.kodestruktural")
                 ->where("kodejabatanstruktural", "<>", 0);
             $result = $query->get();

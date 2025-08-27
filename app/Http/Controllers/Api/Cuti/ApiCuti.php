@@ -34,6 +34,9 @@ class ApiCuti extends Controller
         try {
             $post = request()->all();
             $form = $this->validateForm($post);
+
+            if ($form instanceof JsonResponse) return $form;
+
             // Ambil data dari POST
             $tanggalawal  = $form['tgl_awal'];
             $tanggalakhir = $form['tgl_akhir'];
@@ -53,7 +56,7 @@ class ApiCuti extends Controller
 
             $form['jumlah'] = $selisihHari;
 
-            if ($form instanceof JsonResponse) return $form;
+
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
 
@@ -97,11 +100,11 @@ class ApiCuti extends Controller
 
         $validator = Validator::make($post, [
             'nopeg' => 'required',
+            'nopeg_atasan' => 'required',
             'tgl_awal' => 'required|date',
             'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
             'keterangan' => 'nullable',
         ], []);
-
 
         if ($validator->fails()) {
             // Tangani error secara manual
