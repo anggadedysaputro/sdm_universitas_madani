@@ -5,7 +5,7 @@ namespace App\Models\Applications;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cuti extends Model
+class Ijin extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Cuti extends Model
      *
      * @var string
      */
-    protected $table = 'applications.cuti';
+    protected $table = 'applications.ijin';
 
     /**
      * The primary key associated with the table.
@@ -34,9 +34,7 @@ class Cuti extends Model
         'tgl_akhir',
         'keterangan',
         'jumlah',
-        'sisa',
         'approval',
-        'approval_sdm',
         'nopeg_atasan',
         'lampiran'
     ];

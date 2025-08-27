@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Cuti\ApiCuti;
+use App\Http\Controllers\Api\Ijin\ApiIjin;
 use App\Http\Controllers\Api\Jabatan\Struktural\ApiJabatanStruktural;
 use App\Http\Controllers\Api\Kantor\ApiKantor;
 use App\Http\Controllers\Api\Libur\ApiLibur;
@@ -43,6 +44,10 @@ Route::prefix('presensi')->group(function () {
 Route::prefix('cuti')->group(function () {
     Route::post('/create', [ApiCuti::class, 'create'])->name('api.cuti.create');
     Route::post('/data', [ApiCuti::class, 'data'])->name('api.cuti.data');
+});
+Route::prefix('ijin')->group(function () {
+    Route::post('/create', [ApiIjin::class, 'create'])->name('api.ijin.create');
+    Route::post('/data', [ApiIjin::class, 'data'])->name('api.ijin.data');
 });
 Route::prefix('kantor')->group(function () {
     Route::post('/create', [ApiKantor::class, 'create'])->name('api.kantor.create');

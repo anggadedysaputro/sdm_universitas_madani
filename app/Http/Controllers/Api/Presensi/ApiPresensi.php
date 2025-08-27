@@ -49,7 +49,12 @@ class ApiPresensi extends Controller
             $post['menit'] = $now->format("i");
 
             buatFolder(storage_path('app/' . $this->path));
-            $name = $post['foto']->getClientOriginalName();
+
+            // Ambil ekstensi file
+            $extension = $post['foto']->getClientOriginalExtension();
+
+            // Buat nama unik (timestamp + uniqid)
+            $name = uniqid() . '_' . time() . '.' . $extension;
 
             $path = Storage::putFileAs($this->path, $post['foto'], $name);
 

@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\Cuti;
+namespace App\Http\Controllers\Api\Ijin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Applications\ConfigApp;
-use App\Models\Applications\Cuti;
-use App\Models\Applications\KonfigUmum;
+use App\Models\Applications\Ijin;
 use App\Models\Applications\Pegawai;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Carbon\Carbon;
@@ -16,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class ApiCuti extends Controller
+class ApiIjin extends Controller
 {
     use TraitsLoggerActivity;
 
@@ -25,7 +23,7 @@ class ApiCuti extends Controller
     public function __construct()
     {
         $this->config = tahunAplikasi();
-        $this->path = 'public/cuti';
+        $this->path = 'public/ijin';
     }
 
 
@@ -50,29 +48,12 @@ class ApiCuti extends Controller
             // Hitung selisih hari
             $selisihHari = $start->diffInDays($end) + 1;
 
-            $getLibur = DB::select("select count(1) as jumlah from list_libur(?,?)", [$form['tgl_awal'], $form['tgl_akhir']]);
-
-            if (($selisihHari - $getLibur[0]->jumlah) <= 0) throw new Exception("Anda cuti di hari libur!", 1);
-
-            $selisihHari -= $getLibur[0]->jumlah;
             if ($selisihHari == 0) throw new Exception("Minimal cuti 1 hari", 1);
 
             $form['jumlah'] = $selisihHari;
 
-
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
-            if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
-
-            if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
-
-            $totalCuti = Cuti::where('nopeg', $form['nopeg'])
-                ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
-                ->sum('jumlah');
-
-            $sisaCuti = $this->config->defcuti - ($totalCuti + $form['jumlah']);
-
-            if ($sisaCuti < 0) throw new Exception("Kuota cuti anda sudah habis!", 1);
-            $form['sisa'] = $sisaCuti;
+            if (Ijin::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan ijin di tanggal {$form['tgl_awal']}", 1);
 
             if (isset($post['lampiran']) && !empty($post['lampiran'])) {
                 buatFolder(storage_path('app/' . $this->path));
@@ -90,10 +71,10 @@ class ApiCuti extends Controller
                 $form['lampiran'] = $name;
             }
 
-            Cuti::create($form);
+            Ijin::create($form);
 
             $response = [
-                'message' => 'Cuti berhasil diajukan',
+                'message' => 'Ijin berhasil diajukan',
                 'status' => true,
                 'data' => $form
             ];
@@ -103,10 +84,10 @@ class ApiCuti extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            $this->activity("Cuti [failed]", $th->getMessage());
+            $this->activity("Ijin [failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Cuti gagal diajukan", $th->getMessage()),
+                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Ijin gagal diajukan", $th->getMessage()),
                 'status' => false
             ];
 
@@ -123,7 +104,7 @@ class ApiCuti extends Controller
             'tgl_awal' => 'required|date',
             'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
             'keterangan' => 'nullable',
-            'lampiran'  => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:1024', // max 1mb
+            'lampiran'  => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:1024', // max 1MB
         ], []);
 
         if ($validator->fails()) {
@@ -147,7 +128,7 @@ class ApiCuti extends Controller
             $post = request()->all();
             if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
             if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
-            $data = Cuti::select(["*", DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")])->where("nopeg", $post['nopeg'])->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")->get();
+            $data = Ijin::select(["*", DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")])->where("nopeg", $post['nopeg'])->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")->get();
             $response = [
                 'data' => $data,
                 'status' => true,
