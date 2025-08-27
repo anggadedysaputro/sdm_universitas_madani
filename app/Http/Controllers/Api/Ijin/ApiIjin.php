@@ -69,6 +69,8 @@ class ApiIjin extends Controller
 
                 // Simpan ke form
                 $form['lampiran'] = $name;
+            } else {
+                $form['lampiran'] = null;
             }
 
             Ijin::create($form);

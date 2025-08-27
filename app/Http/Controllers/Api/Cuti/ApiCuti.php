@@ -88,6 +88,8 @@ class ApiCuti extends Controller
 
                 // Simpan ke form
                 $form['lampiran'] = $name;
+            } else {
+                $form['lampiran'] = null;
             }
 
             Cuti::create($form);
