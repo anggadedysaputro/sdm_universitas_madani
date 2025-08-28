@@ -62,7 +62,8 @@ class ApiPegawai extends Controller
                 "p.gambar",
                 "p.idbidang",
                 "bid.urai as nama_bidang",
-                "p.isreguler"
+                "p.isreguler",
+                DB::raw("(select sisa from applications.cuti where nopeg = p.nopeg order by id desc limit 1) as sisa_cuti")
             )
                 ->leftJoin("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
                 ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
