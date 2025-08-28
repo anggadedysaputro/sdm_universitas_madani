@@ -61,12 +61,14 @@ class ApiApprovalCuti extends Controller
                 $approvalMessage = "ditolak";
             }
 
-            $cuti = Cuti::find($post['id']);
+            $model = Cuti::find($post['id']);
 
-            if (!$cuti) throw new Exception("Data cuti tidak ditemukan", 1);
+            if (!$model) throw new Exception("Data cuti tidak ditemukan", 1);
 
-            $cuti->approval = $post['isapprove'];
-            $cuti->save();
+            if (!empty($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
+
+            $model->approval = $post['isapprove'];
+            $model->save();
 
             $response = [
                 'message' => 'Cuti berhasil ' . $approvalMessage,
