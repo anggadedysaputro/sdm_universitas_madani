@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Approval\Cuti\ApiApprovalCuti;
+use App\Http\Controllers\Api\Approval\Ijin\ApiApprovalIjin;
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Cuti\ApiCuti;
 use App\Http\Controllers\Api\Ijin\ApiIjin;
@@ -58,6 +60,14 @@ Route::prefix('libur')->group(function () {
 Route::prefix('jabatan')->group(function () {
     Route::prefix('struktural')->group(function () {
         Route::get('/data', [ApiJabatanStruktural::class, 'data'])->name('api.jabatan.struktural.data');
+    });
+});
+Route::prefix('approval')->group(function () {
+    Route::prefix('cuti')->group(function () {
+        Route::post('/data', [ApiApprovalCuti::class, 'data'])->name('api.approval.cuti.data');
+    });
+    Route::prefix('ijin')->group(function () {
+        Route::post('/data', [ApiApprovalIjin::class, 'data'])->name('api.approval.ijin.data');
     });
 });
 Route::post('login', [Auth::class, 'login'])->name("login");
