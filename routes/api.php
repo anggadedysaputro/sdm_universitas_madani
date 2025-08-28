@@ -65,9 +65,11 @@ Route::prefix('jabatan')->group(function () {
 Route::prefix('approval')->group(function () {
     Route::prefix('cuti')->group(function () {
         Route::post('/data', [ApiApprovalCuti::class, 'data'])->name('api.approval.cuti.data');
+        Route::post('/store', [ApiApprovalCuti::class, 'store'])->name('api.approval.cuti.store');
     });
     Route::prefix('ijin')->group(function () {
         Route::post('/data', [ApiApprovalIjin::class, 'data'])->name('api.approval.ijin.data');
+        Route::post('/store', [ApiApprovalIjin::class, 'store'])->name('api.approval.ijin.store');
     });
 });
 Route::post('login', [Auth::class, 'login'])->name("login");

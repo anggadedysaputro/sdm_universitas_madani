@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Approval\Cuti;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Cuti;
 use App\Models\Applications\Pegawai;
+use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 class ApiApprovalCuti extends Controller
 {
     protected $config;
+
+    use TraitsLoggerActivity;
 
     public function __construct()
     {
@@ -30,7 +33,7 @@ class ApiApprovalCuti extends Controller
                 ]
             )->where("nopeg_atasan", $post['nopeg_atasan'])
                 ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
-                ->whereNull("approval")
+                // ->whereNull("approval")
                 ->get();
 
             $response = [
@@ -43,6 +46,45 @@ class ApiApprovalCuti extends Controller
                 'message' => message("Ambil data cuti gagal", $th->getMessage()),
                 'status' => false
             ];
+            return response()->json($response, 200);
+        }
+    }
+
+    public function store()
+    {
+        DB::beginTransaction();
+        try {
+            $post = request()->all();
+            if ($post['isapprove']) {
+                $approvalMessage = "disetujui";
+            } else {
+                $approvalMessage = "ditolak";
+            }
+
+            $cuti = Cuti::find($post['id']);
+
+            if (!$cuti) throw new Exception("Data cuti tidak ditemukan", 1);
+
+            $cuti->approval = $post['isapprove'];
+            $cuti->save();
+
+            $response = [
+                'message' => 'Cuti berhasil ' . $approvalMessage,
+                'status' => true,
+            ];
+
+            DB::commit();
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->activity("Approval Cuti[failed]", $th->getMessage());
+
+            $response = [
+                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Cuti gagal " . $approvalMessage, $th->getMessage()),
+                'status' => false
+            ];
+
             return response()->json($response, 200);
         }
     }
