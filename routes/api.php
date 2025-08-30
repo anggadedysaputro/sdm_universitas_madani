@@ -51,6 +51,7 @@ Route::prefix('cuti')->group(function () {
 Route::prefix('ijin')->group(function () {
     Route::post('/create', [ApiIjin::class, 'create'])->name('api.ijin.create');
     Route::post('/data', [ApiIjin::class, 'data'])->name('api.ijin.data');
+    Route::post('/cancel', [ApiIjin::class, 'cancel'])->name('api.ijin.cancel');
 });
 Route::prefix('kantor')->group(function () {
     Route::post('/create', [ApiKantor::class, 'create'])->name('api.kantor.create');

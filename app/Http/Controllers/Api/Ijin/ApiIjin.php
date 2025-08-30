@@ -144,4 +144,34 @@ class ApiIjin extends Controller
             return response()->json($response, 200);
         }
     }
+
+    public function cancel()
+    {
+        DB::beginTransaction();
+        try {
+            $post = request()->all();
+            if (empty($post['id'])) throw new Exception("Data ijin tidak ditemukan!", 1);
+            if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
+
+            $ijin = Ijin::where('id', $post['id'])->where('nopeg', $post['nopeg']);
+            if (!$ijin->exists()) throw new Exception("Data ijin tidak ditemukan", 1);
+            $ijin->delete();
+
+            $response = [
+                'message' => 'Berhasil membatalkan ijin',
+                'status' => true,
+            ];
+
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->activity("Cancel ijin [failed]", $th->getMessage());
+            $response = [
+                'message' => message("gagal membatalkan ijin", $th->getMessage()),
+                'status' => false
+            ];
+            return response()->json($response, 200);
+        }
+    }
 }
