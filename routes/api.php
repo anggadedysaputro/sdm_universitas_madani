@@ -46,6 +46,7 @@ Route::prefix('presensi')->group(function () {
 Route::prefix('cuti')->group(function () {
     Route::post('/create', [ApiCuti::class, 'create'])->name('api.cuti.create');
     Route::post('/data', [ApiCuti::class, 'data'])->name('api.cuti.data');
+    Route::post('/cancel', [ApiCuti::class, 'cancel'])->name('api.cuti.cancel');
 });
 Route::prefix('ijin')->group(function () {
     Route::post('/create', [ApiIjin::class, 'create'])->name('api.ijin.create');

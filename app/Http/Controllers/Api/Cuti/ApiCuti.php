@@ -163,4 +163,33 @@ class ApiCuti extends Controller
             return response()->json($response, 200);
         }
     }
+
+    public function cancel()
+    {
+        DB::beginTransaction();
+        try {
+            $post = request()->all();
+            if (empty($post['id'])) throw new Exception("Data cuti tidak ditemukan!", 1);
+            if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
+
+            $cuti = Cuti::where('id', $post['id'])->where('nopeg', $post['nopeg']);
+            if (!$cuti->exists()) throw new Exception("Data cuti tidak ditemukan", 1);
+            $cuti->delete();
+
+            $response = [
+                'message' => 'Berhasil membatalkan cuti',
+                'status' => true,
+            ];
+
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response = [
+                'message' => message("gagal membatalkan cuti", $th->getMessage()),
+                'status' => false
+            ];
+            return response()->json($response, 200);
+        }
+    }
 }
