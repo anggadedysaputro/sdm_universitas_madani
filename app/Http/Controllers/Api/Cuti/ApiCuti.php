@@ -184,9 +184,8 @@ class ApiCuti extends Controller
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
-            $this->activity("Cancel Cuti [failed]", $th->getMessage());
-
             DB::rollBack();
+            $this->activity("Cancel Cuti [failed]", $th->getMessage());
             $response = [
                 'message' => message("gagal membatalkan cuti", $th->getMessage()),
                 'status' => false
