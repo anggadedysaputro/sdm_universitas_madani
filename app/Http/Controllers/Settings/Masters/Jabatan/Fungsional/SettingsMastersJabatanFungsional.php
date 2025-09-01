@@ -80,7 +80,7 @@ class SettingsMastersJabatanFungsional extends Controller
             $this->activity("Input data fungsional [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data fungsional gagal", $th->getMessage())
+                'message' => message("Input data fungsional gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -111,7 +111,7 @@ class SettingsMastersJabatanFungsional extends Controller
             $this->activity("Hapus data fungsional [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data fungsional gagal", $th->getMessage())
+                'message' => message("Hapus data fungsional gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -152,7 +152,7 @@ class SettingsMastersJabatanFungsional extends Controller
             $this->activity("Edit data fungsional [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data fungsional gagal", $th->getMessage())
+                'message' => message("Edit data fungsional gagal", $th)
             ];
 
             return response()->json($response, 500);

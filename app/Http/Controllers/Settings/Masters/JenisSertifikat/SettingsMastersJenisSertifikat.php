@@ -48,7 +48,7 @@ class SettingsMastersJenisSertifikat extends Controller
             $this->activity("Input data jenis sertifikat [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data jenis sertifikat gagal", $th->getMessage())
+                'message' => message("Input data jenis sertifikat gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersJenisSertifikat extends Controller
             $this->activity("Hapus data jenis sertifikat [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data jenis sertifikat gagal", $th->getMessage())
+                'message' => message("Hapus data jenis sertifikat gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -112,7 +112,7 @@ class SettingsMastersJenisSertifikat extends Controller
             $this->activity("Edit data jenis sertifikat [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data jenis sertifikat gagal", $th->getMessage())
+                'message' => message("Edit data jenis sertifikat gagal", $th)
             ];
 
             return response()->json($response, 500);

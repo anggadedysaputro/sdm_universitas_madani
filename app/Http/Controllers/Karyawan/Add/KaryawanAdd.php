@@ -220,7 +220,7 @@ class KaryawanAdd extends Controller
             $this->activity("Input data karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data karyawan gagal", $th->getMessage())
+                'message' => message("Input data karyawan gagal", $th)
             ];
 
             return response()->json($response, 500);

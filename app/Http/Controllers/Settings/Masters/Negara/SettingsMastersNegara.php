@@ -48,7 +48,7 @@ class SettingsMastersNegara extends Controller
             $this->activity("Input data negara [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data negara gagal", $th->getMessage())
+                'message' => message("Input data negara gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersNegara extends Controller
             $this->activity("Hapus data negara [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data negara gagal", $th->getMessage())
+                'message' => message("Hapus data negara gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -112,7 +112,7 @@ class SettingsMastersNegara extends Controller
             $this->activity("Edit data negara [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data negara gagal", $th->getMessage())
+                'message' => message("Edit data negara gagal", $th)
             ];
 
             return response()->json($response, 500);

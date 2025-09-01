@@ -157,7 +157,7 @@ class SettingsMenu extends Controller
             $this->activity("Input data menu [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data menu gagal", $th->getMessage())
+                'message' => message("Input data menu gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -194,7 +194,7 @@ class SettingsMenu extends Controller
             $this->activity("Edit data menu [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data menu gagal", $th->getMessage())
+                'message' => message("Edit data menu gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -224,7 +224,7 @@ class SettingsMenu extends Controller
             $this->activity("Hapus data menu [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data menu gagal", $th->getMessage())
+                'message' => message("Hapus data menu gagal", $th)
             ];
 
             return response()->json($response, 500);

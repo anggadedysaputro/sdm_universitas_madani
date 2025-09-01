@@ -48,7 +48,7 @@ class SettingsMastersStatusPegawai extends Controller
             $this->activity("Input data status pegawai [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data status pegawai gagal", $th->getMessage())
+                'message' => message("Input data status pegawai gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersStatusPegawai extends Controller
             $this->activity("Hapus data status pegawai [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data status pegawai gagal", $th->getMessage())
+                'message' => message("Hapus data status pegawai gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -111,7 +111,7 @@ class SettingsMastersStatusPegawai extends Controller
             $this->activity("Edit data status pegawai [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data status pegawai gagal", $th->getMessage())
+                'message' => message("Edit data status pegawai gagal", $th)
             ];
 
             return response()->json($response, 500);

@@ -82,7 +82,7 @@ class SettingsMastersJabatanStruktural extends Controller
             $this->activity("Input data struktural [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data struktural gagal", $th->getMessage())
+                'message' => message("Input data struktural gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -113,7 +113,7 @@ class SettingsMastersJabatanStruktural extends Controller
             $this->activity("Hapus data struktural [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data struktural gagal", $th->getMessage())
+                'message' => message("Hapus data struktural gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -154,7 +154,7 @@ class SettingsMastersJabatanStruktural extends Controller
             $this->activity("Edit data struktural [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data struktural gagal", $th->getMessage())
+                'message' => message("Edit data struktural gagal", $th)
             ];
 
             return response()->json($response, 500);

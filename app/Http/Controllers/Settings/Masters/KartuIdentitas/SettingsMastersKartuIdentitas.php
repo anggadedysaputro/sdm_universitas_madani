@@ -48,7 +48,7 @@ class SettingsMastersKartuIdentitas extends Controller
             $this->activity("Input data kartu identitas [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data kartu identitas gagal", $th->getMessage())
+                'message' => message("Input data kartu identitas gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersKartuIdentitas extends Controller
             $this->activity("Hapus data kartu identitas [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data kartu identitas gagal", $th->getMessage())
+                'message' => message("Hapus data kartu identitas gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -112,7 +112,7 @@ class SettingsMastersKartuIdentitas extends Controller
             $this->activity("Edit data kartu identitas [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data kartu identitas gagal", $th->getMessage())
+                'message' => message("Edit data kartu identitas gagal", $th)
             ];
 
             return response()->json($response, 500);

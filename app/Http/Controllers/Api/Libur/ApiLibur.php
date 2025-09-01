@@ -29,7 +29,7 @@ class ApiLibur extends Controller
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => message('Gagal mengambil libur', $th->getMessage()),
+                'message' => message('Gagal mengambil libur', $th),
                 'status' => false,
                 'data' => []
             ], 200);

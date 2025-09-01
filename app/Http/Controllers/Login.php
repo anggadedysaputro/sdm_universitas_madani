@@ -65,7 +65,6 @@ class Login extends Controller
                 'email' => 'The provided credentials do not match our records.'
             ]);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             $this->activity("Login [failed]", $th->getMessage());
             return back()->withErrors([
                 'message' => 'Login gagal'

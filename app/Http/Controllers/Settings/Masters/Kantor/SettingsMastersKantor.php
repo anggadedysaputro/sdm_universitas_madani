@@ -49,7 +49,7 @@ class SettingsMastersKantor extends Controller
             $this->activity("Input data kantor [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data kantor gagal", $th->getMessage())
+                'message' => message("Input data kantor gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -80,7 +80,7 @@ class SettingsMastersKantor extends Controller
             $this->activity("Hapus data kantor [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data kantor gagal", $th->getMessage())
+                'message' => message("Hapus data kantor gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -113,7 +113,7 @@ class SettingsMastersKantor extends Controller
             $this->activity("Edit data kantor [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data kantor gagal", $th->getMessage())
+                'message' => message("Edit data kantor gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -148,7 +148,7 @@ class SettingsMastersKantor extends Controller
             $this->activity("Setujui data kantor [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Setujui data kantor gagal", $th->getMessage())
+                'message' => message("Setujui data kantor gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -183,7 +183,7 @@ class SettingsMastersKantor extends Controller
             $this->activity("Tolak data kantor [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Tolak data kantor gagal", $th->getMessage())
+                'message' => message("Tolak data kantor gagal", $th)
             ];
 
             return response()->json($response, 500);

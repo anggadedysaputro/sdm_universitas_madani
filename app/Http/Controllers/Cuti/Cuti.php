@@ -65,7 +65,7 @@ class Cuti extends Controller
             $this->activity("Input cuti karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input cuti karyawan gagal", $th->getMessage())
+                'message' => message("Input cuti karyawan gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -94,7 +94,7 @@ class Cuti extends Controller
             $this->activity("Hapus cuti karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus cuti karyawan gagal", $th->getMessage())
+                'message' => message("Hapus cuti karyawan gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -133,7 +133,7 @@ class Cuti extends Controller
             $this->activity("Update cuti karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Update cuti karyawan gagal", $th->getMessage())
+                'message' => message("Update cuti karyawan gagal", $th)
             ];
 
             return response()->json($response, 500);

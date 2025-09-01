@@ -24,7 +24,7 @@ class SettingsRole extends Controller
         foreach ($role as $key => $value) {
 
             $roleUsers = User::with('roles')->get()->filter(
-                fn ($user) => $user->roles->where('name', $value->name)->toArray()
+                fn($user) => $user->roles->where('name', $value->name)->toArray()
             );
 
             $menu = RoleHasMenu::where('role_id', $value->id)->count();
@@ -122,7 +122,7 @@ class SettingsRole extends Controller
             $this->activity("Mendapatkan izin peran [failed]", $th->getMessage());
 
             $response = [
-                'message' => message('Mendapatkan izin gagal', $th->getMessage())
+                'message' => message('Mendapatkan izin gagal', $th)
             ];
 
             return response()->json($response, 500);
@@ -233,7 +233,7 @@ class SettingsRole extends Controller
         } catch (\Throwable $th) {
 
             $response = [
-                'message' => message('Mendapatkan data akses pada peran gagal', $th->getMessage())
+                'message' => message('Mendapatkan data akses pada peran gagal', $th)
             ];
 
             return response()->json($response, 500);

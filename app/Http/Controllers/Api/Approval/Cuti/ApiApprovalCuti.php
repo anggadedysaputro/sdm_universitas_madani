@@ -43,7 +43,7 @@ class ApiApprovalCuti extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Ambil data cuti gagal", $th->getMessage()),
+                'message' => message("Ambil data cuti gagal", $th),
                 'status' => false
             ];
             return response()->json($response, 200);
@@ -84,7 +84,7 @@ class ApiApprovalCuti extends Controller
             $this->activity("Approval Cuti[failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Cuti gagal " . $approvalMessage, $th->getMessage()),
+                'message' => message("Cuti gagal " . $approvalMessage, $th),
                 'status' => false
             ];
 

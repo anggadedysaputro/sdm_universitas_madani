@@ -48,7 +48,7 @@ class SettingsMastersPekerjaan extends Controller
             $this->activity("Input data pekerjaan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data pekerjaan gagal", $th->getMessage())
+                'message' => message("Input data pekerjaan gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersPekerjaan extends Controller
             $this->activity("Hapus data pekerjaan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data pekerjaan gagal", $th->getMessage())
+                'message' => message("Hapus data pekerjaan gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -112,7 +112,7 @@ class SettingsMastersPekerjaan extends Controller
             $this->activity("Edit data pekerjaan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data pekerjaan gagal", $th->getMessage())
+                'message' => message("Edit data pekerjaan gagal", $th)
             ];
 
             return response()->json($response, 500);

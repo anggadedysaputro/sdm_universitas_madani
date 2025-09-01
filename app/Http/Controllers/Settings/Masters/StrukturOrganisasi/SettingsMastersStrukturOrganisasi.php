@@ -44,7 +44,7 @@ class SettingsMastersStrukturOrganisasi extends Controller
             return response()->json(["results" => $bidang], 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Gagal mengambil data bidang", $th->getMessage())
+                'message' => message("Gagal mengambil data bidang", $th)
             ];
             return response()->json($response, 500);
         }
@@ -79,7 +79,7 @@ class SettingsMastersStrukturOrganisasi extends Controller
             $this->activity(request('mode') . "[failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Gagal menambah data", $th->getMessage())
+                'message' => message("Gagal menambah data", $th)
             ];
             return response()->json($response, 500);
         }
@@ -179,7 +179,7 @@ class SettingsMastersStrukturOrganisasi extends Controller
             return response()->json($query->first(), 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Gagal mengambil data", $th->getMessage())
+                'message' => message("Gagal mengambil data", $th)
             ];
 
             return response()->json($response, 500);
@@ -214,7 +214,7 @@ class SettingsMastersStrukturOrganisasi extends Controller
             $this->activity("Hapus organisasi [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Gagal menghapus data", $th->getMessage())
+                'message' => message("Gagal menghapus data", $th)
             ];
 
             return response()->json($response, 500);
@@ -251,7 +251,7 @@ class SettingsMastersStrukturOrganisasi extends Controller
             $this->activity("Ubah organisasi [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Gagal mengubah data", $th->getMessage())
+                'message' => message("Gagal mengubah data", $th)
             ];
 
             return response()->json($response, 500);

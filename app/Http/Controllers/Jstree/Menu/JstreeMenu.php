@@ -19,7 +19,7 @@ class JstreeMenu extends Controller
             $query1 = DB::table(DB::raw("
                 (
                     select '#' as parent, 'Root menu' as text, 0 as id, false as state, 'ti ti-category' as icon, true as checkbox_disabled
-                ) as w 
+                ) as w
             "));
             $query = Menu::from('masters.menu as m')->select(
                 DB::raw("(case when parent = 0 then '0' else parent::text end) as parent"),
@@ -52,7 +52,7 @@ class JstreeMenu extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Input data menu gagal", $th->getMessage())
+                'message' => message("Input data menu gagal", $th)
             ];
             return response()->json($response, 500);
         }

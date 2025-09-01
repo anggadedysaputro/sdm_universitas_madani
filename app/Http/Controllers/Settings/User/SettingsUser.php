@@ -37,7 +37,7 @@ class SettingsUser extends Controller
                         convertnumericdatetoalphabetical(users.created_at::date) as tanggal_dibuat
                     from users
                         inner join model_has_roles on users.id = model_has_roles.model_id and model_has_roles.model_type = 'App\Models\User'
-                        inner join roles on model_has_roles.role_id = roles.id                
+                        inner join roles on model_has_roles.role_id = roles.id
                 ) as x
             ")
         );
@@ -56,7 +56,7 @@ class SettingsUser extends Controller
             select roles.name as value, roles.name as label, count(*) AS count, count(*) as total
             from users
                 inner join model_has_roles on users.id = model_has_roles.model_id and model_has_roles.model_type = 'App\Models\User'
-                inner join roles on model_has_roles.role_id = roles.id                
+                inner join roles on model_has_roles.role_id = roles.id
             group by roles.name
         ");
 
@@ -94,7 +94,7 @@ class SettingsUser extends Controller
             $this->activity("Membuat pengguna [failed]", $th->getMessage());
 
             $response = [
-                'message' => message('Pengguna gagal dibuat', $th->getMessage())
+                'message' => message('Pengguna gagal dibuat', $th)
             ];
 
             return response()->json($response, 500);
@@ -134,7 +134,7 @@ class SettingsUser extends Controller
             }
 
             $response = [
-                'message' => message($pesan, $th->getMessage())
+                'message' => message($pesan, $th)
             ];
 
             return response()->json($response, 500);
@@ -177,7 +177,7 @@ class SettingsUser extends Controller
             }
 
             $response = [
-                'message' => message($pesan, $th->getMessage())
+                'message' => message($pesan, $th)
             ];
 
             return response()->json($response, 500);

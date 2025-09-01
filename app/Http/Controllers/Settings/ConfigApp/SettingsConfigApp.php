@@ -56,7 +56,7 @@ class SettingsConfigApp extends Controller
             $this->activity("Input data konfig aplikasi [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data konfig aplikasi gagal", $th->getMessage())
+                'message' => message("Input data konfig aplikasi gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -87,7 +87,7 @@ class SettingsConfigApp extends Controller
             $this->activity("Hapus data konfig aplikasi [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data konfig aplikasi gagal", $th->getMessage())
+                'message' => message("Hapus data konfig aplikasi gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -120,7 +120,7 @@ class SettingsConfigApp extends Controller
             $this->activity("Edit data konfig aplikasi [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data konfig aplikasi gagal", $th->getMessage())
+                'message' => message("Edit data konfig aplikasi gagal", $th)
             ];
 
             return response()->json($response, 500);

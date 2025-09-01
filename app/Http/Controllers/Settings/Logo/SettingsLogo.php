@@ -53,7 +53,7 @@ class SettingsLogo extends Controller
 
 
             $response = [
-                'message' => message("Upload logo gagal", $th->getMessage())
+                'message' => message("Upload logo gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -86,7 +86,7 @@ class SettingsLogo extends Controller
 
 
             $response = [
-                'message' => message("Hapus logo gagal", $th->getMessage())
+                'message' => message("Hapus logo gagal", $th)
             ];
 
             return response()->json($response, 500);

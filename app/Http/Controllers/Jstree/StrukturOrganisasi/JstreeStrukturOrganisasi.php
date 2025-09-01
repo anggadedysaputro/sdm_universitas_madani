@@ -25,7 +25,7 @@ class JstreeStrukturOrganisasi extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Input data organisasi gagal", $th->getMessage())
+                'message' => message("Input data organisasi gagal", $th)
             ];
             return response()->json($response, 500);
         }

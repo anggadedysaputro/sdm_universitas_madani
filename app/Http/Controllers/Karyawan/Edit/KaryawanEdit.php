@@ -368,7 +368,7 @@ class KaryawanEdit extends Controller
             $this->activity("Edit data karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data karyawan gagal", $th->getMessage())
+                'message' => message("Edit data karyawan gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -500,7 +500,7 @@ class KaryawanEdit extends Controller
             $this->activity("Upload foto karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Upload foto karyawan gagal", $th->getMessage())
+                'message' => message("Upload foto karyawan gagal", $th)
             ];
 
             return response()->json($response, 500);

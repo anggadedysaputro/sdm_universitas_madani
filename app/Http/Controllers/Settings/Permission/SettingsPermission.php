@@ -55,7 +55,7 @@ class SettingsPermission extends Controller
         $query = DB::table(
             DB::raw("
                 (
-                    select 
+                    select
                         name, id, convertnumericdatetoalphabetical(created_at::date) as created_at_view,
                         (
                             select string_agg(r.name,',')
@@ -145,7 +145,7 @@ class SettingsPermission extends Controller
             DB::rollBack();
             $this->activity("Hapus izin [failed]", $th->getMessage());
             $response = [
-                'message' => message("Hapus izin gagal", $th->getMessage())
+                'message' => message("Hapus izin gagal", $th)
             ];
             return response()->json($response, 500);
         }
@@ -161,7 +161,7 @@ class SettingsPermission extends Controller
                     exists(
                         select *
                         from role_has_permissions rhp
-                        where permission_id = p.id   
+                        where permission_id = p.id
                     ) as checked
                 ")
             )
@@ -197,7 +197,7 @@ class SettingsPermission extends Controller
             DB::rollBack();
             $this->activity("Mengubah izin [failed]", $th->getMessage());
             $response = [
-                'message' => message("Mengubah izin gagal", $th->getMessage())
+                'message' => message("Mengubah izin gagal", $th)
             ];
             return response()->json($response, 500);
         }

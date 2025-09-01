@@ -48,7 +48,7 @@ class SettingsMastersBiaya extends Controller
             $this->activity("Input data biaya [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data biaya gagal", $th->getMessage())
+                'message' => message("Input data biaya gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersBiaya extends Controller
             $this->activity("Hapus data biaya [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data biaya gagal", $th->getMessage())
+                'message' => message("Hapus data biaya gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -112,7 +112,7 @@ class SettingsMastersBiaya extends Controller
             $this->activity("Edit data biaya [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data biaya gagal", $th->getMessage())
+                'message' => message("Edit data biaya gagal", $th)
             ];
 
             return response()->json($response, 500);

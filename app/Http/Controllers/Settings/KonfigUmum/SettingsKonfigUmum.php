@@ -64,7 +64,7 @@ class SettingsKonfigUmum extends Controller
             $this->activity("Input data konfig umum [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data konfig umum gagal", $th->getMessage())
+                'message' => message("Input data konfig umum gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -95,7 +95,7 @@ class SettingsKonfigUmum extends Controller
             $this->activity("Hapus data konfig umum [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data konfig umum gagal", $th->getMessage())
+                'message' => message("Hapus data konfig umum gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -127,7 +127,7 @@ class SettingsKonfigUmum extends Controller
             $this->activity("Edit data konfig umum [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data konfig umum gagal", $th->getMessage())
+                'message' => message("Edit data konfig umum gagal", $th)
             ];
 
             return response()->json($response, 500);

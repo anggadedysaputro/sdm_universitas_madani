@@ -50,7 +50,7 @@ class ApiKantor extends Controller
             $this->activity("Kantor [failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Kantor gagal diajukan", $th->getMessage()),
+                'message' => message("Kantor gagal diajukan", $th),
                 'status' => false
             ];
 

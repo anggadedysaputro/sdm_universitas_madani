@@ -48,7 +48,7 @@ class SettingsMastersLibur extends Controller
             $this->activity("Input data libur [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data libur gagal", $th->getMessage())
+                'message' => message("Input data libur gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersLibur extends Controller
             $this->activity("Hapus data libur [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data libur gagal", $th->getMessage())
+                'message' => message("Hapus data libur gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -112,7 +112,7 @@ class SettingsMastersLibur extends Controller
             $this->activity("Edit data libur [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data libur gagal", $th->getMessage())
+                'message' => message("Edit data libur gagal", $th)
             ];
 
             return response()->json($response, 500);

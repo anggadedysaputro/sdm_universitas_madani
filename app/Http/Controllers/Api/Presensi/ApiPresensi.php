@@ -77,7 +77,7 @@ class ApiPresensi extends Controller
             $this->activity("Presensi [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Presensi gagal", $th->getMessage()),
+                'message' => message("Presensi gagal", $th),
                 'status' => false
             ];
 
@@ -100,7 +100,7 @@ class ApiPresensi extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Ambil data presensi gagal", $th->getMessage()),
+                'message' => message("Ambil data presensi gagal", $th),
                 'status' => false
             ];
             return response()->json($response, 200);
@@ -143,7 +143,7 @@ class ApiPresensi extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Ambil detail presensi gagal", $th->getMessage()),
+                'message' => message("Ambil detail presensi gagal", $th),
                 'status' => false
             ];
             return response()->json($response, 200);

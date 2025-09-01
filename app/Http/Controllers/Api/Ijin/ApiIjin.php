@@ -89,7 +89,7 @@ class ApiIjin extends Controller
             $this->activity("Ijin [failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Ijin gagal diajukan", $th->getMessage()),
+                'message' => message("Ijin gagal diajukan", $th),
                 'status' => false
             ];
 
@@ -112,7 +112,7 @@ class ApiIjin extends Controller
         if ($validator->fails()) {
             // Tangani error secara manual
             return response()->json([
-                'message' => message("Data yang di kirim tidak sesuai aturan!", "validasi gagal"),
+                'message' => message("Data yang di kirim tidak sesuai aturan!"),
                 'errors' => $validator->errors(),
                 'status' => false
             ], 200);
@@ -138,7 +138,7 @@ class ApiIjin extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Ambil data cuti gagal", $th->getMessage()),
+                'message' => message("Ambil data cuti gagal", $th),
                 'status' => false
             ];
             return response()->json($response, 200);
@@ -168,7 +168,7 @@ class ApiIjin extends Controller
             DB::rollBack();
             $this->activity("Cancel ijin [failed]", $th->getMessage());
             $response = [
-                'message' => message("gagal membatalkan ijin", $th->getMessage()),
+                'message' => message("gagal membatalkan ijin", $th),
                 'status' => false
             ];
             return response()->json($response, 200);

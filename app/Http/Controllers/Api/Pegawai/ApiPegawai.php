@@ -127,7 +127,7 @@ class ApiPegawai extends Controller
             $this->activity("Upload foto karyawan [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Upload foto karyawan gagal", $th->getMessage()),
+                'message' => message("Upload foto karyawan gagal", $th),
                 'status' => false
             ];
 

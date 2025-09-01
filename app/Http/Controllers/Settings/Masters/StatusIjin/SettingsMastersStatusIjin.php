@@ -48,7 +48,7 @@ class SettingsMastersStatusIjin extends Controller
             $this->activity("Input data status ijin [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Input data status ijin gagal", $th->getMessage())
+                'message' => message("Input data status ijin gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -79,7 +79,7 @@ class SettingsMastersStatusIjin extends Controller
             $this->activity("Hapus data status ijin [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Hapus data status ijin gagal", $th->getMessage())
+                'message' => message("Hapus data status ijin gagal", $th)
             ];
 
             return response()->json($response, 500);
@@ -111,7 +111,7 @@ class SettingsMastersStatusIjin extends Controller
             $this->activity("Edit data status ijin [failed]", $th->getMessage());
 
             $response = [
-                'message' => message("Edit data status ijin gagal", $th->getMessage())
+                'message' => message("Edit data status ijin gagal", $th)
             ];
 
             return response()->json($response, 500);

@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('message')) {
-    function message($notifikasi = "", $sistemNotifikasi = "")
+    function message($pesan, $th = 0)
     {
-        return (env('APP_DEBUG') == false && env('APP_ENV') == 'production' ? $notifikasi : $sistemNotifikasi);
+        if ($th->getCode() == 1) {
+            return $th->getMessage();
+        } else {
+            return $pesan;
+        }
     }
 }
 

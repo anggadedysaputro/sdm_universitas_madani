@@ -108,7 +108,7 @@ class ApiCuti extends Controller
             $this->activity("Cuti [failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Cuti gagal diajukan", $th->getMessage()),
+                'message' => message("Cuti gagal diajukan", $th),
                 'status' => false
             ];
 
@@ -131,7 +131,7 @@ class ApiCuti extends Controller
         if ($validator->fails()) {
             // Tangani error secara manual
             return response()->json([
-                'message' => message("Data yang di kirim tidak sesuai aturan!", "validasi gagal"),
+                'message' => message("Data yang di kirim tidak sesuai aturan!"),
                 'errors' => $validator->errors(),
                 'status' => false
             ], 200);
@@ -157,7 +157,7 @@ class ApiCuti extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Ambil data cuti gagal", $th->getMessage()),
+                'message' => message("Ambil data cuti gagal", $th),
                 'status' => false
             ];
             return response()->json($response, 200);
@@ -198,7 +198,7 @@ class ApiCuti extends Controller
             DB::rollBack();
             $this->activity("Cancel Cuti [failed]", $th->getMessage());
             $response = [
-                'message' => message("gagal membatalkan cuti", $th->getMessage()),
+                'message' => message("gagal membatalkan cuti", $th),
                 'status' => false
             ];
             return response()->json($response, 200);

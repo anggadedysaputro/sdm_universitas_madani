@@ -43,7 +43,7 @@ class ApiApprovalIjin extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = [
-                'message' => message("Ambil data ijin gagal", $th->getMessage()),
+                'message' => message("Ambil data ijin gagal", $th),
                 'status' => false
             ];
             return response()->json($response, 200);
@@ -84,7 +84,7 @@ class ApiApprovalIjin extends Controller
             $this->activity("Approval Ijin[failed]", $th->getMessage());
 
             $response = [
-                'message' => $th->getCode() == 1 ? $th->getMessage() : message("Ijin gagal " . $approvalMessage, $th->getMessage()),
+                'message' => message("Ijin gagal " . $approvalMessage, $th),
                 'status' => false
             ];
 
