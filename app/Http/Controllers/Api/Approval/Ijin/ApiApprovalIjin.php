@@ -68,6 +68,7 @@ class ApiApprovalIjin extends Controller
             if (!empty($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
 
             $model->approval = $post['isapprove'];
+            $model->approval_at = date('Y-m-d H:i:s');
             $model->save();
 
             $response = [
