@@ -36,6 +36,7 @@ class Ijin extends Model
         'jumlah',
         'approval',
         'nopeg_atasan',
-        'lampiran'
+        'lampiran',
+        'approval_at'
     ];
 }

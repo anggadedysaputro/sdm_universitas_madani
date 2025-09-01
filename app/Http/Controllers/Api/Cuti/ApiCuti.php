@@ -92,6 +92,8 @@ class ApiCuti extends Controller
                 $form['lampiran'] = null;
             }
 
+            $form['approval_at'] = date('Y-m-d H:i:s');
+
             Cuti::create($form);
 
             $response = [

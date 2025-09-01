@@ -1,0 +1,4 @@
+ALTER TABLE applications.cuti ADD COLUMN approval_at TIMESTAMP(0) WITHOUT TIME ZONE;
+ALTER TABLE applications.cuti ADD COLUMN approval_sdm_at TIMESTAMP(0) WITHOUT TIME ZONE;
+
+ALTER TABLE applications.ijin ADD COLUMN approval_at TIMESTAMP(0) WITHOUT TIME ZONE;

@@ -73,6 +73,8 @@ class ApiIjin extends Controller
                 $form['lampiran'] = null;
             }
 
+            $form['approval_at'] = date('Y-m-d H:i:s');
+
             Ijin::create($form);
 
             $response = [
