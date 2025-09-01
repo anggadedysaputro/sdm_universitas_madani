@@ -173,12 +173,23 @@ class ApiCuti extends Controller
             if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
 
             $cuti = Cuti::where('id', $post['id'])->where('nopeg', $post['nopeg']);
+            $cekDiatasnya = Cuti::where('id', '>', $post['id'])->where('nopeg', $post['nopeg']);
+
+            if ($cekDiatasnya->exists()) throw new Exception("Anda memiliki cuti yang lebih baru, batalkan terlebih dahulu!", 1);
             if (!$cuti->exists()) throw new Exception("Data cuti tidak ditemukan", 1);
+
             $cuti->delete();
+
+            $sisaCuti = Cuti::select("sisa")->where('nopeg', $post['nopeg'])->orderBy('id', 'desc')->first();
+
+            $sisaCuti = empty($sisaCuti) ? 0 : $sisaCuti->sisa;
 
             $response = [
                 'message' => 'Berhasil membatalkan cuti',
                 'status' => true,
+                'data' => [
+                    'sisa_cuti' => $sisaCuti
+                ]
             ];
 
             DB::commit();
