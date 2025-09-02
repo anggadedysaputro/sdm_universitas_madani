@@ -187,9 +187,7 @@ class ApiCuti extends Controller
             $response = [
                 'message' => 'Berhasil membatalkan cuti',
                 'status' => true,
-                'data' => [
-                    'sisa_cuti' => $sisaCuti
-                ]
+                'sisa_cuti' => $sisaCuti
             ];
 
             DB::commit();
