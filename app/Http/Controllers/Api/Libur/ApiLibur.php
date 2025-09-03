@@ -15,7 +15,7 @@ class ApiLibur extends Controller
             $tahun = tahunAplikasi()['tahun'];
             $bulan = request()->input('bulan');
 
-            if (empty($bulan)) throw new Exception("Bulan wajib ada!", 1);
+            // if (empty($bulan)) throw new Exception("Bulan wajib ada!", 1);
 
             $query = Libur::select("tanggal", "keterangan")
                 ->whereRaw("extract(year from tanggal) = " . $tahun);
