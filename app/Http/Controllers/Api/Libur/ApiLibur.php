@@ -18,8 +18,10 @@ class ApiLibur extends Controller
             if (empty($bulan)) throw new Exception("Bulan wajib ada!", 1);
 
             $query = Libur::select("tanggal", "keterangan")
-                ->whereRaw("extract(year from tanggal) = " . $tahun)
-                ->whereRaw("extract(month from tanggal) = " . $bulan);
+                ->whereRaw("extract(year from tanggal) = " . $tahun);
+
+            if (!empty($bulan)) $query->whereRaw("extract(month from tanggal) = " . $bulan);
+
             $result = $query->get();
 
             return response()->json([
