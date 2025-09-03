@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Approval\Cuti\ApiApprovalCuti;
 use App\Http\Controllers\Api\Approval\Ijin\ApiApprovalIjin;
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\Cuti\ApiCuti;
+use App\Http\Controllers\Api\Fcm\ApiFcm;
 use App\Http\Controllers\Api\Ijin\ApiIjin;
 use App\Http\Controllers\Api\Jabatan\Struktural\ApiJabatanStruktural;
 use App\Http\Controllers\Api\Kantor\ApiKantor;
@@ -74,5 +75,9 @@ Route::prefix('approval')->group(function () {
         Route::post('/store', [ApiApprovalIjin::class, 'store'])->name('api.approval.ijin.store');
     });
 });
+Route::prefix('fcm')->group(function () {
+    Route::post('/notification', [ApiFcm::class, 'notification'])->name('api.fcm.notification');
+});
+
 Route::post('login', [Auth::class, 'login'])->name("login");
 Route::post('logout', [Auth::class, 'logout'])->name("logout");

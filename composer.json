@@ -15,11 +15,12 @@
     ],
     "require": {
         "php": "^8.1",
-        "geekcom/phpjasper": "dev-Upgrade_to_JasperStarter_3.6.2",
         "beyondcode/laravel-websockets": "^1.14",
         "box/spout": "^3.3",
         "diglactic/laravel-breadcrumbs": "^8.1",
         "eiriksm/gitinfo": "^4.1",
+        "geekcom/phpjasper": "dev-Upgrade_to_JasperStarter_3.6.2",
+        "google/auth": "^1.47",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2",
         "laravel/framework": "^10.10",
