@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Approval\Cuti;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Cuti;
 use App\Models\Applications\Pegawai;
+use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,6 +64,9 @@ class ApiApprovalCuti extends Controller
 
             $model = Cuti::find($post['id']);
 
+            $pegawai = Pegawai::where('nopeg', $model->nopeg)->first();
+            if (empty($pegawai)) throw new Exception("Pegawai tidak ditemukan", 1);
+
             if (!$model) throw new Exception("Data cuti tidak ditemukan", 1);
 
             if (!empty($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
@@ -70,6 +74,18 @@ class ApiApprovalCuti extends Controller
             $model->approval = $post['isapprove'];
             $model->approval_at = date('Y-m-d H:i:s');
             $model->save();
+
+            $deviceToken = $pegawai->token_id;
+            $title = "Pemberitahuan Cuti";
+            $body = "Pengajuan cuti anda sudah diproses oleh atasan, segera cek di History Cuti";
+            $data = ["frg" => "SETUJUCUTI"];
+
+            FcmService::sendNotification([
+                'token' => $deviceToken,
+                'title' => $title,
+                'body'  => $body,
+                'data'  => $data,
+            ]);
 
             $response = [
                 'message' => 'Cuti berhasil ' . $approvalMessage,
@@ -81,6 +97,7 @@ class ApiApprovalCuti extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollBack();
+
             $this->activity("Approval Cuti[failed]", $th->getMessage());
 
             $response = [

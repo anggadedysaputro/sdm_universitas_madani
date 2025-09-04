@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Approval\Ijin;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Ijin;
 use App\Models\Applications\Pegawai;
+use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,6 +64,9 @@ class ApiApprovalIjin extends Controller
 
             $model = Ijin::find($post['id']);
 
+            $pegawai = Pegawai::where('nopeg', $model->nopeg)->first();
+            if (empty($pegawai)) throw new Exception("Pegawai tidak ditemukan", 1);
+
             if (!$model) throw new Exception("Data ijin tidak ditemukan", 1);
 
             if (!empty($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
@@ -70,6 +74,19 @@ class ApiApprovalIjin extends Controller
             $model->approval = $post['isapprove'];
             $model->approval_at = date('Y-m-d H:i:s');
             $model->save();
+
+            $deviceToken = $pegawai->token_id;
+            $title = "Pemberitahuan Ijin";
+            $body = "Pengajuan ijin anda sudah diproses oleh atasan, segera cek di History Ijin";
+            $data = ["frg" => "SETUJUIJIN"];
+
+            FcmService::sendNotification([
+                'token' => $deviceToken,
+                'title' => $title,
+                'body'  => $body,
+                'data'  => $data,
+            ]);
+
 
             $response = [
                 'message' => 'Ijin berhasil ' . $approvalMessage,
