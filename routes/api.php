@@ -77,6 +77,7 @@ Route::prefix('approval')->group(function () {
 });
 Route::prefix('fcm')->group(function () {
     Route::post('/notification', [ApiFcm::class, 'notification'])->name('api.fcm.notification');
+    Route::post('/refresh-fcm-token', [ApiFcm::class, 'refreshFcmToken'])->name('api.fcm.refresh-fcm-token');
 });
 
 Route::post('login', [Auth::class, 'login'])->name("login");

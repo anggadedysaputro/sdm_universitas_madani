@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\ConfigApp;
 use App\Models\Applications\KonfigUmum;
+use App\Models\Applications\Pegawai;
 use App\Models\Masters\Kantor;
 use App\Models\User;
 use Exception;
@@ -16,35 +17,38 @@ class Auth extends Controller
 {
     public function login(Request $request)
     {
-        // md5('username'||md5('password'))
-        $credentials = $request->only(['email', 'passwordapi']);
-        $user = User::from('users as u')
-            ->select(
-                'u.id', // penting untuk relasi
-                'p.nopeg',
-                'p.nama',
-                'p.isreguler'
-            )
-            ->join('applications.pegawai as p', 'p.nopeg', '=', 'u.nopeg')
-            ->leftJoin('masters.jabatanstruktural as js', 'js.kodejabatanstruktural', '=', 'p.kodestruktural')
-            ->leftJoin('masters.jabatanfungsional as jf', 'jf.kodejabatanfungsional', '=', 'p.kodejabfung')
-            ->leftJoin('masters.kartuidentitas as kitas', 'kitas.id', '=', 'p.idkartuidentitas')
-            ->where('u.email', $credentials['email'])
-            ->where('u.passwordapi', $credentials['passwordapi'])
-            ->with('roles') // ini yang load relasi
-            ->first();
+        try {
+            // md5('username'||md5('password'))
+            $deviceToken = $request->input('device_token');
+            $credentials = $request->only(['email', 'passwordapi']);
+            $user = User::from('users as u')
+                ->select(
+                    'u.id', // penting untuk relasi
+                    'p.nopeg',
+                    'p.nama',
+                    'p.isreguler'
+                )
+                ->join('applications.pegawai as p', 'p.nopeg', '=', 'u.nopeg')
+                ->leftJoin('masters.jabatanstruktural as js', 'js.kodejabatanstruktural', '=', 'p.kodestruktural')
+                ->leftJoin('masters.jabatanfungsional as jf', 'jf.kodejabatanfungsional', '=', 'p.kodejabfung')
+                ->leftJoin('masters.kartuidentitas as kitas', 'kitas.id', '=', 'p.idkartuidentitas')
+                ->where('u.email', $credentials['email'])
+                ->where('u.passwordapi', $credentials['passwordapi'])
+                ->with('roles') // ini yang load relasi
+                ->first();
 
-        $konfigUmum = tahunAplikasi();
-        $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
+            if (empty($user)) throw new Exception("User tidak atau password tidak valid", 1);
 
-        if (empty($user)) {
-            return response()->json([
-                'message' => 'login gagal',
-                'status' => false
-            ], 200);
-        } else {
+            $konfigUmum = tahunAplikasi();
+            $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
+            $pegwai = Pegawai::where('nopeg', $user->nopeg)->first();
+            $pegwai->token_id = $deviceToken;
+            $pegwai->save();
+
             $dataKonfigUmum = $konfigUmum->toArray();
             unset($dataKonfigUmum['lokasidef']);
+
+            DB::commit();
 
             return response()->json([
                 'message' => 'login berhasil',
@@ -55,6 +59,11 @@ class Auth extends Controller
                 'lokasi' => $kantor->get(),
                 'peran' => $user->roles->pluck('name')->first(),
                 'idusers' => $user->id
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => message("login gagal", $th),
+                'status' => false
             ], 200);
         }
     }
