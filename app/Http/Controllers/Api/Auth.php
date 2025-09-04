@@ -59,7 +59,7 @@ class Auth extends Controller
                 'lokasi' => $kantor->get(),
                 'peran' => $user->roles->pluck('name')->first(),
                 'idusers' => $user->id,
-                'ispejabat' => ($pegawai->kodejabatanstruktural <> 0)
+                'ispejabat' => ($pegawai->kodestruktural <> 0)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
