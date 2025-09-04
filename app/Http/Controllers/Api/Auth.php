@@ -41,9 +41,9 @@ class Auth extends Controller
 
             $konfigUmum = tahunAplikasi();
             $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
-            $pegwai = Pegawai::where('nopeg', $user->nopeg)->first();
-            $pegwai->token_id = $deviceToken;
-            $pegwai->save();
+            $pegawai = Pegawai::where('nopeg', $user->nopeg)->first();
+            $pegawai->token_id = $deviceToken;
+            $pegawai->save();
 
             $dataKonfigUmum = $konfigUmum->toArray();
             unset($dataKonfigUmum['lokasidef']);
@@ -58,7 +58,8 @@ class Auth extends Controller
                 'konfigumum' => $dataKonfigUmum,
                 'lokasi' => $kantor->get(),
                 'peran' => $user->roles->pluck('name')->first(),
-                'idusers' => $user->id
+                'idusers' => $user->id,
+                'ispejabat' => ($pegawai->kodejabatanstruktural <> 0)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
