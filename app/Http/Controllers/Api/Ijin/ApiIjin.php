@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Ijin;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Ijin;
 use App\Models\Applications\Pegawai;
+use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Carbon\Carbon;
 use Exception;
@@ -52,6 +53,9 @@ class ApiIjin extends Controller
 
             $form['jumlah'] = $selisihHari;
 
+            $atasan = Pegawai::where('nopeg', $post['nopeg_atasan'])->first();
+            if (empty($atasan)) throw new Exception("Atasan tidak ditemukan", 1);
+
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             if (Ijin::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan ijin di tanggal {$form['tgl_awal']}", 1);
 
@@ -74,6 +78,18 @@ class ApiIjin extends Controller
             }
 
             Ijin::create($form);
+
+            $deviceToken = $atasan->token_id;
+            $title = "Pemberitahuan Ijin";
+            $body = "Ada pegawai yang membutuhkan persetujuan anda untuk Ijin!";
+            $data = ["frg" => "AJUIJIN"];
+
+            FcmService::sendNotification([
+                'token' => $deviceToken,
+                'title' => $title,
+                'body'  => $body,
+                'data'  => $data,
+            ]);
 
             $response = [
                 'message' => 'Ijin berhasil diajukan',
