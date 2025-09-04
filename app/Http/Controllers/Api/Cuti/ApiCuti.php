@@ -7,6 +7,7 @@ use App\Models\Applications\ConfigApp;
 use App\Models\Applications\Cuti;
 use App\Models\Applications\KonfigUmum;
 use App\Models\Applications\Pegawai;
+use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Carbon\Carbon;
 use Exception;
@@ -94,6 +95,18 @@ class ApiCuti extends Controller
 
             Cuti::create($form);
 
+            $deviceToken = request()->input('device_token');
+            $title = "Pemberitahuan Cuti";
+            $body = "Ada pegawai yang membutuhkan persetujuan anda untuk cuti!";
+            $data = ["frg" => "AJUCUTI"];
+
+            FcmService::sendNotification([
+                'token' => $deviceToken,
+                'title' => $title,
+                'body'  => $body,
+                'data'  => $data,
+            ]);
+
             $response = [
                 'message' => 'Cuti berhasil diajukan',
                 'status' => true,
@@ -121,6 +134,7 @@ class ApiCuti extends Controller
 
         $validator = Validator::make($post, [
             'nopeg' => 'required',
+            'device_token' => 'required',
             'nopeg_atasan' => 'required',
             'tgl_awal' => 'required|date',
             'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',

@@ -25,7 +25,7 @@ class FirebaseService
     {
         $url = "https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send";
         $accessToken = $this->getAccessToken();
-
+        dd($accessToken);
         $payload = [
             "message" => [
                 "token" => $deviceToken,

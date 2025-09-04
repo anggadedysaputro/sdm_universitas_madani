@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Fcm;
 
 use App\Http\Controllers\Controller;
+use App\Services\FcmService;
 use App\Services\FirebaseService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
@@ -19,21 +20,31 @@ class ApiFcm extends Controller
             // $body = "Ada pegawai yang membutuhkan persetujuan anda untuk cuti!";
             // $data = ["frg" => "AJUCUTI"];
 
+
+
             $deviceToken = request()->input('device_token');
             $title = request()->input('title');
             $body = request()->input('body');
             $data = request()->input('data');
 
-            $response = $firebase->sendNotification($deviceToken, $title, $body, $data);
+            // $response = $firebase->sendNotification($deviceToken, $title, $body, $data);
+
 
             $response = [
                 'message' => 'Berhasil mengirim notifikasi',
                 'status' => true,
+                'data' => FcmService::sendNotification([
+                    'token' => $deviceToken,
+                    'title' => $title,
+                    'body'  => $body,
+                    'data'  => $data,
+                ])
             ];
 
             return response()->json($response, 200);
         } catch (\Throwable $th) {
 
+            dd($th->getMessage());
             $this->activity("Kirim notifikasi [failed]", $th->getMessage());
             $response = [
                 'message' => message("gagal mengirim notifikasi", $th),
