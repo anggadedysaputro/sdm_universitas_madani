@@ -59,8 +59,8 @@ class ApiCuti extends Controller
             if ($selisihHari == 0) throw new Exception("Minimal cuti 1 hari", 1);
 
             $form['jumlah'] = $selisihHari;
-
-
+            $atasan = Pegawai::where('nopeg', $post['nopeg_atasan'])->first();
+            if (empty($atasan)) throw new Exception("Atasan tidak ditemukan", 1);
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
 
@@ -95,7 +95,7 @@ class ApiCuti extends Controller
 
             Cuti::create($form);
 
-            $deviceToken = request()->input('device_token');
+            $deviceToken = $atasan->token_id;
             $title = "Pemberitahuan Cuti";
             $body = "Ada pegawai yang membutuhkan persetujuan anda untuk cuti!";
             $data = ["frg" => "AJUCUTI"];
@@ -134,7 +134,6 @@ class ApiCuti extends Controller
 
         $validator = Validator::make($post, [
             'nopeg' => 'required',
-            'device_token' => 'required',
             'nopeg_atasan' => 'required',
             'tgl_awal' => 'required|date',
             'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
@@ -145,7 +144,7 @@ class ApiCuti extends Controller
         if ($validator->fails()) {
             // Tangani error secara manual
             return response()->json([
-                'message' => message("Data yang di kirim tidak sesuai aturan!"),
+                'message' => "Data yang di kirim tidak sesuai aturan!",
                 'errors' => $validator->errors(),
                 'status' => false
             ], 200);
