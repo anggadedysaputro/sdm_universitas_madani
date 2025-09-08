@@ -162,7 +162,21 @@ class ApiCuti extends Controller
             $post = request()->all();
             if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
             if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
-            $data = Cuti::select(["*", DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")])->where("nopeg", $post['nopeg'])->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")->get();
+            $data = Cuti::from("applications.cuti as c")->select(
+                [
+                    "js.urai as nama_jabatan_struktural",
+                    "jf.urai as nama_jabatan_fungsional",
+                    "c.*",
+                    "p.nama",
+                    DB::raw("case when c.approval = true then 'Disetujui' when c.approval = false then 'Ditolak' else 'Diajukan' end approval_status")
+                ]
+            )
+                ->join("applications.pegawai as p", "p.nopeg", '=', "c.nopeg")
+                ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", '=', 'p.kodestruktural')
+                ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
+                ->where("c.nopeg", $post['nopeg'])
+                ->whereRaw("extract(year from c.tgl_awal) = {$this->config->tahun}")->get();
+
             $response = [
                 'data' => $data,
                 'status' => true,
