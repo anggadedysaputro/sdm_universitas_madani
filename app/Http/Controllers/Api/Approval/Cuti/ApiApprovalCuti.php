@@ -36,10 +36,10 @@ class ApiApprovalCuti extends Controller
                     DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")
                 ]
             )->where("nopeg_atasan", $post['nopeg_atasan'])
+                ->join("applications.pegawai as p", "p.nopeg", '=', "c.nopeg")
                 ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", '=', 'p.kodestruktural')
                 ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
                 ->whereRaw("extract(year from c.tgl_awal) = {$this->config->tahun}")
-
                 ->get();
 
             $response = [

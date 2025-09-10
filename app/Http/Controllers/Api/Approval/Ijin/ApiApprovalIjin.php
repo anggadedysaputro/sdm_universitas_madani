@@ -27,14 +27,20 @@ class ApiApprovalIjin extends Controller
             $post = request()->all();
             if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
             if (!Pegawai::where("nopeg", $post['nopeg_atasan'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
-            $data = Ijin::select(
+            $data = Ijin::from("applications.ijin as c")->select(
                 [
-                    "*",
+                    "js.urai as nama_jabatan_struktural",
+                    "jf.urai as nama_jabatan_fungsional",
+                    "c.*",
+                    "p.nama",
                     DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")
                 ]
-            )->where("nopeg_atasan", $post['nopeg_atasan'])
+            )
+                ->join("applications.pegawai as p", "p.nopeg", '=', "c.nopeg")
+                ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", '=', 'p.kodestruktural')
+                ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
+                ->where("nopeg_atasan", $post['nopeg_atasan'])
                 ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
-                // ->whereNull("approval")
                 ->get();
 
             $response = [
