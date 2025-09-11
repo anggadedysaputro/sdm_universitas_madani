@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Approval\Cuti;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Cuti;
 use App\Models\Applications\Pegawai;
+use App\Services\CutiService;
 use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
@@ -77,7 +78,7 @@ class ApiApprovalCuti extends Controller
 
             if (!$model) throw new Exception("Data cuti tidak ditemukan", 1);
 
-            if (!empty($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
+            if (is_bool($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
 
             $model->approval = $post['isapprove'];
             $model->approval_at = date('Y-m-d H:i:s');
@@ -98,6 +99,7 @@ class ApiApprovalCuti extends Controller
             $response = [
                 'message' => 'Cuti berhasil ' . $approvalMessage,
                 'status' => true,
+                'sisa' => CutiService::sisa($model->nopeg)
             ];
 
             DB::commit();

@@ -99,7 +99,6 @@ class ApiPegawai extends Controller
                 'status' => true
             ], 200);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             $data = [
                 'message' => $th->getCode() == 1 ? $th->getMessage() : 'Gagal mengambil data pegawai!',
                 'status' => false
