@@ -40,7 +40,7 @@ class ApiApprovalIjin extends Controller
                 ->join("applications.pegawai as p", "p.nopeg", '=', "c.nopeg")
                 ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", '=', 'p.kodestruktural')
                 ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
-                ->leftJoin("masters.bidang as b", "b.kodebidang", '=', 'p.idbidang')
+                ->leftJoin("masters.bidang as b", "b.id", '=', 'p.idbidang')
                 ->where("nopeg_atasan", $post['nopeg_atasan'])
                 ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
                 ->get();
