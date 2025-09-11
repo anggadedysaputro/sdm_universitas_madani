@@ -13,7 +13,7 @@ class CutiService
                 (
                     SELECT sisa
                     FROM applications.cuti
-                    WHERE nopeg = ?
+                    WHERE nopeg = ? and approve <> false
                     ORDER BY id DESC
                     LIMIT 1
                 ),
