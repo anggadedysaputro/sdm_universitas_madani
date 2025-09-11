@@ -42,6 +42,7 @@ class ApiApprovalCuti extends Controller
                 ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
                 ->leftJoin("masters.bidang as b", "b.id", '=', 'p.idbidang')
                 ->whereRaw("extract(year from c.tgl_awal) = {$this->config->tahun}")
+                ->whereNull("approval")
                 ->get();
 
             $response = [
