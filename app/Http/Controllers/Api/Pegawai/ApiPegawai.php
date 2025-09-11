@@ -88,6 +88,7 @@ class ApiPegawai extends Controller
                 'status' => true
             ], 200);
         } catch (\Throwable $th) {
+            $this->activity("ambil data pegawai [failed]", $th->getMessage());
             $data = [
                 'message' => $th->getCode() == 1 ? $th->getMessage() : 'Gagal mengambil data pegawai!',
                 'status' => false
