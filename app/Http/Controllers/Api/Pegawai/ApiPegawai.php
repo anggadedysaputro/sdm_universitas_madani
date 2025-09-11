@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Pegawai;
 
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Pegawai;
+use App\Services\CutiService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class ApiPegawai extends Controller
     {
         try {
             $idpegawai = request('idpegawai');
+            $sisaCuti = CutiService::sisa($idpegawai);
             $query = Pegawai::from("applications.pegawai as p")->select(
                 "p.nopeg",
                 "p.nama",
@@ -63,20 +65,7 @@ class ApiPegawai extends Controller
                 "p.idbidang",
                 "bid.urai as nama_bidang",
                 "p.isreguler",
-                DB::raw("
-                    coalesce(
-                        (
-                            select sisa from applications.cuti where nopeg = p.nopeg order by id desc limit 1
-                        ),
-                        coalesce((
-                            select ku.defcuti
-                            from applications.configapp as c
-                            join applications.konfigumum as ku
-                            on c.idkonfig = ku.idkonfigumum
-                            where aktif = true
-                        ),0)
-                    ) as sisa_cuti
-                ")
+                DB::raw($sisaCuti . "as sisa_cuti")
             )
                 ->leftJoin("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", "=", "p.kodejabfung")
                 ->leftJoin("masters.jabatanstruktural as js", "js.kodejabatanstruktural", "=", "p.kodestruktural")
