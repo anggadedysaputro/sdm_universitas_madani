@@ -7,6 +7,7 @@ use App\Models\Applications\ConfigApp;
 use App\Models\Applications\Cuti;
 use App\Models\Applications\KonfigUmum;
 use App\Models\Applications\Pegawai;
+use App\Services\CutiService;
 use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Carbon\Carbon;
@@ -207,14 +208,10 @@ class ApiCuti extends Controller
 
             $cuti->delete();
 
-            $sisaCuti = Cuti::select("sisa")->where('nopeg', $post['nopeg'])->orderBy('id', 'desc')->first();
-
-            $sisaCuti = empty($sisaCuti) ? 0 : $sisaCuti->sisa;
-
             $response = [
                 'message' => 'Berhasil membatalkan cuti',
                 'status' => true,
-                'sisa_cuti' => $sisaCuti
+                'sisa_cuti' => CutiService::sisa($post['nopeg'])
             ];
 
             DB::commit();
