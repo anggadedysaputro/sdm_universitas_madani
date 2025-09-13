@@ -1,6 +1,8 @@
 <?php
 
 use App\Events\JoinConnection;
+use App\Http\Controllers\Approval\Cuti\ApprovalCuti;
+use App\Http\Controllers\Approval\Ijin\ApprovalIjin;
 use App\Http\Controllers\Cuti\Cuti;
 use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Jstree\Menu\JstreeMenu;
@@ -117,6 +119,21 @@ Route::middleware(['validate.login'])->group(function () {
         });
         Route::prefix('pendidikan')->group(function () {
             Route::post('data', [Select2Pendidikan::class, 'data'])->name('select2.pendidikan.data');
+        });
+    });
+
+    Route::prefix('approval')->group(function () {
+        Route::prefix('cuti')->group(function () {
+            Route::get('/', [ApprovalCuti::class, 'index'])->name('approval.cuti.index')->middleware(["initialize.menu"]);
+            Route::post('/data', [ApprovalCuti::class, 'data'])->name('approval.cuti.data');
+            Route::post('/list', [ApprovalCuti::class, 'list'])->name('approval.cuti.list');
+            Route::post('/store', [ApprovalCuti::class, 'store'])->name('approval.cuti.store');
+        });
+        Route::prefix('ijin')->group(function () {
+            Route::get('/', [ApprovalIjin::class, 'index'])->name('approval.ijin.index')->middleware(["initialize.menu"]);
+            Route::post('/data', [ApprovalIjin::class, 'data'])->name('approval.ijin.data');
+            Route::post('/list', [ApprovalIjin::class, 'list'])->name('approval.ijin.list');
+            Route::post('/store', [ApprovalIjin::class, 'store'])->name('approval.ijin.store');
         });
     });
 

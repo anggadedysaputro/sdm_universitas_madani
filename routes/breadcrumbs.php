@@ -37,6 +37,18 @@ Breadcrumbs::for('presensi.index', function (BreadcrumbTrail $trail) {
     $trail->push('Presensi', route('presensi.index'));
 });
 
+// approval > cuti
+Breadcrumbs::for('approval.cuti.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard.index');
+    $trail->push('Approval Cuti', route('approval.cuti.index'));
+});
+
+// approval > ijin
+Breadcrumbs::for('approval.ijin.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard.index');
+    $trail->push('Approval Ijin', route('approval.ijin.index'));
+});
+
 // karyawan > add
 Breadcrumbs::for('karyawan.add.index', function (BreadcrumbTrail $trail) {
     $trail->parent('karyawan.index');

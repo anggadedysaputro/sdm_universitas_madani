@@ -78,7 +78,7 @@ class ApiApprovalIjin extends Controller
 
             if (!$model) throw new Exception("Data ijin tidak ditemukan", 1);
 
-            if (!is_bool($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
+            if (is_bool($model->approval)) throw new Exception("Anda sudah pernah melakukan aproval pada data ini!", 1);
 
             $model->approval = $post['isapprove'];
             $model->approval_at = date('Y-m-d H:i:s');
