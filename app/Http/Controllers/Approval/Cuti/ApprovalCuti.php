@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Approval\Cuti;
 
 use App\Http\Controllers\Controller;
 use App\Models\Applications\Cuti;
+use App\Services\FcmService;
 use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +83,25 @@ class ApprovalCuti extends Controller
             Cuti::whereIn('id', $data)->update([
                 'approval_sdm' => ($mode == "terima")
             ]);
+
+            $tokens = Cuti::from("applications.cuti as c")
+                ->select("p.token_id")
+                ->join("applications.pegawai as p", "p.nopeg", "=", "c.nopeg")
+                ->whereIn('id', $data)->get();
+
+            $title = "Pemberitahuan Cuti";
+            $body = "Pengajuan persetujuan cuti di " . ($mode == "diterima" ? "disetujui" : "ditolak");
+            $data = [];
+
+            foreach ($tokens as $value) {
+                $deviceToken = $value->token_id;
+                FcmService::sendNotification([
+                    'token' => $deviceToken,
+                    'title' => $title,
+                    'body'  => $body,
+                    'data'  => $data,
+                ]);
+            }
 
             DB::commit();
 
