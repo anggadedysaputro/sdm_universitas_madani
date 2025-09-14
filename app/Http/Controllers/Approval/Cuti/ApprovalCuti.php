@@ -91,7 +91,7 @@ class ApprovalCuti extends Controller
 
             $title = "Pemberitahuan Cuti";
             $body = "Pengajuan persetujuan cuti di " . ($mode == "diterima" ? "disetujui" : "ditolak");
-            $data = [];
+            $data = ["frg" => "SETUJUCUTI"];
 
             foreach ($tokens as $value) {
                 $deviceToken = $value->token_id;
