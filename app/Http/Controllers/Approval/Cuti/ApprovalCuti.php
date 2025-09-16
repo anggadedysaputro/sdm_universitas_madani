@@ -81,7 +81,8 @@ class ApprovalCuti extends Controller
             $mode = $request->input('mode');
 
             Cuti::whereIn('id', $data)->update([
-                'approval_sdm' => ($mode == "terima")
+                'approval_sdm' => ($mode == "terima"),
+                'approval_sdm_at' => date('Y-m-d H:i:s')
             ]);
 
             $tokens = Cuti::from("applications.cuti as c")
