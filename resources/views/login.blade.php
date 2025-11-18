@@ -42,7 +42,7 @@
 				<div class="container container-tight my-5 px-lg-5">
 					<div class="text-center mb-4">
 						<a href="{{ route("dashboard.index") }}" class="navbar-brand navbar-brand-autodark">
-						<img src="{{ asset("assets/ilustration/logo-default.png") }}" height="36" alt="">
+						<img src="{{ asset("assets/logo.png") }}" height="36" alt="">
 						</a>
 					</div>
 					<h2 class="h3 text-center mb-3">
