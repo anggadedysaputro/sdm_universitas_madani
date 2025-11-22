@@ -368,9 +368,9 @@
                         {data : "tanggalawalpuasa"},
                         {data : "tanggalakhirpuasa"},
                         {data : "defcuti"},
+                        {data : "harilibur"},
                         {data : "tglawalbulan"},
                         {data : "tglakhirbulan"},
-                        {data : "harilibur"},
                         {data : "radius"},
                         {
                             data : null,
