@@ -89,6 +89,8 @@
                                 <th class="kepegawaian tanggal_bergabung">Tanggal bergabung</th>
                                 <th class="kepegawaian jabatan_fungsional">Jabatan fungsional</th>
                                 <th class="kepegawaian jabatan_struktural">Jabatan struktural</th>
+                                <th class="kepegawaian dosen">Sebagai Dosen</th>
+                                <th class="kepegawaian nuptk">NUPTK</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -603,6 +605,12 @@
                         },
                         {
                             data : "jabatan_struktural"
+                        },
+                        {
+                            data : "dosen"
+                        },
+                        {
+                            data : "nuptk"
                         },
                     ],
                     responsive: {

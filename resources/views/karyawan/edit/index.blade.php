@@ -1098,6 +1098,34 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label required">Dosen</label>
+                                        <div class="row">
+                                            <div class="col-6 col-sm-4">
+                                                <label class="form-check form-check-inline">
+                                                    <input type="radio" value="1" class="form-check-input form-step-3" name="isdosen" required checked>
+                                                    <span class="form-check-label">Ya</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-6 col-sm-4">
+                                                <label class="form-check form-check-inline">
+                                                    <input type="radio" value="0" class="form-check-input form-step-3" name="isdosen" required>
+                                                    <span class="form-check-label">Tidak</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" id="wrapper-nuptk">
+                                            <div class="mb-3">
+                                            <label class="form-label required">NUPTK</label>
+                                            <input type="text" class="form-control form-step-3" placeholder="Masukkan NUPTK" name="nuptk" required>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Jabatan struktural</label>
@@ -2297,6 +2325,24 @@
                 Index.MD_EditDataKeluarga.modal('show');
             }
 
+            isDosenChange(e){
+                const input = $(e.currentTarget);
+                const value = input.val();
+
+                if(value == 1){
+                    // tampilkan elemen
+                    $('#wrapper-nuptk').show();
+                    $('#wrapper-nuptk').find('.form-label').addClass('required');
+                    Index.FRM_EditDataPekerjaan.find('input[name="nuptk"]').prop('required', true);
+                } else {
+                    // sembunyikan elemen
+                    $('#wrapper-nuptk').hide();
+                    Index.FRM_EditDataPekerjaan.find('input[name="nuptk"]').val("");
+                    $('#wrapper-nuptk').find('.form-label').removeClass('required');
+                    Index.FRM_EditDataPekerjaan.find('input[name="nuptk"]').prop('required', false);
+                }
+            }
+
             editDataPekerjaan(){
                 // Helper.reset();
                 Index.FRM_EditDataPekerjaan.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
@@ -2310,6 +2356,11 @@
 
                 Angga.setValueSelect2AjaxRemote(Index.S2_Fungsional,{id:"{{ $pegawai->kodejabfung }}" , text : "{{ $pegawai->jabatan_fungsional }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Struktural,{id:"{{ $pegawai->kodestruktural }}" , text : "{{ $pegawai->jabatan_struktural }}"});
+
+                const isDosen = "{{ $pegawai->isdosen }}" == 0 || "{{ $pegawai->isdosen }}" == "" ? "0" : "{{ $pegawai->isdosen }}";
+
+                Index.FRM_EditDataPekerjaan.find('input[value="'+isDosen+'"]').prop('checked',true).trigger('change');
+                Index.FRM_EditDataPekerjaan.find('input[name="nuptk"]').val("{{ $pegawai->nuptk }}")
 
                 Index.MD_EditDataPekerjaan.modal('show');
             }
@@ -2782,6 +2833,8 @@
                 Index.BTN_TambahPengalamanKerja.on('click', this.tambahPengalamanKerja);
                 Index.BTN_TambahFasilitas.on('click', this.tambahFasilitas);
                 Index.BTN_DeleteKaryawan.on('click', this.deleteKaryawan);
+
+                Index.FRM_EditDataPekerjaan.find('input[name="isdosen"]').on("change", this.isDosenChange)
 
                 Index.SWITCH_Absensi.on('click', this.switchAbsensi);
                 return this;
