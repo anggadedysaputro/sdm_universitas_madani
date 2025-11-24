@@ -893,7 +893,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label required">Tanggal lahir</label>
-                                <input type="text" class="form-control form-step-1" placeholder="Tanggal lahir" name="tgl_lahir" required>
+                                <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgl_lahir" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -2277,7 +2277,7 @@
                 Index.MD_EditDataPersonal.find('input[name="nama_panggilan"]').val("{{ $pegawai->nama_panggilan }}");
                 Index.MD_EditDataPersonal.find('input[name="tempatlahir"]').val("{{ $pegawai->tempatlahir }}");
                 Index.MD_EditDataPersonal.find('input[name="noidentitas"]').val("{{ $pegawai->noidentitas }}");
-                Index.MD_EditDataPersonal.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));
+                if("{{ $pegawai->tgl_lahir }}") Index.MD_EditDataPersonal.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));
                 Index.FRM_EditDataPersonal.find('input[value="{{ $pegawai->jns_kel }}"][name="jns_kel"]').prop('checked',true);
                 Angga.setValueSelect2AjaxRemote(Index.S2_StatusNikah,{id:"{{ $pegawai->idstatusnikah }}" , text : "{{ $pegawai->status_nikah }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_GolDarah,{id:"{{ $pegawai->gol_darah }}" , text : "{{ $pegawai->gol_darah }}"});
@@ -2301,8 +2301,8 @@
                 // Helper.reset();
                 Index.FRM_EditDataPekerjaan.find('input[name="nopeg"]').val("{{ $pegawai->nopeg }}");
                 Index.FRM_EditDataPekerjaan.find('select[name="idstatuspegawai"]').val("{{ $pegawai->idstatuspegawai }}");
-                Index.FRM_EditDataPekerjaan.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
-                Index.FRM_EditDataPekerjaan.find('input[name="tgl_berakhir_kontrak"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_berakhir_kontrak }}"), "j F Y"));
+                if("{{ $pegawai->tgl_masuk }}") Index.FRM_EditDataPekerjaan.find('input[name="tgl_masuk"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_masuk }}"), "j F Y"));
+                if("{{ $pegawai->tgl_berakhir_kontrak }}") Index.FRM_EditDataPekerjaan.find('input[name="tgl_berakhir_kontrak"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_berakhir_kontrak }}"), "j F Y"));
                 Index.FRM_EditDataPekerjaan.find('input[name="masa_bakti"]').val("{{ $pegawai->masa_bakti }}");
                 Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').val("{{ $pegawai->organisasi }}");
                 Index.FRM_EditDataPekerjaan.find('input[name="organisasi"]').prev().val("{{ $pegawai->kodeorg }}");
@@ -2407,7 +2407,7 @@
                 //pendidikan
                 formData.append("dok_ijazah",Index.FRM_EditDataPendidikan.find('input[name="dok_ijazah"]')[0].files[0]);
                 formData.append("dok_transkrip_nilai",Index.FRM_EditDataPendidikan.find('input[name="dok_transkrip_nilai"]')[0].files[0]);
-                console.log(formData,'formdata');
+
                 Swal.fire({
                     title : 'Konfirmasi',
                     text : 'Apakah anda yakin ingin mengubah data?',
