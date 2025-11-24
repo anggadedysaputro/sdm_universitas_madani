@@ -49,6 +49,7 @@ class KaryawanAdd extends Controller
             $post['biaya_tempat_tinggal_pertahun'] = numericFormatToNormalFormat($post['biaya_tempat_tinggal_pertahun']);
 
             if (Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Nomor NIPY sudah ada", 1);
+            if ($post['isdosen'] == 1 && empty($post['nuptk'])) throw new Exception("NUPTK wajib diisi", 1);
 
             $bidangColumn = [
                 'kodebidang',

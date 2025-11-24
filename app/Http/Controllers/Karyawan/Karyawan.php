@@ -294,7 +294,8 @@ class Karyawan extends Controller
                     p.alamat, case when p.jns_kel = 'L' then 'Laki - laki' else 'Perempuan' end as jenis_kelamin,
                     gd.nama as gol_darah,a.urai as agama, sn.status as status_nikah, p.kewarganegaraan, ki.keterangan as nama_kartuidentitas,p.noidentitas,
                     p.notelpdarurat, p.email, sp.keterangan as status_pegawai,convertnumericdatetoalphabetical(p.tgl_masuk) as tanggal_bergabung,
-                    jb.urai as jabatan_fungsional, js.urai as jabatan_struktural, n.keterangan as negara
+                    jb.urai as jabatan_fungsional, js.urai as jabatan_struktural, n.keterangan as negara,
+                    case when isdosen then 'Ya' else 'Tidak' end dosen, nuptk
                 from applications.pegawai p
                 join masters.statusnikah sn
                 on p.idstatusnikah = sn.idstatusnikah

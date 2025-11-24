@@ -477,6 +477,34 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label required">Dosen</label>
+                                                        <div class="row">
+                                                            <div class="col-6 col-sm-4">
+                                                                <label class="form-check form-check-inline">
+                                                                    <input type="radio" value="1" class="form-check-input form-step-3" name="isdosen" required checked>
+                                                                    <span class="form-check-label">Ya</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-6 col-sm-4">
+                                                                <label class="form-check form-check-inline">
+                                                                    <input type="radio" value="0" class="form-check-input form-step-3" name="isdosen" required>
+                                                                    <span class="form-check-label">Tidak</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" id="wrapper-nuptk">
+                                                         <div class="mb-3">
+                                                            <label class="form-label required">NUPTK</label>
+                                                            <input type="text" class="form-control form-step-3" placeholder="Masukkan NUPTK" name="nuptk" required>
+                                                            <div class="invalid-feedback"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Jabatan struktural</label>
@@ -1239,11 +1267,34 @@
                 if(next) Index.WIZARD_Main.smartWizard('next');
             }
 
+            isDosenChange(e){
+                const input = $(e.currentTarget);
+                const value = input.val();
+
+                if(value == 1){
+                    // tampilkan elemen
+                    $('#wrapper-nuptk').show();
+                    $('#wrapper-nuptk').find('.form-label').addClass('required');
+                    Index.FRM_Main.find('input[name="nuptk"]').prop('required', true);
+                } else {
+                    // sembunyikan elemen
+                    $('#wrapper-nuptk').hide();
+                    Index.FRM_Main.find('input[name="nuptk"]').val("");
+                    $('#wrapper-nuptk').find('.form-label').removeClass('required');
+                    Index.FRM_Main.find('input[name="nuptk"]').prop('required', false);
+                }
+            }
+
+
             next(){
                 Helper.verify();
                 Helper.assignLocalStorage();
             }
             simpan(){
+                if(Index.CRP_FOTO_DIRI.getCroppedCanvas() == null) {
+                    Swal.fire('Informasi','Foto diri belum dimasukkan','info');
+                    return
+                };
                 let data = Index.FRM_Main.serializeObject();
                 let alamat = Index.FRM_Main.find('textarea[name="alamat"]').val();
                 let organisasi = Index.FRM_Main.find("input[name='organisasi']").val();
@@ -1579,6 +1630,7 @@
                 Index.BTN_TambahPengalamanKerja.on('click', this.tambahPengalamanKerja);
                 Index.BTN_TambahBiayaPendidikanAnak.on('click', this.tambahBiayaPendidikanAnak);
                 Index.BTN_PreviewPekerjaanFile.on('click', this.previewFileOnNewTab);
+                Index.FRM_Main.find('input[name="isdosen"]').on("change", this.isDosenChange)
                 return this;
             }
 
@@ -1587,6 +1639,7 @@
             }
 
             loadDefaultValue() {
+                Index.FRM_Main.find('input[name="isdosen"][value="1"]').prop('checked', true);
                 Index.DATA_Menu.data.forEach(function(e,i){
                     Index.JSTREE_Main.create_node(e.parent,{text:e.text,id:e.id});
                 });

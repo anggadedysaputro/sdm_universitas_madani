@@ -98,7 +98,9 @@ class Pegawai extends Model
         'tahun_kendaraan',
         'nama_panggilan',
         "isreguler",
-        "token_id"
+        "token_id",
+        "isdosen",
+        "nuptk"
     ];
 
     public function getFotoNpwpUrlAttribute()

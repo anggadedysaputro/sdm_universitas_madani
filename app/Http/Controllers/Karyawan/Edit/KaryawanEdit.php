@@ -39,6 +39,9 @@ class KaryawanEdit extends Controller
                 "tgl_lahir",
                 "jns_kel",
                 DB::raw("case when jns_kel = 'L' then 'Laki-laki' else 'Perempuan' end as jenis_kelamin"),
+                "isdosen",
+                DB::raw("case when isdosen = true then 'Ya' else 'Tidak' end as dosen"),
+                "nuptk",
                 "gol_darah",
                 "a.urai as agama",
                 "p.idagama",
@@ -209,7 +212,7 @@ class KaryawanEdit extends Controller
 
             $post = request()->all();
 
-            // dd($post);
+            if ($post['isdosen'] == 1 && empty($post['nuptk'])) throw new Exception("NUPTK wajib diisi", 1);
 
             $id = $post['nopeg_lama'];
             unset($post['nopeg_lama']);
