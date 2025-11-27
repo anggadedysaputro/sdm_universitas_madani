@@ -91,7 +91,7 @@ class ApprovalCuti extends Controller
                 ->whereIn('id', $data)->get();
 
             $title = "Pemberitahuan Cuti";
-            $body = "Pengajuan persetujuan cuti di " . ($mode == "diterima" ? "disetujui" : "ditolak");
+            $body = "Pengajuan persetujuan cuti di " . ($mode == "terima" ? "disetujui" : "ditolak");
             $data = ["frg" => "SETUJUCUTI"];
 
             foreach ($tokens as $value) {
