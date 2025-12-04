@@ -958,7 +958,7 @@
                                 <label class="form-label required">Golongan darah</label>
                                 <select type="text" class="form-select tomselected form-step-1" name="gol_darah" required>
                                     @foreach ($golongan_darah as $value)
-                                        <option value="{{ $value->id }}">{{ $value->golongan_darah }}</option>
+                                        <option value="{{ $value->id }}">{{ $value->nama }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
