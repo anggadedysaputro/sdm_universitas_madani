@@ -2706,11 +2706,11 @@
                     dropdownParent : Index.MD_EditDataPendidikan.find('.modal-content')
                 });
                 Index.S2_TahunKendaraan = Index.FRM_EditDataFasilitas.find('select[name="tahun_kendaraan"]').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun kendaraan'));
-                Index.S2_TahunLulus = Index.FRM_EditDataPendidikan.find('select[name="tahun_lulus"]').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun lulus'));
+                Index.S2_TahunLulus = Index.FRM_EditDataPendidikan.find('select[name="tahun_lulus"]').select2(Angga.generalAjaxSelect2('{{ route('select2.tahun.data') }}','Pilih tahun lulus', Index.MD_EditDataPendidikan));
                 Index.S2_Fungsional = Index.FRM_EditDataPekerjaan.find('select[name="kodejabfung"]').select2(
                     $.extend(
                         true,
-                        Angga.generalAjaxSelect2('{{ route('select2.jabatan.fungsional.data') }}','Pilih jabatan fungsional'),
+                        Angga.generalAjaxSelect2('{{ route('select2.jabatan.fungsional.data') }}','Pilih jabatan fungsional', Index.MD_EditDataPekerjaan),
                         {
                             ajax : {
                                 transport: function (params, success, failure) {
@@ -2721,14 +2721,14 @@
                                     return $request;
                                 }
                             }
-                        }
+                        },
                     )
                 );
 
                 Index.S2_Struktural = Index.FRM_EditDataPekerjaan.find('select[name="kodestruktural"]').select2(
                     $.extend(
                         true,
-                        Angga.generalAjaxSelect2('{{ route('select2.jabatan.struktural.data') }}','Pilih jabatan struktural'),
+                        Angga.generalAjaxSelect2('{{ route('select2.jabatan.struktural.data') }}','Pilih jabatan struktural', Index.MD_EditDataPekerjaan),
                         {
                             ajax : {
                                 transport: function (params, success, failure) {
