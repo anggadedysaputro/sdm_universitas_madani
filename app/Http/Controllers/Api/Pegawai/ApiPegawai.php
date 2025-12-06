@@ -80,6 +80,7 @@ class ApiPegawai extends Controller
             }
 
             unset($data[0]["fullpath"]);
+            if (!file_exists(storage_path("app/public/pegawai/" . $data[0]["gambar"]))) $data[0]["gambar"] = null;
             // $data[0]["link"] = asset("storage/pegawai/" . $data[0]["gambar"]);
 
             return response()->json([
