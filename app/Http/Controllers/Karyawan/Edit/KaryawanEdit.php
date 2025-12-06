@@ -214,7 +214,7 @@ class KaryawanEdit extends Controller
 
             $post = request()->all();
 
-            if ($post['isdosen'] == 1 && empty($post['nuptk'])) throw new Exception("NUPTK wajib diisi", 1);
+            if (isset($dosen['isdosen']) && $post['isdosen'] == 1 && empty($post['nuptk'])) throw new Exception("NUPTK wajib diisi", 1);
 
             $id = $post['nopeg_lama'];
             unset($post['nopeg_lama']);
