@@ -105,7 +105,10 @@ class ApiPegawai extends Controller
         try {
             $post = request()->all();
             $pegawai = Pegawai::find($post['nopeg']);
-            Storage::delete($pegawai->fullpath);
+
+            if (!empty($pegawai->fullpath)) {
+                Storage::delete($pegawai->fullpath);
+            }
 
             $path = Storage::putFile('public/pegawai', $post['foto']);
 
