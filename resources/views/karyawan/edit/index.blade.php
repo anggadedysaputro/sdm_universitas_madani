@@ -1090,10 +1090,10 @@
                                         <div class="invalid-feedback"></div>
                                       </div>
                                       <div class="col-auto">
-                                        <a href="#" class="btn btn-icon" aria-label="Button" id="search-organisasi">
+                                        <button class="btn btn-icon" aria-label="Button" id="search-organisasi" type="button">
                                           <!-- Download SVG icon from http://tabler-icons.io/i/search -->
                                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
-                                        </a>
+                                        </button>
                                       </div>
                                     </div>
                                 </div>
@@ -1142,7 +1142,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label class="form-label">Tugas tambahan <span class="form-label-description"></label>
+                                    <label class="form-label">Tugas tambahan</label>
                                     <textarea class="form-control" rows="6" placeholder="Masukkan tugas tambahan" name="tugas_tambahan"></textarea>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -1353,227 +1353,222 @@
 
     {{-- Modal data fasilitas --}}
     <div class="modal modal-blur fade" id="modal-edit-data-fasilitas" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Edit data fasilitas</h5>
-            <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form action="#" id="form-edit-data-fasilitas">
-            <div class="row mb-3">
-                <h3>Tempat Tinggal</h3>
-                <div class="col-md-12">
-                <div class="mb-3">
-                    <label class="form-label">Biaya per tahun</label>
-                    <input type="text" class="form-control money-mask" placeholder="Masukkan biaya pertahun" name="biaya_tempat_tinggal_pertahun">
-                    <div class="invalid-feedback"></div>
-                </div>
-                </div>
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit data fasilitas</h5>
+                <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <form action="#" id="form-edit-data-fasilitas">
+                <div class="row mb-3">
+                    <h3>Tempat Tinggal</h3>
+                    <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Biaya per tahun</label>
+                        <input type="text" class="form-control money-mask" placeholder="Masukkan biaya pertahun" name="biaya_tempat_tinggal_pertahun">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
+                </div>
 
-            <div class="row mb-3">
-                <h3>Beras</h3>
-                <div class="col-md-12">
-                <div class="mb-3">
-                    <label class="form-label">Jumlah KG</label>
-                    <input type="text" class="form-control decimal-mask-morethan" placeholder="Masukkan jumlah KG" name="jumlah_beras_kg">
-                    <div class="invalid-feedback"></div>
+                <div class="row mb-3">
+                    <h3>Beras</h3>
+                    <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Jumlah KG</label>
+                        <input type="text" class="form-control decimal-mask-morethan" placeholder="Masukkan jumlah KG" name="jumlah_beras_kg">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
 
-            <div class="row mb-3">
-                <h3>Kendaraan</h3>
-                <div class="col-md-6">
-                <div class="mb-3">
-                    <label class="form-label">Merk Kendaraan</label>
-                    <input type="text" class="form-control" placeholder="Masukkan merk" name="merk_kendaraan">
-                    <div class="invalid-feedback"></div>
+                <div class="row mb-3">
+                    <h3>Kendaraan</h3>
+                    <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Merk Kendaraan</label>
+                        <input type="text" class="form-control" placeholder="Masukkan merk" name="merk_kendaraan">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Tahun Kendaraan</label>
+                        <select class="form-select tomselected" name="tahun_kendaraan" placeholder="Pilih tahun kendaraan"></select>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
                 </div>
-                </div>
-                <div class="col-md-6">
-                <div class="mb-3">
-                    <label class="form-label">Tahun Kendaraan</label>
-                    <select class="form-select tomselected" name="tahun_kendaraan" placeholder="Pilih tahun kendaraan"></select>
-                    <div class="invalid-feedback"></div>
-                </div>
-                </div>
-            </div>
 
-            <div class="row mb-3">
-                <h3>Beasiswa Pendidikan</h3>
-                <div class="col-md-6">
-                <div class="mb-3">
-                    <label class="form-label">Nama Lembaga Pendidikan</label>
-                    <input type="text" class="form-control" placeholder="Masukkan nama lembaga pendidikan" name="nama_lembaga_beasiswa_pendidikan">
-                    <div class="invalid-feedback"></div>
+                <div class="row mb-3">
+                    <h3>Beasiswa Pendidikan</h3>
+                    <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Nama Lembaga Pendidikan</label>
+                        <input type="text" class="form-control" placeholder="Masukkan nama lembaga pendidikan" name="nama_lembaga_beasiswa_pendidikan">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Biaya per semester</label>
+                        <input type="text" class="form-control money-mask" placeholder="Masukkan biaya per semester" name="biaya_beasiswa_per_semester">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
                 </div>
-                </div>
-                <div class="col-md-6">
-                <div class="mb-3">
-                    <label class="form-label">Biaya per semester</label>
-                    <input type="text" class="form-control money-mask" placeholder="Masukkan biaya per semester" name="biaya_beasiswa_per_semester">
-                    <div class="invalid-feedback"></div>
-                </div>
-                </div>
-            </div>
 
-            <div class="row mb-3">
-                <div class="col-md-12">
-                <h3>
-                    Biaya Pendidikan Anak
-                    <button class="btn btn-success btn-sm" type="button" id="tambah-data-fasilitas">
-                    <i class="ti ti-plus"></i>
-                    </button>
-                </h3>
-                <div class="row" id="wrapper-fasilitas"></div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                    <h3>
+                        Biaya Pendidikan Anak
+                        <button class="btn btn-success btn-sm" type="button" id="tambah-data-fasilitas">
+                        <i class="ti ti-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="row" id="wrapper-fasilitas"></div>
+                    </div>
                 </div>
+                </form>
             </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="simpan-data-fasilitas">Simpan</button>
-        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="simpan-data-fasilitas">Simpan</button>
+            </div>
+            </div>
         </div>
     </div>
-    </div>
-
 
 
     {{-- modal keluarga --}}
     <div class="modal modal-blur fade" id="modal-edit-data-keluarga" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit data keluarga</h5>
-              <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#" id="form-edit-keluarga">
-                    <div class="d-flex flex-column gap-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label required">No kartu keluarga</label>
-                                    <input type="text" class="form-control integer-mask form-step-2" placeholder="Nomor kartu keluarga" name="nokk" required>
-                                    <div class="invalid-feedback"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit data keluarga</h5>
+                    <button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="form-edit-keluarga">
+                        <div class="d-flex flex-column gap-3">
+                            {{-- PERBAIKAN: Membuka Row untuk membungkus 4 input sekaligus --}}
+                            <div class="row">
+                                {{-- Input 1: No KK --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label required">No kartu keluarga</label>
+                                        <input type="text" class="form-control integer-mask form-step-2" placeholder="Nomor kartu keluarga" name="nokk" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label required">Nama kepala keluarga</label>
-                                    <input type="text" class="form-control form-step-2" placeholder="Input nama kepala keluarga" name="nama_kepala_keluarga" required>
-                                    <div class="invalid-feedback"></div>
+
+                                {{-- Input 2: Kepala Keluarga --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label required">Nama kepala keluarga</label>
+                                        <input type="text" class="form-control form-step-2" placeholder="Input nama kepala keluarga" name="nama_kepala_keluarga" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Nama keluarga darurat</label>
-                                    <input type="text" class="form-control form-step-2" placeholder="Input nama keluarga darurat" name="nama_keluarga_darurat">
-                                    <div class="invalid-feedback"></div>
+
+                                {{-- Input 3: Keluarga Darurat --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nama keluarga darurat</label>
+                                        <input type="text" class="form-control form-step-2" placeholder="Input nama keluarga darurat" name="nama_keluarga_darurat">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">No. telepon keluarga darurat</label>
-                                    <input type="text" class="form-control integer-mask form-step-2" placeholder="No. telepon" name="telp_keluarga_darurat">
+
+                                {{-- Input 4: Telp Darurat --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">No. telepon keluarga darurat</label>
+                                        <input type="text" class="form-control integer-mask form-step-2" placeholder="No. telepon" name="telp_keluarga_darurat">
+                                    </div>
                                 </div>
-                            </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Daftar keluarga <button class="btn btn-success btn-sm" type="button" id="tambah-keluarga"><i class="ti ti-plus"></i></button></h3>
+                            </div> {{-- PERBAIKAN: Row ditutup di sini --}}
                         </div>
-                    </div>
-                    <div class="row" id="wrapper-keluarga">
-                        @foreach ($keluarga as $value)
-                            <div class="col-md-12 mb-3">
-                                <div class="card position-relative">
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga" style="cursor:pointer;">
-                                        <i class="ti ti-minus text-white"></i>
-                                    </span>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">Nama</label>
-                                                    <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{ $value->nama }}" required>
-                                                    <div class="invalid-feedback"></div>
+
+                        {{-- Header Daftar Keluarga --}}
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <h3>Daftar keluarga <button class="btn btn-success btn-sm" type="button" id="tambah-keluarga"><i class="ti ti-plus"></i></button></h3>
+                            </div>
+                        </div>
+
+                        {{-- Loop Data Keluarga --}}
+                        <div class="row" id="wrapper-keluarga">
+                            @foreach ($keluarga as $value)
+                                <div class="col-md-12 mb-3">
+                                    <div class="card position-relative">
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger delete-keluarga" style="cursor:pointer;">
+                                            <i class="ti ti-minus text-white"></i>
+                                        </span>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Nama</label>
+                                                        <input type="text" class="form-control form-step-1" placeholder="Input nama lengkap" name="namakeluarga[]" value="{{ $value->nama }}" required>
+                                                        <div class="invalid-feedback"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label required">Hubungan</label>
-                                                    <select class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
-                                                        @foreach (hubungan() as $item)
-                                                            <option value="{{ $item }}" {{ $value->hubungan == $item ? 'selected' : '' }}>
-                                                                {{ $item }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Hubungan</label>
+                                                        <select class="form-select tomselected form-step-1" name="hubungankeluarga[]" required>
+                                                            @foreach (hubungan() as $item)
+                                                                <option value="{{ $item }}" {{ $value->hubungan == $item ? 'selected' : '' }}>
+                                                                    {{ $item }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Tempat lahir</label>
-                                                    <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" value="{{ $value->tempatlahir }}">
-                                                    <div class="invalid-feedback"></div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tempat lahir</label>
+                                                        <input type="text" class="form-control form-step-1" placeholder="Tempat lahir" name="tempatlahirkeluarga[]" value="{{ $value->tempatlahir }}">
+                                                        <div class="invalid-feedback"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Tanggal lahir</label>
-                                                    <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" value="{{ $value->tgllahir }}">
-                                                    <div class="invalid-feedback"></div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tanggal lahir</label>
+                                                        <input type="text" class="form-control flat-picker form-step-1" placeholder="Tanggal lahir" name="tgllahirkeluarga[]" value="{{ $value->tgllahir }}">
+                                                        <div class="invalid-feedback"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">No. telepon</label>
-                                                    <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{ $value->telp }}">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">No. telepon</label>
+                                                        <input type="text" class="form-control form-step-1 integer-mask" placeholder="No. telepon" name="telpkeluarga[]" value="{{ $value->telp }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Alamat</label>
-                                                    <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]">{{ $value->alamat }}</textarea>
-                                                    <div class="invalid-feedback"></div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label required">Alamat</label>
+                                                        <textarea class="form-control form-step-1" rows="6" placeholder="Alamat" name="alamatkeluarga[]">{{ $value->alamat }}</textarea>
+                                                        <div class="invalid-feedback"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="simpan-data-keluarga">Simpan</button>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
-        <div class="offcanvas-header">
-            <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
-            <button type="button" class="btn-close text-reset modal-btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <div id="organisasi"></div>
-                    </div>
+                            @endforeach
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto modal-btn-close" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="simpan-data-keluarga">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasEndLabel" id="canvas-main">
         <div class="offcanvas-header">
             <h2 class="offcanvas-title" id="offcanvasEndLabel">Daftar fungsional</h2>
@@ -1992,7 +1987,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label required">Alamat<span class="form-label-description"></label>
+                                                <label class="form-label required">Alama</label>
                                                 <textarea class="form-control form-step-2" rows="6" placeholder="Alamat" name="alamatkeluarga[]" required value="${e.alamat}">${e.alamat}</textarea>
                                                 <div class="invalid-feedback"></div>
                                             </div>
@@ -2230,8 +2225,9 @@
             }
 
             showCanvas(){
-                Index.MD_EditDataPekerjaan.modal('hide');
-                Index.OFFCNVS_Main.show();
+                Index.MD_EditDataPekerjaan.modal('hide').one('hidden.bs.modal', function(){
+                    Index.OFFCNVS_Main.show();
+                })
             }
 
             static deleteRowData(e){
