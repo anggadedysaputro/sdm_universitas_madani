@@ -2308,7 +2308,7 @@
                 if("{{ $pegawai->tgl_lahir }}") Index.MD_EditDataPersonal.find('input[name="tgl_lahir"]').val(flatpickr.formatDate(new Date("{{ $pegawai->tgl_lahir }}"), "j F Y"));
                 Index.FRM_EditDataPersonal.find('input[value="{{ $pegawai->jns_kel }}"][name="jns_kel"]').prop('checked',true);
                 Angga.setValueSelect2AjaxRemote(Index.S2_StatusNikah,{id:"{{ $pegawai->idstatusnikah }}" , text : "{{ $pegawai->status_nikah }}"});
-                Angga.setValueSelect2AjaxRemote(Index.S2_GolDarah,{id:"{{ $pegawai->gol_darah }}" , text : "{{ $pegawai->gol_darah }}"});
+                Angga.setValueSelect2AjaxRemote(Index.S2_GolDarah,{id:"{{ $pegawai->gol_darah }}" , text : "{{ $pegawai->nama_gol_darah }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Agama,{id:"{{ $pegawai->idagama }}" , text : "{{ $pegawai->agama }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Kewarganegaraan,{id:"{{ $pegawai->kewarganegaraan }}" , text : "{{ $pegawai->kewarganegaraan }}"});
                 Angga.setValueSelect2AjaxRemote(Index.S2_Negara,{id:"{{ $pegawai->idwarganegara }}" , text : "{{ $pegawai->negara }}"});

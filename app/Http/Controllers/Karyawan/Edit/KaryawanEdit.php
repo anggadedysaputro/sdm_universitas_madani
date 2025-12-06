@@ -33,7 +33,7 @@ class KaryawanEdit extends Controller
         $pegawai = Pegawai::from("applications.pegawai as p")
             ->select(
                 "nopeg",
-                "nama",
+                "p.nama",
                 "nama_panggilan",
                 DB::raw("convertnumericdatetoalphabetical(tgl_lahir) as tanggal_lahir"),
                 "tgl_lahir",
@@ -43,6 +43,7 @@ class KaryawanEdit extends Controller
                 DB::raw("case when isdosen = true then 'Ya' else 'Tidak' end as dosen"),
                 "nuptk",
                 "gol_darah",
+                "gd.nama as nama_gol_darah",
                 "a.urai as agama",
                 "p.idagama",
                 "sn.status as status_nikah",
@@ -185,6 +186,7 @@ class KaryawanEdit extends Controller
             ->join('masters.jabatanstruktural as js', 'js.kodejabatanstruktural', '=', 'p.kodestruktural')
             ->join('masters.pendidikan as pen', 'pen.kodependidikan', '=', 'p.kodependidikan')
             ->join('masters.bidang as bid', 'bid.id', '=', 'p.idbidang')
+            ->join('masters.golongan_darah as gd', 'gd.id', '=', 'p.gol_darah')
             ->first();
 
         if (empty($pegawai)) return redirect()->route('karyawan.index');
