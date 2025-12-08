@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Ijin\ApiIjin;
 use App\Http\Controllers\Api\Jabatan\Struktural\ApiJabatanStruktural;
 use App\Http\Controllers\Api\Kantor\ApiKantor;
 use App\Http\Controllers\Api\Libur\ApiLibur;
+use App\Http\Controllers\Api\Password\ApiPassword;
 use App\Http\Controllers\Api\Pegawai\ApiPegawai;
 use App\Http\Controllers\Api\Presensi\ApiPresensi;
 use Illuminate\Http\Request;
@@ -78,6 +79,9 @@ Route::prefix('approval')->group(function () {
 Route::prefix('fcm')->group(function () {
     Route::post('/notification', [ApiFcm::class, 'notification'])->name('api.fcm.notification');
     Route::post('/refresh-fcm-token', [ApiFcm::class, 'refreshFcmToken'])->name('api.fcm.refresh-fcm-token');
+});
+Route::prefix('password')->group(function () {
+    Route::post('/ubah', [ApiPassword::class, 'ubah'])->name('api.password.ubah');
 });
 
 Route::post('login', [Auth::class, 'login'])->name("login");
