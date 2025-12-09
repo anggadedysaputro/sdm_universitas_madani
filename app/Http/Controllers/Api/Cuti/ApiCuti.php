@@ -17,17 +17,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PHPJasper\PHPJasper;
 
 class ApiCuti extends Controller
 {
     use TraitsLoggerActivity;
 
     protected $config, $path;
+    protected $typeFile;
 
     public function __construct()
     {
         $this->config = tahunAplikasi();
         $this->path = 'public/cuti';
+        $this->typeFile = 'pdf';
     }
 
 
@@ -224,6 +227,62 @@ class ApiCuti extends Controller
                 'status' => false
             ];
             return response()->json($response, 200);
+        }
+    }
+
+    public function formPersetujuan()
+    {
+        try {
+            $idcuti = request()->post("idcuti");
+            if (empty($idcuti)) throw new Exception("Cuti tidak ditemukan", 1);
+
+            $input = public_path('report/persetujuan_cuti.jasper');
+            $filename = uniqid("persetujuan_cuti", TRUE);
+            $output = storage_path('app/private/jasper/' . $filename);
+
+            buatFolder(storage_path('app/private/jasper'));
+
+            $options = [
+                'format' => [$this->typeFile],
+                'locale' => 'id',
+                'params' => [
+                    'xidcuti' => $idcuti,
+                    'xttd' => asset('assets/images/ttd.png'),
+                    'xbackground' => asset('assets/images/back.png')
+                ],
+                'resources' => public_path('report/fonts/times_font.jar'),
+                'db_connection' => jasperConnection(),
+            ];
+
+            $jasper = new PHPJasper;
+            $jasper->process(
+                $input,
+                $output,
+                $options
+            )->execute();
+
+            $pdfPath = 'private/jasper/' . $filename . ".pdf";
+
+            if (!Storage::exists($pdfPath)) {
+                throw new Exception("File PDF tidak ditemukan setelah proses Jasper", 1);
+            }
+
+            // Stream PDF ke browser
+            return response()->file(
+                storage_path('app/' . $pdfPath),
+                [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="persetujuan_cuti.pdf"'
+                ]
+            );
+        } catch (\Throwable $th) {
+
+            $this->activity("Mencetak form persetujuan cuti [failed]", $th->getMessage());
+
+            return response()->json(
+                ($th->getCode() == 1 ? $th->getMessage() : 'Gagal mencetak form persetujuan cuti'),
+                500
+            );
         }
     }
 }

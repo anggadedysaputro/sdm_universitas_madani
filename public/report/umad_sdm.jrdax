@@ -4,7 +4,7 @@
   <driver>org.postgresql.Driver</driver>
   <username>postgres</username>
   <password>angga123</password>
-  <url>jdbc:postgresql://localhost:5433/lokal_sdm</url>
+  <url>jdbc:postgresql://localhost:5433/sdm_universitas_madani</url>
   <database></database>
   <savePassword>true</savePassword>
   <serverAddress></serverAddress>
