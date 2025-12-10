@@ -18,6 +18,50 @@
 		<defaultValueExpression><![CDATA[66]]></defaultValueExpression>
 	</parameter>
 	<parameter name="xfooter" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+    p.nama,
+    p.nopeg,
+    CONCAT(
+        CASE WHEN p.kodejabfung = 0 THEN '-' ELSE js.urai END,
+        '/',
+        CASE WHEN p.kodejabfung = 0 THEN '-' ELSE jf.urai END
+    ) AS pagol,
+    sp.keterangan AS statuspegawai,
+    b.urai AS unitkerja,
+    CONCAT(
+        '(', (c.tgl_akhir - c.tgl_awal), ') hari kerja, terhitung ',
+        convertnumericdatetoalphabetical(c.tgl_awal),
+        ' sampai dengan ',
+        convertnumericdatetoalphabetical(c.tgl_akhir)
+    ) AS waktucuti,
+    c.keterangan AS keperluan,
+    cf.namakepalakepegawaian,
+    cf.nipkepalakepegawaian,
+    convertnumericdatetoalphabetical(now()::date) as tanggal,
+    upper(concat(reg.no,'/UMad/CUTI/IV.4/E/',extract(month from tgl_awal),'/',cf.tahun)) as nomor_persetujuan_cuti,
+    sisa,
+    reg.no
+FROM applications.cuti AS c
+JOIN applications.pegawai AS p ON c.nopeg = p.nopeg
+JOIN masters.jabatanfungsional AS jf ON jf.kodejabatanfungsional = p.kodejabfung
+JOIN masters.jabatanstruktural AS js ON js.kodejabatanstruktural = p.kodestruktural
+JOIN masters.statuspegawai AS sp ON sp.idstatuspegawai = p.idstatuspegawai
+JOIN masters.bidang AS b ON b.id = p.idbidang
+JOIN (
+    SELECT ca.tahun,ku.namakepalakepegawaian, ku.nipkepalakepegawaian
+    FROM applications.konfigumum AS ku
+    JOIN applications.configapp AS ca ON ca.idkonfig = ku.idkonfigumum
+    WHERE ca.aktif = TRUE
+) AS cf ON TRUE
+join lateral(
+	select id, lpad(row_number()over()::text,4,'0') as no
+    from applications.cuti
+    where extract(year from tgl_awal) = cf.tahun
+    order by id 
+) as reg on reg.id = c.id
+WHERE c.id = $P{xidcuti}]]>
+	</queryString>
 	<field name="nama" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nama"/>
 		<property name="com.jaspersoft.studio.field.label" value="nama"/>
