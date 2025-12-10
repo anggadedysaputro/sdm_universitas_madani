@@ -236,7 +236,7 @@ class ApiCuti extends Controller
             $idcuti = request()->post("idcuti");
             if (empty($idcuti)) throw new Exception("Cuti tidak ditemukan", 1);
 
-            $input = public_path('report/persetujuan_cuti.jasper');
+            $input = public_path('report/persetujuan_cuti_fix.jasper');
             $filename = uniqid("persetujuan_cuti", TRUE);
             $output = storage_path('app/private/jasper/' . $filename);
 
@@ -247,8 +247,9 @@ class ApiCuti extends Controller
                 'locale' => 'id',
                 'params' => [
                     'xidcuti' => $idcuti,
-                    'xttd' => asset('assets/images/ttd.png'),
-                    'xbackground' => asset('assets/images/back.png')
+                    'xttd' => asset('assets/images/ttd_afi.png'),
+                    'xheader' => asset('assets/images/atas.png'),
+                    'xfooter' => asset('assets/images/bawah.png')
                 ],
                 'resources' => public_path('report/fonts/times_font.jar'),
                 'db_connection' => jasperConnection(),
