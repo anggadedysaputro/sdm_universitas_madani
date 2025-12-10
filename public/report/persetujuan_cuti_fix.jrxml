@@ -415,7 +415,8 @@ WHERE c.id = $P{xidcuti}]]>
 				<textElement textAlignment="Justified" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<text><![CDATA[Setelah selesai melakukan cuti wajib melaporkan diri kepada pejabat atasan langsung untuk siap bekerja kembali.
+				<text><![CDATA[Setelah selesai melakukan cuti wajib melaporkan diri kepada pejabat atasan langsung untuk
+siap bekerja kembali.
 ]]></text>
 			</staticText>
 			<textField>
@@ -458,7 +459,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<textElement>
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<text><![CDATA[Hal-hal yang harus dipenuhi sebelum dan setelah melakukan cuti adalah :]]></text>
+				<text><![CDATA[Demikian Surat Persetujuan Cuti ini dibuat untuk dipergunakan sebagaimana mestinya.]]></text>
 			</staticText>
 		</band>
 	</detail>
