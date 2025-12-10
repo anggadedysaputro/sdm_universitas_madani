@@ -398,7 +398,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<reportElement x="82" y="249" width="448" height="31" uuid="e2a3565d-74f1-44b3-8c01-7dad7c1e300e">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
-				<textElement textAlignment="Justified" verticalAlignment="Top">
+				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Sebelum melakukan cuti wajib berkoordinasi dengan pejabat atasan langsung terkait tugas/pekerjaan yang menjadi tanggung jawab Saudara;]]></text>
@@ -412,11 +412,10 @@ WHERE c.id = $P{xidcuti}]]>
 			</staticText>
 			<staticText>
 				<reportElement x="82" y="283" width="448" height="31" uuid="f13b6189-7a79-42cc-8d4f-e0e58d29b9eb"/>
-				<textElement textAlignment="Justified" verticalAlignment="Top">
+				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<text><![CDATA[Setelah selesai melakukan cuti wajib melaporkan diri kepada pejabat atasan langsung untuk
-siap bekerja kembali.
+				<text><![CDATA[Setelah selesai melakukan cuti wajib melaporkan diri kepada pejabat atasan langsung untuk siap bekerja kembali.
 ]]></text>
 			</staticText>
 			<textField>
