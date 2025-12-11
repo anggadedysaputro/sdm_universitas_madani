@@ -49,7 +49,7 @@ Route::prefix('cuti')->group(function () {
     Route::post('/create', [ApiCuti::class, 'create'])->name('api.cuti.create');
     Route::post('/data', [ApiCuti::class, 'data'])->name('api.cuti.data');
     Route::post('/cancel', [ApiCuti::class, 'cancel'])->name('api.cuti.cancel');
-    Route::post('/form-persetujuan', [ApiCuti::class, 'formPersetujuan'])->name('api.cuti.form-persetujuan');
+    Route::get('/form-persetujuan', [ApiCuti::class, 'formPersetujuan'])->name('api.cuti.form-persetujuan');
 });
 Route::prefix('ijin')->group(function () {
     Route::post('/create', [ApiIjin::class, 'create'])->name('api.ijin.create');
