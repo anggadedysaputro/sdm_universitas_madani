@@ -50,7 +50,7 @@
                         <div class="col-md-12">
                             <div class="form-check form-switch mt-5">
                                 <input class="form-check-input" type="checkbox" id="absensi-change" {{$pegawai->isreguler?"checked":""}}>
-                                <label class="form-check-label" for="absensi-change">Absensi Reguler</label>
+                                <label class="form-check-label" for="absensi-change">Presensi Reguler</label>
                             </div>
 
                         </div>
