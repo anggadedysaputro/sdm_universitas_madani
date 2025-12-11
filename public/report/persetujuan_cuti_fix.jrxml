@@ -31,9 +31,9 @@
     b.urai AS unitkerja,
     CONCAT(
         '(', ((c.tgl_akhir - c.tgl_awal)+1), ') hari kerja, terhitung ',
-        TO_CHAR(c.tgl_awal, 'DD Mon YYYY'),
+        format_date_id(c.tgl_awal),
         ' sampai dengan ',
-        TO_CHAR(c.tgl_akhir, 'DD Mon YYYY')
+        format_date_id(c.tgl_akhir)
     ) AS waktucuti,
     c.keterangan AS keperluan,
     cf.namakepalakepegawaian,
