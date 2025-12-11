@@ -364,7 +364,7 @@ WHERE c.id = $P{xidcuti}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unitkerja}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="196" y="155" width="334" height="19" uuid="42539c6d-ee70-48c2-a82b-83e3dc2ba1a1">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
