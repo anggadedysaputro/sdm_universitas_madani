@@ -407,7 +407,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<text><![CDATA[Demikian Surat Persetujuan Cuti ini dibuat untuk dipergunakan sebagaimana mestinya.]]></text>
 			</staticText>
 			<frame>
-				<reportElement x="80" y="174" width="450" height="50" uuid="cba9dcab-62b0-43a9-9a5e-fb41eb5d9e5a"/>
+				<reportElement positionType="Float" x="80" y="174" width="450" height="50" uuid="cba9dcab-62b0-43a9-9a5e-fb41eb5d9e5a"/>
 				<textField>
 					<reportElement positionType="Float" x="116" y="19" width="334" height="19" uuid="69fd5ced-ea22-4d95-b2e5-1a31fe0d27a4">
 						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
