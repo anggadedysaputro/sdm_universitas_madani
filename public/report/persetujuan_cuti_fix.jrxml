@@ -245,13 +245,6 @@ WHERE c.id = $P{xidcuti}]]>
 				<text><![CDATA[Waktu Cuti]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="80" y="174" width="100" height="19" uuid="9e928979-2e14-491b-8302-4c062fb9571b"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[Keperluan]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="180" y="59" width="16" height="19" uuid="9f3a7658-05cd-4e20-b481-be83ba740009">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
@@ -300,15 +293,6 @@ WHERE c.id = $P{xidcuti}]]>
 				<reportElement x="180" y="155" width="16" height="19" uuid="0d848f99-127c-484d-b5f5-e58816f80153">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="180" y="174" width="16" height="19" uuid="befadc7a-884f-4c4f-a7ec-f65d5e79da8e">
-					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
@@ -373,16 +357,6 @@ WHERE c.id = $P{xidcuti}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{waktucuti}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="196" y="174" width="334" height="19" uuid="38cc2a2f-6dc9-4303-9e83-63d838cf6326">
-					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
-					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{keperluan}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="60" y="249" width="22" height="31" uuid="a3dc7de2-5706-4d39-bc30-986eaa26dfd3">
 					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
@@ -426,40 +400,69 @@ WHERE c.id = $P{xidcuti}]]>
 				<textFieldExpression><![CDATA["NIPY."+$F{nopeg}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="80" y="193" width="100" height="19" uuid="0161d8e7-1a5a-417b-a6ab-95857f1720bf">
-					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[Sisa Cuti]]></text>
-			</staticText>
-			<textField>
-				<reportElement positionType="Float" x="196" y="193" width="334" height="19" uuid="f66088d6-f381-48d4-b37a-c7d7941283d4">
-					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
-					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sisa}+" Hari"]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="180" y="193" width="16" height="19" uuid="bf6037da-9dd9-44b3-bfd6-a79eeaef75bb">
-					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="60" y="321" width="470" height="21" uuid="ae8af996-12da-448a-989c-bb2a47018456"/>
 				<textElement>
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Demikian Surat Persetujuan Cuti ini dibuat untuk dipergunakan sebagaimana mestinya.]]></text>
 			</staticText>
+			<frame>
+				<reportElement x="80" y="174" width="450" height="50" uuid="cba9dcab-62b0-43a9-9a5e-fb41eb5d9e5a"/>
+				<textField>
+					<reportElement positionType="Float" x="116" y="19" width="334" height="19" uuid="69fd5ced-ea22-4d95-b2e5-1a31fe0d27a4">
+						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+						<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sisa}+" Hari"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="100" y="0" width="16" height="19" uuid="816fd650-c985-40ce-b1d7-c7871ef10222">
+						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="19" width="100" height="19" uuid="97672dae-63c1-4721-bd1a-ae3cf8e36d07">
+						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<text><![CDATA[Sisa Cuti]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="100" height="19" uuid="9d24c3c2-c240-4b15-bd24-9686ae935016"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<text><![CDATA[Keperluan]]></text>
+				</staticText>
+				<textField>
+					<reportElement positionType="Float" x="116" y="0" width="334" height="19" uuid="0f5afb90-413b-44e1-9960-663d4dc8212c">
+						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+						<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{keperluan}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="100" y="19" width="16" height="19" uuid="d9063791-e058-485e-857b-795ca0e6e3e8">
+						<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+			</frame>
 		</band>
 	</detail>
 	<pageFooter>
