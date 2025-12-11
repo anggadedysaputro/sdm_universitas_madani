@@ -230,10 +230,10 @@ class ApiCuti extends Controller
         }
     }
 
-    public function formPersetujuan()
+    public function formPersetujuan($idcuti)
     {
         try {
-            $idcuti = request()->post("idcuti");
+            // $idcuti = request()->post("idcuti");
             if (empty($idcuti)) throw new Exception("Cuti tidak ditemukan", 1);
 
             $input = public_path('report/persetujuan_cuti_fix.jasper');
