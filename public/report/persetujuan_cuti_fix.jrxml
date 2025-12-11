@@ -245,7 +245,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<text><![CDATA[Waktu Cuti]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="174" width="100" height="19" uuid="9e928979-2e14-491b-8302-4c062fb9571b"/>
+				<reportElement positionType="Float" x="80" y="174" width="100" height="19" uuid="9e928979-2e14-491b-8302-4c062fb9571b"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
@@ -307,7 +307,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="174" width="16" height="19" uuid="befadc7a-884f-4c4f-a7ec-f65d5e79da8e">
+				<reportElement positionType="Float" x="180" y="174" width="16" height="19" uuid="befadc7a-884f-4c4f-a7ec-f65d5e79da8e">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -365,7 +365,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<textFieldExpression><![CDATA[$F{unitkerja}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="196" y="155" width="334" height="19" uuid="42539c6d-ee70-48c2-a82b-83e3dc2ba1a1">
+				<reportElement positionType="Float" x="196" y="155" width="334" height="19" uuid="42539c6d-ee70-48c2-a82b-83e3dc2ba1a1">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -374,7 +374,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<textFieldExpression><![CDATA[$F{waktucuti}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="196" y="174" width="334" height="19" uuid="38cc2a2f-6dc9-4303-9e83-63d838cf6326">
+				<reportElement positionType="Float" x="196" y="174" width="334" height="19" uuid="38cc2a2f-6dc9-4303-9e83-63d838cf6326">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
 				</reportElement>
@@ -426,7 +426,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<textFieldExpression><![CDATA["NIPY."+$F{nopeg}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="80" y="193" width="100" height="19" uuid="0161d8e7-1a5a-417b-a6ab-95857f1720bf">
+				<reportElement positionType="Float" x="80" y="193" width="100" height="19" uuid="0161d8e7-1a5a-417b-a6ab-95857f1720bf">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -435,7 +435,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<text><![CDATA[Sisa Cuti]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="196" y="193" width="334" height="19" uuid="f66088d6-f381-48d4-b37a-c7d7941283d4">
+				<reportElement positionType="Float" x="196" y="193" width="334" height="19" uuid="f66088d6-f381-48d4-b37a-c7d7941283d4">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
 				</reportElement>
@@ -445,7 +445,7 @@ WHERE c.id = $P{xidcuti}]]>
 				<textFieldExpression><![CDATA[$F{sisa}+" Hari"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="180" y="193" width="16" height="19" uuid="bf6037da-9dd9-44b3-bfd6-a79eeaef75bb">
+				<reportElement positionType="Float" x="180" y="193" width="16" height="19" uuid="bf6037da-9dd9-44b3-bfd6-a79eeaef75bb">
 					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
