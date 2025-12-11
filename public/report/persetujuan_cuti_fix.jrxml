@@ -30,7 +30,7 @@
     sp.keterangan AS statuspegawai,
     b.urai AS unitkerja,
     CONCAT(
-        '(', (c.tgl_akhir - c.tgl_awal), ') hari kerja, terhitung ',
+        '(', ((c.tgl_akhir - c.tgl_awal)+1), ') hari kerja, terhitung ',
         convertnumericdatetoalphabetical(c.tgl_awal),
         ' sampai dengan ',
         convertnumericdatetoalphabetical(c.tgl_akhir)
