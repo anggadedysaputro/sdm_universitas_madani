@@ -29,14 +29,43 @@
     ) AS pagol,
     sp.keterangan AS statuspegawai,
     b.urai AS unitkerja,
-    concat('(',count(1),') Hari, Tanggal ', string_agg(extract(day from cd.tanggal)::text,',')) AS waktucuti,
     c.keterangan AS keperluan,
     cf.namakepalakepegawaian,
     cf.nipkepalakepegawaian,
     convertnumericdatetoalphabetical(now()::date) as tanggal,
     upper(concat(reg.no,'/UMad/CUTI/IV.4/E/',extract(month from min(cd.tanggal)),'/',cf.tahun)) as nomor_persetujuan_cuti,
     sisa,
-    reg.no
+    reg.no,
+    concat(
+    	'(',count(1),') Hari, Tanggal ', 
+        (
+          select
+              string_agg(teks, ' ' order by tanggal) as hasil
+          from (
+              select
+                  tanggal,
+                  concat(
+                      extract(day from tanggal),
+                      case
+                          -- BARIS TERAKHIR DARI SEMUA DATA
+                          when tanggal = max(tanggal) over ()
+                          then ' ' || to_char(tanggal, 'FMMonth YYYY')
+
+                          -- TERAKHIR DI BULAN (TAPI BUKAN TERAKHIR KESELURUHAN)
+                          when tanggal = max(tanggal) over (
+                              partition by date_trunc('month', tanggal)
+                          )
+                          then ' ' || to_char(tanggal, 'FMMonth') || ','
+
+                          else ','
+                      end
+                  ) as teks
+              from applications.cuti_detail
+              where idcuti = c.id
+          ) t
+        )
+    ) AS waktucuti
+    
 FROM applications.cuti AS c
 join applications.cuti_detail as cd on c.id = cd.idcuti
 JOIN applications.pegawai AS p ON c.nopeg = p.nopeg
@@ -83,10 +112,6 @@ group by c.id, reg.no,c.sisa,p.nama,p.nopeg,js.urai,jf.urai, sp.keterangan, b.ur
 		<property name="com.jaspersoft.studio.field.label" value="unitkerja"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="bidang"/>
 	</field>
-	<field name="waktucuti" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="waktucuti"/>
-		<property name="com.jaspersoft.studio.field.label" value="waktucuti"/>
-	</field>
 	<field name="keperluan" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="keperluan"/>
 		<property name="com.jaspersoft.studio.field.label" value="keperluan"/>
@@ -118,6 +143,10 @@ group by c.id, reg.no,c.sisa,p.nama,p.nopeg,js.urai,jf.urai, sp.keterangan, b.ur
 	<field name="no" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="no"/>
 		<property name="com.jaspersoft.studio.field.label" value="no"/>
+	</field>
+	<field name="waktucuti" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="waktucuti"/>
+		<property name="com.jaspersoft.studio.field.label" value="waktucuti"/>
 	</field>
 	<title>
 		<band height="139">
