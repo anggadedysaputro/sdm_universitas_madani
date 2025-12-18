@@ -32,18 +32,45 @@ class ApiApprovalCuti extends Controller
                 [
                     "js.urai as nama_jabatan_struktural",
                     "jf.urai as nama_jabatan_fungsional",
-                    "c.*",
+                    "c.nopeg",
+                    "c.keterangan",
+                    "c.jumlah",
+                    "c.sisa",
+                    "c.approval",
+                    "c.approval_sdm",
+                    "c.nopeg_atasan",
+                    "c.lampiran",
+                    "c.approval_at",
+                    "c.approval_sdm_at",
                     "p.nama",
                     DB::raw("coalesce(b.urai,'#NA') as nama_bidang"),
                     DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")
                 ]
-            )->where("nopeg_atasan", $post['nopeg_atasan'])
+            )
+                ->join('applications.cuti_detail as cd', 'c.id', '=', 'cd.idcuti')
+                ->where("nopeg_atasan", $post['nopeg_atasan'])
                 ->join("applications.pegawai as p", "p.nopeg", '=', "c.nopeg")
                 ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", '=', 'p.kodestruktural')
                 ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
                 ->leftJoin("masters.bidang as b", "b.id", '=', 'p.idbidang')
-                ->whereRaw("extract(year from c.tgl_awal) = {$this->config->tahun}")
+                ->whereRaw("extract(year from cd.tanggal) = {$this->config->tahun}")
                 ->whereNull("approval")
+                ->groupBy(
+                    "js.urai",
+                    "jf.urai",
+                    "p.nama",
+                    "c.nopeg",
+                    "c.keterangan",
+                    "c.jumlah",
+                    "c.sisa",
+                    "c.approval",
+                    "c.approval_sdm",
+                    "c.nopeg_atasan",
+                    "c.lampiran",
+                    "c.approval_at",
+                    "c.approval_sdm_at",
+                    "b.urai"
+                )
                 ->get();
 
             $response = [

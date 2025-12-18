@@ -188,16 +188,42 @@ class ApiCuti extends Controller
                 [
                     "js.urai as nama_jabatan_struktural",
                     "jf.urai as nama_jabatan_fungsional",
-                    "c.*",
+                    "c.nopeg",
+                    "c.keterangan",
+                    "c.jumlah",
+                    "c.sisa",
+                    "c.approval",
+                    "c.approval_sdm",
+                    "c.nopeg_atasan",
+                    "c.lampiran",
+                    "c.approval_at",
+                    "c.approval_sdm_at",
                     "p.nama",
                     DB::raw("case when c.approval = true then 'Disetujui' when c.approval = false then 'Ditolak' else 'Diajukan' end approval_status")
                 ]
             )
+                ->join('applications.cuti_detail as cd', 'c.id', '=', 'cd.idcuti')
                 ->join("applications.pegawai as p", "p.nopeg", '=', "c.nopeg")
                 ->join("masters.jabatanstruktural as js", "js.kodejabatanstruktural", '=', 'p.kodestruktural')
                 ->join("masters.jabatanfungsional as jf", "jf.kodejabatanfungsional", '=', 'p.kodejabfung')
                 ->where("c.nopeg", $post['nopeg'])
-                ->whereRaw("extract(year from c.tgl_awal) = {$this->config->tahun}")->get();
+                ->whereRaw("extract(year from cd.tanggal) = {$this->config->tahun}")
+                ->groupBy(
+                    "js.urai",
+                    "jf.urai",
+                    "p.nama",
+                    "c.nopeg",
+                    "c.keterangan",
+                    "c.jumlah",
+                    "c.sisa",
+                    "c.approval",
+                    "c.approval_sdm",
+                    "c.nopeg_atasan",
+                    "c.lampiran",
+                    "c.approval_at",
+                    "c.approval_sdm_at",
+                )
+                ->get();
 
             $response = [
                 'data' => $data,
