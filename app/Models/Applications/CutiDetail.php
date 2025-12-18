@@ -5,7 +5,7 @@ namespace App\Models\Applications;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cuti extends Model
+class CutiDetail extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Cuti extends Model
      *
      * @var string
      */
-    protected $table = 'applications.cuti';
+    protected $table = 'applications.cuti_detail';
 
     /**
      * The primary key associated with the table.
@@ -29,15 +29,7 @@ class Cuti extends Model
      * @var array
      */
     protected $fillable = [
-        'nopeg',
-        'keterangan',
-        'jumlah',
-        'sisa',
-        'approval',
-        'approval_sdm',
-        'nopeg_atasan',
-        'lampiran',
-        'approval_at',
-        'approval_sdm_at'
+        'idcuti',
+        'tanggal',
     ];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Cuti;
 use App\Http\Controllers\Controller;
 use App\Models\Applications\ConfigApp;
 use App\Models\Applications\Cuti;
+use App\Models\Applications\CutiDetail;
 use App\Models\Applications\KonfigUmum;
 use App\Models\Applications\Pegawai;
 use App\Services\CutiService;
@@ -43,36 +44,42 @@ class ApiCuti extends Controller
             $form = $this->validateForm($post);
 
             if ($form instanceof JsonResponse) return $form;
-
-            // Ambil data dari POST
-            $tanggalawal  = $form['tgl_awal'];
-            $tanggalakhir = $form['tgl_akhir'];
-
-            // Ubah ke objek Carbon
-            $start = Carbon::parse($tanggalawal);
-            $end   = Carbon::parse($tanggalakhir);
+            $tglCuti = $form['tgl_cuti'];
 
             // Hitung selisih hari
-            $selisihHari = $start->diffInDays($end) + 1;
+            $selisihHari = count($tglCuti);
 
-            $getLibur = DB::select("select count(1) as jumlah from list_libur(?,?)", [$form['tgl_awal'], $form['tgl_akhir']]);
+            $tgl_awal = min($tglCuti);
+            $tgl_akhir = max($tglCuti);
 
-            if (($selisihHari - $getLibur[0]->jumlah) <= 0) throw new Exception("Anda cuti di hari libur!", 1);
 
-            $selisihHari -= $getLibur[0]->jumlah;
+            $getLibur = DB::select("select * from list_libur(?,?)", [$tgl_awal, $tgl_akhir]);
+
+            $filterFromLibur = array_filter($getLibur, function ($value) use ($tglCuti) {
+                // cek apakah tanggal ada di array tglCuti
+                return in_array($value->rettanggal, $tglCuti);
+            });
+
+            $jumlahLibur = count($filterFromLibur);
+
+
+            if (($selisihHari - $jumlahLibur) <= 0) throw new Exception("Anda cuti di hari libur!", 1);
+
+            $selisihHari -= $jumlahLibur;
             if ($selisihHari == 0) throw new Exception("Minimal cuti 1 hari", 1);
 
             $form['jumlah'] = $selisihHari;
             $atasan = Pegawai::where('nopeg', $post['nopeg_atasan'])->first();
             if (empty($atasan)) throw new Exception("Atasan tidak ditemukan", 1);
             if (!Pegawai::where("nopeg", $form['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
-            if (Cuti::where('nopeg', $form['nopeg'])->where("tgl_awal", '>=', $form['tgl_awal'])->where('tgl_akhir', '<=', $form['tgl_akhir'])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$form['tgl_awal']}", 1);
+            if (DB::table('applications.cuti as c')->join('applications.cuti_detail as cd', 'cd.idcuti', '=', 'c.id')->where('nopeg', $form['nopeg'])->whereBetween("tanggal", [$tgl_awal, $tgl_akhir])->exists()) throw new Exception("Anda sudah pernah mengajukan cuti di tanggal {$tgl_awal}", 1);
 
             if (!$this->config) throw new Exception("Konfigurasi yang aktif tidak ditemukan", 1);
 
-            $totalCuti = Cuti::where('nopeg', $form['nopeg'])
-                ->whereRaw("extract(year from tgl_awal) = {$this->config->tahun}")
+            $totalCuti = DB::table('applications.cuti as c')->join('applications.cuti_detail as cd', 'cd.idcuti', '=', 'c.id')->where('nopeg', $form['nopeg'])
+                ->whereRaw("extract(year from tanggal) = {$this->config->tahun}")
                 ->sum('jumlah');
+
 
             $sisaCuti = $this->config->defcuti - ($totalCuti + $form['jumlah']);
 
@@ -97,7 +104,16 @@ class ApiCuti extends Controller
                 $form['lampiran'] = null;
             }
 
-            Cuti::create($form);
+            $cutiCreated = Cuti::create($form);
+
+            for ($i = 0; $i < count($tglCuti); $i++) {
+                $insert = [
+                    'idcuti' => $cutiCreated->id,
+                    'tanggal' => $tglCuti[$i]
+                ];
+
+                CutiDetail::create($insert);
+            }
 
             $deviceToken = $atasan->token_id;
             $title = "Pemberitahuan Cuti";
@@ -139,8 +155,10 @@ class ApiCuti extends Controller
         $validator = Validator::make($post, [
             'nopeg' => 'required',
             'nopeg_atasan' => 'required',
-            'tgl_awal' => 'required|date',
-            'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
+            'tgl_cuti'     => 'required|array|min:1',
+            'tgl_cuti.*'   => 'required|date',
+            // 'tgl_awal' => 'required|date',
+            // 'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
             'keterangan' => 'nullable',
             'lampiran'  => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:1024', // max 1mb
         ], []);
