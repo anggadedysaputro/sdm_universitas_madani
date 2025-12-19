@@ -44,7 +44,8 @@ class ApiCuti extends Controller
             $form = $this->validateForm($post);
 
             if ($form instanceof JsonResponse) return $form;
-            $tglCuti = $form['tgl_cuti'];
+
+            $tglCuti = json_decode($form['tgl_cuti'], true);
 
             // Hitung selisih hari
             $selisihHari = count($tglCuti);
@@ -155,8 +156,7 @@ class ApiCuti extends Controller
         $validator = Validator::make($post, [
             'nopeg' => 'required',
             'nopeg_atasan' => 'required',
-            'tgl_cuti'     => 'required|array|min:1',
-            'tgl_cuti.*'   => 'required|date',
+            'tgl_cuti'     => 'required',
             // 'tgl_awal' => 'required|date',
             // 'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
             'keterangan' => 'nullable',
