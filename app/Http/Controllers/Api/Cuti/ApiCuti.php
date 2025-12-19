@@ -45,7 +45,13 @@ class ApiCuti extends Controller
 
             if ($form instanceof JsonResponse) return $form;
 
+            if (empty($form['tgl_cuti'])) throw new Exception("Tanggal cuti wajib diisi!", 1);
+
             $tglCuti = json_decode($form['tgl_cuti'], true);
+
+            $isSerial = $this->isSerialTanggal($tglCuti);
+
+            $form['isserial'] = $isSerial;
 
             // Hitung selisih hari
             $selisihHari = count($tglCuti);
@@ -329,5 +335,28 @@ class ApiCuti extends Controller
                 500
             );
         }
+    }
+
+    function isSerialTanggal(array $dates): bool
+    {
+        // 0 atau 1 tanggal = dianggap serial
+        if (count($dates) <= 1) {
+            return true;
+        }
+
+        // urutkan tanggal
+        sort($dates);
+
+        for ($i = 1; $i < count($dates); $i++) {
+            $prev = Carbon::parse($dates[$i - 1]);
+            $curr = Carbon::parse($dates[$i]);
+
+            // selisih harus 1 hari
+            if ($prev->diffInDays($curr) !== 1) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

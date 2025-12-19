@@ -38,6 +38,7 @@ class Cuti extends Model
         'nopeg_atasan',
         'lampiran',
         'approval_at',
-        'approval_sdm_at'
+        'approval_sdm_at',
+        'isserial'
     ];
 }
