@@ -49,6 +49,15 @@ class ApiCuti extends Controller
 
             $tglCuti = json_decode($form['tgl_cuti'], true);
 
+            foreach ($tglCuti as $tgl) {
+                $tahun = date('Y', strtotime($tgl));
+
+                if ($tahun != $this->config->tahun) {
+                    // Tolak cuti
+                    throw new Exception("Pengajuan cuti ditolak. Tahun $tahun tidak sesuai konfigurasi.");
+                }
+            }
+
             $isSerial = $this->isSerialTanggal($tglCuti);
 
             $form['isserial'] = $isSerial;
