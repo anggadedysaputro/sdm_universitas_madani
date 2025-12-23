@@ -44,7 +44,16 @@ class ApiApprovalCuti extends Controller
                     "c.approval_sdm_at",
                     "p.nama",
                     DB::raw("coalesce(b.urai,'#NA') as nama_bidang"),
-                    DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status")
+                    DB::raw("case when approval = true then 'Disetujui' when approval = false then 'Ditolak' else 'Diajukan' end approval_status"),
+                    DB::raw("
+                        json_agg(
+                            json_build_object(
+                                'tanggal', cd.tanggal
+                            )
+                            order by cd.tanggal
+                        ) as list_tanggal
+                    "),
+                    "c.created_at"
                 ]
             )
                 ->join('applications.cuti_detail as cd', 'c.id', '=', 'cd.idcuti')
@@ -69,9 +78,15 @@ class ApiApprovalCuti extends Controller
                     "c.lampiran",
                     "c.approval_at",
                     "c.approval_sdm_at",
-                    "b.urai"
+                    "b.urai",
+                    "c.created_at"
                 )
                 ->get();
+
+            $data = $data->map(function ($item) {
+                $item->list_tanggal = json_decode($item->list_tanggal);
+                return $item;
+            });
 
             $response = [
                 'data' => $data,
