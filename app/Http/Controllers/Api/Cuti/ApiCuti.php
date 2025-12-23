@@ -222,7 +222,8 @@ class ApiCuti extends Controller
                             )
                             order by cd.tanggal
                         ) as list_tanggal
-                    ")
+                    "),
+                    "c.created_at"
 
                 ]
             )
@@ -247,6 +248,7 @@ class ApiCuti extends Controller
                     "c.lampiran",
                     "c.approval_at",
                     "c.approval_sdm_at",
+                    "c.created_at"
                 )
                 ->get();
 
