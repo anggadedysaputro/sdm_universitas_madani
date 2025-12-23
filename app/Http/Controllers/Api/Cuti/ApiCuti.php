@@ -250,6 +250,11 @@ class ApiCuti extends Controller
                 )
                 ->get();
 
+            $data = $data->map(function ($item) {
+                $item->list_tanggal = json_decode($item->list_tanggal);
+                return $item;
+            });
+
             $response = [
                 'data' => $data,
                 'status' => true,
