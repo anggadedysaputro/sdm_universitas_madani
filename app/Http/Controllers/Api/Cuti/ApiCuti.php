@@ -54,7 +54,7 @@ class ApiCuti extends Controller
 
                 if ($tahun != $this->config->tahun) {
                     // Tolak cuti
-                    throw new Exception("Pengajuan cuti ditolak. Tahun $tahun tidak sesuai konfigurasi.");
+                    throw new Exception("Pengajuan cuti ditolak. Tahun $tahun tidak sesuai konfigurasi.", 1);
                 }
             }
 
@@ -155,9 +155,8 @@ class ApiCuti extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->activity("Cuti [failed]", $th->getMessage());
-
             $response = [
-                'message' => message("Cuti gagal diajukan", $th),
+                'message' => ($th->getCode() == 1 ? $th->getMessage() : message("Cuti gagal diajukan", $th)),
                 'status' => false
             ];
 
@@ -201,6 +200,7 @@ class ApiCuti extends Controller
             if (!Pegawai::where("nopeg", $post['nopeg'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             $data = Cuti::from("applications.cuti as c")->select(
                 [
+                    "c.id",
                     "js.urai as nama_jabatan_struktural",
                     "jf.urai as nama_jabatan_fungsional",
                     "c.nopeg",
@@ -224,6 +224,7 @@ class ApiCuti extends Controller
                 ->where("c.nopeg", $post['nopeg'])
                 ->whereRaw("extract(year from cd.tanggal) = {$this->config->tahun}")
                 ->groupBy(
+                    "c.id",
                     "js.urai",
                     "jf.urai",
                     "p.nama",
