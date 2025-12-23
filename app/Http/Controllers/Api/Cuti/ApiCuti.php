@@ -215,7 +215,15 @@ class ApiCuti extends Controller
                     "c.approval_sdm_at",
                     "p.nama",
                     DB::raw("case when c.approval = true then 'Disetujui' when c.approval = false then 'Ditolak' else 'Diajukan' end approval_status"),
-                    DB::raw("json_agg(cd.*) as list_tanggal")
+                    DB::raw("
+                        json_agg(
+                            json_build_object(
+                                'tanggal', cd.tanggal
+                            )
+                            order by cd.tanggal
+                        ) as list_tanggal
+                    ")
+
                 ]
             )
                 ->join('applications.cuti_detail as cd', 'c.id', '=', 'cd.idcuti')
