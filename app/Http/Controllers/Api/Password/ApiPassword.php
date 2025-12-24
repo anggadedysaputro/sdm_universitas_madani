@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Services\EasyAES;
+use Exception;
 
 class ApiPassword extends Controller
 {
@@ -24,6 +25,10 @@ class ApiPassword extends Controller
 
         try {
             $post = $request->all();
+            $kataSandi = $this->easyAES->decrypt($post['new_password']);
+
+            if (!$kataSandi) throw new Exception("Pola Enkripsi tidak diketahui!", 1);
+
             $form = $this->validatePasswordForm($post);
 
             if ($form instanceof JsonResponse) {
@@ -47,8 +52,6 @@ class ApiPassword extends Controller
                     'status' => false
                 ], 200);
             }
-
-            $kataSandi = $this->easyAES->decrypt($post['new_password']);
 
             // Update password baru
             $user->password = Hash::make($kataSandi);
