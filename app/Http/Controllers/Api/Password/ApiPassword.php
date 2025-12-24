@@ -75,9 +75,9 @@ class ApiPassword extends Controller
         $validator = Validator::make($post, [
             'idusers' => 'required',
             'current_password' => 'required|string|min:6',
-            'new_password' => 'required|string|min:6|confirmed', // harus ada new_password_confirmation
+            // 'new_password' => 'required|string|min:6|confirmed', // harus ada new_password_confirmation
         ], [
-            'new_password.confirmed' => 'Konfirmasi password tidak sesuai!'
+            // 'new_password.confirmed' => 'Konfirmasi password tidak sesuai!'
         ]);
 
         if ($validator->fails()) {
