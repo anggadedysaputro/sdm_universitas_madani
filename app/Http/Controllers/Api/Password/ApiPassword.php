@@ -8,11 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Services\EasyAES;
 
 class ApiPassword extends Controller
 {
+    protected $easyAES;
+
+    public function __construct()
+    {
+        $this->easyAES = new EasyAES(env('EASY_AES_KEY'), 256, env('EASY_AES_KEY_IV'));
+    }
+
     public function ubah(Request $request)
     {
+
         try {
             $post = $request->all();
             $form = $this->validatePasswordForm($post);
@@ -39,9 +48,11 @@ class ApiPassword extends Controller
                 ], 200);
             }
 
+            $kataSandi = $this->easyAES->decrypt($post['new_password']);
+
             // Update password baru
-            $user->password = Hash::make($post['new_password']);
-            $user->passwordapi = md5(md5($user->nopeg) . md5($post['new_password']));
+            $user->password = Hash::make($kataSandi);
+            $user->passwordapi = md5(md5($user->nopeg) . md5($kataSandi));
             $user->save();
 
             return response()->json([

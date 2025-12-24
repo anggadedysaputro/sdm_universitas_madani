@@ -37,7 +37,7 @@ class Auth extends Controller
                 ->with('roles') // ini yang load relasi
                 ->first();
 
-            if (empty($user)) throw new Exception("User tidak atau password tidak valid", 1);
+            if (empty($user)) throw new Exception("User tidak ada atau password tidak valid", 1);
 
             $konfigUmum = tahunAplikasi();
             $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
