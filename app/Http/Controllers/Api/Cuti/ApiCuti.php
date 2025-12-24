@@ -58,7 +58,8 @@ class ApiCuti extends Controller
                 }
             }
 
-            $isSerial = $this->isSerialTanggal($tglCuti);
+            // $isSerial = $this->isSerialTanggal($tglCuti);
+            $isSerial = count($tglCuti) > 10;
 
             $form['isserial'] = $isSerial;
 
