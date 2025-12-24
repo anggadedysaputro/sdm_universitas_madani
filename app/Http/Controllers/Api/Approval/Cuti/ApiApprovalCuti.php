@@ -30,6 +30,7 @@ class ApiApprovalCuti extends Controller
             if (!Pegawai::where("nopeg", $post['nopeg_atasan'])->exists()) throw new Exception("Pegawai tidak ditemukan!", 1);
             $data = Cuti::from("applications.cuti as c")->select(
                 [
+                    "c.id",
                     "js.urai as nama_jabatan_struktural",
                     "jf.urai as nama_jabatan_fungsional",
                     "c.nopeg",
@@ -65,6 +66,7 @@ class ApiApprovalCuti extends Controller
                 ->whereRaw("extract(year from cd.tanggal) = {$this->config->tahun}")
                 ->whereNull("approval")
                 ->groupBy(
+                    "c.id",
                     "js.urai",
                     "jf.urai",
                     "p.nama",
