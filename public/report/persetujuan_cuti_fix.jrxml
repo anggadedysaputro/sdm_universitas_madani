@@ -36,6 +36,7 @@
     upper(concat(reg.no,'/UMad/CUTI/IV.4/E/',extract(month from min(cd.tanggal)),'/',cf.tahun)) as nomor_persetujuan_cuti,
     sisa,
     reg.no,
+    case when c.isserial then concat('(',count(1),') Hari, Terhitung ',to_char(min(cd.tanggal), 'DD Mon YYYY'),  ' sampai dengan ',  to_char(max(cd.tanggal), 'DD Mon YYYY')) else
     concat(
     	'(',count(1),') Hari, Tanggal ', 
         (
@@ -64,7 +65,7 @@
               where idcuti = c.id
           ) t
         )
-    ) AS waktucuti
+    )  end AS waktucuti
     
 FROM applications.cuti AS c
 join applications.cuti_detail as cd on c.id = cd.idcuti
