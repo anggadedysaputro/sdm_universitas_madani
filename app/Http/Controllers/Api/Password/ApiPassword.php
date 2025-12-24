@@ -52,7 +52,7 @@ class ApiPassword extends Controller
 
             // Update password baru
             $user->password = Hash::make($kataSandi);
-            $user->passwordapi = md5(md5($user->nopeg) . md5($kataSandi));
+            $user->passwordapi = md5(md5($user->email) . md5($kataSandi));
             $user->save();
 
             return response()->json([
