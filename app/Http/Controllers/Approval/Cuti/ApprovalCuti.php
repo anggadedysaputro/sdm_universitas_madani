@@ -24,7 +24,7 @@ class ApprovalCuti extends Controller
     {
         $query = $this->query();
 
-        return DataTables::of($query)->make(true);
+        return DataTables::of($query)->rawColumns(['tanggal'])->make(true);
     }
 
     public function list()
@@ -44,13 +44,20 @@ class ApprovalCuti extends Controller
             "c.lampiran",
             "p.nama",
             "pa.nama as nama_atasan",
-            "c.tgl_awal",
-            "c.tgl_akhir"
+            DB::raw('array_to_json(array_agg(cd.tanggal ORDER BY cd.tanggal)) as tanggal')
         )
+            ->join('applications.cuti_detail as cd', 'cd.idcuti', '=', 'c.id')
             ->join("applications.pegawai as p", "p.nopeg", "=", "c.nopeg")
             ->join("applications.pegawai as pa", "pa.nopeg", "=", "c.nopeg_atasan")
             ->where('approval', true)
             ->whereNull('approval_sdm')
+            ->groupBy("c.id")
+            ->groupBy("p.nopeg")
+            ->groupBy("c.jumlah")
+            ->groupBy("c.keterangan")
+            ->groupBy("c.lampiran")
+            ->groupBy("p.nama")
+            ->groupBy("pa.nama")
             ->orderBy('c.id', 'desc');
     }
 

@@ -41,8 +41,7 @@
                             <td>Nama Atasan</td>
                             <td>Jumlah</td>
                             <td>Keterangan</td>
-                            <td>Tanggal Mulai</td>
-                            <td>Tanggal Akhir</td>
+                            <td>Tanggal</td>
                         </tr>
                     </thead>
                 </table>
@@ -201,8 +200,20 @@
                         {data : "nama_atasan", name:"pa.nama"},
                         {data : "jumlah", name:"c.jumlah"},
                         {data : "keterangan",name:"c.keterangan"},
-                        {data:"tgl_awal",name:"c.tgl_awal"},
-                        {data:"tgl_akhir",name:"c.tgl_akhir"}
+                        {
+                            data: "tanggal",
+                            name: "cd.tanggal",
+                            render: function (data) {
+                                let arr = JSON.parse(data);
+                                if (!Array.isArray(arr)) return arr;
+
+                                return arr.map(tgl =>
+                                    `<span class="badge text-white bg-success me-1">${tgl}</span>`
+                                ).join("");
+                            }
+
+                        }
+
                     ],
                     columnDefs: [
                         {
