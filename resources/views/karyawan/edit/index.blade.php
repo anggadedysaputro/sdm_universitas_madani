@@ -28,7 +28,7 @@
                         <div class="col-md-12" id="wrapper-image-karyawan">
                             <div class="d-flex justify-content-center">
                                 <div class="p-3">
-                                    <img style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : asset('storage/pegawai/'.$pegawai->gambar) }}">
+                                    <img style="width:150px; height:150px;" src="{{ $pegawai->gambar }}">
                                 </div>
                             </div>
                         </div>

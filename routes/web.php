@@ -61,6 +61,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("sosi", function () {
+    dd(bcrypt("Umad123!@"));
+});
+
 Route::prefix('login')->group(function () {
     Route::get('index', [Login::class, 'index'])->name('login');
     Route::post('authenticate', [Login::class, 'authenticate'])->name('login.authenticate');

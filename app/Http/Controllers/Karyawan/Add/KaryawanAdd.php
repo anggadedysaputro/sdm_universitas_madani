@@ -79,50 +79,87 @@ class KaryawanAdd extends Controller
 
             // foto profile
             if ($post['gambar'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/pegawai'));
-                $path = Storage::putFile('public/pegawai', $post['gambar']);
+                $file = $post['gambar'];
+                $extension = $file->guessExtension();
+
+                if (!in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])) throw new Exception("Foto profile wajib gambar!", 1);
+                $path = "pegawai";
+                $minioResult = Storage::disk('s3')->put($path, $file);
+                if (!$minioResult) throw new Exception("Gagal upload file foto profile", 1);
+
                 unset($post['gambar']);
-                $post['fullpath'] = $path;
-                $post['gambar'] = basename($path);
+                $post['fullpath'] = $minioResult;
+                $post['gambar'] = basename($minioResult);
             }
 
             // foto npwp
             if ($post['foto_npwp'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/foto_npwp'));
-                $filename = uniqid() . ".jpg";
-                Storage::put('public/foto_npwp/' . $filename, Image::make($post['foto_npwp'])->encode("jpg", 40));
-                $post['foto_npwp'] = $filename;
+                $file = $post['foto_npwp'];
+                $extension = $file->getClientOriginalExtension();
+
+                if (!in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])) throw new Exception("Foto NPWP wajib gambar!", 1);
+                $path = "foto_npwp";
+                $minioResult = Storage::disk('s3')->put($path, $file);
+                if (!$minioResult) throw new Exception("Gagal upload file foto NPWP", 1);
+                $post['foto_npwp'] = basename($minioResult);
             } else {
                 unset($post['foto_npwp']);
             }
 
             // foto bpjs kesehatan
             if ($post['foto_bpjs_kesehatan'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/foto_bpjs_kesehatan'));
-                $filename = uniqid() . ".jpg";
-                Storage::put('public/foto_bpjs_kesehatan/' . $filename, Image::make($post['foto_bpjs_kesehatan'])->encode("jpg", 40));
-                unset($post['foto_bpjs_kesehatan']);
-                $post['foto_bpjs_kesehatan'] = $filename;
+                $file = $post['foto_bpjs_kesehatan'];
+                $extension = $file->getClientOriginalExtension();
+                if (!in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])) throw new Exception("Foto BPJS kesehatan wajib gambar!", 1);
+                $path = "foto_bpjs_kesehatan";
+                $minioResult = Storage::disk('s3')->put($path, $file);
+                if (!$minioResult) throw new Exception("Gagal upload file foto BPJS kesehatan", 1);
+
+                $post['foto_bpjs_kesehatan'] = basename($minioResult);
             } else {
                 unset($post['foto_bpjs_kesehatan']);
             }
 
             // foto bpjs ketenagakerjaan
             if ($post['foto_bpjs_ketenagakerjaan'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/foto_bpjs_ketenagakerjaan'));
-                $filename = uniqid() . ".jpg";
-                Storage::put('public/foto_bpjs_ketenagakerjaan/' . $filename, Image::make($post['foto_bpjs_ketenagakerjaan'])->encode("jpg", 40));
-                $post['foto_bpjs_ketenagakerjaan'] = $filename;
+                $file = $post['foto_bpjs_ketenagakerjaan'];
+                $extension = $file->getClientOriginalExtension();
+                if (!in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])) throw new Exception("Foto BPJS ketenagakerjaan wajib gambar!", 1);
+                $path = "foto_bpjs_ketenagakerjaan";
+                $minioResult = Storage::disk('s3')->put($path, $file);
+                if (!$minioResult) throw new Exception("Gagal upload file foto BPJS ketenagakerjaan", 1);
+
+                $post['foto_bpjs_ketenagakerjaan'] = basename($minioResult);
             } else {
                 unset($post['foto_bpjs_ketenagakerjaan']);
             }
 
             // Dok. Surat Penjanjian Kerja
             if ($post['dok_surat_perjanjian_kerja'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/dok_surat_perjanjian_kerja'));
-                $extension = $post['dok_surat_perjanjian_kerja']->getClientOriginalExtension();
-                $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_surat_perjanjian_kerja/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_surat_perjanjian_kerja'])->encode($extension, 40) : $post['dok_surat_perjanjian_kerja']->get()));
+
+                $path = "dok_surat_perjanjian_kerja";
+
+                $file = $post['dok_surat_perjanjian_kerja'];
+
+                // ambil extension (kalau blob → fallback)
+                $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
+
+                // generate filename manual
+                $filename = uniqid() . '.' . $extension;
+
+                // proses file (compress jika image)
+                $fileContent = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])
+                    ? Image::make($file)->encode($extension, 40)
+                    : $file->get();
+
+                // upload ke minio: HARUS pakai folder + filename
+                $minioResult = Storage::disk('s3')->put($path . '/' . $filename, $fileContent);
+
+                if (!$minioResult) {
+                    throw new Exception("Gagal upload file dokumen pakta integritas", 1);
+                }
+
+                // simpan filename saja (tanpa path)
                 $post['dok_surat_perjanjian_kerja'] = $filename;
             } else {
                 unset($post['dok_surat_perjanjian_kerja']);
@@ -130,10 +167,30 @@ class KaryawanAdd extends Controller
 
             // Dok. Pakta Integritas
             if ($post['dok_pakta_integritas'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/dok_pakta_integritas'));
-                $extension = $post['dok_pakta_integritas']->getClientOriginalExtension();
-                $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_pakta_integritas/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_pakta_integritas'])->encode($extension, 40) : $post['dok_pakta_integritas']->get()));
+                $path = "dok_pakta_integritas";
+
+                // ambil file upload
+                $file = $post['dok_pakta_integritas'];
+
+                // ambil extension dari client, jika kosong (blob) gunakan guessExtension
+                $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
+
+                // generate filename manual (wajib di S3)
+                $filename = uniqid() . '.' . $extension;
+
+                // compress jika image
+                $fileContent = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])
+                    ? Image::make($file)->encode($extension, 40)
+                    : $file->get();
+
+                // upload ke minio → HARUS pakai "folder/filename"
+                $minioResult = Storage::disk('s3')->put($path . '/' . $filename, $fileContent);
+
+                if (!$minioResult) {
+                    throw new Exception("Gagal upload file dokumen pakta integritas", 1);
+                }
+
+                // simpan hanya nama file
                 $post['dok_pakta_integritas'] = $filename;
             } else {
                 unset($post['dok_pakta_integritas']);
@@ -141,10 +198,30 @@ class KaryawanAdd extends Controller
 
             // Dok. Hasil Test
             if ($post['dok_hasil_test'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/dok_hasil_test'));
-                $extension = $post['dok_hasil_test']->getClientOriginalExtension();
-                $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_hasil_test/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_test'])->encode($extension, 40) : $post['dok_hasil_test']->get()));
+                $path = "dok_hasil_test";
+
+                // ambil file
+                $file = $post['dok_hasil_test'];
+
+                // ambil extension → fallback ke guessExtension utk blob
+                $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
+
+                // generate nama file otomatis (wajib di S3)
+                $filename = uniqid() . '.' . $extension;
+
+                // proses file (compress kalau gambar)
+                $fileContent = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])
+                    ? Image::make($file)->encode($extension, 40)
+                    : $file->get();
+
+                // upload ke minio → harus folder + filename
+                $minioResult = Storage::disk('s3')->put($path . '/' . $filename, $fileContent);
+
+                if (!$minioResult) {
+                    throw new Exception("Gagal upload file dokumen hasil test", 1);
+                }
+
+                // simpan filename saja
                 $post['dok_hasil_test'] = $filename;
             } else {
                 unset($post['dok_hasil_test']);
@@ -152,10 +229,30 @@ class KaryawanAdd extends Controller
 
             // Dok. Hasil Interview
             if ($post['dok_hasil_interview'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/dok_hasil_interview'));
-                $extension = $post['dok_hasil_interview']->getClientOriginalExtension();
-                $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_hasil_interview/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_hasil_interview'])->encode($extension, 40) : $post['dok_hasil_interview']->get()));
+                $path = "dok_hasil_interview";
+
+                // ambil file
+                $file = $post['dok_hasil_interview'];
+
+                // ambil extension (fallback kalau blob)
+                $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
+
+                // generate nama file otomatis
+                $filename = uniqid() . '.' . $extension;
+
+                // proses file (compress jika image)
+                $fileContent = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])
+                    ? Image::make($file)->encode($extension, 40)
+                    : $file->get();
+
+                // upload ke minio (HARUS folder/filename.ext)
+                $minioResult = Storage::disk('s3')->put($path . '/' . $filename, $fileContent);
+
+                if (!$minioResult) {
+                    throw new Exception("Gagal upload file dokumen hasil interview", 1);
+                }
+
+                // simpan nama file
                 $post['dok_hasil_interview'] = $filename;
             } else {
                 unset($post['dok_hasil_interview']);
@@ -163,10 +260,30 @@ class KaryawanAdd extends Controller
 
             // Dok. Ijazah
             if ($post['dok_ijazah'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/dok_ijazah'));
-                $extension = $post['dok_ijazah']->getClientOriginalExtension();
-                $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_ijazah/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_ijazah'])->encode($extension, 40) : $post['dok_ijazah']->get()));
+                $path = "dok_ijazah";
+
+                // ambil file
+                $file = $post['dok_ijazah'];
+
+                // ambil extension (fallback kalau blob)
+                $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
+
+                // generate nama file otomatis
+                $filename = uniqid() . '.' . $extension;
+
+                // proses file (compress jika image)
+                $fileContent = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])
+                    ? Image::make($file)->encode($extension, 40)
+                    : $file->get();
+
+                // upload ke MinIO (harus folder/filename.ext)
+                $minioResult = Storage::disk('s3')->put($path . '/' . $filename, $fileContent);
+
+                if (!$minioResult) {
+                    throw new Exception("Gagal upload file dokumen ijazah", 1);
+                }
+
+                // simpan nama file saja
                 $post['dok_ijazah'] = $filename;
             } else {
                 unset($post['dok_ijazah']);
@@ -174,11 +291,31 @@ class KaryawanAdd extends Controller
 
             // Dok. Transkrip Nilai
             if ($post['dok_transkrip_nilai'] != "undefined") {
-                buatFolder(storage_path('app/' . 'public/dok_transkrip_nilai'));
-                $extension = $post['dok_transkrip_nilai']->getClientOriginalExtension();
-                $filename = uniqid() . "." . $extension;
-                Storage::put('public/dok_transkrip_nilai/' . $filename, (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']) ? Image::make($post['dok_transkrip_nilai'])->encode($extension, 40) : $post['dok_transkrip_nilai']->get()));
-                $post['dok_transkrip_nilai'] = basename($filename);
+                $path = "dok_transkrip_nilai";
+
+                // ambil file
+                $file = $post['dok_transkrip_nilai'];
+
+                // ambil extension otomatis (fallback jika 'blob')
+                $extension = $file->getClientOriginalExtension() ?: $file->guessExtension();
+
+                // generate nama file otomatis + unik
+                $filename = uniqid() . '.' . $extension;
+
+                // proses file (compress jika image)
+                $fileContent = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp'])
+                    ? Image::make($file)->encode($extension, 40)
+                    : $file->get();
+
+                // upload ke MinIO (folder/filename.ext)
+                $minioResult = Storage::disk('s3')->put($path . '/' . $filename, $fileContent);
+
+                if (!$minioResult) {
+                    throw new Exception("Gagal upload file dokumen transkrip nilai", 1);
+                }
+
+                // simpan nama file saja
+                $post['dok_transkrip_nilai'] = $filename;
             } else {
                 unset($post['dok_transkrip_nilai']);
             }
@@ -186,11 +323,11 @@ class KaryawanAdd extends Controller
             // make user
             $user = [
                 "name" => $post['nama'],
-                "email" => $post['nopeg'],
-                "password" => bcrypt($post['nopeg']),
+                "email" => $post['email'],
+                "password" => bcrypt($post['email']),
                 "telpon" => $post['nohp'],
                 "nopeg" => $post['nopeg'],
-                "passwordapi" => md5($post['nopeg'] . md5($post['nopeg'])),
+                "passwordapi" => md5($post['email'] . md5($post['email'])),
             ];
 
             Pegawai::create($post);
@@ -217,7 +354,6 @@ class KaryawanAdd extends Controller
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-
             $this->activity("Input data karyawan [failed]", $th->getMessage());
 
             $response = [

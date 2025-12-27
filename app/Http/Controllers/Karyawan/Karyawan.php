@@ -1037,14 +1037,15 @@ class Karyawan extends Controller
                 // make user
                 $user = [
                     "name" => $value['nama'],
-                    "email" => $value['nopeg'],
-                    "password" => bcrypt($value['nopeg']),
+                    "email" => $value['email'],
+                    "password" => bcrypt($value['email']),
                     "telpon" => $value['nohp'],
                     "nopeg" => $value['nopeg'],
-                    "passwordapi" => md5($value['nopeg'] . md5($value['nopeg'])),
+                    "passwordapi" => md5($value['email'] . md5($value['email'])),
                 ];
 
-                User::create($user);
+                $user = User::create($user);
+                $user->assignRole('pegawai');
             }
 
             // masukkan keluarga

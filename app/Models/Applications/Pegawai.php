@@ -4,6 +4,7 @@ namespace App\Models\Applications;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Pegawai extends Model
 {
@@ -106,7 +107,7 @@ class Pegawai extends Model
     public function getFotoNpwpUrlAttribute()
     {
         if ($this->foto_npwp) {
-            return asset('storage/foto_npwp/' . $this->foto_npwp);
+            return Storage::disk('s3')->url("foto_npwp" . DIRECTORY_SEPARATOR . $this->foto_npwp);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -116,7 +117,7 @@ class Pegawai extends Model
     public function getFotoBpjsKesehatanUrlAttribute()
     {
         if ($this->foto_bpjs_kesehatan) {
-            return asset('storage/foto_bpjs_kesehatan/' . $this->foto_bpjs_kesehatan);
+            return Storage::disk('s3')->url("foto_bpjs_kesehatan" . DIRECTORY_SEPARATOR . $this->foto_bpjs_kesehatan);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -126,7 +127,8 @@ class Pegawai extends Model
     public function getFotoBpjsKetenagakerjaanUrlAttribute()
     {
         if ($this->foto_bpjs_ketenagakerjaan) {
-            return asset('storage/foto_bpjs_ketenagakerjaan/' . $this->foto_bpjs_ketenagakerjaan);
+
+            return Storage::disk('s3')->url("foto_bpjs_ketenagakerjaan" . DIRECTORY_SEPARATOR . $this->foto_bpjs_ketenagakerjaan);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -136,7 +138,7 @@ class Pegawai extends Model
     public function getDokSuratPerjanjianKerjaUrlAttribute()
     {
         if ($this->dok_surat_perjanjian_kerja) {
-            return asset('storage/dok_surat_perjanjian_kerja/' . $this->dok_surat_perjanjian_kerja);
+            return Storage::disk('s3')->url("dok_surat_perjanjian_kerja" . DIRECTORY_SEPARATOR . $this->dok_surat_perjanjian_kerja);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -146,7 +148,7 @@ class Pegawai extends Model
     public function getDokPaktaIntegritasUrlAttribute()
     {
         if ($this->dok_pakta_integritas) {
-            return asset('storage/dok_pakta_integritas/' . $this->dok_pakta_integritas);
+            return Storage::disk('s3')->url("dok_pakta_integritas" . DIRECTORY_SEPARATOR . $this->dok_pakta_integritas);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -155,8 +157,8 @@ class Pegawai extends Model
 
     public function getDokHasilTestUrlAttribute()
     {
-        if ($this->dok_pakta_integritas) {
-            return asset('storage/dok_hasil_test/' . $this->dok_hasil_test);
+        if ($this->dok_hasil_test) {
+            return Storage::disk('s3')->url("dok_hasil_test" . DIRECTORY_SEPARATOR . $this->dok_hasil_test);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -165,8 +167,8 @@ class Pegawai extends Model
 
     public function getDokHasilInterviewUrlAttribute()
     {
-        if ($this->dok_pakta_integritas) {
-            return asset('storage/dok_hasil_interview/' . $this->dok_hasil_interview);
+        if ($this->dok_hasil_interview) {
+            return Storage::disk('s3')->url("dok_hasil_interview" . DIRECTORY_SEPARATOR . $this->dok_hasil_interview);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -175,8 +177,8 @@ class Pegawai extends Model
 
     public function getDokIjazahUrlAttribute()
     {
-        if ($this->dok_pakta_integritas) {
-            return asset('storage/dok_ijazah/' . $this->dok_ijazah);
+        if ($this->dok_ijazah) {
+            return Storage::disk('s3')->url("dok_ijazah" . DIRECTORY_SEPARATOR . $this->dok_ijazah);
         }
 
         // Jika kosong, bisa return null atau default image
@@ -185,8 +187,8 @@ class Pegawai extends Model
 
     public function getDokTranskripNilaiUrlAttribute()
     {
-        if ($this->dok_pakta_integritas) {
-            return asset('storage/dok_transkrip_nilai/' . $this->dok_transkrip_nilai);
+        if ($this->dok_transkrip_nilai) {
+            return Storage::disk('s3')->url("dok_transkrip_nilai" . DIRECTORY_SEPARATOR . $this->dok_transkrip_nilai);
         }
 
         // Jika kosong, bisa return null atau default image
