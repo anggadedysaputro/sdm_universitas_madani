@@ -64,6 +64,13 @@
                 }
             }
 
+            onDeselect(e,dt, type, indexes){
+                if (type === 'row') {
+                    var data = Index.DT_Approval.rows(indexes).data();
+                    delete Index.TMP_Selected[data[0].id];
+                }
+            }
+
             static pilihSatuHalaman(){
                 const data = Index.DT_Approval.rows().data();
 
@@ -299,7 +306,7 @@
             }
 
             bindEvent() {
-                Index.DT_Approval.on('select', this.onSelect);
+                Index.DT_Approval.on('select', this.onSelect).on('deselect',this.onDeselect);
                 return this;
             }
 
