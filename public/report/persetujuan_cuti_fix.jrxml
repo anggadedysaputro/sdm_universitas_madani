@@ -27,7 +27,7 @@
         '/',
         CASE WHEN p.kodejabfung = 0 THEN '-' ELSE jf.urai END
     ) AS pagol,
-    sp.keterangan AS statuspegawai,
+    concat('/',sp.keterangan) AS statuspegawai,
     b.urai AS unitkerja,
     c.keterangan AS keperluan,
     cf.namakepalakepegawaian,
