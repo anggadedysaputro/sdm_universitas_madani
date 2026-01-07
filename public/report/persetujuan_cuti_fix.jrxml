@@ -317,7 +317,7 @@ group by c.id, reg.no,c.sisa,p.nama,p.nopeg,js.urai,jf.urai, sp.keterangan, b.ur
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{unitkerja}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pagol}+"/"+$F{unitkerja}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="196" y="159" width="334" height="19" uuid="42539c6d-ee70-48c2-a82b-83e3dc2ba1a1">
