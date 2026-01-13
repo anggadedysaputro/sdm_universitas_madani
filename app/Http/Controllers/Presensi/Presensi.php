@@ -9,6 +9,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class Presensi extends Controller
 {
+    protected $tahunAktif;
+
+    public function __construct(){
+        $this->tahunAktif = tahunAplikasi()->tahun;
+    }
+
     public function index()
     {
         return view('presensi.index');
@@ -17,7 +23,7 @@ class Presensi extends Controller
     public function detail()
     {
         $post = request()->all();
-        $year = date('Y');
+        $year = $this->tahunAktif;
         $firstDayOfMonth = date('Y-m-d', strtotime($year . "-" . $post['bulan'] . 'first day of this month'));
         $lastDayOfMonth = date('Y-m-d', strtotime($year . "-" . $post['bulan'] . 'last day of this month'));
 
@@ -37,23 +43,25 @@ class Presensi extends Controller
             'kodesubsubdivisi'
         ];
 
+        $tahun = (int)$this->tahunAktif;
+
         $query = DB::table(
             DB::raw("
                 (
-                    select
+                   select
                         p.nopeg, p.nama,
-                        100 as januari,
-                        100 as februari,
-                        100 as maret,
-                        100 as april,
-                        100 as mei,
-                        100 as juni,
-                        100 as juli,
-                        100 as agustus,
-                        100 as september,
-                        100 as oktober,
-                        100 as november,
-                        100 as desember,
+                        (fn_rekap_presensi_bulanan($tahun,1,p.nopeg)).persentase_kehadiran  as januari,
+                        (fn_rekap_presensi_bulanan($tahun,2,p.nopeg)).persentase_kehadiran as februari,
+                        (fn_rekap_presensi_bulanan($tahun,3,p.nopeg)).persentase_kehadiran as maret,
+                        (fn_rekap_presensi_bulanan($tahun,4,p.nopeg)).persentase_kehadiran as april,
+                        (fn_rekap_presensi_bulanan($tahun,5,p.nopeg)).persentase_kehadiran as mei,
+                        (fn_rekap_presensi_bulanan($tahun,6,p.nopeg)).persentase_kehadiran as juni,
+                        (fn_rekap_presensi_bulanan($tahun,7,p.nopeg)).persentase_kehadiran as juli,
+                        (fn_rekap_presensi_bulanan($tahun,8,p.nopeg)).persentase_kehadiran as agustus,
+                        (fn_rekap_presensi_bulanan($tahun,9,p.nopeg)).persentase_kehadiran as september,
+                        (fn_rekap_presensi_bulanan($tahun,10,p.nopeg)).persentase_kehadiran as oktober,
+                        (fn_rekap_presensi_bulanan($tahun,11,p.nopeg)).persentase_kehadiran as november,
+                        (fn_rekap_presensi_bulanan($tahun,12,p.nopeg)).persentase_kehadiran as desember,
                         b.kodebidang,
                         b.kodedivisi,
                         b.kodesubdivisi,
