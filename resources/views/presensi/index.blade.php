@@ -165,10 +165,10 @@
                             let content = `
                                 <tr>
                                     <td>${e.tg_view}</td>
-                                    <td>${e.retwaktumasuk}</td>
-                                    <td>${e.retwaktukeluar}</td>
-                                    <td>${e.retkantormasuk}</td>
-                                    <td>${e.retkantorkeluar}</td>
+                                    <td>${e.retwaktumasuk ?? "00:00:00"}</td>
+                                    <td>${e.retwaktukeluar ?? "00:00:00"}</td>
+                                    <td>${e.retkantormasuk ?? "-"}</td>
+                                    <td>${e.retkantorkeluar ?? "-"}</td>
                                 </tr>
                             `;
 
