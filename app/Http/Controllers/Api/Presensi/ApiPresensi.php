@@ -173,9 +173,7 @@ class ApiPresensi extends Controller
                 'params' => [
                     'idpeg' => $idpeg,
                     'tglawal' => $tglawal,
-                    'tglakhir' => $tglakhir,
-                    'jammasuk' => $this->config->masuk,
-                    'jamkeluar' => $this->config->pulang
+                    'tglakhir' => $tglakhir
                 ],
                 'db_connection' => jasperConnection()
             ];

@@ -10,6 +10,7 @@ use App\Http\Controllers\Jstree\StrukturOrganisasi\JstreeStrukturOrganisasi;
 use App\Http\Controllers\Karyawan\Add\KaryawanAdd;
 use App\Http\Controllers\Karyawan\Edit\KaryawanEdit;
 use App\Http\Controllers\Karyawan\Karyawan;
+use App\Http\Controllers\Laporan\Presensi\LaporanPresensi;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Logout;
 use App\Http\Controllers\Presensi\Presensi;
@@ -138,6 +139,14 @@ Route::middleware(['validate.login'])->group(function () {
             Route::post('/data', [ApprovalIjin::class, 'data'])->name('approval.ijin.data');
             Route::post('/list', [ApprovalIjin::class, 'list'])->name('approval.ijin.list');
             Route::post('/store', [ApprovalIjin::class, 'store'])->name('approval.ijin.store');
+        });
+    });
+
+    Route::prefix('laporan')->group(function () {
+        Route::prefix('presensi')->group(function () {
+            Route::get('index', [LaporanPresensi::class, 'index'])->name('laporan.presensi.index')->middleware(["initialize.menu"]);
+            Route::post('file', [LaporanPresensi::class, 'file'])->name('laporan.presensi.file');
+            Route::get('preview', [LaporanPresensi::class, 'preview'])->name('laporan.presensi.preview');
         });
     });
 

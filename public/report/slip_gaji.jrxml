@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_gaji" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bf6759a-fd91-43d8-be45-42079199a0bb">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sdm.jrdax"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="njengat.jrdax"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="idpeg" class="java.lang.String"/>
 	<parameter name="tglawal" class="java.lang.String"/>
 	<parameter name="tglakhir" class="java.lang.String"/>
-	<parameter name="jammasuk" class="java.lang.String"/>
-	<parameter name="jamkeluar" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT *
 FROM public.laporan_presensi(
     $P{idpeg}::varchar,
     $P{tglawal}::date,
-    $P{tglakhir}::date,
-    $P{jammasuk}::time,
-    $P{jamkeluar}::time
+    $P{tglakhir}::date
 )]]>
 	</queryString>
 	<field name="xnopeg" class="java.lang.String">
@@ -180,76 +176,80 @@ FROM public.laporan_presensi(
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="90" splitType="Stretch">
+		<band height="100" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="30" uuid="bf1b52e5-10a8-4c66-848a-15d00d9f1575"/>
+				<reportElement x="0" y="10" width="100" height="30" uuid="bf1b52e5-10a8-4c66-848a-15d00d9f1575"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[NOPEG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="30" width="100" height="30" uuid="e913df68-f1c3-4f7d-91a4-ef17daeb9f4f"/>
+				<reportElement x="0" y="40" width="100" height="30" uuid="e913df68-f1c3-4f7d-91a4-ef17daeb9f4f"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[NAMA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="60" width="100" height="30" uuid="2b287a7b-c7d8-4b49-a7e4-4da75b1aeedd"/>
+				<reportElement x="0" y="70" width="100" height="30" uuid="2b287a7b-c7d8-4b49-a7e4-4da75b1aeedd"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[TGL LAHIR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="280" y="0" width="100" height="30" uuid="2154e3ae-6e12-49b7-a087-34b32cd2e55a"/>
+				<reportElement x="280" y="10" width="100" height="30" uuid="2154e3ae-6e12-49b7-a087-34b32cd2e55a"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[JABATAN]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="0" width="180" height="30" uuid="4bb5cd3e-e55b-4be2-94d7-20251dfb870b"/>
+				<reportElement x="100" y="10" width="180" height="30" uuid="4bb5cd3e-e55b-4be2-94d7-20251dfb870b"/>
 				<textElement textAlignment="Left" verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{xnopeg}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="30" width="180" height="30" uuid="e7d9bd6c-17d9-499f-9f7b-ff245d077224"/>
+				<reportElement x="100" y="40" width="180" height="30" uuid="e7d9bd6c-17d9-499f-9f7b-ff245d077224"/>
 				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{xnama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="60" width="180" height="30" uuid="a2a6f6cd-beee-4378-a67d-88597e5f1c26"/>
+				<reportElement x="100" y="70" width="180" height="30" uuid="a2a6f6cd-beee-4378-a67d-88597e5f1c26"/>
 				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{xtgllahir}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="0" width="175" height="30" uuid="f3b04f2f-3ce2-477d-b395-78225449b299"/>
+				<reportElement x="380" y="10" width="175" height="30" uuid="f3b04f2f-3ce2-477d-b395-78225449b299"/>
 				<textFieldExpression><![CDATA[$F{xjabatan}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="280" y="30" width="100" height="30" uuid="c78b9436-945d-4dc8-b6a6-1f33db3cf393"/>
+				<reportElement x="280" y="40" width="100" height="30" uuid="c78b9436-945d-4dc8-b6a6-1f33db3cf393"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[FUNGSIONAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="280" y="60" width="100" height="30" uuid="d6839c28-7ac2-42a0-b3da-34308322fda3"/>
+				<reportElement x="280" y="70" width="100" height="30" uuid="d6839c28-7ac2-42a0-b3da-34308322fda3"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[ALAMAT]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="380" y="30" width="175" height="30" uuid="29d0dbf0-9960-4042-af50-8a8cedab8cd0"/>
+				<reportElement x="380" y="40" width="175" height="30" uuid="29d0dbf0-9960-4042-af50-8a8cedab8cd0"/>
 				<textFieldExpression><![CDATA[$F{xjabfung}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="60" width="175" height="30" uuid="5fe49155-99c2-4edf-951b-0950500fab99"/>
+				<reportElement x="380" y="70" width="175" height="30" uuid="5fe49155-99c2-4edf-951b-0950500fab99"/>
 				<textFieldExpression><![CDATA[$F{xalamat}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="10" uuid="a1d512d5-e2a4-4c2c-8a95-42b0495bac6e"/>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>

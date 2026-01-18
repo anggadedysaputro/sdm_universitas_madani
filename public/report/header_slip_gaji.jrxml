@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="header_slip_gaji" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2d1b3ec2-a131-42ec-b0a7-bbf264685392">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="njengat.jrdax"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<parameter name="P_NOPEG" class="java.lang.String"/>
+	<parameter name="P_SUBREPORT" class="java.lang.String">
+		<defaultValueExpression><![CDATA["slip_gaji.jasper"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_TANGGALAWAL" class="java.lang.String"/>
+	<parameter name="P_TANGGALAKHIR" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select nopeg
+from applications.pegawai
+where
+(
+    $P{P_NOPEG} = '[]'
+    OR nopeg in (
+        select jsonb_array_elements_text($P{P_NOPEG}::jsonb)
+    )
+);
+]]>
+	</queryString>
+	<field name="nopeg" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nopeg"/>
+		<property name="com.jaspersoft.studio.field.label" value="nopeg"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pegawai"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="41" uuid="992634c6-ba0d-4b84-bf1b-adfcf491edb3"/>
+				<subreportParameter name="idpeg">
+					<subreportParameterExpression><![CDATA[$F{nopeg}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tglawal">
+					<subreportParameterExpression><![CDATA[$P{P_TANGGALAWAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tglakhir">
+					<subreportParameterExpression><![CDATA[$P{P_TANGGALAKHIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{P_SUBREPORT}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

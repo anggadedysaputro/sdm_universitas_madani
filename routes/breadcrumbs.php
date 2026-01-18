@@ -13,6 +13,12 @@ Breadcrumbs::for('dashboard.index', function (BreadcrumbTrail $trail) {
     $trail->push('Dashboard', route('dashboard.index'));
 });
 
+// laporan
+Breadcrumbs::for('laporan.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard.index');
+    $trail->push('Laporan');
+});
+
 // settings
 Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard.index');
@@ -60,6 +66,11 @@ Breadcrumbs::for('karyawan.edit.index', function (BreadcrumbTrail $trail) {
     $trail->push('Edit karyawan');
 });
 
+// laporan > presensi
+Breadcrumbs::for('laporan.presensi.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('laporan.index');
+    $trail->push('Laporan Presensi', route('laporan.presensi.index'));
+});
 
 // settings > role
 Breadcrumbs::for('settings.role.index', function (BreadcrumbTrail $trail) {
