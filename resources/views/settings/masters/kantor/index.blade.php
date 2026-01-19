@@ -189,8 +189,8 @@
             }
 
             static updateIframeMaps(lat, lng) {
-                const url = `https://maps.google.com/maps?q=${lat},${lng}&hl=id&z=13&output=embed`;
-                const link = `https://maps.google.com/maps?q=${lat},${lng}&hl=id&z=13`;
+                const url = `https://maps.google.com/maps?q=${lat},${lng}&hl=id&z=15&output=embed`;
+                const link = `https://maps.google.com/maps?q=${lat},${lng}&hl=id&z=15`;
 
                 $('#iframe-maps').attr('src', url);
                 $('#link-maps').attr('href', link);
