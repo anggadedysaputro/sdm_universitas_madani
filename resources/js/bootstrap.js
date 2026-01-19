@@ -23,8 +23,8 @@ import Angga from './angga';
 import AnggaTables from './anggatables';
 
 import smartWizard from 'smartwizard';
-window.smartWizard = smartWizard();
 import "smartwizard/dist/css/smart_wizard_all.css";
+window.smartWizard = smartWizard();
 
 import select2 from 'select2';
 select2();
@@ -34,7 +34,7 @@ import 'jstree';
 import toastr from 'toastr';
 window.toastr = toastr;
 
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 window.Swal = Swal;
 
 window.Angga = Angga;
@@ -52,35 +52,35 @@ import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 window.DataTable = DataTable;
 
-// // EXTENSIONS (SETELAH CORE)
+// EXTENSIONS (SETELAH CORE)
 
-// // Buttons
-// import 'datatables.net-buttons-bs5';
-// import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
-// import 'datatables.net-buttons/js/buttons.colVis.mjs';
+// Buttons
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
+import 'datatables.net-buttons/js/buttons.colVis.mjs';
 
-// // Select (WAJIB UNTUK SEARCHPANES)
-// import 'datatables.net-select-bs5';
-// import 'datatables.net-select-bs5/css/select.bootstrap5.min.css';
+// Select (WAJIB UNTUK SEARCHPANES)
+import 'datatables.net-select-bs5';
+import 'datatables.net-select-bs5/css/select.bootstrap5.min.css';
 
-// // SearchPanes
-// import 'datatables.net-searchpanes-bs5';
-// import 'datatables.net-searchpanes-bs5/css/searchPanes.bootstrap5.min.css';
+// SearchPanes
+import 'datatables.net-searchpanes-bs5';
+import 'datatables.net-searchpanes-bs5/css/searchPanes.bootstrap5.min.css';
 
-// // Responsive
-// import 'datatables.net-responsive-bs5';
-// import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
+// Responsive
+import 'datatables.net-responsive-bs5';
+import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 
-// // RowGroup (opsional)
-// import 'datatables.net-rowgroup-bs5';
+// RowGroup (opsional)
+import 'datatables.net-rowgroup-bs5';
 
 
 /**
  * Flatpickr
  */
-import "flatpickr/dist/flatpickr.min.css";
 import flatpickr from "flatpickr";
-import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect"
+import "flatpickr/dist/flatpickr.min.css";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
 import "flatpickr/dist/plugins/monthSelect/style.css";
 window.flatpickr = flatpickr;
 window.monthSelectPlugin = monthSelectPlugin;
@@ -126,8 +126,8 @@ window.Compressor = Compressor;
 /**
  * CSS tambahan
  */
-import '../css/datatables.css';
 import '../css/cropper.min.css';
+import '../css/datatables.css';
 
 
 /**
