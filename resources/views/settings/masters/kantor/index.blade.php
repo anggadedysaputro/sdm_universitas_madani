@@ -92,6 +92,27 @@
                 </div>
             </div>
         </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="width: 100%">
+                    <iframe id="iframe-maps"
+                        width="100%"
+                        height="450"
+                        frameborder="0"
+                        scrolling="no"
+                        marginheight="0"
+                        marginwidth="0"
+                    >
+                    </iframe>
+                    <br />
+                    <small>
+                        <a id="link-maps" href="#" target="_blank" style="color:#0000FF;text-align:left">
+                            Lihat di Google Maps Besar
+                        </a>
+                    </small>
+                </div>
+            </div>
+        </div>
 		<div class="mt-3">
 			<button class="btn btn-success" type="button" id="simpan"><i class="ti ti-send"></i> Simpan</button>
 			<button class="btn btn-primary" type="button" data-bs-dismiss="offcanvas" id="close-offcanvas">Batal</button>
@@ -166,6 +187,15 @@
             constructor(){
 
             }
+
+            static updateIframeMaps(lat, lng) {
+                const url = `https://maps.google.com/maps?q=${lat},${lng}&hl=id&z=13&output=embed`;
+                const link = `https://maps.google.com/maps?q=${lat},${lng}&hl=id&z=13`;
+
+                $('#iframe-maps').attr('src', url);
+                $('#link-maps').attr('href', link);
+            }
+
 
             tambah(){
                 Index.FRM_Main[0].reset();
@@ -394,6 +424,7 @@
                 Index.FRM_Main.find('input[name="nama"]').val(data.nama);
                 Index.FRM_Main.find('input[name="latlong"]').val(data.latlong);
                 Index.FRM_Main.find('input[name="id"]').val(data.id);
+                Helper.updateIframeMaps(data.latlong.split(",")[0].trim(), data.latlong.split(",")[1].trim());
                 Index.OFFCNVS_Main.show();
             }
 
@@ -445,6 +476,7 @@
                 const data = Myapp.LFT_LokasiMarker._latlng;
                 Index.FRM_Main.find("input[name='latlong']").val(data.lat + ", " + data.lng)
                 Index.MD_TambahLokasi.modal("hide");
+                Helper.updateIframeMaps(data.lat, data.lng);
                 Index.OFFCNVS_Main.show();
             }
 
