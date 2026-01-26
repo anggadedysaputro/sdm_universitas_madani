@@ -1,5 +1,8 @@
 eclipse.preferences.version=1
-encoding/header_slip_gaji.jrxml=UTF-8
+encoding//fonts/header_slip_gaji.jrxml=UTF-8
+encoding/head_slip_gaji.jrxml=UTF-8
+encoding/laporan_presensi.jrxml=UTF-8
+encoding/laporan_presensi_pdf.jrxml=UTF-8
 encoding/persetujuan_cuti.jrxml=UTF-8
 encoding/persetujuan_cuti_fix.jrxml=UTF-8
 encoding/slip_gaji.jrxml=UTF-8

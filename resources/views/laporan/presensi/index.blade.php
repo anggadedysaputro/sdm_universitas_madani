@@ -49,8 +49,19 @@
                     placeholder="YYYY-MM-DD" readonly>
             </div>
 
+            <div class="col-md-3">
+                <label class="form-label">Jenis Laporan</label>
+                <select name="jenis_laporan" id="jenis_laporan"
+                    class="form-control select2">
+                    <option value="">-- Pilih Jenis --</option>
+                    <option value="v1">V1</option>
+                    <option value="v2">V2</option>
+                </select>
+            </div>
 
-            <div class="col-md-6 d-flex align-items-end gap-2">
+
+
+            <div class="col-md-3 d-flex align-items-end gap-2">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -115,6 +126,7 @@
                 return {
                     tgl_awal: $('#tgl_awal').val(),
                     tgl_akhir: $('#tgl_akhir').val(),
+                    jenis_laporan : $('#jenis_laporan').val()
                 };
             }
 
@@ -143,6 +155,7 @@
                     body: JSON.stringify({
                         tglawal: params.tgl_awal,
                         tglakhir: params.tgl_akhir,
+                        jenis_laporan : params.jenis_laporan,
                         type: 'pdf',
                         preview: true
                     })
@@ -201,6 +214,7 @@
                     body: JSON.stringify({
                         tglawal: params.tgl_awal,
                         tglakhir: params.tgl_akhir,
+                        jenis_laporan: params.jenis_laporan,
                         type: type,
                         preview: false
                     })

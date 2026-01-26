@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jadwal" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82802b6b-119d-4822-915a-b6fbcc32b6f6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="true"/>
+	<property name="net.sf.jasperreports.crosstab.ignore.width" value="true"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="njengat.jrdax"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="tanggalawal" class="java.lang.String"/>
+	<parameter name="tanggalakhir" class="java.lang.String"/>
+	<parameter name="idpegawai" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM public.laporan_presensi_crosstab(
+	CASE WHEN $P{idpegawai} = '[]' THEN null ELSE $P{idpegawai}::jsonb END,
+    $P{tanggalawal}::date,
+    $P{tanggalakhir}::date
+)]]>
+	</queryString>
+	<field name="nopeg" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nopeg"/>
+		<property name="com.jaspersoft.studio.field.label" value="nopeg"/>
+	</field>
+	<field name="nama" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pegawai"/>
+	</field>
+	<field name="tglmasuk" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tglmasuk"/>
+		<property name="com.jaspersoft.studio.field.label" value="tglmasuk"/>
+	</field>
+	<field name="norek" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="norek"/>
+		<property name="com.jaspersoft.studio.field.label" value="norek"/>
+	</field>
+	<field name="atasanamarek" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="atasanamarek"/>
+		<property name="com.jaspersoft.studio.field.label" value="atasanamarek"/>
+	</field>
+	<field name="statuskaryawan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="statuskaryawan"/>
+		<property name="com.jaspersoft.studio.field.label" value="statuskaryawan"/>
+	</field>
+	<field name="statuspernikahan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="statuspernikahan"/>
+		<property name="com.jaspersoft.studio.field.label" value="statuspernikahan"/>
+	</field>
+	<field name="namasuamiistri" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="namasuamiistri"/>
+		<property name="com.jaspersoft.studio.field.label" value="namasuamiistri"/>
+	</field>
+	<field name="judul" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="judul"/>
+		<property name="com.jaspersoft.studio.field.label" value="judul"/>
+	</field>
+	<field name="subjudul" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="subjudul"/>
+		<property name="com.jaspersoft.studio.field.label" value="subjudul"/>
+	</field>
+	<field name="isi" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="isi"/>
+		<property name="com.jaspersoft.studio.field.label" value="isi"/>
+	</field>
+	<field name="tanggal" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal"/>
+	</field>
+	<field name="judulnumb" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="judulnumb"/>
+		<property name="com.jaspersoft.studio.field.label" value="judulnumb"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="160" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout"/>
+			<crosstab ignoreWidth="false">
+				<reportElement x="0" y="0" width="480" height="160" uuid="4e9e17f9-d326-4164-b46b-d38f756fa2e4">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset resetType="Report"/>
+				</crosstabDataset>
+				<titleCell height="100">
+					<cellContents>
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="478" height="100" uuid="dc770627-012a-46f5-bb00-2b8d6e4e0fc3"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA["LAPORAN PRESENSI"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</titleCell>
+				<crosstabHeaderCell>
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField>
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="420" height="40" uuid="e221d6ff-a088-4ba0-8c6d-eb085dbee5e6"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA["Data Pegawai"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="nama" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{nama}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="0ec02d87-9ea9-4bba-be3b-69f89306cd0d"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{nama}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="tglmasuk" width="60">
+					<bucket class="java.sql.Date">
+						<bucketExpression><![CDATA[$F{tglmasuk}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="d9d8dd63-898b-4cd0-b62b-8e0f7b079f1f"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tglmasuk}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="norek" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{norek}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="fe4544a4-47db-47c7-8be6-7d1270fd4989"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{norek}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="atasanamarek" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{atasanamarek}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="0239be12-cde4-4581-86a0-3b7b061f2d09"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{atasanamarek}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="statuskaryawan" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{statuskaryawan}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="53cfc3a0-6db8-487d-8b24-41e8dc676584"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{statuskaryawan}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="statuspernikahan" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{statuspernikahan}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="f9839fc3-7ece-4f15-83d9-c806df3c12b2"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{statuspernikahan}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG"/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="namasuamiistri" width="60">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{namasuamiistri}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="20" uuid="002c4349-08e3-4732-b9b0-92bacd79f53c"/>
+								<textElement verticalAlignment="Middle">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{namasuamiistri}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="judul" height="20">
+					<bucket order="None" class="java.lang.String">
+						<bucketExpression><![CDATA[$F{judul}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement x="0" y="0" width="58" height="20" uuid="1df69cba-0c74-469b-b507-2bd9f5c87dd1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<paragraph leftIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{judul}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT"/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="judulnumb" height="0" mergeHeaderCells="false">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{judulnumb}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH"/>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG"/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="tanggal" height="0" mergeHeaderCells="false">
+					<bucket class="java.sql.Date">
+						<bucketExpression><![CDATA[$F{tanggal}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="58" height="0" uuid="f59cdcc2-2303-46ad-bc88-8f0e3702bf04"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<paragraph leftIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tanggal}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG"/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="subjudul" height="20" mergeHeaderCells="true">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{subjudul}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField textAdjust="StretchHeight">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="58" height="20" uuid="c28884ad-db43-45e1-abe4-31b2500e59d5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<paragraph leftIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{subjudul}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG"/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="isi_MEASURE" class="java.lang.String">
+					<measureExpression><![CDATA[$F{isi}]]></measureExpression>
+				</measure>
+				<crosstabCell width="58" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="58" height="20" uuid="bb68119b-57f7-4494-adcb-81f7aaf99a83"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<paragraph leftIndent="3" rightIndent="3"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="nama">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" forecolor="#FFFFFF" uuid="da0d50e6-7113-4664-86ef-a489a9c6ed16"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="nama" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="tglmasuk">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" uuid="a2ce1810-2454-4b51-bd52-e67de3b13340"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="tglmasuk" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="norek">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" uuid="3ba15e7c-7e42-412a-adef-4a9d8e00ff37"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="norek" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="atasanamarek">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" uuid="0cff4668-e2a7-4c55-85ec-e6ce65e506fb"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="atasanamarek" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="statuskaryawan">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" uuid="be4a2721-5ffa-49e8-a1f1-99302aabf33a"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="statuskaryawan" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="statuspernikahan">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" uuid="166e2edd-047b-47af-8c62-de6785733f61"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="statuspernikahan" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="namasuamiistri">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField textAdjust="StretchHeight">
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="0" uuid="d282cde3-f64f-40fe-981c-5623caaad2b6"/>
+							<textFieldExpression><![CDATA[$V{isi_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="namasuamiistri" columnTotalGroup="subjudul">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="nama" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="tglmasuk" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="norek" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="atasanamarek" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="statuskaryawan" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="statuspernikahan" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="namasuamiistri" columnTotalGroup="tanggal">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="nama" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="tglmasuk" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="norek" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="atasanamarek" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="statuskaryawan" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="statuspernikahan" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="namasuamiistri" columnTotalGroup="judulnumb">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="nama" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="tglmasuk" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="norek" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="atasanamarek" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="statuskaryawan" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="statuspernikahan" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="namasuamiistri" columnTotalGroup="judul">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="50" uuid="0ba8505a-1fa2-4528-9483-bf12bb121947"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

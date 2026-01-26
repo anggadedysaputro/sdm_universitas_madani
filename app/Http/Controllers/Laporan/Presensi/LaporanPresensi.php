@@ -23,6 +23,7 @@ class LaporanPresensi extends Controller
             $request->validate([
                 'tglawal'  => 'required|date',
                 'tglakhir' => 'required|date',
+                'jenis_laporan' => 'required',
                 'type'     => 'nullable|in:pdf,xls,xlsx',
             ]);
 
@@ -31,17 +32,29 @@ class LaporanPresensi extends Controller
             $tglakhir = $request->tglakhir;
             $type     = $request->input('type', 'pdf');
             $preview  = (bool) $request->input('preview', false);
+            $jenisLaporan = $request->input('jenis_laporan', 'v1');
 
             // ===============================
             // FILE PATH
             // ===============================
-            $input     = public_path('report/header_slip_gaji.jasper');
+            $input     = $jenisLaporan == 'v1' ? public_path('report/header_slip_gaji.jasper') : ($type == 'pdf' ? public_path('report/laporan_presensi_pdf.jasper') : public_path('report/laporan_presensi.jasper'));
             $folder    = storage_path('app/jasper');
-            $filename  = 'laporan_presensi_' . Str::uuid();
+            $filename  = 'laporan_presensi_' . $jenisLaporan . Str::uuid();
             $output    = $folder . '/' . $filename;
             $outputFile = $output . '.' . $type;
 
             buatFolder($folder);
+
+            $params = $jenisLaporan == 'v1' ? [
+                'P_NOPEG'        => $idpeg,
+                'P_TANGGALAWAL'  => $tglawal,
+                'P_TANGGALAKHIR' => $tglakhir,
+                'P_SUBREPORT'    => public_path('report/slip_gaji.jasper'),
+            ] : [
+                'idpegawai'  => json_encode([]),
+                'tanggalawal' => $tglawal,
+                'tanggalakhir' => $tglakhir,
+            ];
 
             // ===============================
             // JASPER OPTIONS
@@ -49,12 +62,7 @@ class LaporanPresensi extends Controller
             $options = [
                 'format' => [$type],
                 'locale' => 'id',
-                'params' => [
-                    'P_NOPEG'        => $idpeg,
-                    'P_TANGGALAWAL'  => $tglawal,
-                    'P_TANGGALAKHIR' => $tglakhir,
-                    'P_SUBREPORT'    => public_path('report/slip_gaji.jasper'),
-                ],
+                'params' => $params,
                 'db_connection' => jasperConnection(),
             ];
 
@@ -76,6 +84,7 @@ class LaporanPresensi extends Controller
             // GENERATE REPORT
             // ===============================
             $jasper = new PHPJasper;
+            // dd($jasper->process($input, $output, $options)->output());
             $jasper->process($input, $output, $options)->execute();
 
             if (!file_exists($outputFile)) {
@@ -92,7 +101,7 @@ class LaporanPresensi extends Controller
                 default => 'application/octet-stream',
             };
 
-            $downloadName = 'Laporan_Presensi.' . $type;
+            $downloadName = 'Laporan_Presensi_' . $jenisLaporan . '.' . $type;
 
             // ===============================
             // STREAM + AUTO DELETE
