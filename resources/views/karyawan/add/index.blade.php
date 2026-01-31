@@ -975,7 +975,7 @@
             static addRowKeluarga(data){
                 let row = [];
                 data.forEach((e,i)=>{
-                    const options = Index.DATA_Hubungan.map(item => `
+                    const options = Object.values(Index.DATA_Hubungan).map(item => `
                         <option value="${item}" ${e.hubung === item ? 'selected' : ''}>${item}</option>
                     `).join('');
 
