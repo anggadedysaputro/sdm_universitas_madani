@@ -1038,7 +1038,8 @@
                     let rowContent = $(content);
                     rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     flatpickr(rowContent.find('.flat-picker'),{
-                        disableMobile: "true",
+                        disableMobile: true,
+                        static : true,
                         dateFormat: "j F Y",
                     });
                     var selectorinteger = rowContent.find(".integer-mask")[0];
@@ -1524,11 +1525,12 @@
                 Index.BTN_Simpan = $('#simpan');
 
                 flatpickr('.flat-picker',{
-                    disableMobile: "true",
+                    disableMobile: true,
+                    static : true,
                     dateFormat: "j F Y",
                 });
                 flatpickr('.flat-picker-years',{
-                    disableMobile: "true",
+                    disableMobile: true,
                     dateFormat: "Y",
                     plugins: [
                         new monthSelectPlugin({

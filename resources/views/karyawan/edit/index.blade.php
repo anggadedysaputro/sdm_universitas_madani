@@ -2001,8 +2001,9 @@
                     let rowContent = $(content);
                     rowContent.find('.delete-row-data').on('click', Helper.deleteRowData).css('cursor','pointer');
                     flatpickr(rowContent.find('.flat-picker'),{
-                        disableMobile: "true",
+                        disableMobile: true,
                         dateFormat: "j F Y",
+                        static : true,
                     });
                     var selectorinteger = rowContent.find(".integer-mask")[0];
                     var iminteger = new Inputmask({
@@ -2743,11 +2744,12 @@
                 Index.BTN_SearchOrg = $('#search-organisasi');
 
                 flatpickr('.flat-picker',{
-                    disableMobile: "true",
+                    disableMobile: true,
+                    static : true,
                     dateFormat: "j F Y",
                 });
                 flatpickr('.flat-picker-years',{
-                    disableMobile: "true",
+                    disableMobile: true,
                     dateFormat: "Y",
                     plugins: [
                         new monthSelectPlugin({
