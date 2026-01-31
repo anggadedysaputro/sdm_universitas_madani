@@ -54,8 +54,8 @@
                 <select name="jenis_laporan" id="jenis_laporan"
                     class="form-control select2">
                     <option value="">-- Pilih Jenis --</option>
-                    <option value="v1">V1</option>
-                    <option value="v2">V2</option>
+                    <option value="v1">Laporan kinerja pegawai</option>
+                    <option value="v2">Laporan detail presensi pegawai</option>
                 </select>
             </div>
 

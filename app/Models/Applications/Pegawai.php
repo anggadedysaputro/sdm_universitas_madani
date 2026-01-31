@@ -194,4 +194,14 @@ class Pegawai extends Model
         // Jika kosong, bisa return null atau default image
         return null;
     }
+
+    public function getGambarUrlAttribute()
+    {
+        if ($this->gambar) {
+            return Storage::disk('s3')->url("foto_pegawai" . DIRECTORY_SEPARATOR . $this->gambar);
+        }
+
+        // Jika kosong, bisa return null atau default image
+        return null;
+    }
 }
