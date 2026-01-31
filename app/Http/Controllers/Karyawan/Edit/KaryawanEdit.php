@@ -204,9 +204,6 @@ class KaryawanEdit extends Controller
         $pengalamankerja = empty($pegawai->data_pengalaman_kerja) ? [] : json_decode($pegawai->data_pengalaman_kerja);
         $biayapendidikananak = empty($pegawai->data_biaya_pendidikan_anak) ? [] : json_decode($pegawai->data_biaya_pendidikan_anak);
 
-        $pegawai->gambar = empty($pegawai->gambar) ? null : Storage::disk('s3')->url("pegawai" . DIRECTORY_SEPARATOR . $pegawai->gambar);
-
-
         return view('karyawan.edit.index', compact('id', 'biayapendidikananak', 'pengalamankerja', 'sertifikat', 'keluarga', 'pegawai', 'statusnikah', 'statuspegawai', 'pendidikan', 'negara', 'kartuidentitas', 'agama', 'golongan_darah'));
     }
 
@@ -611,35 +608,42 @@ class KaryawanEdit extends Controller
         DB::beginTransaction();
         try {
             $post = request()->all();
-            $pegawai = Pegawai::find($post['idpegawai']);
-            Storage::delete($pegawai->fullpath);
+            $pegawai = Pegawai::findOrFail($post['idpegawai']);
 
-            $path = Storage::putFile('public/pegawai', $post['gambar']);
+            // Hapus foto lama (tanpa exists)
+            if (!empty($pegawai->fullpath)) {
+                try {
+                    Storage::disk('s3')->delete($pegawai->fullpath);
+                } catch (\Throwable $e) {
+                    // ignore
+                }
+            }
+
+            // Upload foto baru
+            $path = Storage::disk('s3')->put(
+                'foto_pegawai',
+                $post['gambar']
+            );
 
             $id = $post['idpegawai'];
-            unset($post['idpegawai']);
-            unset($post['gambar']);
-            $post['fullpath'] = $path;
-            $post['gambar'] = basename($path);
+            unset($post['idpegawai'], $post['gambar']);
 
-            Pegawai::find($id)->update($post);
+            $post['fullpath'] = $path;
+            $post['gambar']   = basename($path);
+
+            Pegawai::where('nopeg', $id)->update($post);
 
             DB::commit();
 
-            $response = [
+            return response()->json([
                 'message' => 'Upload foto karyawan berhasil'
-            ];
-
-            return response()->json($response, 200);
+            ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            $this->activity("Upload foto karyawan [failed]", $th->getMessage());
 
-            $response = [
+            return response()->json([
                 'message' => message("Upload foto karyawan gagal", $th)
-            ];
-
-            return response()->json($response, 500);
+            ], 500);
         }
     }
 
