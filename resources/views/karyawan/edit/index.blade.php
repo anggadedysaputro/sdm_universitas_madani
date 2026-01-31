@@ -35,7 +35,7 @@
                         <div class="col-md-12" style="display:none;">
                             <div class="d-flex justify-content-center" id="container-crop">
                                 <div class="p-3">
-                                    <img class="cropped" style="width:150px; height:150px;" src="{{ empty($pegawai->gambar_url) ? asset('assets/photos/default_upload_karyawan.png') : $pegawai->gambar_url }}">
+                                    <img class="cropped" style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : $pegawai->gambar_url }}">
                                 </div>
                             </div>
                         </div>
