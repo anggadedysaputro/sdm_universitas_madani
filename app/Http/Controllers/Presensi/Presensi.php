@@ -28,7 +28,7 @@ class Presensi extends Controller
         $firstDayOfMonth = date('Y-m-d', strtotime($year . "-" . $post['bulan'] . 'first day of this month'));
         $lastDayOfMonth = date('Y-m-d', strtotime($year . "-" . $post['bulan'] . 'last day of this month'));
 
-        $query = DB::select("select *, convertnumericdatetoalphabetical(rettanggal) tg_view from data_presensi(?,?,?)", [$firstDayOfMonth, $lastDayOfMonth, [$post['nopeg']]]);
+        $query = DB::select("select *, convertnumericdatetoalphabetical(rettanggal) tg_view from data_presensi(?,?,?)", [$firstDayOfMonth, $lastDayOfMonth, json_encode([$post['nopeg']])]);
 
         return response()->json($query, 200);
     }
