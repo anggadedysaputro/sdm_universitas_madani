@@ -641,6 +641,8 @@ class KaryawanEdit extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
+            $this->activity("Hapus karyawan [failed]", $th->getMessage());
+
             return response()->json([
                 'message' => message("Upload foto karyawan gagal", $th)
             ], 500);
