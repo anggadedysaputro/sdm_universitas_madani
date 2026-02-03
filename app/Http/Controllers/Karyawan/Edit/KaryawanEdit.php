@@ -603,49 +603,86 @@ class KaryawanEdit extends Controller
         }
     }
 
+    // public function upload()
+    // {
+    //     DB::beginTransaction();
+    //     try {
+    //         $post = request()->all();
+    //         $pegawai = Pegawai::findOrFail($post['idpegawai']);
+
+    //         // Hapus foto lama (tanpa exists)
+    //         if (!empty($pegawai->fullpath)) {
+    //             try {
+    //                 Storage::disk('s3')->delete($pegawai->fullpath);
+    //             } catch (\Throwable $e) {
+    //                 // ignore
+    //             }
+    //         }
+
+    //         // Upload foto baru
+    //         $path = Storage::disk('s3')->put(
+    //             'foto_pegawai',
+    //             $post['gambar']
+    //         );
+
+    //         $id = $post['idpegawai'];
+    //         unset($post['idpegawai'], $post['gambar']);
+
+    //         $post['fullpath'] = $path;
+    //         $post['gambar']   = basename($path);
+
+    //         Pegawai::where('nopeg', $id)->update($post);
+
+    //         DB::commit();
+
+    //         return response()->json([
+    //             'message' => 'Upload foto karyawan berhasil'
+    //         ], 200);
+    //     } catch (\Throwable $th) {
+    //         DB::rollBack();
+
+    //         $this->activity("Hapus karyawan [failed]", $th->getMessage());
+
+    //         return response()->json([
+    //             'message' => message("Upload foto karyawan gagal", $th)
+    //         ], 500);
+    //     }
+    // }
+
     public function upload()
     {
         DB::beginTransaction();
         try {
             $post = request()->all();
-            $pegawai = Pegawai::findOrFail($post['idpegawai']);
+            $pegawai = Pegawai::find($post['idpegawai']);
+            Storage::delete($pegawai->fullpath);
 
-            // Hapus foto lama (tanpa exists)
-            if (!empty($pegawai->fullpath)) {
-                try {
-                    Storage::disk('s3')->delete($pegawai->fullpath);
-                } catch (\Throwable $e) {
-                    // ignore
-                }
-            }
-
-            // Upload foto baru
-            $path = Storage::disk('s3')->put(
-                'foto_pegawai',
-                $post['gambar']
-            );
+            $path = Storage::putFile('public/pegawai', $post['gambar']);
 
             $id = $post['idpegawai'];
-            unset($post['idpegawai'], $post['gambar']);
-
+            unset($post['idpegawai']);
+            unset($post['gambar']);
             $post['fullpath'] = $path;
-            $post['gambar']   = basename($path);
+            $post['gambar'] = basename($path);
 
-            Pegawai::where('nopeg', $id)->update($post);
+            Pegawai::find($id)->update($post);
 
             DB::commit();
 
-            return response()->json([
+            $response = [
                 'message' => 'Upload foto karyawan berhasil'
-            ], 200);
+            ];
+
+            return response()->json($response, 200);
         } catch (\Throwable $th) {
             DB::rollBack();
+            $this->activity("Upload foto karyawan [failed]", $th->getMessage());
 
-            $this->activity("Hapus karyawan [failed]", $th->getMessage());
-
-            return response()->json([
+            $response = [
                 'message' => message("Upload foto karyawan gagal", $th)
-            ], 500);
+            ];
+
+            return response()->json($response, 500);
         }
     }
 

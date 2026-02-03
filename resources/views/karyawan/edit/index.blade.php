@@ -24,7 +24,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2" >
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-md-12" id="wrapper-image-karyawan">
                             <div class="d-flex justify-content-center">
                                 <div class="p-3">
@@ -36,6 +36,28 @@
                             <div class="d-flex justify-content-center" id="container-crop">
                                 <div class="p-3">
                                     <img class="cropped" style="width:150px; height:150px;" src="{{ empty($pegawai->gambar_url) ? asset('assets/photos/default_upload_karyawan.png') : $pegawai->gambar_url }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex flex-column">
+                                <input type="file" class="form-control" id="foto-profile" placeholder="Foto" accept="image/*">
+                                <button class="btn btn-success flex-fill" id="simpan-image-karyawan">Simpan</button>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="row">
+                        <div class="col-md-12" id="wrapper-image-karyawan">
+                            <div class="d-flex justify-content-center">
+                                <div class="p-3">
+                                    <img style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : asset('storage/pegawai/'.$pegawai->gambar) }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="display:none;">
+                            <div class="d-flex justify-content-center" id="container-crop">
+                                <div class="p-3">
+                                    <img class="cropped" style="width:150px; height:150px;" src="{{ empty($pegawai->gambar) ? asset('assets/photos/default_upload_karyawan.png') : asset('storage/pegawai/'.$pegawai->gambar) }}">
                                 </div>
                             </div>
                         </div>
@@ -2104,58 +2126,86 @@
 
             simpanUploadKaryawan(){
                 let formData = new FormData();
-                Index.CRP_Main.getCroppedCanvas().toBlob((blob) => {
-                    formData.append("gambar",blob);
-                    formData.append("idpegawai","{{ $pegawai->nopeg }}")
-                });
 
-                Swal.fire({
-                    title : 'Konfirmasi',
-                    text : 'Apakah anda yakin ingin menyimpan data?',
-                    icon : 'question',
-                    showCancelButton : true,
-                    cancelButtonText: 'Tidak',
-                    confirmButtonText : 'Ya'
-                }).then((result)=>{
-                    if(result.isConfirmed){
-                        $.ajax({
-                            url : "{{ route('karyawan.edit.upload') }}",
-                            method : "POST",
-                            data : formData,
-                            processData:false,
-                            contentType:false,
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            beforeSend : function(){
-                                Swal.fire({
-                                    title: 'Menyimpan data!',
-                                    html: 'Silahkan tunggu...',
-                                    allowEscapeKey: false,
-                                    allowOutsideClick: false,
-                                    didOpen: () => {
-                                        Swal.showLoading()
-                                    }
-                                });
-                            },
-                            success : function(result){
-                                Swal.fire({
-                                    title : 'Berhasil',
-                                    text : result.message,
-                                    icon : 'success',
-                                    allowEscapeKey: false,
-                                    allowOutsideClick: false,
-                                }).then(()=>{
-                                    window.location.href = "{{ url('karyawan/edit/index') }}"+"/"+"{{ $pegawai->nopeg }}";
-                                });
-                            },
-                            error : function(error){
-                                Swal.fire('Gagal',error.responseJSON.message,'error');
-                            }
-                        });
+                Index.CRP_Main.getCroppedCanvas().toBlob((blob) => {
+
+                    // ✅ CEK SIZE FILE (maks 1 MB)
+                    const maxSize = 1 * 1024 * 1024; // 1 MB
+
+                    if (!blob) {
+                        Swal.fire('Gagal', 'Gambar tidak valid', 'error');
+                        return;
                     }
-                });
+
+                    if (blob.size > maxSize) {
+                        Swal.fire(
+                            'Gagal',
+                            'Ukuran foto maksimal 1 MB',
+                            'warning'
+                        );
+                        return;
+                    }
+
+                    // ✅ APPEND DATA
+                    formData.append("gambar", blob, "foto.png");
+                    formData.append("idpegawai", "{{ $pegawai->nopeg }}");
+
+                    // ✅ KONFIRMASI
+                    Swal.fire({
+                        title : 'Konfirmasi',
+                        text : 'Apakah anda yakin ingin menyimpan data?',
+                        icon : 'question',
+                        showCancelButton : true,
+                        cancelButtonText: 'Tidak',
+                        confirmButtonText : 'Ya'
+                    }).then((result)=>{
+                        if(result.isConfirmed){
+                            $.ajax({
+                                url : "{{ route('karyawan.edit.upload') }}",
+                                method : "POST",
+                                data : formData,
+                                processData:false,
+                                contentType:false,
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                beforeSend : function(){
+                                    Swal.fire({
+                                        title: 'Menyimpan data!',
+                                        html: 'Silahkan tunggu...',
+                                        allowEscapeKey: false,
+                                        allowOutsideClick: false,
+                                        didOpen: () => {
+                                            Swal.showLoading()
+                                        }
+                                    });
+                                },
+                                success : function(result){
+                                    Swal.fire({
+                                        title : 'Berhasil',
+                                        text : result.message,
+                                        icon : 'success',
+                                        allowEscapeKey: false,
+                                        allowOutsideClick: false,
+                                    }).then(()=>{
+                                        window.location.href =
+                                            "{{ url('karyawan/edit/index') }}/{{ $pegawai->nopeg }}";
+                                    });
+                                },
+                                error : function(error){
+                                    Swal.fire(
+                                        'Gagal',
+                                        error.responseJSON?.message || 'Terjadi kesalahan',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+
+                }, 'image/png', 0.9); // quality 0.9 biar tidak gede
             }
+
 
             static getMenuJstree(){
                 return new Promise((resolve, reject) => {
