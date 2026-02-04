@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_gaji" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bf6759a-fd91-43d8-be45-42079199a0bb">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="njengat.jrdax"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -105,9 +105,11 @@ FROM public.laporan_presensi(
 	<group name="group_bulan">
 		<groupExpression><![CDATA[$F{xbulan}]]></groupExpression>
 		<groupHeader>
-			<band height="66">
+			<band height="56">
 				<textField>
-					<reportElement mode="Opaque" x="0" y="6" width="555" height="30" forecolor="#FFFFFF" backcolor="#1B373A" uuid="6fce8fa3-949d-42af-a7ce-5146ae25b1d7"/>
+					<reportElement mode="Opaque" x="0" y="6" width="555" height="25" forecolor="#FFFFFF" backcolor="#1B373A" uuid="6fce8fa3-949d-42af-a7ce-5146ae25b1d7">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -118,7 +120,9 @@ FROM public.laporan_presensi(
 					<textFieldExpression><![CDATA[$F{xbulan}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="0" y="36" width="30" height="30" uuid="2c063b3b-d0db-42cd-a486-46b7753b627d"/>
+					<reportElement x="0" y="31" width="30" height="25" uuid="2c063b3b-d0db-42cd-a486-46b7753b627d">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -132,7 +136,9 @@ FROM public.laporan_presensi(
 					<text><![CDATA[TGL]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="480" y="36" width="75" height="30" uuid="7713f95a-2d99-4dcd-84c1-99e062d5a1ed"/>
+					<reportElement x="480" y="31" width="75" height="25" uuid="7713f95a-2d99-4dcd-84c1-99e062d5a1ed">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -146,7 +152,10 @@ FROM public.laporan_presensi(
 					<text><![CDATA[STATUS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="36" width="100" height="30" uuid="56e1ccd2-6202-42ed-87eb-f520f913f798"/>
+					<reportElement x="30" y="31" width="100" height="25" uuid="56e1ccd2-6202-42ed-87eb-f520f913f798">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -160,7 +169,9 @@ FROM public.laporan_presensi(
 					<text><![CDATA[HARI]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="330" y="36" width="150" height="30" uuid="58103998-d7ab-4f5c-8832-1b607cc68315"/>
+					<reportElement x="330" y="31" width="150" height="25" uuid="58103998-d7ab-4f5c-8832-1b607cc68315">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -174,7 +185,9 @@ FROM public.laporan_presensi(
 					<text><![CDATA[KETERANGAN]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="130" y="36" width="100" height="30" uuid="8f6566c0-e82a-4dd3-b6ea-606e71c31cef"/>
+					<reportElement x="130" y="31" width="100" height="25" uuid="8f6566c0-e82a-4dd3-b6ea-606e71c31cef">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -188,7 +201,9 @@ FROM public.laporan_presensi(
 					<text><![CDATA[MASUK]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="230" y="36" width="100" height="30" uuid="bffea12a-ea55-44ba-ac36-c45f079f1ee8"/>
+					<reportElement x="230" y="31" width="100" height="25" uuid="bffea12a-ea55-44ba-ac36-c45f079f1ee8">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -208,86 +223,98 @@ FROM public.laporan_presensi(
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="105" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="10" width="100" height="30" uuid="bf1b52e5-10a8-4c66-848a-15d00d9f1575"/>
-				<textElement textAlignment="Left" verticalAlignment="Top">
+				<reportElement x="0" y="10" width="80" height="20" uuid="bf1b52e5-10a8-4c66-848a-15d00d9f1575"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[NOPEG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="40" width="100" height="30" uuid="e913df68-f1c3-4f7d-91a4-ef17daeb9f4f"/>
-				<textElement>
+				<reportElement x="0" y="32" width="100" height="20" uuid="e913df68-f1c3-4f7d-91a4-ef17daeb9f4f"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[NAMA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="70" width="100" height="30" uuid="2b287a7b-c7d8-4b49-a7e4-4da75b1aeedd"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[TGL LAHIR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="280" y="10" width="100" height="30" uuid="2154e3ae-6e12-49b7-a087-34b32cd2e55a"/>
-				<textElement>
+				<reportElement x="280" y="10" width="100" height="20" uuid="2154e3ae-6e12-49b7-a087-34b32cd2e55a"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[JABATAN]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="10" width="180" height="30" uuid="4bb5cd3e-e55b-4be2-94d7-20251dfb870b"/>
-				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<reportElement x="100" y="10" width="180" height="20" uuid="4bb5cd3e-e55b-4be2-94d7-20251dfb870b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{xnopeg}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="40" width="180" height="30" uuid="e7d9bd6c-17d9-499f-9f7b-ff245d077224"/>
-				<textElement verticalAlignment="Top"/>
+				<reportElement x="100" y="32" width="180" height="20" uuid="e7d9bd6c-17d9-499f-9f7b-ff245d077224"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{xnama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="70" width="180" height="30" uuid="a2a6f6cd-beee-4378-a67d-88597e5f1c26"/>
-				<textElement verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA[$F{xtgllahir}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="380" y="10" width="175" height="30" uuid="f3b04f2f-3ce2-477d-b395-78225449b299"/>
+				<reportElement x="380" y="10" width="175" height="20" uuid="f3b04f2f-3ce2-477d-b395-78225449b299"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{xjabatan}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="280" y="40" width="100" height="30" uuid="c78b9436-945d-4dc8-b6a6-1f33db3cf393"/>
-				<textElement>
+				<reportElement x="280" y="32" width="100" height="20" uuid="c78b9436-945d-4dc8-b6a6-1f33db3cf393"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[FUNGSIONAL]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="280" y="70" width="100" height="30" uuid="d6839c28-7ac2-42a0-b3da-34308322fda3"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[ALAMAT]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="380" y="40" width="175" height="30" uuid="29d0dbf0-9960-4042-af50-8a8cedab8cd0"/>
+				<reportElement x="380" y="32" width="175" height="20" uuid="29d0dbf0-9960-4042-af50-8a8cedab8cd0"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{xjabfung}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="380" y="70" width="175" height="30" uuid="5fe49155-99c2-4edf-951b-0950500fab99"/>
-				<textFieldExpression><![CDATA[$F{xalamat}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="10" uuid="a1d512d5-e2a4-4c2c-8a95-42b0495bac6e"/>
 				<text><![CDATA[]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="80" y="10" width="20" height="20" uuid="c6ac21e5-539e-433a-a4aa-4f28ccf6b04a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="32" width="20" height="20" uuid="b7ef85b3-b835-4c93-9948-74308c02829e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="32" width="20" height="20" uuid="a5284582-9894-42a3-a543-803dcba14bca">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="10" width="20" height="20" uuid="1930d935-7640-419b-ac64-51a0a1d3bc37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="30" height="30" backcolor="#FFFFFF" uuid="fd4e044f-c634-41d1-800c-5fb5189df4b8">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="30" height="20" backcolor="#FFFFFF" uuid="fd4e044f-c634-41d1-800c-5fb5189df4b8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
 				</reportElement>
 				<box>
@@ -303,7 +330,8 @@ FROM public.laporan_presensi(
 				<textFieldExpression><![CDATA[$F{xtgl}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="30" y="0" width="100" height="30" uuid="b50700bb-421f-407e-b942-a52d1b8fa9d1">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="30" y="0" width="100" height="20" uuid="b50700bb-421f-407e-b942-a52d1b8fa9d1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
 				</reportElement>
 				<box>
@@ -319,7 +347,8 @@ FROM public.laporan_presensi(
 				<textFieldExpression><![CDATA[$F{xhari}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="130" y="0" width="100" height="30" uuid="dffc7804-246f-4e6d-a8e1-11ed9c8c81bb">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="130" y="0" width="100" height="20" uuid="dffc7804-246f-4e6d-a8e1-11ed9c8c81bb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
 				</reportElement>
 				<box>
@@ -335,7 +364,9 @@ FROM public.laporan_presensi(
 				<textFieldExpression><![CDATA[$F{xwaktumasuk}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="230" y="0" width="100" height="30" uuid="97bb21d2-743c-46b2-b6a6-3f28ddb75ec8">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="230" y="0" width="100" height="20" uuid="97bb21d2-743c-46b2-b6a6-3f28ddb75ec8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
 				</reportElement>
 				<box>
@@ -351,7 +382,8 @@ FROM public.laporan_presensi(
 				<textFieldExpression><![CDATA[$F{xwaktukeluar}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="330" y="0" width="150" height="30" uuid="0c8be41a-16a0-4ab1-95a7-447566c408d4">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="330" y="0" width="150" height="20" uuid="0c8be41a-16a0-4ab1-95a7-447566c408d4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
 				</reportElement>
 				<box>
@@ -367,7 +399,8 @@ FROM public.laporan_presensi(
 				<textFieldExpression><![CDATA[$F{xketerangan}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="480" y="0" width="75" height="30" uuid="dcaca9a5-2181-4ec0-87ac-2a2b85b6c702">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="480" y="0" width="75" height="20" uuid="dcaca9a5-2181-4ec0-87ac-2a2b85b6c702">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
 				</reportElement>
 				<box>
