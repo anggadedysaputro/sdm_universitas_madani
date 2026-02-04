@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_gaji" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bf6759a-fd91-43d8-be45-42079199a0bb">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="njengat.jrdax"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -315,7 +315,13 @@ FROM public.laporan_presensi(
 			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="30" height="20" backcolor="#FFFFFF" uuid="fd4e044f-c634-41d1-800c-5fb5189df4b8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") 
+    ? "#FC6F71" 
+    : $F{xwarnani}.equals("yellow") 
+        ? "#FFD966" 
+        : "#ffffff"
+]]></propertyExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -332,7 +338,13 @@ FROM public.laporan_presensi(
 			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="30" y="0" width="100" height="20" uuid="b50700bb-421f-407e-b942-a52d1b8fa9d1">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") 
+    ? "#FC6F71" 
+    : $F{xwarnani}.equals("yellow") 
+        ? "#FFD966" 
+        : "#ffffff"
+]]></propertyExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -349,7 +361,13 @@ FROM public.laporan_presensi(
 			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="130" y="0" width="100" height="20" uuid="dffc7804-246f-4e6d-a8e1-11ed9c8c81bb">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") 
+    ? "#FC6F71" 
+    : $F{xwarnani}.equals("yellow") 
+        ? "#FFD966" 
+        : "#ffffff"
+]]></propertyExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -367,7 +385,12 @@ FROM public.laporan_presensi(
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="230" y="0" width="100" height="20" uuid="97bb21d2-743c-46b2-b6a6-3f28ddb75ec8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") 
+    ? "#FC6F71" 
+    : $F{xwarnani}.equals("yellow") 
+        ? "#FFD966" 
+        : "#ffffff"
+]]></propertyExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -384,7 +407,13 @@ FROM public.laporan_presensi(
 			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="330" y="0" width="150" height="20" uuid="0c8be41a-16a0-4ab1-95a7-447566c408d4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") 
+    ? "#FC6F71" 
+    : $F{xwarnani}.equals("yellow") 
+        ? "#FFD966" 
+        : "#ffffff"
+]]></propertyExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -401,7 +430,12 @@ FROM public.laporan_presensi(
 			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="480" y="0" width="75" height="20" uuid="dcaca9a5-2181-4ec0-87ac-2a2b85b6c702">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") ? "#FC6F71" : "#ffffff"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$F{xwarnani}.equals("red") 
+    ? "#FC6F71" 
+    : $F{xwarnani}.equals("yellow") 
+        ? "#FFD966" 
+        : "#ffffff"
+]]></propertyExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
