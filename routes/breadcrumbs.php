@@ -37,6 +37,12 @@ Breadcrumbs::for('cuti.index', function (BreadcrumbTrail $trail) {
     $trail->push('Cuti', route('cuti.index'));
 });
 
+// cuti > history
+Breadcrumbs::for('cuti.history.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard.index');
+    $trail->push('History Cuti', route('cuti.history.index'));
+});
+
 // presensi
 Breadcrumbs::for('presensi.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard.index');

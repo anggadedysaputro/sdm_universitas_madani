@@ -4,6 +4,7 @@ use App\Events\JoinConnection;
 use App\Http\Controllers\Approval\Cuti\ApprovalCuti;
 use App\Http\Controllers\Approval\Ijin\ApprovalIjin;
 use App\Http\Controllers\Cuti\Cuti;
+use App\Http\Controllers\Cuti\History\CutiHistory;
 use App\Http\Controllers\Dashboard\Dashboard;
 use App\Http\Controllers\Jstree\Menu\JstreeMenu;
 use App\Http\Controllers\Jstree\StrukturOrganisasi\JstreeStrukturOrganisasi;
@@ -332,6 +333,10 @@ Route::middleware(['validate.login'])->group(function () {
         Route::post('data', [Cuti::class, 'data'])->name('cuti.data');
         Route::patch('edit', [Cuti::class, 'edit'])->name('cuti.edit');
         Route::delete('delete', [Cuti::class, 'delete'])->name('cuti.delete');
+        Route::prefix('history')->group(function () {
+            Route::get('index', [CutiHistory::class, 'index'])->name('cuti.history.index')->middleware(["initialize.menu"]);
+            Route::get('data/{nopeg?}', [CutiHistory::class, 'data'])->name('cuti.history.data');
+        });
     });
 
     Route::prefix('profile')->group(function () {
