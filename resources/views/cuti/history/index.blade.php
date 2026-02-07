@@ -404,24 +404,31 @@
                                             let text  = 'Menunggu Atasan';
                                             let icon  = 'ti ti-clock';
 
-                                            if (row.approval === -1 || row.approval_sdm === -1) {
+                                            const approval      = row.approval;
+                                            const approval_sdm  = row.approval_sdm;
+
+                                            // ❌ DITOLAK (salah satu false)
+                                            if (approval === false || approval_sdm === false) {
                                                 badge = 'bg-danger';
                                                 text  = 'Ditolak';
                                                 icon  = 'ti ti-x';
                                             }
-                                            else if (row.approval === 1 && row.approval_sdm === 1) {
+                                            // ✅ DISETUJUI (dua-duanya true)
+                                            else if (approval === true && approval_sdm === true) {
                                                 badge = 'bg-success';
                                                 text  = 'Disetujui';
                                                 icon  = 'ti ti-check';
                                             }
-                                            else if (row.approval === 1) {
+                                            // ⏳ MENUNGGU SDM
+                                            else if (approval === true && approval_sdm === null) {
                                                 badge = 'bg-info';
                                                 text  = 'Menunggu SDM';
                                                 icon  = 'ti ti-user-check';
                                             }
+                                            // ⏳ MENUNGGU ATASAN (default)
 
                                             return `
-                                                <span class="badge text-white ${badge} }
+                                                <span class="badge ${badge} text-white
                                                     border border-${badge.replace('bg-', '')}
                                                     rounded-pill px-3 py-1">
                                                     <i class="${icon} me-1"></i>
