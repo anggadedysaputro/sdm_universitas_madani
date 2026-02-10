@@ -91,7 +91,7 @@ class ApiPresensi extends Controller
             $post = request()->all();
             $data = DB::select(
                 'select * from data_presensi(?,?,?) where retambil = ?',
-                [$post['tglawal'], $post['tglakhir'], [$post['nopeg']], 1]
+                [$post['tglawal'], $post['tglakhir'], json_encode([$post['nopeg']]), 1]
             );
             $response = [
                 'data' => $data,
