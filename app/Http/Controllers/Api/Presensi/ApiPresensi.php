@@ -99,6 +99,7 @@ class ApiPresensi extends Controller
             ];
             return response()->json($response, 200);
         } catch (\Throwable $th) {
+            $this->activity("Ambil data presensi [failed]", $th->getMessage());
             $response = [
                 'message' => message("Ambil data presensi gagal", $th),
                 'status' => false
