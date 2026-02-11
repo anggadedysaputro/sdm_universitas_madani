@@ -191,10 +191,12 @@
                             data : "negara"
                         },
                         {
-                            data : "defcuti"
+                            data : "defcuti",
+                            orderable : false,
                         },
                         {
                             data: null,
+                            orderable : false,
                             render: function (data, type, row) {
                                 let cutis = row.cutis;
 
