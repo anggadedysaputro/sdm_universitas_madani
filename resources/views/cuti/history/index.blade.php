@@ -46,6 +46,8 @@
                                 <th class="informasi-pribadi status_perkawinan">Status perkawinan</th>
                                 <th class="informasi-pribadi kewarganegaraan">Kewarganegaraan</th>
                                 <th class="informasi-pribadi negara">Negara</th>
+                                <th class="informasi-pribadi negara">Total Cuti</th>
+                                <th class="informasi-pribadi negara">Sisa Cuti</th>
                                 {{-- <th class="kontak tipe_kartu_identitas">Tipe kartu identitas</th>
                                 <th class="kontak nomor_kartu_identitas">Nomor kartu identitas</th>
                                 <th class="kontak alamat">Alamat</th>
@@ -188,9 +190,27 @@
                         {
                             data : "negara"
                         },
-                        // {
-                        //     data : "nama_kartuidentitas"
-                        // },
+                        {
+                            data : "defcuti"
+                        },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                let cutis = row.cutis;
+
+                                if (typeof cutis === "string") {
+                                    try {
+                                        cutis = JSON.parse(
+                                            cutis.replace(/&quot;/g, '"')
+                                        );
+                                    } catch (e) {
+                                        cutis = null;
+                                    }
+                                }
+
+                                return cutis?.sisa ?? row.defcuti ?? "0";
+                            }
+                        },
 
                         // {
                         //     data : "noidentitas"

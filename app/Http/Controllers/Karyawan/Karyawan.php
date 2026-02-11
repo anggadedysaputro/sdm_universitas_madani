@@ -287,6 +287,16 @@ class Karyawan extends Controller
 
     public function data()
     {
+        $defcuti = DB::table('applications.configapp as ca')
+            ->leftJoin('applications.konfigumum as ku', 'ku.idkonfigumum', '=', 'ca.idkonfig')
+            ->where('ca.aktif', true)
+            ->select('ku.defcuti')
+            ->first();
+
+        $sisaCuti = 0;
+
+        if ($defcuti) $sisaCuti += $defcuti->defcuti;
+
         $data = DB::table(DB::raw("
             (
                 select
@@ -295,7 +305,17 @@ class Karyawan extends Controller
                     gd.nama as gol_darah,a.urai as agama, sn.status as status_nikah, p.kewarganegaraan, ki.keterangan as nama_kartuidentitas,p.noidentitas,
                     p.notelpdarurat, p.email, sp.keterangan as status_pegawai,convertnumericdatetoalphabetical(p.tgl_masuk) as tanggal_bergabung,
                     jb.urai as jabatan_fungsional, js.urai as jabatan_struktural, n.keterangan as negara,
-                    case when isdosen then 'Ya' else 'Tidak' end dosen, nuptk
+                    case when isdosen then 'Ya' else 'Tidak' end dosen, nuptk,
+                    (
+                        select row_to_json(c2)
+                        from applications.cuti c2
+                        where c2.nopeg = p.nopeg and
+                              c2.approval = true and
+                              c2.approval_sdm = true
+                        order by c2.id desc
+                        limit 1
+                    ) as cutis,
+                    " . $sisaCuti . " as defcuti
                 from applications.pegawai p
                 join masters.statusnikah sn
                 on p.idstatusnikah = sn.idstatusnikah
