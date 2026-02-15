@@ -7,6 +7,7 @@ use App\Models\Applications\ConfigApp;
 use App\Models\Public\RoleHasMenu;
 use App\Models\User;
 use App\Services\Settings\Users\ServicesSettingsUsers;
+use App\Traits\Logger\TraitsLoggerActivity;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 
 class SSOCallback extends Controller
 {
+
+    use TraitsLoggerActivity;
 
     public function callbackUrl(Request $request)
     {
