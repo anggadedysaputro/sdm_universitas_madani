@@ -62,7 +62,7 @@ class SSOCallback extends Controller
                     session($user);
                     $request->session()->regenerate();
 
-                    $this->activity("Login [successfully]", "");
+                    $this->activity("Login SSO [successfully]", "");
 
                     return redirect()->intended('index');
                 } else {
@@ -74,6 +74,7 @@ class SSOCallback extends Controller
             return redirect()->route('login');
         } catch (\Exception $e) {
             // Tangani error verifikasi
+            $this->activity("Login SSO [failed]", $e->getMessage());
             return redirect()->route('login');
         }
     }
