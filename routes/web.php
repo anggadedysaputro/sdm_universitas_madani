@@ -50,6 +50,7 @@ use App\Http\Controllers\Settings\Menu\SettingsMenu;
 use App\Http\Controllers\Settings\Permission\SettingsPermission;
 use App\Http\Controllers\Settings\Role\SettingsRole;
 use App\Http\Controllers\Settings\User\SettingsUser;
+use App\Http\Controllers\SSO\Calback\SSOCallback;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,8 +64,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("sosi", function () {
-    dd(bcrypt("Umad123!@"));
+
+Route::prefix('sso')->group(function () {
+    Route::get('/callback-url/{token}', [SSOCallback::class, 'callbackUrl'])->name('sso.callback-url');
 });
 
 Route::prefix('login')->group(function () {
