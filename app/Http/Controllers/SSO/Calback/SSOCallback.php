@@ -21,6 +21,9 @@ class SSOCallback extends Controller
 
     public function callbackUrl(Request $request)
     {
+        dd(config()->all());
+        dd(app()->configurationIsCached());
+        dd(env('APP_NAME'));
         $accessToken = $request->cookie(env('COOKIE_ACCESS_NAME'));
 
         if (!$accessToken) return redirect()->route('login');
@@ -31,7 +34,7 @@ class SSOCallback extends Controller
 
             // dd(gmdate("Y-m-d H:i:s", $decoded->exp), gmdate("Y-m-d H:i:s", time()));
 
-            $user = User::where("email", $decoded->email);
+            $user = User::where("email", $decoded->email)->get();
 
             if ($user->isNotEmpty()) {
                 Auth::login($user->first());
