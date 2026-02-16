@@ -21,9 +21,6 @@ class SSOCallback extends Controller
 
     public function callbackUrl(Request $request)
     {
-        dd(config()->all());
-        dd(app()->configurationIsCached());
-        dd(env('APP_NAME'));
         $accessToken = $request->cookie(env('COOKIE_ACCESS_NAME'));
 
         if (!$accessToken) return redirect()->route('login');
