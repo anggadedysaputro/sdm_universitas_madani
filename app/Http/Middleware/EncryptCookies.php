@@ -12,6 +12,7 @@ class EncryptCookies extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        'binbaz_sso_refresh_token',
+        'binbaz_sso_access_token',
     ];
 }
