@@ -1200,7 +1200,16 @@
                     $(e).removeClass('is-invalid');
                     if(e.nodeName == 'INPUT' && e.type == 'text' || e.nodeName == 'TEXTAREA'){
                         if(($(e).val() == '') && $(e).attr('required')){
-                            $(e).next().text($(e).attr('placeholder')+' belum disii!');
+                            if($(e).parent().hasClass('flatpickr-wrapper')){
+                                let wrapper = $(e).parent('.flatpickr-wrapper')
+                                let feedback = wrapper.next();
+                                $(e).parent().next().text($(e).attr('placeholder')+' belum disii!');
+
+                                wrapper.find('invalid-feedback').remove();
+                                wrapper.append(feedback);
+                            }else{
+                                $(e).next().text($(e).attr('placeholder')+' belum disii!');
+                            }
                             $(e).addClass('is-invalid');
                             allow = false;
                             if(scroll) $(window).scrollTop($(e).position().top);
