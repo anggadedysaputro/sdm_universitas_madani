@@ -84,7 +84,7 @@
                     },
                     beforeSend : function(){
                         Swal.fire({
-                            title: 'Meengambil data!',
+                            title: 'mengambil data!',
                             html: 'Silahkan tunggu...',
                             allowEscapeKey: false,
                             allowOutsideClick: false,

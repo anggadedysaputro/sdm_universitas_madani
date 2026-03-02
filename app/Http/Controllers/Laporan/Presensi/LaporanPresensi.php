@@ -3,62 +3,148 @@
 namespace App\Http\Controllers\Laporan\Presensi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Applications\Pembelajaran;
+use App\Traits\Logger\TraitsLoggerActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PHPJasper\PHPJasper;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class LaporanPresensi extends Controller
 {
+    use TraitsLoggerActivity;
+
     public function index()
     {
         return view('laporan.presensi.index');
     }
 
+    public function dataTable()
+    {
+        $query = DB::table('applications.pegawai as p')
+            ->select("p.nama as nama_pegawai", "b.urai as nama_organisasi", "ajar", "sks", "terpenuhi", "p.nopeg")
+            ->leftJoin("applications.pembelajaran as pb", "p.nopeg", "=", "pb.nopeg")
+            ->leftJoin("masters.bidang as b", "b.id", "=", "p.idbidang")
+            ->orderBy("p.nama");
+
+        return DataTables::of($query)->make(true);
+    }
+
+    public function updatePembelajaran(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $validated = $request->validate([
+                'nopeg' => ['required'],
+                'nilai' => ['required', 'integer', 'min:0'],
+                'mode'  => ['required', 'in:terpenuhi,ajar,sks'],
+            ]);
+
+            // Ambil nama kolom dari mode
+            $column = $validated['mode'];
+
+            // Siapkan data update
+            $update = [
+                $column => $validated['nilai'],
+                'nopeg' => $validated['nopeg']
+            ];
+
+
+
+            Pembelajaran::updateOrCreate(['nopeg' => $update['nopeg']], $update);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Data berhasil diupdate'
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $this->activity("Update pembelajaran [failed]", $th->getMessage());
+
+            $response = [
+                'message' => message("Update pembelajaran gagal", $th)
+            ];
+
+            return response()->json($response, 500);
+        }
+    }
+
     public function file(Request $request)
     {
         try {
-            // ===============================
-            // VALIDASI INPUT
-            // ===============================
             $request->validate([
-                'tglawal'  => 'required|date',
-                'tglakhir' => 'required|date',
+                'bulan'  => 'required|integer',
                 'jenis_laporan' => 'required',
                 'type'     => 'nullable|in:pdf,xls,xlsx',
             ]);
 
-            $idpeg    = $request->input('idpeg', '[]');
-            $tglawal  = $request->tglawal;
-            $tglakhir = $request->tglakhir;
-            $type     = $request->input('type', 'pdf');
-            $preview  = (bool) $request->input('preview', false);
-            $jenisLaporan = $request->input('jenis_laporan', 'v1');
+            $idpeg = $request->input('idpeg', '[]');
+
+            $tahun = konfigAplikasi()->tahun;
+            $bulan = (int) $request->bulan;
 
             // ===============================
-            // FILE PATH
+            // TANGGAL AWAL
             // ===============================
-            $input     = $jenisLaporan == 'v1' ? public_path('report/header_slip_gaji.jasper') : ($type == 'pdf' ? public_path('report/laporan_presensi_pdf.jasper') : public_path('report/laporan_presensi.jasper'));
-            $folder    = storage_path('app/jasper');
-            $filename  = 'laporan_presensi_' . $jenisLaporan . Str::uuid();
-            $output    = $folder . '/' . $filename;
+            $tglawal = sprintf(
+                "%d-%02d-%02d",
+                $tahun,
+                $bulan,
+                konfigAplikasi()->tglawalbulan
+            );
+
+            // ===============================
+            // TANGGAL AKHIR (NORMALISASI)
+            // ===============================
+            $maxHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+
+            $hariAkhir = (int) konfigAplikasi()->akhirbulan;
+
+            if ($hariAkhir <= 0 || $hariAkhir > $maxHari) {
+                $hariAkhir = $maxHari;
+            }
+
+            $tglakhir = sprintf(
+                "%d-%02d-%02d",
+                $tahun,
+                $bulan,
+                $hariAkhir
+            );
+
+
+            $type = $request->input('type', 'pdf');
+            $preview = (bool) $request->input('preview', false);
+            $jenisLaporan = $request->input('jenis_laporan', 'v1');
+
+            $input = $jenisLaporan == 'v1'
+                ? public_path('report/header_slip_gaji.jasper')
+                : ($type == 'pdf'
+                    ? public_path('report/laporan_presensi_pdf.jasper')
+                    : public_path('report/laporan_presensi.jasper'));
+
+            $folder = storage_path('app/jasper');
+            $filename = 'laporan_presensi_' . $jenisLaporan . Str::uuid();
+
+            $output = $folder . '/' . $filename;
             $outputFile = $output . '.' . $type;
 
             buatFolder($folder);
 
             $params = $jenisLaporan == 'v1' ? [
-                'P_NOPEG'        => $idpeg,
-                'P_TANGGALAWAL'  => $tglawal,
+                'P_NOPEG' => $idpeg,
+                'P_TANGGALAWAL' => $tglawal,
                 'P_TANGGALAKHIR' => $tglakhir,
-                'P_SUBREPORT'    => public_path('report/slip_gaji.jasper'),
+                'P_SUBREPORT' => public_path('report/slip_gaji.jasper'),
             ] : [
-                'idpegawai'  => json_encode([]),
+                'idpegawai' => json_encode([]),
                 'tanggalawal' => $tglawal,
                 'tanggalakhir' => $tglakhir,
             ];
 
-            // ===============================
-            // JASPER OPTIONS
-            // ===============================
             $options = [
                 'format' => [$type],
                 'locale' => 'id',
@@ -66,9 +152,6 @@ class LaporanPresensi extends Controller
                 'db_connection' => jasperConnection(),
             ];
 
-            // ===============================
-            // OPSI KHUSUS XLS / XLSX
-            // ===============================
             if (in_array($type, ['xls', 'xlsx'])) {
                 $options['options'] = [
                     'xlsx.detect.cell.type' => 'true',
@@ -80,32 +163,22 @@ class LaporanPresensi extends Controller
                 ];
             }
 
-            // ===============================
-            // GENERATE REPORT
-            // ===============================
             $jasper = new PHPJasper;
-            // dd($jasper->process($input, $output, $options)->output());
             $jasper->process($input, $output, $options)->execute();
 
             if (!file_exists($outputFile)) {
                 throw new \Exception('File laporan gagal dibuat oleh Jasper');
             }
 
-            // ===============================
-            // MIME TYPE
-            // ===============================
             $mime = match ($type) {
-                'pdf'  => 'application/pdf',
-                'xls'  => 'application/vnd.ms-excel',
+                'pdf' => 'application/pdf',
+                'xls' => 'application/vnd.ms-excel',
                 'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 default => 'application/octet-stream',
             };
 
             $downloadName = 'Laporan_Presensi_' . $jenisLaporan . '.' . $type;
 
-            // ===============================
-            // STREAM + AUTO DELETE
-            // ===============================
             return response()->streamDownload(function () use ($outputFile) {
                 readfile($outputFile);
                 @unlink($outputFile);
@@ -113,17 +186,13 @@ class LaporanPresensi extends Controller
                 'Content-Type' => $mime,
                 'Content-Disposition' => 'inline; filename="' . $downloadName . '"'
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
 
-            // LOG INTERNAL (WAJIB biar debug gampang)
-            \Log::error('Laporan Presensi Error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
+            dd($th->getMessage());
+            $this->activity("Laporan presensi [failed]", $th->getMessage());
 
             return response()->json([
-                'status'  => false,
-                'message' => $e->getMessage(),
+                'message' => message("Laporan presensi gagal", $th)
             ], 500);
         }
     }

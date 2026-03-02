@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('message')) {
-    function message($pesan, $th = 0)
+    function message($pesan, $th)
     {
         if ($th->getCode() == 1) {
             return $th->getMessage();
@@ -131,7 +131,7 @@ if (!function_exists('nomorInvoice')) {
 }
 
 if (!function_exists('tahunAplikasi')) {
-    function tahunAplikasi()
+    function konfigAplikasi()
     {
         $query = KonfigUmum::from("applications.konfigumum as ku")
             ->select("ku.*", "capp.tahun", "capp.urai", "capp.idkonfig")

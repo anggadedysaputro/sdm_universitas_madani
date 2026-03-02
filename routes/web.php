@@ -149,6 +149,8 @@ Route::middleware(['validate.login'])->group(function () {
         Route::prefix('presensi')->group(function () {
             Route::get('index', [LaporanPresensi::class, 'index'])->name('laporan.presensi.index')->middleware(["initialize.menu"]);
             Route::post('file', [LaporanPresensi::class, 'file'])->name('laporan.presensi.file');
+            Route::post('datatable', [LaporanPresensi::class, 'datatable'])->name('laporan.presensi.datatable');
+            Route::put('update-pembelajaran', [LaporanPresensi::class, 'updatePembelajaran'])->name('laporan.presensi.update-pembelajaran');
             Route::get('preview', [LaporanPresensi::class, 'preview'])->name('laporan.presensi.preview');
         });
     });

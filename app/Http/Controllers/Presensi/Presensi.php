@@ -13,7 +13,7 @@ class Presensi extends Controller
 
     public function __construct()
     {
-        $this->tahunAktif = tahunAplikasi()->tahun;
+        $this->tahunAktif = konfigAplikasi()->tahun;
     }
 
     public function index()

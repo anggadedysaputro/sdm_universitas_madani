@@ -29,7 +29,7 @@ class ApiCuti extends Controller
 
     public function __construct()
     {
-        $this->config = tahunAplikasi();
+        $this->config = konfigAplikasi();
         $this->path = 'public/cuti';
         $this->typeFile = 'pdf';
     }

@@ -39,7 +39,7 @@ class Auth extends Controller
 
             if (empty($user)) throw new Exception("User tidak ada atau password tidak valid", 1);
 
-            $konfigUmum = tahunAplikasi();
+            $konfigUmum = konfigAplikasi();
             $kantor = Kantor::select("latlong", "id", "nama as urai")->where('approval', 'Y');
             $pegawai = Pegawai::where('nopeg', $user->nopeg)->first();
             $pegawai->token_id = $deviceToken;

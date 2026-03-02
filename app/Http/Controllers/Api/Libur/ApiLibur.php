@@ -12,7 +12,7 @@ class ApiLibur extends Controller
     public function data()
     {
         try {
-            $tahun = tahunAplikasi()['tahun'];
+            $tahun = konfigAplikasi()['tahun'];
             $bulan = request()->input('bulan');
 
             // if (empty($bulan)) throw new Exception("Bulan wajib ada!", 1);

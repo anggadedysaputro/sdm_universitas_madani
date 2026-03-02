@@ -20,7 +20,7 @@ class ApiApprovalCuti extends Controller
 
     public function __construct()
     {
-        $this->config = tahunAplikasi();
+        $this->config = konfigAplikasi();
     }
     public function data()
     {

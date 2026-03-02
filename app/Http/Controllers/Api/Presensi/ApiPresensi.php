@@ -21,7 +21,7 @@ class ApiPresensi extends Controller
     public function __construct()
     {
         $this->path = 'public/presensi';
-        $this->config = tahunAplikasi();
+        $this->config = konfigAplikasi();
     }
 
     public function create()

@@ -23,7 +23,7 @@ class ApiIjin extends Controller
 
     public function __construct()
     {
-        $this->config = tahunAplikasi();
+        $this->config = konfigAplikasi();
         $this->path = 'public/ijin';
     }
 
