@@ -324,9 +324,9 @@ class ApiCuti extends Controller
                 'locale' => 'id',
                 'params' => [
                     'xidcuti' => $idcuti,
-                    'xttd' => asset('assets/images/ttd_afi.png'),
-                    'xheader' => asset('assets/images/atas.png'),
-                    'xfooter' => asset('assets/images/bawah.png')
+                    'xttd' => public_path('assets/images/ttd_afi.png'),
+                    'xheader' => public_path('assets/images/atas.png'),
+                    'xfooter' => public_path('assets/images/bawah.png')
                 ],
                 'resources' => public_path('report/fonts/times_font.jar'),
                 'db_connection' => jasperConnection(),
